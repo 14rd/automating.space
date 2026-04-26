@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automating — Replace the Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black:  #0a0a0a;
+  --white:  #ffffff;
+  --g200:   #e8e8e8;
+  --g400:   #a0a0a0;
+  --g600:   #666666;
+  --h1-size:   clamp(40px, 5.5vw, 68px);
+  --h1-weight: 600;
+  --h1-track:  -0.04em;
+  --b1-size:   clamp(18px, 2vw, 24px);
+  --b1-weight: 500;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── MATRIX CANVAS (bg reveal) ── */
+#matrix { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.page   { position: relative; z-index: 1; }
+
+/* ── TYPE ── */
+.h1 { font-size: var(--h1-size); font-weight: var(--h1-weight); letter-spacing: var(--h1-track); line-height: 1.08; }
+.b1 { font-size: var(--b1-size); font-weight: var(--b1-weight); line-height: 1.5; letter-spacing: 0; }
+
+/* ── CONTAINER ── */
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 60px; }
+
+/* ════════════════════════════════
+   NAV
+════════════════════════════════ */
+.nav-outer {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 200; width: calc(100% - 48px); max-width: 960px;
+}
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 30px; gap: 30px;
+  background: rgba(255,255,255,0.92); border: 1px solid var(--g200);
+  border-radius: 24px; backdrop-filter: blur(12px); position: relative;
+}
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; }
+.nav-links {
+  display: flex; align-items: center; gap: 30px;
+  list-style: none; flex: 1; justify-content: center;
+}
+.nav-links a { font-size: 18px; font-weight: 500; color: var(--black); transition: opacity .2s; white-space: nowrap; }
+.nav-links a:hover { opacity: .5; }
+.nav-chip {
+  display: inline-flex; align-items: center;
+  padding: 15px 30px; border: 1px solid #CACACA; border-radius: 100px;
+  font-size: 18px; font-weight: 500; white-space: nowrap; transition: opacity .2s;
+}
+.nav-chip:hover { opacity: .5; }
+.btn-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--black); color: var(--white); border: none;
+  padding: 10px 22px; border-radius: 100px;
+  font-family: inherit; font-size: 14px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; transition: opacity .2s; text-decoration: none;
+}
+.btn-pill:hover { opacity: .75; }
+.btn-large { padding: 15px 32px; font-size: 16px; }
+.nav-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; background: none; border: none; }
+.nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--black); }
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.hero { padding: 200px 0 140px; text-align: center; }
+.hero .h1 { max-width: 660px; margin: 0 auto 24px; }
+.hero .b1  { max-width: 460px; margin: 0 auto 44px; color: var(--g600); }
+
+/* ════════════════════════════════
+   SHARED OUTER FRAME
+════════════════════════════════ */
+.frame-outer {
+  display: flex; gap: 12px;
+  background: #FAFAFA; padding: 12px;
+  border: 1px solid var(--g200); border-radius: 60px;
+}
+/* Asymmetric radii shared by stats + product cards */
+.card-left  { border-radius: 48px 8px 8px 48px; }
+.card-mid   { border-radius: 8px; }
+.card-right { border-radius: 8px 48px 48px 8px; }
+
+/* ════════════════════════════════
+   STATS
+════════════════════════════════ */
+.stats { padding: 100px 0 120px; }
+.stats .h1 { text-align: center; max-width: 680px; margin: 0 auto 64px; }
+.stat-card {
+  flex: 1; background: var(--white);
+  border: 1px solid var(--g200);
+  padding: 56px 40px 52px; text-align: center;
+}
+.stat-num  { font-size: clamp(48px, 5vw, 72px); font-weight: 600; letter-spacing: -.03em; line-height: 1; margin-bottom: 14px; }
+.stat-desc { font-size: 15px; color: var(--g600); line-height: 1.5; }
+
+/* ════════════════════════════════
+   QUOTE
+════════════════════════════════ */
+.quote { padding: 120px 0; }
+.quote .h1 { text-align: center; max-width: 820px; margin: 0 auto; }
+.quote .grey { color: var(--g400); }
+
+/* ════════════════════════════════
+   PRODUCTS
+════════════════════════════════ */
+.products { padding: 100px 0 120px; }
+.products-head { text-align: center; margin-bottom: 64px; }
+.products-head .h1 { margin-bottom: 20px; }
+.products-head .b1 { color: var(--g600); max-width: 500px; margin: 0 auto; }
+
+.prod-card {
+  flex: 1; background: var(--white);
+  border: 1px solid var(--g200);
+  padding: 36px 32px 32px;
+  display: flex; flex-direction: column; min-width: 0;
+}
+.prod-tag   { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--g600); margin-bottom: 14px; }
+.prod-title { font-size: clamp(22px, 2vw, 28px); font-weight: 600; letter-spacing: -.025em; line-height: 1.2; margin-bottom: 14px; }
+.prod-desc  { font-size: 13px; color: var(--g600); line-height: 1.65; margin-bottom: 24px; flex: 1; }
+
+/* ── MOCKUP CONTAINER ── */
+.mockup {
+  background: var(--white);
+  border: 1px solid var(--g200);
+  border-radius: 12px;
+  padding: 14px 16px;
+  overflow: hidden;
+}
+
+/* ── VOICE MOCKUP ── */
+.vm-header {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 10px; font-weight: 500; color: var(--g600);
+  padding-bottom: 10px; border-bottom: 1px solid var(--g200); margin-bottom: 10px;
+}
+.vm-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #22c55e; flex-shrink: 0;
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.3} }
+.vm-timer { margin-left: auto; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+
+.vm-convo {
+  height: 82px; overflow: hidden; margin-bottom: 11px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 5px;
+}
+.vm-msg { font-size: 10.5px; line-height: 1.45; transition: opacity .5s ease, transform .5s ease; }
+.vm-role { font-weight: 700; margin-right: 2px; }
+.vm-role--caller { color: var(--g400); }
+
+#waveCanvas { display: block; width: 100%; }
+
+/* ── EMAIL MOCKUP ── */
+.em-list-wrap {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+}
+.em-row {
+  position: absolute; left: 0; right: 0;
+  display: flex; align-items: center; gap: 7px;
+  padding: 0 0 7px 0;
+  border-bottom: 1px solid var(--g200);
+  height: 35px;
+  transition: transform .45s cubic-bezier(.25,.8,.25,1), opacity .45s ease;
+}
+.em-name { font-size: 11px; font-weight: 600; white-space: nowrap; }
+.em-sub  { font-size: 11px; color: var(--g600); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.em-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: .05em;
+  padding: 2px 6px; border-radius: 4px; white-space: nowrap;
+  transition: opacity .35s ease;
+}
+.badge-replied { background: #dcfce7; color: #15803d; }
+.badge-flagged { background: #fee2e2; color: #dc2626; }
+.badge-hidden  { opacity: 0; }
+
+/* ── WORKFLOW MOCKUP ── */
+.wf-header {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; font-weight: 600; color: var(--black);
+  margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--g200);
+}
+.wf-running {
+  background: #dcfce7; color: #15803d;
+  font-size: 9px; font-weight: 700; letter-spacing: .06em;
+  padding: 2px 7px; border-radius: 4px;
+}
+.wf-lines-wrap { height: 100px; overflow: hidden; position: relative; }
+.wf-line {
+  display: flex; justify-content: space-between;
+  font-size: 10.5px; padding: 3.5px 0;
+  font-family: 'SF Mono','Fira Code','Courier New',monospace;
+  color: var(--g600);
+  transition: opacity .35s ease, transform .35s ease;
+}
+.wf-line .val { color: var(--black); font-weight: 600; }
+
+/* ════════════════════════════════
+   DEMO — INTERACTIVE MATRIX BOX
+════════════════════════════════ */
+.demo { padding: 100px 0 120px; text-align: center; }
+.demo .h1 { color: var(--g400); margin-bottom: 18px; }
+.demo .b1 { color: var(--g400); }
+
+.demo-area {
+  margin-top: 56px; height: 360px;
+  border: 1px solid var(--g200); border-radius: 20px;
+  overflow: hidden; position: relative;
+  background: #0a0a0a; cursor: crosshair;
+}
+#demoCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.demo-terminal {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 11px 20px;
+  background: rgba(0,0,0,.55);
+  border-top: 1px solid rgba(255,255,255,.06);
+  font-family: 'SF Mono','Fira Code','Courier New',monospace;
+  font-size: 11px; color: rgba(100,255,150,.75); letter-spacing: .05em;
+  pointer-events: none; display: flex; align-items: center; gap: 8px;
+}
+.demo-blink { animation: demoBlink 1s step-end infinite; }
+@keyframes demoBlink { 0%,100%{opacity:1}50%{opacity:0} }
+
+/* ════════════════════════════════
+   APPROACH
+════════════════════════════════ */
+.approach { padding: 100px 0 120px; }
+.approach-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+.approach-body  { font-size: clamp(18px, 1.6vw, 22px); font-weight: 500; line-height: 1.6; color: var(--g600); }
+.approach-body strong { color: var(--black); }
+
+/* ════════════════════════════════
+   WHO — 32px / medium / -4%
+════════════════════════════════ */
+.who { padding: 100px 0 120px; }
+.who .h1 { margin-bottom: 56px; }
+.who-list { list-style: none; }
+.who-item {
+  display: flex; align-items: baseline; gap: 32px;
+  padding: 32px 0; border-bottom: 1px solid var(--g200);
+  font-size: clamp(18px, 2.5vw, 32px);
+  font-weight: 500; letter-spacing: -0.04em; line-height: 1.25;
+}
+.who-item:first-child { border-top: 1px solid var(--g200); }
+.who-num {
+  font-size: clamp(18px, 2.5vw, 32px);
+  font-weight: 500; letter-spacing: -0.04em;
+  color: var(--black); min-width: 52px; flex-shrink: 0;
+}
+.who-q { color: var(--black); }
+.who-a { color: #616161; }
+
+/* ════════════════════════════════
+   CTA
+════════════════════════════════ */
+.cta { padding: 160px 0; text-align: center; }
+.cta .h1 { max-width: 580px; margin: 0 auto 28px; }
+.cta .b1  { max-width: 500px; margin: 0 auto 52px; color: var(--g600); }
+.cta-row  { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.email-chip {
+  display: inline-flex; align-items: center;
+  padding: 15px 28px; border: 1px solid var(--g200);
+  border-radius: 8px 100px 100px 8px;
+  font-size: 15px; font-weight: 500; transition: border-color .2s;
+}
+.email-chip:hover { border-color: var(--g400); }
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+footer { border-top: 1px solid var(--g200); padding: 24px 0; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.footer-copy, .footer-loc { font-size: 13px; color: var(--g600); }
+.footer-links { display: flex; gap: 28px; }
+.footer-links a { font-size: 13px; color: var(--g600); transition: color .2s; }
+.footer-links a:hover { color: var(--black); }
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 900px) {
+  .wrap { padding: 0 24px; }
+  .nav-outer { width: calc(100% - 32px); top: 14px; }
+  nav { padding: 13px 20px; gap: 16px; }
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-links.open {
+    display: flex; flex-direction: column; position: absolute;
+    top: calc(100% + 8px); left: 0; right: 0;
+    background: rgba(255,255,255,.97); border: 1px solid var(--g200);
+    border-radius: 16px; padding: 20px 24px; gap: 20px;
+    backdrop-filter: blur(12px); z-index: 10;
+  }
+  .hero { padding: 150px 0 100px; }
+  .frame-outer { flex-direction: column; border-radius: 24px; }
+  .card-left  { border-radius: 16px 16px 8px 8px !important; }
+  .card-mid   { border-radius: 8px !important; }
+  .card-right { border-radius: 8px 8px 16px 16px !important; }
+  .stat-card  { padding: 36px 28px; }
+  .approach-inner { grid-template-columns: 1fr; gap: 32px; }
+  .footer-inner { flex-direction: column; text-align: center; }
+}
+@media (max-width: 560px) {
+  .cta-row { flex-direction: column; }
+  .email-chip { border-radius: 100px; }
+  .who-item { gap: 20px; }
+}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+
+<div class="page">
+
+  <!-- NAV -->
+  <div class="nav-outer">
+    <nav>
+      <a href="#" class="nav-logo" aria-label="Automating">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+          <rect width="30" height="30" rx="7" fill="#0a0a0a"/>
+          <path d="M15 7L21.5 20H17.5L15 15L12.5 20H8.5L15 7Z" fill="white"/>
+          <line x1="10.5" y1="17" x2="19.5" y2="17" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#products">What We Build</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#who" class="nav-chip">Case Studies</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="#cta" class="btn-pill">Book A Call</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <h1 class="h1">Replacing jobs with AI.</h1>
+      <p class="b1">We provide Infrastructure for businesses to automate phone calls, emails, and workflow without employees.</p>
+      <a href="#cta" class="btn-pill btn-large">Book a call &rarr;</a>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" id="stats">
+    <div class="wrap">
+      <h2 class="h1">The adoption of AI has<br>accelerated in businesses.</h2>
+      <div class="frame-outer">
+        <div class="stat-card card-left">
+          <div class="stat-num">54%</div>
+          <div class="stat-desc">Have already integrated AI.</div>
+        </div>
+        <div class="stat-card card-mid">
+          <div class="stat-num">£1.3B</div>
+          <div class="stat-desc">Automation market by 2030.</div>
+        </div>
+        <div class="stat-card card-right">
+          <div class="stat-num">-30%</div>
+          <div class="stat-desc">Total costs.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="quote">
+    <div class="wrap">
+      <h2 class="h1">
+        <span class="grey">Tools don't replace the work.<br></span>
+        Systems built into the<br>business do.
+      </h2>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="wrap">
+      <div class="products-head">
+        <h2 class="h1">AI employees. Not tools.</h2>
+        <p class="b1">Our stack delivers AI systems for businesses to handle calls, emails, and workflows. Integrated into existing operations.</p>
+      </div>
+      <div class="frame-outer">
+
+        <!-- Voice -->
+        <div class="prod-card card-left">
+          <div class="prod-tag">Voice Infrastructure</div>
+          <div class="prod-title">AI that answers every call.</div>
+          <p class="prod-desc">Answer calls, take orders, book appointments, and qualify leads, 24/7. Natural conversation. Integrated with your CRM and calendar.</p>
+          <div class="mockup">
+            <div class="vm-header">
+              <div class="vm-dot"></div>
+              <span id="callType">INCOMING</span>&nbsp;<span id="callNumber">+1 (000) 000-0000</span>
+              <span class="vm-timer" id="callTimer">00:00:00</span>
+            </div>
+            <div class="vm-convo" id="voiceConvo"></div>
+            <canvas id="waveCanvas" height="28"></canvas>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="prod-card card-mid">
+          <div class="prod-tag">Email Automation</div>
+          <div class="prod-title">Inbox that reads, sorts, and replies.</div>
+          <p class="prod-desc">Read, categorise, and reply to emails. Auto-responses for FAQs. Urgent flagging. Follow-up sequences that don't miss.</p>
+          <div class="mockup">
+            <div class="em-list-wrap" id="emailListWrap"></div>
+          </div>
+        </div>
+
+        <!-- Workflow -->
+        <div class="prod-card card-right">
+          <div class="prod-tag">Workflow Systems</div>
+          <div class="prod-title">Back-office on autopilot.</div>
+          <p class="prod-desc">Infrastructure for repetitive tasks, invoicing, data entry, CRM sync, reporting — quietly running in the background.</p>
+          <div class="mockup">
+            <div class="wf-header">
+              <span id="wfJobName">RUN &nbsp;•&nbsp; workflow_invoice_sync</span>
+              <span class="wf-running">running</span>
+            </div>
+            <div class="wf-lines-wrap" id="wfLinesWrap"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="demo" id="demo">
+    <div class="wrap">
+      <h2 class="h1">See it in action.</h2>
+      <p class="b1">Live and visual demos of the systems we build. Available soon.</p>
+      <div class="demo-area" id="demoArea">
+        <canvas id="demoCanvas"></canvas>
+        <div class="demo-terminal">
+          <span class="demo-blink">▋</span>
+          <span id="demoTermText">&gt; system online — move cursor to interact</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section class="approach" id="approach">
+    <div class="wrap">
+      <div class="approach-inner">
+        <h2 class="h1">Our approach.</h2>
+        <p class="approach-body">
+          We don't sell <strong>'AI implementation'</strong>.<br>
+          We sell <strong>time saved</strong>, <strong>cost reduced</strong>, and <strong>capacity added</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO -->
+  <section class="who" id="who">
+    <div class="wrap">
+      <h2 class="h1">Who we build for:</h2>
+      <ul class="who-list">
+        <li class="who-item">
+          <span class="who-num">01.</span>
+          <span><span class="who-q">Got 3+ people doing the same thing every day? </span><span class="who-a">We replace them.</span></span>
+        </li>
+        <li class="who-item">
+          <span class="who-num">02.</span>
+          <span><span class="who-q">Want to grow without hiring? </span><span class="who-a">We build a team that doesn't quit.</span></span>
+        </li>
+        <li class="who-item">
+          <span class="who-num">03.</span>
+          <span><span class="who-q">Drowning in admin? </span><span class="who-a">We turn 8 hours of manual work into 8 minutes.</span></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <div class="wrap">
+      <h2 class="h1">Ready to replace<br>the work?</h2>
+      <p class="b1">30 minute call. No sales pitch. We understand your operations, tell you where AI fits. If it doesn't fit, we'll say so. If it does, we build it.</p>
+      <div class="cta-row">
+        <a href="#" class="btn-pill btn-large">Book a call &rarr;</a>
+        <a href="mailto:hello@automating.space" class="email-chip">hello@automating.space</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <span class="footer-copy">Automating &copy; All Rights Reserved</span>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms and Conditions</a>
+        </div>
+        <span class="footer-loc">United Kingdom</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+'use strict';
+
+/* ════════════════════════════
+   MOBILE NAV
+════════════════════════════ */
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+/* ════════════════════════════
+   BG MATRIX REVEAL
+════════════════════════════ */
+(function(){
+  const cv = document.getElementById('matrix');
+  const cx = cv.getContext('2d');
+  const FONT = 13;
+  const CH = 'アイウエオカキクケコサシスセソタチ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>{}[]|/\\=+-*&#@!';
+  const R  = 170;
+  let mx=-999, my=-999, cols, rows, grid;
+
+  function build(){
+    cv.width=innerWidth; cv.height=innerHeight;
+    cols=Math.ceil(cv.width/FONT); rows=Math.ceil(cv.height/FONT);
+    grid=Array.from({length:cols},()=>Array.from({length:rows},()=>({ch:CH[Math.random()*CH.length|0],t:Math.random()*40|0})));
+  }
+  function frame(){
+    requestAnimationFrame(frame);
+    cx.clearRect(0,0,cv.width,cv.height);
+    cx.font=FONT+'px monospace'; cx.textBaseline='top';
+    const c0=Math.max(0,((mx-R)/FONT)|0), c1=Math.min(cols,Math.ceil((mx+R)/FONT));
+    const r0=Math.max(0,((my-R)/FONT)|0), r1=Math.min(rows,Math.ceil((my+R)/FONT));
+    for(let c=c0;c<c1;c++) for(let r=r0;r<r1;r++){
+      const px=c*FONT,py=r*FONT;
+      const dx=px+FONT*.5-mx, dy=py+FONT*.5-my;
+      const d=Math.sqrt(dx*dx+dy*dy); if(d>=R) continue;
+      cx.fillStyle=`rgba(80,80,80,${((1-d/R)*.28).toFixed(3)})`;
+      cx.fillText(grid[c][r].ch,px,py);
+      if(--grid[c][r].t<=0){grid[c][r].ch=CH[Math.random()*CH.length|0];grid[c][r].t=12+(Math.random()*35|0);}
+    }
+  }
+  addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY;});
+  addEventListener('touchmove', e=>{mx=e.touches[0].clientX;my=e.touches[0].clientY;},{passive:true});
+  addEventListener('resize', build);
+  build(); frame();
+})();
+
+/* ════════════════════════════
+   VOICE — 4 CALL CONTEXTS
+════════════════════════════ */
+(function(){
+  const typeEl   = document.getElementById('callType');
+  const numEl    = document.getElementById('callNumber');
+  const timerEl  = document.getElementById('callTimer');
+  const convoEl  = document.getElementById('voiceConvo');
+  if(!timerEl||!convoEl) return;
+
+  const CALLS = [
+    {
+      type:'INCOMING', num:'+1 (000) 000-0000',
+      msgs:[
+        {r:'agent',  t:"Hi, Automing here. Are you looking to book a table?"},
+        {r:'caller', t:"Yes please — table for 2 at 6PM this Saturday."},
+        {r:'agent',  t:"Perfect. May I take your name?"},
+        {r:'caller', t:"It's James. James Taylor."},
+        {r:'agent',  t:"Table for 2 at 6PM Saturday confirmed for James Taylor."},
+        {r:'caller', t:"Brilliant, thank you!"},
+        {r:'agent',  t:"You're welcome. See you Saturday!"},
+      ]
+    },
+    {
+      type:'INCOMING', num:'+44 0000 000000',
+      msgs:[
+        {r:'agent',  t:"Hi, Automing here. How can I help you?"},
+        {r:'caller', t:"I'm looking to speak to sales about a faulty product."},
+        {r:'agent',  t:"I'm sorry to hear that. What happened?"},
+        {r:'caller', t:"It just broke in 2 days of use."},
+        {r:'agent',  t:"Tell me your order number — I'll have a replacement issued."},
+        {r:'caller', t:"Thanks so much!"},
+      ]
+    },
+    {
+      type:'OUTGOING', num:'+48 000 000 000',
+      msgs:[
+        {r:'agent',  t:"Hi, Automating here. Wanted to follow up on your enquiry."},
+        {r:'caller', t:"Ah yes, thank you!"},
+        {r:'agent',  t:"Are you still interested?"},
+        {r:'caller', t:"Yes!"},
+        {r:'agent',  t:"Connecting you to the sales team now!"},
+      ]
+    },
+    {
+      type:'INCOMING', num:'+39 000 0000000',
+      msgs:[
+        {r:'agent',  t:"Hi, Automating here. May I take your order please?"},
+        {r:'caller', t:"Yes — one pepperoni pizza and a large diet coke."},
+        {r:'agent',  t:"What size pizza?"},
+        {r:'caller', t:"Medium."},
+        {r:'agent',  t:"Anything else?"},
+        {r:'caller', t:"No, that's it."},
+        {r:'agent',  t:"Perfect! Ready for pick-up in about 30 minutes!"},
+        {r:'caller', t:"Thank you!"},
+      ]
+    },
+  ];
+
+  let callIdx=0, msgIdx=0, secs=0, timerInt=null;
+
+  function fmt(s){ const h=s/3600|0,m=(s%3600)/60|0,sc=s%60; return [h,m,sc].map(n=>String(n).padStart(2,'0')).join(':'); }
+
+  function startCall(){
+    const call = CALLS[callIdx % CALLS.length];
+    callIdx++;
+    msgIdx = 0;
+    secs   = 0;
+
+    // Update header
+    typeEl.textContent = call.type;
+    numEl.textContent  = call.num;
+    timerEl.textContent = '00:00:00';
+
+    // Dot colour: outgoing = amber, incoming = green
+    const dot = document.querySelector('.vm-dot');
+    dot.style.background = call.type === 'OUTGOING' ? '#f59e0b' : '#22c55e';
+
+    // Clear convo
+    convoEl.innerHTML = '';
+
+    // Restart timer
+    if(timerInt) clearInterval(timerInt);
+    timerInt = setInterval(()=>{ secs++; timerEl.textContent=fmt(secs); }, 1000);
+
+    // Start conversation
+    scheduleMsg(call);
+  }
+
+  function scheduleMsg(call){
+    if(msgIdx >= call.msgs.length){
+      // Call ended — pause then next call
+      if(timerInt){ clearInterval(timerInt); timerInt=null; }
+      setTimeout(startCall, 3000);
+      return;
+    }
+    const delay = msgIdx===0 ? 700 : 2100;
+    setTimeout(()=>{
+      const m   = call.msgs[msgIdx++];
+      const div = document.createElement('div');
+      div.className = 'vm-msg';
+      div.innerHTML = `<span class="vm-role${m.r==='caller'?' vm-role--caller':''}">${m.r==='agent'?'Agent':'Caller'}:</span> ${m.t}`;
+      div.style.opacity   = '0';
+      div.style.transform = 'translateY(5px)';
+      convoEl.appendChild(div);
+      convoEl.scrollTop = convoEl.scrollHeight;
+      requestAnimationFrame(()=>{ div.style.opacity='1'; div.style.transform='translateY(0)'; });
+
+      // Remove oldest if > 3 lines
+      const all = convoEl.querySelectorAll('.vm-msg');
+      if(all.length > 3){
+        const old = all[0];
+        old.style.opacity='0'; old.style.transform='translateY(-4px)';
+        setTimeout(()=>old.remove(), 500);
+      }
+      scheduleMsg(call);
+    }, delay);
+  }
+
+  startCall();
+})();
+
+/* ════════════════════════════
+   VOICE — ORGANIC WAVE
+════════════════════════════ */
+(function(){
+  const cv = document.getElementById('waveCanvas');
+  if(!cv) return;
+  const cx = cv.getContext('2d');
+
+  // Pre-generate Perlin-like noise buffer
+  const N = 256;
+  const noise = Array.from({length:N}, ()=>Math.random()*2-1);
+  function smoothNoise(x){
+    const i = Math.floor(x) % N;
+    const f = x - Math.floor(x);
+    const a = noise[(i+N)%N], b = noise[(i+1+N)%N];
+    // Smoothstep interpolation
+    const t = f*f*(3-2*f);
+    return a + (b-a)*t;
+  }
+
+  let t = 0;
+  function draw(){
+    requestAnimationFrame(draw);
+    const W = cv.offsetWidth;
+    if(!W) return;
+    cv.width  = W;
+    cv.height = 28;
+    cx.clearRect(0,0,W,28);
+    cx.beginPath(); cx.strokeStyle='#0a0a0a'; cx.lineWidth=1.5;
+    cx.lineJoin='round'; cx.lineCap='round';
+
+    const mid = 14;
+    for(let x=0;x<=W;x++){
+      const n = x/W; // 0→1
+      // Envelope: fuller in middle
+      const env = Math.pow(Math.sin(n*Math.PI), 0.6) * 0.8 + 0.2;
+      const y = mid + env*(
+        smoothNoise(n*8  + t*1.1)*6
+      + smoothNoise(n*18 + t*2.3)*3
+      + smoothNoise(n*3  + t*0.6)*4.5
+      + Math.sin(n*28+t*3.8)*1.5
+      + Math.sin(n*9 +t*1.9)*2.5
+      );
+      x===0 ? cx.moveTo(x,y) : cx.lineTo(x,y);
+    }
+    cx.stroke();
+    t += 0.028;
+  }
+  setTimeout(draw, 150);
+})();
+
+/* ════════════════════════════
+   EMAIL — SMOOTH SLOT ANIMATION
+════════════════════════════ */
+(function(){
+  const wrap = document.getElementById('emailListWrap');
+  if(!wrap) return;
+
+  const POOL = [
+    {name:'Emma Holt',    sub:'· re: order 04821',        badge:'REPLIED',  cls:'badge-replied'},
+    {name:'James Kuo',    sub:'· Pricing question',        badge:'REPLIED',  cls:'badge-replied'},
+    {name:'Priya Nair',   sub:'· URGENT · refund',         badge:'FLAGGED',  cls:'badge-flagged'},
+    {name:'Sarah Chen',   sub:'· Appointment request',     badge:'REPLIED',  cls:'badge-replied'},
+    {name:'Marcus Webb',  sub:'· Invoice query',           badge:'REPLIED',  cls:'badge-replied'},
+    {name:'Tom Griffin',  sub:'· URGENT · cancel order',   badge:'FLAGGED',  cls:'badge-flagged'},
+    {name:'Lisa Park',    sub:'· Product availability',    badge:'REPLIED',  cls:'badge-replied'},
+    {name:'Dave Ross',    sub:'· URGENT · wrong delivery', badge:'FLAGGED',  cls:'badge-flagged'},
+    {name:'Alice Nguyen', sub:'· Re: delivery update',     badge:'REPLIED',  cls:'badge-replied'},
+    {name:'Chris Bell',   sub:'· Subscription renewal',    badge:'REPLIED',  cls:'badge-replied'},
+  ];
+
+  const ROW_H  = 35;  // matches CSS height of .em-row
+  const MAX    = 4;
+  const GUTTER = 0;   // rows sit flush
+
+  // Slots: fixed array of DOM elements
+  const slots = [];
+  for(let i=0;i<MAX;i++){
+    const row = document.createElement('div');
+    row.className='em-row';
+    row.style.top = (i*(ROW_H+GUTTER))+'px';
+    row.style.opacity='0';
+    wrap.appendChild(row);
+    slots.push(row);
+  }
+
+  // Current visible emails (array of data, front = newest)
+  let visible = [];
+  let poolIdx = 0;
+
+  function populate(email, slotEl, showBadge){
+    slotEl.innerHTML=`<span class="em-name">${email.name}</span><span class="em-sub">${email.sub}</span><span class="em-badge ${email.cls}${showBadge?'':' badge-hidden'}">${email.badge}</span>`;
+  }
+
+  function render(){
+    // Each slot i shows visible[i] if it exists
+    slots.forEach((slot, i)=>{
+      if(i < visible.length){
+        populate(visible[i], slot, true);
+        slot.style.opacity='1';
+        slot.style.transform=`translateY(${i*(ROW_H+GUTTER)}px)`;
+      } else {
+        slot.style.opacity='0';
+      }
+    });
+  }
+
+  // Seed first 3
+  for(let i=0;i<3;i++){ visible.push(POOL[i]); poolIdx++; }
+  // Position slots immediately (no transition for seed)
+  slots.forEach(s=>{ s.style.transition='none'; });
+  render();
+  // Restore transitions after a tick
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      slots.forEach(s=>{ s.style.transition='transform .45s cubic-bezier(.25,.8,.25,1), opacity .45s ease'; });
+    });
+  });
+
+  function addEmail(){
+    const email = POOL[poolIdx % POOL.length];
+    poolIdx++;
+
+    // Prep slot 0 for new email (above, invisible)
+    const newSlot = slots[0];
+    populate(email, newSlot, false);
+    newSlot.style.transition='none';
+    newSlot.style.transform='translateY(-'+ROW_H+'px)';
+    newSlot.style.opacity='0';
+
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        // Restore transition & slide everything down
+        slots.forEach(s=>{ s.style.transition='transform .45s cubic-bezier(.25,.8,.25,1), opacity .45s ease'; });
+
+        // Add to front
+        visible.unshift(email);
+        if(visible.length > MAX) visible.pop();
+
+        // Animate all slots
+        slots.forEach((slot, i)=>{
+          if(i===0){
+            slot.style.transform='translateY(0px)';
+            slot.style.opacity='1';
+          } else if(i < visible.length){
+            populate(visible[i], slot, true);
+            slot.style.transform=`translateY(${i*(ROW_H+GUTTER)}px)`;
+            slot.style.opacity= i < MAX ? '1':'0';
+          } else {
+            slot.style.opacity='0';
+          }
+        });
+
+        // Badge reveal after "processing"
+        setTimeout(()=>{
+          const badge=newSlot.querySelector('.badge-hidden');
+          if(badge){badge.style.transition='opacity .35s ease';badge.classList.remove('badge-hidden');}
+        }, 650);
+      });
+    });
+
+    setTimeout(addEmail, 2000);
+  }
+
+  setTimeout(addEmail, 1800);
+})();
+
+/* ════════════════════════════
+   WORKFLOW — FADE BETWEEN JOBS
+════════════════════════════ */
+(function(){
+  const wrap    = document.getElementById('wfLinesWrap');
+  const nameEl  = document.getElementById('wfJobName');
+  if(!wrap||!nameEl) return;
+
+  const JOBS = [
+    { name:'workflow_invoice_sync', tasks:[['fetch invoices','456 rows'],['reconcile','ok'],['sync → xero','✓'],['report → slack','✓']] },
+    { name:'workflow_crm_update',   tasks:[['pull contacts','1,247'],['deduplicate','ok'],['push → salesforce','✓'],['log → notion','✓']] },
+    { name:'workflow_report_gen',   tasks:[['aggregate data','complete'],['render PDF','ok'],['email → 3 recip.','✓'],['archive','✓']] },
+    { name:'workflow_data_backup',  tasks:[['compress','2.4 GB'],['upload → s3','✓'],['verify','ok'],['notify → slack','✓']] },
+  ];
+
+  let jobIdx=0, taskIdx=0;
+
+  function fadeOutAll(cb){
+    const lines = wrap.querySelectorAll('.wf-line');
+    if(!lines.length){ cb(); return; }
+    lines.forEach(l=>{ l.style.transition='opacity .3s ease'; l.style.opacity='0'; });
+    setTimeout(()=>{ wrap.innerHTML=''; cb(); }, 340);
+  }
+
+  function addTask(){
+    const job = JOBS[jobIdx % JOBS.length];
+
+    if(taskIdx === 0){
+      // New job — fade out old, then start
+      fadeOutAll(()=>{
+        nameEl.style.transition='opacity .3s ease';
+        nameEl.style.opacity='0';
+        setTimeout(()=>{
+          nameEl.textContent='RUN  •  '+job.name;
+          nameEl.style.opacity='1';
+          taskIdx++;
+          setTimeout(addTask, 600);
+        }, 320);
+      });
+      return;
+    }
+
+    const tIdx = taskIdx-1;
+    if(tIdx < job.tasks.length){
+      const [label,val] = job.tasks[tIdx];
+      const line = document.createElement('div');
+      line.className='wf-line';
+      line.innerHTML=`<span>${label}</span><span class="val">${val}</span>`;
+      line.style.opacity='0';
+      line.style.transform='translateX(-6px)';
+      wrap.appendChild(line);
+      requestAnimationFrame(()=>{
+        line.style.transition='opacity .35s ease, transform .35s ease';
+        line.style.opacity='1'; line.style.transform='translateX(0)';
+      });
+      taskIdx++;
+      setTimeout(addTask, 700);
+    } else {
+      // Job complete
+      taskIdx=0; jobIdx++;
+      setTimeout(addTask, 2600);
+    }
+  }
+
+  setTimeout(addTask, 800);
+})();
+
+/* ════════════════════════════
+   DEMO — INTERACTIVE MATRIX
+════════════════════════════ */
+(function(){
+  const area   = document.getElementById('demoArea');
+  const cv     = document.getElementById('demoCanvas');
+  const termEl = document.getElementById('demoTermText');
+  if(!area||!cv) return;
+  const cx = cv.getContext('2d');
+
+  const FONT = 14;
+  const CH   = 'アイウエオカキクケコサシスセソタチツ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef<>{}[]|\\=+-*&#@!';
+
+  let dmx=-1000, dmy=-1000;
+  let cols, drops, chars;
+  const ripples = [];
+
+  function init(){
+    cv.width  = area.offsetWidth  || 900;
+    cv.height = area.offsetHeight || 360;
+    cols  = Math.floor(cv.width / FONT);
+    drops = Array.from({length:cols}, ()=>-(Math.random()*30)|0);
+    chars = Array.from({length:cols}, ()=>CH[Math.random()*CH.length|0]);
+  }
+
+  function draw(){
+    requestAnimationFrame(draw);
+
+    // Fade trail
+    cx.fillStyle='rgba(10,10,10,0.07)';
+    cx.fillRect(0,0,cv.width,cv.height);
+    cx.font=FONT+'px monospace'; cx.textBaseline='top';
+
+    for(let i=0;i<cols;i++){
+      const x = i*FONT;
+      const y = drops[i]*FONT;
+      if(y < -FONT || y > cv.height+FONT) { drops[i]+=0.5; continue; }
+
+      chars[i] = Math.random()>.92 ? CH[Math.random()*CH.length|0] : chars[i];
+
+      const dx=x+FONT*.5-dmx, dy=y+FONT*.5-dmy;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+
+      if(dist < 110){
+        // Near cursor: bright white glow
+        const k=1-dist/110;
+        cx.fillStyle=`rgba(255,255,255,${(k*0.9+0.05).toFixed(2)})`;
+      } else if(drops[i] % 1 < 0.12){
+        // Column head: bright green
+        cx.fillStyle='rgba(180,255,200,0.92)';
+      } else {
+        // Trail: dim green
+        cx.fillStyle='rgba(50,180,90,0.45)';
+      }
+
+      cx.fillText(chars[i], x, Math.max(0,y));
+
+      drops[i] += 0.55;
+      if(drops[i]*FONT > cv.height + FONT*8){
+        if(Math.random()>.97) drops[i]=-(Math.random()*20|0);
+      }
+    }
+
+    // Ripples
+    for(let i=ripples.length-1;i>=0;i--){
+      const rip=ripples[i];
+      cx.strokeStyle=`rgba(100,255,150,${rip.a.toFixed(2)})`;
+      cx.lineWidth=1;
+      cx.beginPath(); cx.arc(rip.x,rip.y,rip.r,0,Math.PI*2); cx.stroke();
+      // inner ring
+      if(rip.r>20){
+        cx.strokeStyle=`rgba(100,255,150,${(rip.a*.4).toFixed(2)})`;
+        cx.beginPath(); cx.arc(rip.x,rip.y,rip.r-18,0,Math.PI*2); cx.stroke();
+      }
+      rip.r+=3.5; rip.a-=0.022;
+      if(rip.a<=0) ripples.splice(i,1);
+    }
+  }
+
+  area.addEventListener('mousemove', e=>{
+    const r=area.getBoundingClientRect();
+    dmx=e.clientX-r.left; dmy=e.clientY-r.top;
+  });
+  area.addEventListener('mouseleave',()=>{ dmx=-1000; dmy=-1000; });
+  area.addEventListener('click', e=>{
+    const r=area.getBoundingClientRect();
+    ripples.push({x:e.clientX-r.left,y:e.clientY-r.top,r:0,a:0.9});
+  });
+  addEventListener('resize', init);
+
+  // Cycling terminal messages
+  const MSGS = [
+    '> system online — move cursor to interact',
+    '> scanning business operations...',
+    '> 2,847 tasks processed today',
+    '> workflow_invoice_sync: complete ✓',
+    '> 14 emails sorted in the last hour',
+    '> outbound campaign: 89% answer rate',
+    '> workflow_crm_update: running ██████░░ 78%',
+    '> next task queued: report_generation',
+    '> system efficiency: 99.4% uptime',
+    '> all automations nominal',
+  ];
+  let mIdx=0;
+  function cycleMsg(){
+    if(!termEl) return;
+    termEl.style.transition='opacity .4s ease';
+    termEl.style.opacity='0';
+    setTimeout(()=>{
+      mIdx=(mIdx+1)%MSGS.length;
+      termEl.textContent=MSGS[mIdx];
+      termEl.style.opacity='1';
+    }, 420);
+    setTimeout(cycleMsg, 3200);
+  }
+  setTimeout(cycleMsg, 3200);
+
+  init(); draw();
+})();
+</script>
+</body>
+</html>
