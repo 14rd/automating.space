@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Automating</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --black: #0a0a0a; --white: #ffffff;
+  --g200: #e8e8e8; --g400: #a0a0a0; --g600: #666666;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--white); color: var(--black);
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* NAV */
+.nav-outer {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 200; width: calc(100% - 48px); max-width: 960px;
+}
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px; gap: 20px;
+  background: rgba(255,255,255,0.92); border: 1px solid var(--g200);
+  border-radius: 100px; backdrop-filter: blur(12px);
+}
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; margin-left: 8px; }
+.nav-links {
+  display: flex; align-items: center; gap: 30px;
+  list-style: none; flex: 1; justify-content: center;
+}
+.nav-links a { font-size: 18px; font-weight: 500; color: var(--black); transition: opacity .2s; }
+.nav-links a:hover { opacity: .5; }
+.nav-chip {
+  display: inline-flex; align-items: center;
+  padding: 15px 30px; border: 1px solid #CACACA; border-radius: 100px;
+  font-size: 18px; font-weight: 500; transition: opacity .2s;
+}
+.nav-chip:hover { opacity: .5; }
+.btn-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--black); color: var(--white); border: none;
+  padding: 15px 30px; border-radius: 100px;
+  font-family: inherit; font-size: 15px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; transition: opacity .2s; text-decoration: none;
+  margin-right: 4px;
+}
+.btn-pill:hover { opacity: .75; }
+.nav-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; background: none; border: none; margin-right: 8px; }
+.nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--black); }
+
+/* WRAP */
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 60px; }
+
+/* PAGE */
+.policy-page { padding: 160px 0 120px; }
+.policy-header { margin-bottom: 80px; }
+.policy-header h1 {
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 600; letter-spacing: -0.04em; line-height: 1.08;
+  margin-bottom: 24px;
+}
+.policy-header .meta {
+  font-size: 15px; color: var(--g600); font-weight: 500;
+}
+
+/* TWO-COLUMN LAYOUT */
+.policy-body {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.policy-toc {
+  position: sticky; top: 100px;
+}
+.policy-toc h3 {
+  font-size: 11px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--g400); margin-bottom: 20px;
+}
+.policy-toc ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.policy-toc a {
+  font-size: 14px; font-weight: 500; color: var(--g600);
+  transition: color .2s; line-height: 1.4;
+}
+.policy-toc a:hover { color: var(--black); }
+
+/* CONTENT */
+.policy-content { max-width: 720px; }
+.policy-section { margin-bottom: 56px; }
+.policy-section h2 {
+  font-size: clamp(20px, 2vw, 26px); font-weight: 600;
+  letter-spacing: -0.025em; margin-bottom: 20px;
+  padding-top: 8px;
+}
+.policy-section h3 {
+  font-size: 16px; font-weight: 600; margin-bottom: 12px; margin-top: 24px;
+  color: var(--black);
+}
+.policy-section p {
+  font-size: 16px; line-height: 1.75; color: var(--g600);
+  margin-bottom: 14px; font-weight: 400;
+}
+.policy-section p:last-child { margin-bottom: 0; }
+.policy-section ul, .policy-section ol {
+  padding-left: 0; list-style: none;
+  margin-bottom: 14px;
+}
+.policy-section li {
+  font-size: 16px; line-height: 1.75; color: var(--g600);
+  padding-left: 20px; position: relative; margin-bottom: 6px;
+}
+.policy-section li::before {
+  content: '—'; position: absolute; left: 0; color: var(--g400);
+}
+.policy-section .detail-block {
+  background: #fafafa; border: 1px solid var(--g200);
+  border-radius: 12px; padding: 24px 28px; margin-top: 20px;
+}
+.policy-section .detail-block p { font-size: 14px; margin-bottom: 6px; }
+.policy-section a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+.policy-divider { border: none; border-top: 1px solid var(--g200); margin-bottom: 56px; }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--g200); padding: 24px 0; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.footer-copy, .footer-loc { font-size: 13px; color: var(--g600); }
+.footer-links { display: flex; gap: 28px; }
+.footer-links a { font-size: 13px; color: var(--g600); transition: color .2s; }
+.footer-links a:hover { color: var(--black); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .wrap { padding: 0 24px; }
+  .nav-outer { width: calc(100% - 32px); top: 14px; }
+  nav {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    align-items: center; padding: 12px 16px; border-radius: 100px;
+  }
+  .nav-logo   { grid-column: 1; justify-self: start; margin-left: 4px; }
+  .nav-links  { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column; position: absolute;
+    top: calc(100% + 8px); left: 0; right: 0;
+    background: rgba(255,255,255,.97); border: 1px solid var(--g200);
+    border-radius: 20px; padding: 20px 24px; gap: 20px;
+    backdrop-filter: blur(12px); z-index: 10; grid-column: 1/-1; grid-row: 2;
+  }
+  .btn-pill { grid-column: 2; justify-self: center; padding: 10px 20px; font-size: 13px; }
+  .nav-toggle { grid-column: 3; justify-self: end; display: flex; margin-right: 4px; }
+  .policy-body { grid-template-columns: 1fr; gap: 40px; }
+  .policy-toc { position: static; }
+  .policy-page { padding: 120px 0 80px; }
+  .footer-inner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-outer">
+  <nav>
+    <a href="index.html" class="nav-logo" aria-label="Automating">
+      <svg width="34" height="34" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+      </svg>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#products">What We Build</a></li>
+      <li><a href="index.html#approach">Approach</a></li>
+      <li><a href="index.html#demo">Demo</a></li>
+      <li><a href="case-studies.html" class="nav-chip">Case Studies</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="https://www.cal.com/automating/30min" target="_blank" class="btn-pill">Book A Call</a>
+  </nav>
+</div>
+
+<div class="policy-page">
+  <div class="wrap">
+    <div class="policy-header">
+      <h1>Privacy Policy.</h1>
+      <p class="meta">Last updated: April 2025 &nbsp;·&nbsp; automating.hu</p>
+    </div>
+
+    <div class="policy-body">
+
+      <!-- TABLE OF CONTENTS -->
+      <aside class="policy-toc">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#s1">1. Introduction</a></li>
+          <li><a href="#s2">2. Data Controller</a></li>
+          <li><a href="#s3">3. Definitions</a></li>
+          <li><a href="#s4">4. Data Collected</a></li>
+          <li><a href="#s5">5. Legal Bases</a></li>
+          <li><a href="#s6">6. Retention Periods</a></li>
+          <li><a href="#s7">7. Data Security</a></li>
+          <li><a href="#s8">8. Cookies</a></li>
+          <li><a href="#s9">9. Data Sharing</a></li>
+          <li><a href="#s10">10. Third Countries</a></li>
+          <li><a href="#s11">11. Your Rights</a></li>
+          <li><a href="#s12">12. Exercising Rights</a></li>
+          <li><a href="#s13">13. Complaints</a></li>
+          <li><a href="#s14">14. Minors</a></li>
+          <li><a href="#s15">15. External Links</a></li>
+          <li><a href="#s16">16. Amendments</a></li>
+          <li><a href="#s17">17. Contact</a></li>
+        </ul>
+      </aside>
+
+      <!-- CONTENT -->
+      <div class="policy-content">
+
+        <div class="policy-section" id="s1">
+          <h2>1. Introduction</h2>
+          <p>Automating.hu, hereinafter referred to as the "Data Controller," "We," "Us," or "Our," is committed to protecting your personal data. This Privacy Policy provides information on what personal data we collect when you visit and use our website <a href="https://automating.hu">https://automating.hu</a>, how we use, store and protect such data, and what rights you have in relation to your data.</p>
+          <p>Data processing is carried out in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council (the GDPR), Act CXII of 2011 on the Right of Informational Self-Determination and Freedom of Information (the "Info Act"), and other applicable Hungarian legislation.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s2">
+          <h2>2. Details of the Data Controller</h2>
+          <div class="detail-block">
+            <p><strong>Company name:</strong> HUDÁCSEK BENCE EV.</p>
+            <p><strong>Registered seat:</strong> 9127 CSIKVÁND, HUNYADI JÁNOS STREET 12.</p>
+            <p><strong>Registration number:</strong> 62151177</p>
+            <p><strong>Tax number:</strong> 91949811-1-28</p>
+            <p><strong>Represented by:</strong> Bence Hudácsek</p>
+            <p><strong>E-mail:</strong> <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
+            <p><strong>Website:</strong> <a href="https://automating.hu">https://automating.hu</a></p>
+          </div>
+          <h3>Data Protection Officer (DPO)</h3>
+          <p>No Data Protection Officer has been appointed.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s3">
+          <h2>3. Interpretation and Definitions</h2>
+          <ul>
+            <li><strong>Personal data:</strong> Any information relating to an identified or identifiable natural person.</li>
+            <li><strong>Data processing:</strong> Any operation performed on personal data, such as collection, storage, modification, transfer, deletion, etc.</li>
+            <li><strong>Data Controller:</strong> The business named in this policy, which determines the purposes and means of data processing.</li>
+            <li><strong>Data Processor:</strong> A natural or legal person that processes personal data on behalf of the Data Controller.</li>
+            <li><strong>Data Subject:</strong> Any identified or identifiable natural person whose personal data we process.</li>
+            <li><strong>Cookies:</strong> Small data files placed and stored on your device by the web browser.</li>
+            <li><strong>Consent:</strong> The voluntary, specific, informed and unambiguous consent of the data subject to the processing of personal data.</li>
+            <li><strong>Data breach:</strong> A breach of security leading to the accidental or unlawful destruction, loss, alteration, unauthorised disclosure of, or access to, personal data.</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s4">
+          <h2>4. Personal Data Collected</h2>
+          <h3>4.1. Data Provided Directly by You</h3>
+          <p>We collect the following data when you actively provide it, for example through a contact form or registration:</p>
+          <ul>
+            <li>Identification data: Full name, username</li>
+            <li>Contact details: E-mail address, phone number, postal address</li>
+            <li>Account data: Username, password, stored in encrypted form</li>
+            <li>Communication data: Correspondence with us, the content of requests and complaints</li>
+          </ul>
+          <h3>4.2. Automatically Collected Data</h3>
+          <p>When you visit our website, we automatically record the following technical data:</p>
+          <ul>
+            <li>IP address and approximate location, up to country/city level</li>
+            <li>Browser type and version, operating system</li>
+            <li>Pages visited, clicks, duration of visit</li>
+            <li>Referring URL</li>
+            <li>Cookie identifiers and session identifiers</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s5">
+          <h2>5. Purposes and Legal Bases of Data Processing</h2>
+          <p>Data processing always has a legal basis under the GDPR.</p>
+          <h3>5.1. Performance of a Contract — Article 6(1)(b) GDPR</h3>
+          <ul>
+            <li>Creating and managing an account and providing access</li>
+            <li>Responding to customer service requests</li>
+          </ul>
+          <h3>5.2. Legitimate Interest — Article 6(1)(f) GDPR</h3>
+          <ul>
+            <li>Maintaining website security and preventing abuse</li>
+            <li>Preparing aggregated statistics and analyses for service development</li>
+            <li>Enforcing and defending legal claims</li>
+          </ul>
+          <h3>5.3. Consent — Article 6(1)(a) GDPR</h3>
+          <ul>
+            <li>Placing non-essential cookies, for example marketing and analytics cookies</li>
+          </ul>
+          <h3>5.4. Compliance with a Legal Obligation — Article 6(1)(c) GDPR</h3>
+          <ul>
+            <li>Fulfilling accounting and tax obligations</li>
+            <li>Complying with requests from authorities</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s6">
+          <h2>6. Data Retention Periods</h2>
+          <p>Personal data is retained only for as long as necessary to achieve the purpose of processing, or as required by law:</p>
+          <ul>
+            <li>Contact messages: For 1 year from the last contact</li>
+            <li>Newsletter subscription data: Until unsubscribing</li>
+            <li>Web server logs: For a maximum of 90 days, unless required for investigating a security incident</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s7">
+          <h2>7. Data Security</h2>
+          <p>In order to protect your data, we apply technical and organisational measures that comply with industry standards, in particular:</p>
+          <ul>
+            <li>Use of SSL/TLS encryption during data transmission (HTTPS protocol)</li>
+            <li>Passwords are stored using one-way encryption (hashing)</li>
+            <li>Access control: only authorised employees have access to personal data</li>
+            <li>Regular backups and software updates</li>
+            <li>In the event of a data breach, compliance with the GDPR's 72-hour notification obligation to the Hungarian National Authority for Data Protection and Freedom of Information (NAIH)</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s8">
+          <h2>8. Cookies</h2>
+          <p>Our website uses cookies to improve the user experience and ensure the proper functioning of the website.</p>
+          <h3>8.1. Necessary Cookies</h3>
+          <p>Essential for the basic operation of the website. Legal basis: legitimate interest / performance of a contract. These cookies cannot be disabled.</p>
+          <h3>8.2. Analytics Cookies</h3>
+          <p>Collect anonymous statistical data about the use of the website (e.g. Google Analytics). Legal basis: consent. Your prior consent is required.</p>
+          <h3>8.3. Marketing Cookies</h3>
+          <p>Used to display targeted advertisements (e.g. Facebook Pixel, Google Ads). Legal basis: consent. Your prior consent is required.</p>
+          <h3>8.4. Managing Cookie Settings</h3>
+          <p>You may withdraw your consent to cookies at any time through the cookie management banner or in your browser settings. If necessary cookies are disabled, certain functions of the website may not work properly.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s9">
+          <h2>9. Data Sharing and Third Parties</h2>
+          <p>We transfer your personal data to third parties only in the following cases:</p>
+          <ul>
+            <li><strong>Data Processors:</strong> Trusted partners such as our hosting provider (Google Cloud). A valid data processing agreement has been concluded with them.</li>
+            <li><strong>Authorities:</strong> With competent authorities on the basis of a legal obligation (e.g. court order).</li>
+            <li><strong>Business transfer:</strong> In the event of a merger, acquisition or sale, data may transfer to the successor organisation. You will be informed in advance.</li>
+            <li><strong>With your consent:</strong> In any other case, only with your prior, explicit consent.</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s10">
+          <h2>10. Data Transfers to Third Countries</h2>
+          <p>Some of our service providers may operate servers outside the European Economic Area (EEA). In such cases, we transfer data only if appropriate safeguards are in place, for example an adequacy decision of the European Commission, Standard Contractual Clauses (SCCs), or recognition of the given country's GDPR compliance.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s11">
+          <h2>11. Your Rights</h2>
+          <h3>11.1. Right of Access — Article 15 GDPR</h3>
+          <p>You have the right to request information on whether we process your personal data, and if so, to receive a copy and related information.</p>
+          <h3>11.2. Right to Rectification — Article 16 GDPR</h3>
+          <p>You may request the immediate correction or completion of inaccurate or incomplete data.</p>
+          <h3>11.3. Right to Erasure ("Right to Be Forgotten") — Article 17 GDPR</h3>
+          <p>If certain conditions are met, you may request the deletion of your data. This right does not apply if processing is necessary for compliance with a legal obligation.</p>
+          <h3>11.4. Right to Restriction of Processing — Article 18 GDPR</h3>
+          <p>You may request restriction of processing, for example if you dispute the accuracy of the data.</p>
+          <h3>11.5. Right to Data Portability — Article 20 GDPR</h3>
+          <p>In the case of automated data processing based on consent or a contract, you have the right to receive your data in a structured, machine-readable format (e.g. JSON or CSV).</p>
+          <h3>11.6. Right to Object — Article 21 GDPR</h3>
+          <p>You may object at any time to processing based on legitimate interest. We will cease processing unless we can demonstrate compelling legitimate grounds.</p>
+          <h3>11.7. Automated Decision-Making — Article 22 GDPR</h3>
+          <p>You have the right not to be subject to a decision based solely on automated processing if it has legal or similarly significant effects.</p>
+          <h3>11.8. Withdrawal of Consent</h3>
+          <p>Where processing is based on consent, you may withdraw it at any time. Withdrawal does not affect the lawfulness of prior processing.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s12">
+          <h2>12. How to Exercise Your Rights</h2>
+          <p>You may submit your request by e-mail: <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
+          <p>We respond within 1 month pursuant to Article 12 of the GDPR. The deadline may be extended by up to 2 months for complex requests. As a general rule, fulfilling requests is free of charge.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s13">
+          <h2>13. Complaints and Legal Remedies</h2>
+          <p>If you believe our data processing violates applicable data protection laws, you have the right to lodge a complaint with the supervisory authority:</p>
+          <div class="detail-block">
+            <p><strong>Hungarian National Authority for Data Protection and Freedom of Information (NAIH)</strong></p>
+            <p>Address: 1055 Budapest, Falk Miksa Street 9–11.</p>
+            <p>Postal address: 1363 Budapest, P.O. Box 9.</p>
+            <p>Phone: +36 (1) 391-1400</p>
+            <p>E-mail: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a></p>
+            <p>Website: <a href="https://www.naih.hu" target="_blank">www.naih.hu</a></p>
+          </div>
+          <p style="margin-top:20px;">You also have the right to seek judicial remedy against the Data Controller or Data Processor if you believe that the processing of your personal data violates the provisions of the GDPR.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s14">
+          <h2>14. Protection of Minors' Data</h2>
+          <p>Our website is not directed at persons under the age of 16, and we do not knowingly collect personal data from such persons. If we become aware that we have collected data from a child under 16 without parental or legal representative consent, we will delete it without delay.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s15">
+          <h2>15. Links to Other Websites</h2>
+          <p>Our website may contain links to other websites. By clicking on these links, you leave our website and we do not accept responsibility for the data processing practices of those websites. We recommend that you also review the privacy policies of any linked websites.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s16">
+          <h2>16. Amendment of the Policy</h2>
+          <p>We reserve the right to amend this Privacy Policy at any time. We will inform you of changes through the updated policy published on the website and/or by prior e-mail notification. The date on which the amendment enters into force will be indicated at the top of the policy. Please review the policy regularly.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="s17">
+          <h2>17. Contact</h2>
+          <p>If you have any questions, requests or comments regarding this Privacy Policy, please contact us:</p>
+          <div class="detail-block">
+            <p><strong>E-mail:</strong> <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
+            <p><strong>Postal address:</strong> HUDÁCSEK BENCE EV., 9127 CSIKVÁND, HUNYADI JÁNOS STREET 12.</p>
+            <p><strong>Website:</strong> <a href="https://automating.hu">https://automating.hu</a></p>
+          </div>
+          <p style="margin-top:20px; font-size:14px; color:var(--g400);">This Privacy Policy has been prepared in accordance with the GDPR (EU 2016/679) and the provisions of Act CXII of 2011 (the Info Act).</p>
+        </div>
+
+      </div><!-- /policy-content -->
+    </div><!-- /policy-body -->
+  </div><!-- /wrap -->
+</div><!-- /policy-page -->
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="footer-copy">Automating &copy; All Rights Reserved</span>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="#">Terms and Conditions</a>
+      </div>
+      <span class="footer-loc">United Kingdom</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+</script>
+</body>
+</html>
