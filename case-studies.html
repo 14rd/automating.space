@@ -29,11 +29,11 @@ a { color: inherit; text-decoration: none; }
 }
 nav {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 15px; gap: 20px;
+  padding: 15px; gap: 12px;
   background: rgba(255,255,255,0.92); border: 1px solid var(--g200);
   border-radius: 100px; backdrop-filter: blur(12px); position: relative;
 }
-.nav-logo { display: flex; align-items: center; flex-shrink: 0; margin-left: 8px; }
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; margin-left: 14px; }
 .nav-links {
   display: flex; align-items: center; gap: 30px;
   list-style: none; flex: 1; justify-content: center;
@@ -46,17 +46,44 @@ nav {
   font-size: 18px; font-weight: 500; transition: opacity .2s;
 }
 .nav-chip:hover { opacity: .5; }
+
+/* Language toggle */
+.lang-toggle {
+  background: none; border: 1px solid var(--g200); border-radius: 100px;
+  padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: inherit; color: var(--black);
+  transition: opacity .2s, border-color .2s;
+  letter-spacing: .06em; flex-shrink: 0;
+}
+.lang-toggle:hover { opacity: .5; }
+.nav-lang-mob { display: none !important; }
+.lang-toggle-link {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-size: 18px; font-weight: 500; font-family: inherit; color: var(--g600);
+  transition: opacity .2s;
+}
+.lang-toggle-link:hover { opacity: .5; }
+
 .btn-pill {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--black); color: var(--white); border: none;
   padding: 15px 30px; border-radius: 100px;
   font-family: inherit; font-size: 15px; font-weight: 500;
-  cursor: pointer; white-space: nowrap; transition: opacity .2s; text-decoration: none;
-  margin-right: 4px;
+  cursor: pointer; white-space: nowrap;
+  transition: opacity .2s, transform 0.25s cubic-bezier(0.16,1,0.3,1);
+  text-decoration: none; margin-right: 4px;
 }
-.btn-pill:hover { opacity: .75; }
-.nav-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; background: none; border: none; margin-right: 8px; }
+.btn-pill:hover { opacity: .78; transform: scale(1.04); }
+.nav-toggle {
+  display: none; flex-direction: column; gap: 4px;
+  cursor: pointer; padding: 4px; background: none; border: none; margin-right: 8px;
+}
 .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--black); }
+
+@keyframes menuOpen {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* WRAP */
 .wrap { max-width: 1320px; margin: 0 auto; padding: 0 60px; }
@@ -76,9 +103,11 @@ nav {
   min-height: 55vh; display: flex; align-items: flex-end;
   padding: 160px 0 80px;
 }
+/* Subtle tag — matches the "01 / VOICE" style inside cases */
 .cs-hero-tag {
-  font-size: 11px; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--g400); margin-bottom: 24px;
+  font-size: 10px; font-weight: 500; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--g400); margin-bottom: 28px;
+  opacity: 0.75;
 }
 .cs-hero h1 {
   font-size: var(--h1-size); font-weight: 600;
@@ -104,7 +133,8 @@ nav {
   gap: 80px;
   padding: 72px 0;
 }
-.cs-meta { position: sticky; top: 100px; align-self: start; }
+/* Sticky left column — pushed down to clear fixed nav */
+.cs-meta { position: sticky; top: 140px; align-self: start; }
 .cs-num {
   font-size: 11px; font-weight: 600; letter-spacing: .12em;
   text-transform: uppercase; color: var(--g400); margin-bottom: 16px;
@@ -135,7 +165,7 @@ nav {
   line-height: 1.75; color: var(--g600);
 }
 
-/* RESULT BLOCK — slightly more prominent */
+/* RESULT BLOCK */
 .cs-block.result .cs-block-label { color: var(--black); }
 .cs-block.result p {
   font-size: clamp(17px, 1.5vw, 20px);
@@ -177,21 +207,37 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 @media (max-width: 900px) {
   .wrap { padding: 0 24px; }
   .nav-outer { width: calc(100% - 32px); top: 14px; }
+
+  /* Mobile nav: flex with Book A Call absolutely centered */
   nav {
-    display: grid; grid-template-columns: 1fr auto 1fr;
-    align-items: center; padding: 12px 16px; border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 100px;
+    gap: 0;
+    position: relative;
   }
-  .nav-logo   { grid-column: 1; justify-self: start; margin-left: 4px; }
-  .nav-links  { display: none; }
+  .nav-logo { margin-left: 4px; }
+  .btn-pill {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    padding: 10px 18px; font-size: 13px; margin-right: 0;
+  }
+  .btn-pill:hover { transform: translateX(-50%) scale(1.04); }
+  .lang-toggle { display: none; }
+  .nav-links { display: none; }
   .nav-links.open {
     display: flex; flex-direction: column; position: absolute;
-    top: calc(100% + 8px); left: 0; right: 0;
-    background: rgba(255,255,255,.97); border: 1px solid var(--g200);
+    top: calc(100% + 10px); left: 0; right: 0;
+    background: rgba(255,255,255,0.97); border: 1px solid var(--g200);
     border-radius: 20px; padding: 20px 24px; gap: 20px;
-    backdrop-filter: blur(12px); z-index: 10; grid-column: 1/-1; grid-row: 2;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    z-index: 10;
+    animation: menuOpen 0.28s cubic-bezier(0.16,1,0.3,1) both;
   }
-  .btn-pill { grid-column: 2; justify-self: center; padding: 10px 20px; font-size: 13px; }
-  .nav-toggle { grid-column: 3; justify-self: end; display: flex; margin-right: 4px; }
+  .nav-lang-mob { display: list-item !important; }
+  .nav-toggle { display: flex; margin-right: 4px; }
+
   .cs-item { grid-template-columns: 1fr; gap: 32px; padding: 48px 0; }
   .cs-meta { position: static; }
   .footer-inner { flex-direction: column; text-align: center; }
@@ -215,9 +261,12 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html#products">What We Build</a></li>
       <li><a href="index.html#approach">Approach</a></li>
-      <li><a href="index.html#demo">Demo</a></li>
       <li><a href="case-studies.html" class="nav-chip">Case Studies</a></li>
+      <li class="nav-lang-mob">
+        <button class="lang-toggle-link" id="langToggleMob">Switch to HU</button>
+      </li>
     </ul>
+    <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -240,7 +289,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
     <hr class="cs-divider">
 
-    <!-- 01 -->
+    <!-- 01 — Pizza Restaurant / Voice -->
     <div class="cs-item" data-reveal>
       <div class="cs-meta">
         <p class="cs-num">01 &nbsp;/&nbsp; Voice</p>
@@ -269,36 +318,36 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
     <hr class="cs-divider">
 
-    <!-- 02 -->
+    <!-- 02 — Import Document / Logistics (swapped from 04) -->
     <div class="cs-item" data-reveal>
       <div class="cs-meta">
-        <p class="cs-num">02 &nbsp;/&nbsp; Voice</p>
-        <h2>AI Voice Infrastructure for a Private Medical Clinic</h2>
-        <span class="cs-tag">Healthcare</span>
+        <p class="cs-num">02 &nbsp;/&nbsp; Workflow</p>
+        <h2>AI Import Document Operator for an International Distribution Company</h2>
+        <span class="cs-tag">Logistics &amp; Distribution</span>
       </div>
       <div class="cs-blocks">
         <div class="cs-block">
           <p class="cs-block-label">Description</p>
-          <p>A multi-specialty private clinic was quietly losing patients to its own front desk. Every missed call was a booking that walked across the street. The reception team was capable, but they were one team doing five things at once.</p>
+          <p>An import-distribution company was running its operation on the speed of one keyboard. Hundreds of supplier invoices, customs papers, and shipping documents arrived every month, all in different formats, and someone had to type every line into the ERP. The business couldn't grow faster than that bottleneck allowed.</p>
         </div>
         <div class="cs-block">
           <p class="cs-block-label">Problem</p>
-          <p>Mornings were chaos: in-person check-ins, phones ringing, three doctors needing things, and a queue of people waiting to book. After 5pm and on weekends, the line went silent — but the enquiries didn't, they just went to other clinics. New-patient bookings frequently took two or three exchanges before a slot was confirmed, and basic questions about preparation, pricing, and parking ate up most of the team's day.</p>
+          <p>Two roles existed almost entirely to retype documents into the system. Errors in product codes or quantities created inventory mismatches that surfaced weeks later in accounting. Suppliers sent everything imaginable — clean PDFs, scanned paper, photos of paper, attachments inside email bodies. Month-end close was painful because half the documents were always behind. Onboarding a new supplier meant either more overtime or another hire.</p>
         </div>
         <div class="cs-block">
           <p class="cs-block-label">Solution</p>
-          <p>An AI voice agent now answers every call, day or night, connected to the clinic's calendar in real time. It identifies the specialty the patient needs, finds an open slot, books it, and sends a confirmation by SMS. It handles reschedules, cancellations, and the routine pre-visit questions without involving staff. Sensitive or unclear cases are escalated with a written summary so reception picks up already in context.</p>
+          <p>An AI document operator now watches the inbox, reads incoming documents regardless of format, extracts the structured data, matches it against open purchase orders, validates the fields, and pushes everything directly into the ERP. Anything ambiguous — a missing field, a code mismatch, an unfamiliar template — is flagged for human review with the source document and the extracted data shown side by side.</p>
         </div>
         <div class="cs-block result">
           <p class="cs-block-label">Result</p>
-          <p>Zero missed calls, including evenings and weekends — when many bookings actually happen. Average booking time dropped from a few minutes of back-and-forth to under a minute and a half. After-hours bookings now make up a meaningful slice of the weekly schedule — revenue that simply didn't exist before. Reception finally has bandwidth for the patients standing in front of them.</p>
+          <p>Document processing time fell by over 90%. Data-entry errors collapsed, which meant reconciliation stopped being a monthly emergency and month-end close got dramatically cleaner. The team that used to retype documents now manages vendors and exceptions — which is what they actually wanted to be doing. New suppliers get onboarded without anyone asking whether back office can handle the volume.</p>
         </div>
       </div>
     </div>
 
     <hr class="cs-divider">
 
-    <!-- 03 -->
+    <!-- 03 — Renewable Energy / Workflow -->
     <div class="cs-item" data-reveal>
       <div class="cs-meta">
         <p class="cs-num">03 &nbsp;/&nbsp; Workflow</p>
@@ -327,36 +376,36 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
     <hr class="cs-divider">
 
-    <!-- 04 -->
+    <!-- 04 — Private Medical Clinic / Voice (swapped from 02) -->
     <div class="cs-item" data-reveal>
       <div class="cs-meta">
-        <p class="cs-num">04 &nbsp;/&nbsp; Workflow</p>
-        <h2>AI Import Document Operator for an International Distribution Company</h2>
-        <span class="cs-tag">Logistics &amp; Distribution</span>
+        <p class="cs-num">04 &nbsp;/&nbsp; Voice</p>
+        <h2>AI Voice Infrastructure for a Private Medical Clinic</h2>
+        <span class="cs-tag">Healthcare</span>
       </div>
       <div class="cs-blocks">
         <div class="cs-block">
           <p class="cs-block-label">Description</p>
-          <p>An import-distribution company was running its operation on the speed of one keyboard. Hundreds of supplier invoices, customs papers, and shipping documents arrived every month, all in different formats, and someone had to type every line into the ERP. The business couldn't grow faster than that bottleneck allowed.</p>
+          <p>A multi-specialty private clinic was quietly losing patients to its own front desk. Every missed call was a booking that walked across the street. The reception team was capable, but they were one team doing five things at once.</p>
         </div>
         <div class="cs-block">
           <p class="cs-block-label">Problem</p>
-          <p>Two roles existed almost entirely to retype documents into the system. Errors in product codes or quantities created inventory mismatches that surfaced weeks later in accounting. Suppliers sent everything imaginable — clean PDFs, scanned paper, photos of paper, attachments inside email bodies. Month-end close was painful because half the documents were always behind. Onboarding a new supplier meant either more overtime or another hire.</p>
+          <p>Mornings were chaos: in-person check-ins, phones ringing, three doctors needing things, and a queue of people waiting to book. After 5pm and on weekends, the line went silent — but the enquiries didn't, they just went to other clinics. New-patient bookings frequently took two or three exchanges before a slot was confirmed, and basic questions about preparation, pricing, and parking ate up most of the team's day.</p>
         </div>
         <div class="cs-block">
           <p class="cs-block-label">Solution</p>
-          <p>An AI document operator now watches the inbox, reads incoming documents regardless of format, extracts the structured data, matches it against open purchase orders, validates the fields, and pushes everything directly into the ERP. Anything ambiguous — a missing field, a code mismatch, an unfamiliar template — is flagged for human review with the source document and the extracted data shown side by side.</p>
+          <p>An AI voice agent now answers every call, day or night, connected to the clinic's calendar in real time. It identifies the specialty the patient needs, finds an open slot, books it, and sends a confirmation by SMS. It handles reschedules, cancellations, and the routine pre-visit questions without involving staff. Sensitive or unclear cases are escalated with a written summary so reception picks up already in context.</p>
         </div>
         <div class="cs-block result">
           <p class="cs-block-label">Result</p>
-          <p>Document processing time fell by over 90%. Data-entry errors collapsed, which meant reconciliation stopped being a monthly emergency and month-end close got dramatically cleaner. The team that used to retype documents now manages vendors and exceptions — which is what they actually wanted to be doing. New suppliers get onboarded without anyone asking whether back office can handle the volume.</p>
+          <p>Zero missed calls, including evenings and weekends — when many bookings actually happen. Average booking time dropped from a few minutes of back-and-forth to under a minute and a half. After-hours bookings now make up a meaningful slice of the weekly schedule — revenue that simply didn't exist before. Reception finally has bandwidth for the patients standing in front of them.</p>
         </div>
       </div>
     </div>
 
     <hr class="cs-divider">
 
-    <!-- 05 -->
+    <!-- 05 — Real Estate / Voice + Email -->
     <div class="cs-item" data-reveal>
       <div class="cs-meta">
         <p class="cs-num">05 &nbsp;/&nbsp; Voice + Email</p>
@@ -385,7 +434,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
     <hr class="cs-divider">
 
-    <!-- 06 -->
+    <!-- 06 — Performance Marketing / Workflow -->
     <div class="cs-item" data-reveal>
       <div class="cs-meta">
         <p class="cs-num">06 &nbsp;/&nbsp; Workflow</p>
@@ -423,7 +472,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
     <h2 data-reveal>Yours could be next.</h2>
     <p data-reveal data-delay="100">30 minute call. No sales pitch. We understand your operations and tell you exactly where AI fits.</p>
     <div class="cta-row" data-reveal data-delay="200">
-      <a href="https://www.cal.com/automating/30min" target="_blank" class="btn-pill" style="padding:15px 32px; font-size:16px;">Book a call &rarr;</a>
+      <a href="https://www.cal.com/automating/30min" target="_blank" class="btn-pill" style="position:static;transform:none;padding:15px 32px;font-size:16px;">Book a call &rarr;</a>
       <a href="mailto:hello@automating.hu" class="email-chip">hello@automating.hu</a>
     </div>
   </div>
@@ -445,26 +494,31 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
 <script>
 'use strict';
+
 // Mobile nav
 const navToggle = document.getElementById('navToggle');
 const navLinks  = document.getElementById('navLinks');
 navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
-// Smooth scroll
+// Smooth scroll — slightly snappier factor (0.12) for Windows comfort
 (function(){
   if('ontouchstart' in window) return;
   let dest = 0, cur = 0, running = false;
   window.addEventListener('wheel', e => {
     e.preventDefault();
-    const delta = e.deltaMode===1 ? e.deltaY*40 : e.deltaMode===2 ? e.deltaY*800 : e.deltaY;
+    const delta = e.deltaMode === 1 ? e.deltaY * 40
+                : e.deltaMode === 2 ? e.deltaY * 800
+                : e.deltaY;
     dest = Math.max(0, Math.min(dest + delta, document.documentElement.scrollHeight - window.innerHeight));
-    if(!running){ running=true; tick(); }
-  }, {passive:false});
+    if(!running){ running = true; tick(); }
+  }, { passive: false });
   function tick(){
     const dist = dest - cur;
-    if(Math.abs(dist)<0.3){ cur=dest; window.scrollTo(0,cur); running=false; return; }
-    cur += dist * 0.085; window.scrollTo(0,cur); requestAnimationFrame(tick);
+    if(Math.abs(dist) < 0.3){ cur = dest; window.scrollTo(0, cur); running = false; return; }
+    cur += dist * 0.12;
+    window.scrollTo(0, cur);
+    requestAnimationFrame(tick);
   }
 })();
 
@@ -473,7 +527,7 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => na
   const els = document.querySelectorAll('[data-reveal]');
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-visible'); obs.unobserve(e.target); }});
-  }, {threshold: 0.06, rootMargin: '0px 0px -40px 0px'});
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
   els.forEach(el => obs.observe(el));
 })();
 </script>
