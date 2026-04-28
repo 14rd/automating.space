@@ -106,6 +106,7 @@ nav {
 .nav-chip:hover { opacity: .5; }
 
 /* ── LANGUAGE DROPDOWN ── */
+.lang-flag { width: 20px; height: 15px; border-radius: 2px; vertical-align: middle; display: inline-block; margin-right: 1px; }
 .lang-wrap { position: relative; flex-shrink: 0; }
 .lang-btn {
   display: flex; align-items: center; gap: 5px;
@@ -402,20 +403,20 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
         <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.case-studies">Case Studies</a></li>
         <li class="nav-lang-mob">
           <div class="lang-mob-row">
-            <button class="lang-mob-opt is-active" data-lang="en">🇬🇧 English</button>
-            <button class="lang-mob-opt" data-lang="hu">🇭🇺 Magyar</button>
+            <button class="lang-mob-opt is-active" data-lang="en"><img src="https://flagcdn.com/20x15/gb.png" alt="" class="lang-flag"> English</button>
+            <button class="lang-mob-opt" data-lang="hu"><img src="https://flagcdn.com/20x15/hu.png" alt="" class="lang-flag"> Magyar</button>
           </div>
         </li>
       </ul>
       <!-- Language dropdown (desktop) -->
       <div class="lang-wrap" id="langWrap">
         <button class="lang-btn" id="langBtn" aria-label="Language">
-          <span id="langLabel">🇬🇧 EN</span>
+          <span id="langLabel"><img src="https://flagcdn.com/20x15/gb.png" alt="" class="lang-flag"> EN</span>
           <span class="lang-chevron">▾</span>
         </button>
         <div class="lang-dd" id="langDd">
-          <button class="lang-dd-btn is-active" data-lang="en">🇬🇧 English</button>
-          <button class="lang-dd-btn" data-lang="hu">🇭🇺 Magyar</button>
+          <button class="lang-dd-btn is-active" data-lang="en"><img src="https://flagcdn.com/20x15/gb.png" alt="" class="lang-flag"> English</button>
+          <button class="lang-dd-btn" data-lang="hu"><img src="https://flagcdn.com/20x15/hu.png" alt="" class="lang-flag"> Magyar</button>
         </div>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -688,7 +689,7 @@ const T = {
     'footer.copy':      'Automating &copy; Minden jog fenntartva',
     'footer.privacy':   'Adatvédelmi irányelvek',
     'footer.terms':     'Általános Szerződési Feltételek',
-    'footer.loc':       'Egyesült Királyság',
+    'footer.loc':       'Magyarország',
   }
 };
 
@@ -712,7 +713,9 @@ function setLang(lang) {
 
   // Update dropdown button label with flag
   const labelEl = document.getElementById('langLabel');
-  if(labelEl) labelEl.textContent = lang === 'hu' ? '🇭🇺 HU' : '🇬🇧 EN';
+  if(labelEl) labelEl.innerHTML = lang === 'hu'
+    ? '<img src="https://flagcdn.com/20x15/hu.png" alt="" class="lang-flag"> HU'
+    : '<img src="https://flagcdn.com/20x15/gb.png" alt="" class="lang-flag"> EN';
 
   // Close dropdown
   const btn = document.getElementById('langBtn');
