@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect width="1200" height="630" fill="none" stroke="#e8e8e8" stroke-width="2"/>
+  <!-- Logo centred -->
+  <g transform="translate(600,258) scale(0.295) translate(-200,-200)">
+    <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+  </g>
+  <!-- Name -->
+  <text x="600" y="378"
+    font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"
+    font-size="60" font-weight="600" letter-spacing="-2.4"
+    text-anchor="middle" fill="#0a0a0a">Automating</text>
+  <!-- Tagline -->
+  <text x="600" y="428"
+    font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"
+    font-size="25" font-weight="500" letter-spacing="0"
+    text-anchor="middle" fill="#666666">Replacing jobs with AI.</text>
+</svg>
