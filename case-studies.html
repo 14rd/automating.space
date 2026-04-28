@@ -90,11 +90,14 @@ nav {
 .lang-dd-btn:hover { background: #f2f2f2; }
 .lang-dd-btn.is-active { font-weight: 700; }
 .nav-lang-mob { display: none !important; }
-.lang-toggle-link {
-  background: none; border: none; padding: 0; cursor: pointer;
-  font-size: 18px; font-weight: 500; font-family: inherit; color: var(--g600); transition: opacity .2s;
+.lang-mob-row { display: flex; gap: 8px; }
+.lang-mob-opt {
+  flex: 1; background: none; border: 1px solid var(--g200); border-radius: 10px;
+  padding: 9px 10px; font-family: inherit; font-size: 15px; font-weight: 500;
+  cursor: pointer; color: var(--g600); transition: border-color .2s, color .2s;
+  text-align: center;
 }
-.lang-toggle-link:hover { opacity: .5; }
+.lang-mob-opt.is-active { border-color: var(--black); color: var(--black); font-weight: 600; }
 
 .btn-pill {
   display: inline-flex; align-items: center; gap: 8px;
@@ -219,17 +222,20 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
       <li><a href="index.html#approach" data-i18n="nav.approach">Approach</a></li>
       <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.case-studies">Case Studies</a></li>
       <li class="nav-lang-mob">
-        <button class="lang-toggle-link" id="langToggleMob">Switch to HU</button>
+        <div class="lang-mob-row">
+          <button class="lang-mob-opt is-active" data-lang="en">🇬🇧 English</button>
+          <button class="lang-mob-opt" data-lang="hu">🇭🇺 Magyar</button>
+        </div>
       </li>
     </ul>
     <div class="lang-wrap" id="langWrap">
       <button class="lang-btn" id="langBtn" aria-label="Language">
-        <span id="langLabel">EN</span>
+        <span id="langLabel">🇬🇧 EN</span>
         <span class="lang-chevron">▾</span>
       </button>
       <div class="lang-dd" id="langDd">
-        <button class="lang-dd-btn is-active" data-lang="en">English</button>
-        <button class="lang-dd-btn" data-lang="hu">Magyar</button>
+        <button class="lang-dd-btn is-active" data-lang="en">🇬🇧 English</button>
+        <button class="lang-dd-btn" data-lang="hu">🇭🇺 Magyar</button>
       </div>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -525,10 +531,10 @@ const T = {
     'footer.loc':     'United Kingdom',
   },
   hu: {
-    'nav.products':     'Amit Építünk',
-    'nav.approach':     'Megközelítés',
+    'nav.products':     'Mit Építünk',
+    'nav.approach':     'Megközelítésünk',
     'nav.case-studies': 'Esettanulmányok',
-    'nav.book-call':    'Időpontot Foglalok',
+    'nav.book-call':    'Árajánlat',
     'hero.tag':  'Valós eredmények. Valós vállalkozások.',
     'hero.h1':   'Esettanulmányok.',
     'hero.p':    'Hat vállalkozás, amely felváltotta a kézi munkát. Mi volt a probléma, mit építettünk, és mi változott.',
@@ -537,46 +543,46 @@ const T = {
     'label.solution':    'Megoldás',
     'label.result':      'Eredmény',
     'cs01.num':   '01 &nbsp;/&nbsp; Hang',
-    'cs01.title': 'MI Hangi Infrastruktúra egy Pizzázólánc számára',
+    'cs01.title': 'AI Hang Infrastruktúra egy Pizzázólánc számára',
     'cs01.tag':   'Élelmiszer &amp; Vendéglátás',
     'cs01.desc':    'Egy regionális pizzalánc az esti bevételét arra a telefonvonalra építette, amely nem tudott lépést tartani. Pénteken és szombaton este volt a szűk keresztmetszet — a rendelések léteztek, az ügyfelek hívtak, de a személyzet egyszerűen nem tudott elég gyorsan felvenni.',
     'cs01.problem': 'Csúcsestéken a bejövő hívások nagy részét nem fogadták, mert a csapat már egy másik rendelésen dolgozott, a konyhában volt, vagy személyes vendégeket kiszolgált. A tulajdonos este 9-kor személyesen vette fel a hívásokat. A rendelések pontossága csökkent, a visszatérítések nőttek, és a törzsvendégek a konkurenciához pártoltak.',
-    'cs01.solution':'Egy 24/7-es MI hangi ügynök most minden bejövő hívást kezel. Természetes párbeszédben felveszi a rendelést, megerősíti a tételeket, felkínálja a kiegészítőket, felismeri a visszatérő ügyfeleket, és a kész rendelést közvetlenül a konyhai rendszerbe küldi. Csak a nem szokványos helyzetek kerülnek emberi kezelőhöz.',
+    'cs01.solution':'Egy 24/7-es AI hang ügynök most minden bejövő hívást kezel. Természetes párbeszédben felveszi a rendelést, megerősíti a tételeket, felkínálja a kiegészítőket, felismeri a visszatérő ügyfeleket, és a kész rendelést közvetlenül a konyhai rendszerbe küldi. Csak a nem szokványos helyzetek kerülnek emberi kezelőhöz.',
     'cs01.result':  'Minden hívást másodperceken belül fogadnak, beleértve a csúcsórákat. A rendelések pontossága nőtt, mert nincs konyhai zaj és sietős munkatárs. Az átlagos rendelési érték emelkedett a következetes felértékesítésnek köszönhetően. A telefon nem jelent többé szűk keresztmetszetet.',
     'cs02.num':   '02 &nbsp;/&nbsp; Munkafolyamat',
-    'cs02.title': 'MI Import Dokumentum Operátor egy Nemzetközi Forgalmazó Cégnél',
+    'cs02.title': 'AI Import Dokumentum Operátor egy Nemzetközi Forgalmazó Cégnél',
     'cs02.tag':   'Logisztika &amp; Elosztás',
     'cs02.desc':    'Egy import-elosztó cég az egyetlen billentyűzet sebességével üzemeltette tevékenységét. Havonta több száz szállítói számla, vámáru papír és szállítási dokumentum érkezett különböző formátumokban, és valakinek minden sort be kellett gépelnie az ERP rendszerbe.',
     'cs02.problem': 'Két munkakör szinte kizárólag a dokumentumok rendszerbe gépelésére létezett. Hibák az ERP-ben készleteltéréseket okoztak, amelyek hetekkel később derültek ki. A szállítók mindent küldtek — tiszta PDF-eket, szkennelt papírt, fotókat. A hónap végi zárás fájdalmas volt, mert a dokumentumok fele mindig elmaradt.',
-    'cs02.solution':'Egy MI dokumentum operátor figyeli most a postafiókot, olvassa a beérkező dokumentumokat formátumtól függetlenül, kinyeri a strukturált adatokat, egyezteti a nyitott megrendelésekkel, és mindent közvetlenül az ERP-be küld. A kétséges eseteket emberi felülvizsgálatra jelöli, a forrásdokumentummal és a kinyert adatokkal egymás mellett.',
+    'cs02.solution':'Egy AI dokumentum operátor figyeli most a postafiókot, olvassa a beérkező dokumentumokat formátumtól függetlenül, kinyeri a strukturált adatokat, egyezteti a nyitott megrendelésekkel, és mindent közvetlenül az ERP-be küld. A kétséges eseteket emberi felülvizsgálatra jelöli, a forrásdokumentummal és a kinyert adatokkal egymás mellett.',
     'cs02.result':  'A dokumentumfeldolgozási idő több mint 90%-kal csökkent. Az adatbeviteli hibák megszűntek, a hónap végi zárás lényegesen tisztábbá vált. Az újból gépeléssel töltött csapat most szállítókat és kivételeket kezel. Új szállítókat anélkül vesznek fel, hogy bárki megkérdezné, bírja-e a háttérirodai kapacitás.',
     'cs03.num':   '03 &nbsp;/&nbsp; Munkafolyamat',
-    'cs03.title': 'MI Ajánlatkezelő Operátor egy Megújuló Energia Cégnél',
+    'cs03.title': 'AI Ajánlatkezelő Operátor egy Megújuló Energia Cégnél',
     'cs03.tag':   'Energia &amp; Építészet',
     'cs03.desc':    'Egy megújuló energia telepítőnek növekvő értékesítési csatornája és csökkenő zárási aránya volt — nem azért, mert az ajánlat rossz volt, hanem mert az ajánlatok túl lassan mentek ki. Mire a kalkuláció megérkezett, az érdeklődő már lehűlt vagy máshol írt alá.',
     'cs03.problem': 'Minden ajánlathoz 2-4 óra vezető beosztású idő kellett: fogyasztási adatok összegyűjtése, rendszer méretezése, megtérülés modellezése és a teljes dokumentum formázása. A legjobb szakemberek hetük felét PDF-ek formázásával töltötték. Számítási hibák csúsztak be és küldés után kellett javítani.',
-    'cs03.solution':'Egy MI ajánlatkészítő operátor az alapvető ügyfél inputokból — cím, fogyasztás, ingatlan részletei — automatikusan teljes, márkás ajánlatot készít: rendszer specifikáció, várható megtakarítás, megtérülési idő, finanszírozási lehetőségek, teljes vizuális elrendezés. Az értékesítő felülvizsgálja és perceken belül elküldi.',
+    'cs03.solution':'Egy AI ajánlatkészítő operátor az alapvető ügyfél inputokból — cím, fogyasztás, ingatlan részletei — automatikusan teljes, márkás ajánlatot készít: rendszer specifikáció, várható megtakarítás, megtérülési idő, finanszírozási lehetőségek, teljes vizuális elrendezés. Az értékesítő felülvizsgálja és perceken belül elküldi.',
     'cs03.result':  'Az ajánlatkészítési idő napokról fél óra alá csökkent. A konverzió észrevehetően javult, mert az ajánlatok most érnek el az érdeklődőkhöz, amíg még aktívan érdeklődnek. A számítási hibák lényegében eltűntek. A vezető csapat visszakapta az időt, amelyet dokumentumszoftverben töltött.',
     'cs04.num':   '04 &nbsp;/&nbsp; Hang',
-    'cs04.title': 'MI Hangi Infrastruktúra egy Magán Orvosi Rendelőnél',
+    'cs04.title': 'AI Hang Infrastruktúra egy Magán Orvosi Rendelőnél',
     'cs04.tag':   'Egészségügy',
     'cs04.desc':    'Egy több szakágú magánklinika csendesen veszítette el a betegeket saját recepcióján keresztül. Minden kihagyott hívás egy másik klinikához sétáló foglalást jelentett. A recepciócsapat képes volt, de egyszerre öt dolgot csinált.',
     'cs04.problem': 'A reggelek kaotikusak voltak: személyes bejelentkezések, csörgő telefonok, három orvos kérései és várakozók sora. Délután 5 után és hétvégén a vonal elnémult — de az érdeklődések nem, csak más klinikákhoz kerültek. Az alapvető kérdések a csapat napjának nagy részét felemésztették.',
-    'cs04.solution':'Egy MI hangi ügynök most nappal és éjjel minden hívást fogad, valós időben csatlakozva a klinika naptárához. Meghatározza a szükséges szakágat, szabad időpontot talál, lefoglalja, és SMS megerősítést küld. Az érzékeny eseteket összefoglalóval továbbítja, hogy a recepció már kontextusban vegye fel.',
+    'cs04.solution':'Egy AI hang ügynök most nappal és éjjel minden hívást fogad, valós időben csatlakozva a klinika naptárához. Meghatározza a szükséges szakágat, szabad időpontot talál, lefoglalja, és SMS megerősítést küld. Az érzékeny eseteket összefoglalóval továbbítja, hogy a recepció már kontextusban vegye fel.',
     'cs04.result':  'Nulla kihagyott hívás, beleértve az estéket és hétvégéket. Az átlagos foglalási idő percekről másfél perc alá csökkent. Az esti foglalások most értelmes szeletet tesznek ki a heti menetrendből — olyan bevétel, amely korábban egyszerűen nem létezett. A recepció végre sávszélességgel rendelkezik az előttük álló betegekhez.',
     'cs05.num':   '05 &nbsp;/&nbsp; Hang + E-mail',
-    'cs05.title': 'MI Érdeklődő Minősítő Ügynök egy Ingatlanirodának',
+    'cs05.title': 'AI Érdeklődő Minősítő Ügynök egy Ingatlanirodának',
     'cs05.tag':   'Ingatlan',
     'cs05.desc':    'Egy ingatlaniroda sok érdeklődőért fizetett — és túl keveset konvertált. A marketing működött. Az utánkövetés nem. Az ügynökök érdeklődők özönében fuldoklottak, amelyek többsége nem volt komoly.',
     'cs05.problem': 'Egy érdeklődő délelőtt 11-kor érkezett és este 4-kor kapott visszahívást — addigra már két versenytárssal beszélt. Az ügynökök napjuk nagy részét nem komoly ügyfeleken töltötték, mert nem volt gyors mód a komoly vevő és a kíváncsi böngésző megkülönböztetésére.',
-    'cs05.solution':'Egy MI minősítő ügynök másodperceken belül megkeresi az összes új érdeklődőt minden csatornán — webes űrlap, e-mail, chat. Természetes párbeszédet folytat, feltárja a keretet, az időzítést és a finanszírozási felkészültséget, majd vagy beütemezi a megtekintést, vagy gondozó folyamatba irányítja.',
+    'cs05.solution':'Egy AI minősítő ügynök másodperceken belül megkeresi az összes új érdeklődőt minden csatornán — webes űrlap, e-mail, chat. Természetes párbeszédet folytat, feltárja a keretet, az időzítést és a finanszírozási felkészültséget, majd vagy beütemezi a megtekintést, vagy gondozó folyamatba irányítja.',
     'cs05.result':  'Az első válaszidő órákról egy perc alá csökkent. Az ügynökök most napjuk nagy részét minősített vevőkkel töltik. Az ügynökönkénti foglalt megtekintések jelentősen nőttek anélkül, hogy az érdeklődők forrásán változtattak volna. A CRM tisztán tartja magát, readiness szerint szegmentálva.',
     'cs06.num':   '06 &nbsp;/&nbsp; Munkafolyamat',
-    'cs06.title': 'MI Riport Operátor egy Teljesítmény Marketing Ügynökségnek',
+    'cs06.title': 'AI Riport Operátor egy Teljesítmény Marketing Ügynökségnek',
     'cs06.tag':   'Marketing &amp; Ügynökség',
     'cs06.desc':    'Egy teljesítmény marketing ügynökség kiváló volt a munkában — és kimerült a riportolásban. Minden hétfőn és hónap végén a csapat eltűnt a táblázatokban, hogy hat platform között ügyféljentéseket állítson össze.',
     'cs06.problem': 'A heti és havi riportolás ügyfelenként napnyi csapatidőt emésztett fel. A junior munkatársak minden hónap első hetét adatgyűjtéssel töltötték, nem kampányoptimalizálással. A riportok minősége az összeállítótól függött. Elmaradás esetén az ügyfelek észrevették és a bizalom megingott.',
-    'cs06.solution':'Egy MI riport operátor csatlakozik a kampányforrásokhoz, ütemezett időközönként adatot gyűjt, alkalmazza az ügynökség riport keretrendszerét, a javaslatokat az ügynökség hangján írja, és kész, márkás riportot szállít a fiókmenedzsernek felülvizsgálatra.',
+    'cs06.solution':'Egy AI riport operátor csatlakozik a kampányforrásokhoz, ütemezett időközönként adatot gyűjt, alkalmazza az ügynökség riport keretrendszerét, a javaslatokat az ügynökség hangján írja, és kész, márkás riportot szállít a fiókmenedzsernek felülvizsgálatra.',
     'cs06.result':  'Az ügyfelenkénti riportolási idő kb. 80%-kal csökkent. A riportok kiszámítható ütemezéssel mennek ki, minden alkalommal. A junior tagok adatgyűjtésről valódi optimalizálásra váltottak, ami jobb ügyféleredményeket, jobb megtartást és javuló ügyfélmarzsokat eredményezett emelt díjak nélkül.',
     'cta.h2':  'A következő te lehetsz.',
     'cta.p':   '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet és megmondjuk, pontosan hol illik be az MI.',
@@ -588,14 +594,21 @@ const T = {
   }
 };
 
-let currentLang = localStorage.getItem('lang') || 'en';
+function detectLang() {
+  const saved = localStorage.getItem('lang');
+  if(saved) return saved;
+  const langs = navigator.languages || [navigator.language || 'en'];
+  for(const l of langs) { if(l.toLowerCase().startsWith('hu')) return 'hu'; }
+  return 'en';
+}
+let currentLang = detectLang();
 
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('lang', lang);
   document.documentElement.lang = lang;
   const labelEl = document.getElementById('langLabel');
-  if(labelEl) labelEl.textContent = lang.toUpperCase();
+  if(labelEl) labelEl.textContent = lang === 'hu' ? '🇭🇺 HU' : '🇬🇧 EN';
   const btn = document.getElementById('langBtn');
   const dd  = document.getElementById('langDd');
   if(btn) btn.classList.remove('open');
@@ -603,8 +616,9 @@ function setLang(lang) {
   document.querySelectorAll('.lang-dd-btn').forEach(b => {
     b.classList.toggle('is-active', b.dataset.lang === lang);
   });
-  const mobBtn = document.getElementById('langToggleMob');
-  if(mobBtn) mobBtn.textContent = lang === 'en' ? 'Switch to HU' : 'Switch to EN';
+  document.querySelectorAll('.lang-mob-opt').forEach(b => {
+    b.classList.toggle('is-active', b.dataset.lang === lang);
+  });
   const tr = T[lang];
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
@@ -628,12 +642,12 @@ document.addEventListener('click', function(e) {
 document.querySelectorAll('.lang-dd-btn').forEach(btn => {
   btn.addEventListener('click', () => setLang(btn.dataset.lang));
 });
-document.getElementById('langToggleMob').addEventListener('click', () => {
-  setLang(currentLang === 'en' ? 'hu' : 'en');
+document.querySelectorAll('.lang-mob-opt').forEach(btn => {
+  btn.addEventListener('click', () => setLang(btn.dataset.lang));
 });
 
-// Apply saved language on load
-if(currentLang !== 'en') setLang(currentLang);
+// Apply detected language on load
+setLang(currentLang);
 
 // Mobile nav
 const navToggle = document.getElementById('navToggle');

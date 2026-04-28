@@ -137,12 +137,14 @@ nav {
 
 /* Mobile-only lang switch inside hamburger dropdown */
 .nav-lang-mob { display: none !important; }
-.lang-toggle-link {
-  background: none; border: none; padding: 0; cursor: pointer;
-  font-size: 18px; font-weight: 500; font-family: inherit; color: var(--g600);
-  transition: opacity .2s;
+.lang-mob-row { display: flex; gap: 8px; }
+.lang-mob-opt {
+  flex: 1; background: none; border: 1px solid var(--g200); border-radius: 10px;
+  padding: 9px 10px; font-family: inherit; font-size: 15px; font-weight: 500;
+  cursor: pointer; color: var(--g600); transition: border-color .2s, color .2s;
+  text-align: center;
 }
-.lang-toggle-link:hover { opacity: .5; }
+.lang-mob-opt.is-active { border-color: var(--black); color: var(--black); font-weight: 600; }
 
 .btn-pill {
   display: inline-flex; align-items: center; gap: 8px;
@@ -399,18 +401,21 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
         <li><a href="#approach" data-i18n="nav.approach">Approach</a></li>
         <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.case-studies">Case Studies</a></li>
         <li class="nav-lang-mob">
-          <button class="lang-toggle-link" id="langToggleMob">Switch to HU</button>
+          <div class="lang-mob-row">
+            <button class="lang-mob-opt is-active" data-lang="en">🇬🇧 English</button>
+            <button class="lang-mob-opt" data-lang="hu">🇭🇺 Magyar</button>
+          </div>
         </li>
       </ul>
       <!-- Language dropdown (desktop) -->
       <div class="lang-wrap" id="langWrap">
         <button class="lang-btn" id="langBtn" aria-label="Language">
-          <span id="langLabel">EN</span>
+          <span id="langLabel">🇬🇧 EN</span>
           <span class="lang-chevron">▾</span>
         </button>
         <div class="lang-dd" id="langDd">
-          <button class="lang-dd-btn is-active" data-lang="en">English</button>
-          <button class="lang-dd-btn" data-lang="hu">Magyar</button>
+          <button class="lang-dd-btn is-active" data-lang="en">🇬🇧 English</button>
+          <button class="lang-dd-btn" data-lang="hu">🇭🇺 Magyar</button>
         </div>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -640,28 +645,28 @@ const T = {
     'footer.loc':       'United Kingdom',
   },
   hu: {
-    'nav.products':     'Amit Építünk',
-    'nav.approach':     'Megközelítés',
+    'nav.products':     'Mit Építünk',
+    'nav.approach':     'Megközelítésünk',
     'nav.case-studies': 'Esettanulmányok',
-    'nav.book-call':    'Időpontot Foglalok',
-    'hero.h1':          'Munkahelyeket váltunk<br class="mob-br"> fel AI-jal.',
-    'hero.p.desk':      'Infrastruktúrát biztosítunk vállalkozásoknak a telefonhívások,<br class="desk-br"> e-mailek és munkafolyamatok automatizálásához – alkalmazottak nélkül.',
-    'hero.p.mob':       'Infrastruktúrát biztosítunk vállalkozásoknak<br>a telefonhívások, e-mailek és<br>munkafolyamatok automatizálásához.',
-    'cta.book-hero':    'Hívást foglalok',
-    'stats.h2.desk':    'Az MI alkalmazása felgyorsult<br>az üzleti életben.',
-    'stats.h2.mob':     'Az MI alkalmazása<br>felgyorsult az<br>üzleti életben.',
-    'stat1.desc':       'Már integrálta az MI-t.',
+    'nav.book-call':    'Árajánlat',
+    'hero.h1':          'Munkahelyeket váltunk ki AI-jal.',
+    'hero.p.desk':      'Infrastruktúrát adunk a vállalkozásoknak a telefonhívások,<br class="desk-br"> emailek és munkafolyamatok automatizálásához, alkalmazottak nélkül.',
+    'hero.p.mob':       'Infrastruktúrát adunk a vállalkozásoknak<br>a telefonhívások, emailek és<br>munkafolyamatok automatizálásához,<br>alkalmazottak nélkül.',
+    'cta.book-hero':    'Árajánlat',
+    'stats.h2.desk':    'Az AI alkalmazása felgyorsult<br>a vállalkozásokban.',
+    'stats.h2.mob':     'Az AI alkalmazása<br>felgyorsult a<br>vállalkozásokban.',
+    'stat1.desc':       'Már integrálta az AI-t.',
     'stat2.desc':       'Automatizálási piac 2030-ra.',
     'stat3.desc':       'Teljes költségcsökkentés.',
-    'quote.h2.desk':    '<span class="grey">Az eszközök nem váltják fel a munkát.</span><br>Az üzletbe épített rendszerek igen.',
-    'quote.h2.mob':     '<span class="grey">Az eszközök nem<br>váltják fel a munkát.<br>Az üzletbe épített<br></span>rendszerek igen.',
-    'products.h2.desk': 'MI alkalmazottak. Nem eszközök.',
-    'products.h2.mob':  'MI alkalmazottak.<br>Nem eszközök.',
-    'products.p.desk':  'Rendszereink MI megoldásokat biztosítanak vállalkozásoknak hívások, e-mailek és munkafolyamatok kezelésére. Integrálva a meglévő tevékenységekbe.',
-    'products.p.mob':   'Rendszereink MI megoldásokat biztosítanak<br>vállalkozásoknak hívások és e-mailek<br>kezelésére. Integrálva a meglévő folyamatokba.',
+    'quote.h2.desk':    '<span class="grey">Az eszközök nem váltják ki a munkát.</span><br>A vállalkozásba épített rendszerek igen.',
+    'quote.h2.mob':     '<span class="grey">Az eszközök nem<br>váltják ki a munkát.</span><br>A vállalkozásba épített<br>rendszerek igen.',
+    'products.h2.desk': 'AI alkalmazottak. Nem eszközök.',
+    'products.h2.mob':  'AI alkalmazottak.<br>Nem eszközök.',
+    'products.p.desk':  'Rendszereink AI megoldásokat biztosítanak vállalkozásoknak hívások, e-mailek és munkafolyamatok kezelésére. Integrálva a meglévő tevékenységekbe.',
+    'products.p.mob':   'Rendszereink AI megoldásokat biztosítanak<br>vállalkozásoknak hívások és e-mailek<br>kezelésére. Integrálva a meglévő folyamatokba.',
     'voice.tag':        'Hang Infrastruktúra',
-    'voice.title':      'MI, amely minden hívást megválaszol.',
-    'voice.desc':       'Hívásokat fogad, rendeléseket vesz fel, találkozókat foglal és érdeklődőket minősít, napi 24 órában. Természetes kommunikáció. Integrálva a CRM-mel és naptárral.',
+    'voice.title':      'AI, amely minden hívást megválaszol.',
+    'voice.desc':       'Hívásokat fogad, rendeléseket vesz fel, találkozókat foglal és érdeklődőket minősít, 24/7. Természetes kommunikáció. Integrálva a CRM-mel és naptárral.',
     'email.tag':        'E-mail Automatizálás',
     'email.title':      'Postafiók, amely olvas, rendez és válaszol.',
     'email.desc':       'E-maileket olvas, kategorizál és megválaszol. Automatikus válaszok GYIK-re. Sürgős jelölés. Nyomon követési szekvenciák, amelyek nem maradnak el.',
@@ -669,17 +674,17 @@ const T = {
     'workflow.title':   'Háttérirodai folyamatok autopilóton.',
     'workflow.desc':    'Infrastruktúra ismétlődő feladatokhoz, számlázáshoz, adatbevitelhez, CRM szinkronhoz, riportoláshoz – csendesen fut a háttérben.',
     'approach.h2':      'Megközelítésünk.',
-    'approach.body':    'Nem <strong>\'MI implementációt\'</strong> értékesítünk.<br>Hanem <strong>időmegtakarítást</strong>, <strong>költségcsökkentést</strong>,<br>és <strong>kapacitásnövelést</strong>.',
+    'approach.body':    'Nem <strong>\'AI implementációt\'</strong> értékesítünk.<br>Hanem <strong>időmegtakarítást</strong>, <strong>költségcsökkentést</strong>,<br>és <strong>kapacitásnövelést</strong>.',
     'who.h2':           'Kiknek építünk:',
     'who.1':            '<span class="who-q">Nap mint nap 3+ ember ugyanazt csinálja? </span><span class="who-a">Mi felváltjuk őket.</span>',
-    'who.2':            '<span class="who-q">Növekedni szeretnél felvétel nélkül? </span><span class="who-a">Olyan csapatot építünk, amely nem mond fel.</span>',
-    'who.3':            '<span class="who-q">Megfulladsz az adminisztrációban? </span><span class="who-a">8 órányi kézi munkát 8 percre csökkentünk.</span>',
+    'who.2':            '<span class="who-q">Növekedni szeretnél felvétel nélkül? </span><span class="who-a">Olyan AI csapatot építünk,<br>amely nem mond fel.</span>',
+    'who.3':            '<span class="who-q">Megfulladsz az adminisztrációban? </span><span class="who-a">8 órányi manuális munkát 8<br>percre csökkentünk.</span>',
     'see.h2':           'Lásd működés közben.',
     'see.p':            'Élő, vizuális bemutatók az általunk épített rendszerekről. Hamarosan elérhető.',
-    'cta.h2':           'Készen állsz a munka<br>felváltására?',
-    'cta.p.desk':       '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmondjuk hol illik be az MI. Ha nem illik, azt is megmondjuk. Ha igen, megépítjük.',
-    'cta.p.mob':        '30 perces hívás. Nincs értékesítési nyomás.<br>Megértjük a működésedet és megmondjuk,<br>hol illik be az MI. Ha igen, megépítjük.',
-    'cta.book':         'Hívást foglalok &rarr;',
+    'cta.h2':           'Készen állsz a<br>munka kiváltására?',
+    'cta.p.desk':       '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmondjuk hol illik be az AI. Ha nem illik, azt is megmondjuk. Ha igen, megépítjük.',
+    'cta.p.mob':        '30 perces hívás. Nincs értékesítési nyomás.<br>Megértjük a működésedet és megmondjuk,<br>hol illik be az AI. Ha igen, megépítjük.',
+    'cta.book':         'Árajánlat &rarr;',
     'footer.copy':      'Automating &copy; Minden jog fenntartva',
     'footer.privacy':   'Adatvédelmi irányelvek',
     'footer.terms':     'Általános Szerződési Feltételek',
@@ -687,16 +692,27 @@ const T = {
   }
 };
 
-let currentLang = localStorage.getItem('lang') || 'en';
+// Detect language from localStorage, then browser locale
+function detectLang() {
+  const saved = localStorage.getItem('lang');
+  if(saved) return saved;
+  const langs = navigator.languages || [navigator.language || 'en'];
+  for(const l of langs) { if(l.toLowerCase().startsWith('hu')) return 'hu'; }
+  return 'en';
+}
+let currentLang = detectLang();
+
+// Callbacks for card content (voice/email/workflow) language switch
+const langCallbacks = [];
 
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('lang', lang);
   document.documentElement.lang = lang;
 
-  // Update dropdown button label
+  // Update dropdown button label with flag
   const labelEl = document.getElementById('langLabel');
-  if(labelEl) labelEl.textContent = lang.toUpperCase();
+  if(labelEl) labelEl.textContent = lang === 'hu' ? '🇭🇺 HU' : '🇬🇧 EN';
 
   // Close dropdown
   const btn = document.getElementById('langBtn');
@@ -704,14 +720,15 @@ function setLang(lang) {
   if(btn) btn.classList.remove('open');
   if(dd)  dd.classList.remove('open');
 
-  // Update active state
+  // Update active state on desktop dropdown
   document.querySelectorAll('.lang-dd-btn').forEach(b => {
     b.classList.toggle('is-active', b.dataset.lang === lang);
   });
 
-  // Update mobile toggle text
-  const mobBtn = document.getElementById('langToggleMob');
-  if(mobBtn) mobBtn.textContent = lang === 'en' ? 'Switch to HU' : 'Switch to EN';
+  // Update active state on mobile lang row
+  document.querySelectorAll('.lang-mob-opt').forEach(b => {
+    b.classList.toggle('is-active', b.dataset.lang === lang);
+  });
 
   // Apply all translations instantly
   const tr = T[lang];
@@ -719,6 +736,9 @@ function setLang(lang) {
     const key = el.dataset.i18n;
     if(tr[key] !== undefined) el.innerHTML = tr[key];
   });
+
+  // Update card content (voice / email / workflow)
+  langCallbacks.forEach(fn => fn(lang));
 }
 
 // Dropdown toggle
@@ -735,17 +755,17 @@ document.addEventListener('click', function(e) {
     document.getElementById('langDd').classList.remove('open');
   }
 });
-// Dropdown option clicks
+// Desktop dropdown option clicks
 document.querySelectorAll('.lang-dd-btn').forEach(btn => {
   btn.addEventListener('click', () => setLang(btn.dataset.lang));
 });
-// Mobile toggle
-document.getElementById('langToggleMob').addEventListener('click', () => {
-  setLang(currentLang === 'en' ? 'hu' : 'en');
+// Mobile lang row buttons
+document.querySelectorAll('.lang-mob-opt').forEach(btn => {
+  btn.addEventListener('click', () => setLang(btn.dataset.lang));
 });
 
-// Apply saved language on load (if not EN)
-if(currentLang !== 'en') setLang(currentLang);
+// Apply detected language on load
+setLang(currentLang);
 
 /* ════════════════════════════
    MOBILE NAV
@@ -763,6 +783,10 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => na
   if('ontouchstart' in window) return;
   // Initialise from actual scroll position — fixes "jitter to top" after hash navigation
   let dest = window.scrollY, cur = window.scrollY, running = false;
+  // Re-sync after browser processes any hash anchor scroll (e.g. index.html#products)
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if(!running) { dest = window.scrollY; cur = window.scrollY; }
+  }));
 
   window.addEventListener('wheel', e => {
     e.preventDefault();
@@ -897,6 +921,64 @@ document.querySelectorAll('a[href]').forEach(a => {
 })();
 
 /* ════════════════════════════
+   HU CARD DATA
+════════════════════════════ */
+const CALLS_HU=[
+  {type:'BEJÖVŐ',num:'+36 70 000 0000',msgs:[
+    {r:'agent',t:"Szia, az Automating. Segíthetek?"},
+    {r:'caller',t:"Asztalt szeretnék foglalni 2 főre szombat estére."},
+    {r:'agent',t:"Persze! A neve?"},
+    {r:'caller',t:"Kovács Péter."},
+    {r:'agent',t:"Kovács Péter — asztal foglalva, szombat 18:00, 2 fő."},
+    {r:'caller',t:"Köszönöm szépen!"},
+    {r:'agent',t:"Szívesen, viszontlátásra!"},
+  ]},
+  {type:'BEJÖVŐ',num:'+36 30 000 0000',msgs:[
+    {r:'agent',t:"Szia, az Automating. Miben segíthetek?"},
+    {r:'caller',t:"Hibás termékkel kapcsolatban keresem önöket."},
+    {r:'agent',t:"Sajnálom! Mi történt pontosan?"},
+    {r:'caller',t:"Két nap után tönkrement."},
+    {r:'agent',t:"Kérem a rendelési számát — azonnal intézkedem."},
+    {r:'caller',t:"Köszönöm!"},
+  ]},
+  {type:'KIMENŐ',num:'+36 20 000 0000',msgs:[
+    {r:'agent',t:"Szia, az Automating. Az érdeklődéssel kapcsolatban hívom."},
+    {r:'caller',t:"Igen, köszönöm a visszahívást!"},
+    {r:'agent',t:"Még érdekli az ajánlatunk?"},
+    {r:'caller',t:"Igen, határozottan!"},
+    {r:'agent',t:"Azonnal átkapcsolom az értékesítési csapathoz!"},
+  ]},
+  {type:'BEJÖVŐ',num:'+36 1 000 0000',msgs:[
+    {r:'agent',t:"Szia, az Automating. Felveszem a rendelést?"},
+    {r:'caller',t:"Igen — egy pepperoni pizzát és nagy kólát."},
+    {r:'agent',t:"Milyen méretű pizza?"},
+    {r:'caller',t:"Közepest kérek."},
+    {r:'agent',t:"Más is?"},
+    {r:'caller',t:"Nem, ennyi."},
+    {r:'agent',t:"Rendben! Kb. 30 perc múlva átvehető!"},
+    {r:'caller',t:"Köszi!"},
+  ]},
+];
+const POOL_HU=[
+  {name:'Kovács Anna',   sub:'· re: rendelés 04821',         badge:'VÁLASZ',  cls:'badge-replied'},
+  {name:'Nagy Péter',    sub:'· Árkérdés',                   badge:'VÁLASZ',  cls:'badge-replied'},
+  {name:'Kiss Mária',    sub:'· SÜRGŐS · visszatérítés',     badge:'JELZETT', cls:'badge-flagged'},
+  {name:'Tóth Sára',     sub:'· Időpontfoglalás',            badge:'VÁLASZ',  cls:'badge-replied'},
+  {name:'Szabó Márton',  sub:'· Számla kérdés',              badge:'VÁLASZ',  cls:'badge-replied'},
+  {name:'Horváth Tamás', sub:'· SÜRGŐS · rendelés lemondás', badge:'JELZETT', cls:'badge-flagged'},
+  {name:'Fekete Lídia',  sub:'· Termék elérhetőség',         badge:'VÁLASZ',  cls:'badge-replied'},
+  {name:'Molnár Dávid',  sub:'· SÜRGŐS · hibás szállítás',   badge:'JELZETT', cls:'badge-flagged'},
+  {name:'Varga Eszter',  sub:'· re: szállítási frissítés',   badge:'VÁLASZ',  cls:'badge-replied'},
+  {name:'Balogh Csaba',  sub:'· Előfizetés megújítása',      badge:'VÁLASZ',  cls:'badge-replied'},
+];
+const JOBS_HU=[
+  {name:'munkafolyamat_számla_szinkron',tasks:[['számlák lekérése','456 sor'],['ellenőrzés','ok'],['egyeztetés','ok'],['sync → xero','✓'],['riport → slack','✓']]},
+  {name:'munkafolyamat_crm_frissítés', tasks:[['kapcsolatok lekérése','1 247'],['duplikátum szűrés','ok'],['adatdúsítás','✓'],['push → salesforce','✓'],['log → notion','✓']]},
+  {name:'munkafolyamat_riport_gen',    tasks:[['adatok összesítése','kész'],['metrikák feldolgozása','ok'],['PDF renderelés','ok'],['email → 3 cím','✓'],['archiválás','✓']]},
+  {name:'munkafolyamat_adat_mentés',   tasks:[['tömörítés','2.4 GB'],['titkosítás','ok'],['feltöltés → s3','✓'],['ellenőrző összeg','ok'],['értesítés → slack','✓']]},
+];
+
+/* ════════════════════════════
    VOICE — 4 CALL CONTEXTS
 ════════════════════════════ */
 (function(){
@@ -939,10 +1021,19 @@ document.querySelectorAll('a[href]').forEach(a => {
       {r:'caller',t:"Thank you!"},
     ]},
   ];
+  let activeCalls = currentLang === 'hu' ? CALLS_HU : CALLS;
+  langCallbacks.push(lang => {
+    activeCalls = lang === 'hu' ? CALLS_HU : CALLS;
+    if(typeEl) {
+      const t = typeEl.textContent;
+      if(lang === 'hu') { if(t==='INCOMING') typeEl.textContent='BEJÖVŐ'; else if(t==='OUTGOING') typeEl.textContent='KIMENŐ'; }
+      else              { if(t==='BEJÖVŐ')   typeEl.textContent='INCOMING'; else if(t==='KIMENŐ')  typeEl.textContent='OUTGOING'; }
+    }
+  });
   let callIdx=0, msgIdx=0, secs=0, timerInt=null;
   function fmt(s){ const h=s/3600|0,m=(s%3600)/60|0,sc=s%60; return [h,m,sc].map(n=>String(n).padStart(2,'0')).join(':'); }
   function startCall(){
-    const call=CALLS[callIdx%CALLS.length]; callIdx++; msgIdx=0; secs=0;
+    const call=activeCalls[callIdx%activeCalls.length]; callIdx++; msgIdx=0; secs=0;
     typeEl.textContent=call.type; numEl.textContent=call.num; timerEl.textContent='00:00:00';
     document.querySelector('.vm-dot').style.background=call.type==='OUTGOING'?'#f59e0b':'#22c55e';
     convoEl.innerHTML='';
@@ -1016,6 +1107,14 @@ document.querySelectorAll('a[href]').forEach(a => {
     {name:'Alice Nguyen', sub:'· Re: delivery update',     badge:'REPLIED',cls:'badge-replied'},
     {name:'Chris Bell',   sub:'· Subscription renewal',    badge:'REPLIED',cls:'badge-replied'},
   ];
+  let activePool = currentLang === 'hu' ? POOL_HU : POOL;
+  langCallbacks.push(lang => {
+    activePool = lang === 'hu' ? POOL_HU : POOL;
+    const replied = lang === 'hu' ? 'VÁLASZ' : 'REPLIED';
+    const flagged  = lang === 'hu' ? 'JELZETT' : 'FLAGGED';
+    wrap.querySelectorAll('.badge-replied').forEach(el => el.textContent = replied);
+    wrap.querySelectorAll('.badge-flagged').forEach(el => el.textContent = flagged);
+  });
   const ROW_H=38, MAX=4, TRANS='transform 0.55s cubic-bezier(0.25,0.8,0.25,1),opacity 0.5s ease';
   let poolIdx=0;
   function makeRow(e,y){
@@ -1025,13 +1124,13 @@ document.querySelectorAll('a[href]').forEach(a => {
     return row;
   }
   for(let i=0;i<4;i++){
-    const row=makeRow(POOL[i],i*ROW_H); wrap.appendChild(row); const d=200+i*120;
+    const row=makeRow(activePool[i],i*ROW_H); wrap.appendChild(row); const d=200+i*120;
     setTimeout(()=>{row.style.transition='opacity 0.4s ease';row.style.opacity='1';},d);
     setTimeout(()=>{const b=row.querySelector('.badge-hidden');if(b){b.style.transition='opacity .3s ease';b.classList.remove('badge-hidden');}},d+500);
     poolIdx++;
   }
   function addEmail(){
-    const email=POOL[poolIdx++%POOL.length], rows=Array.from(wrap.querySelectorAll('.em-row'));
+    const email=activePool[poolIdx++%activePool.length], rows=Array.from(wrap.querySelectorAll('.em-row'));
     const newRow=makeRow(email,-ROW_H); newRow.style.transition='none'; wrap.appendChild(newRow);
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
       newRow.style.transition=TRANS; newRow.style.transform='translateY(0px)'; newRow.style.opacity='1'; newRow.dataset.y=0;
@@ -1058,6 +1157,8 @@ document.querySelectorAll('a[href]').forEach(a => {
     {name:'workflow_report_gen',tasks:[['aggregate data','complete'],['process metrics','ok'],['render PDF','ok'],['email → 3 recip.','✓'],['archive','✓']]},
     {name:'workflow_data_backup',tasks:[['compress','2.4 GB'],['encrypt','ok'],['upload → s3','✓'],['verify checksum','ok'],['notify → slack','✓']]},
   ];
+  let activeJobs = currentLang === 'hu' ? JOBS_HU : JOBS;
+  langCallbacks.push(lang => { activeJobs = lang === 'hu' ? JOBS_HU : JOBS; });
   let jobIdx=0, taskIdx=0;
   function fadeOutAll(cb){
     const lines=wrap.querySelectorAll('.wf-line'); if(!lines.length){cb();return;}
@@ -1065,7 +1166,7 @@ document.querySelectorAll('a[href]').forEach(a => {
     setTimeout(()=>{wrap.innerHTML='';cb();},380);
   }
   function addTask(){
-    const job=JOBS[jobIdx%JOBS.length];
+    const job=activeJobs[jobIdx%activeJobs.length];
     if(taskIdx===0){
       fadeOutAll(()=>{
         nameEl.style.transition='opacity .3s ease'; nameEl.style.opacity='0';
