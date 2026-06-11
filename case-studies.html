@@ -61,7 +61,7 @@ nav {
 .nav-chip:hover { opacity: .5; }
 
 /* Language dropdown */
-.lang-flag { width: 20px; height: 15px; border-radius: 2px; vertical-align: middle; display: inline-block; margin-right: 1px; }
+.lang-globe { display: block; opacity: .7; flex-shrink: 0; }
 .lang-wrap { position: relative; flex-shrink: 0; }
 .lang-btn {
   display: flex; align-items: center; gap: 5px;
@@ -224,19 +224,23 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
       <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.case-studies">Case Studies</a></li>
       <li class="nav-lang-mob">
         <div class="lang-mob-row">
-          <button class="lang-mob-opt is-active" data-lang="en"><img src="https://flagcdn.com/20x15/gb.png" alt="" class="lang-flag"> English</button>
-          <button class="lang-mob-opt" data-lang="hu"><img src="https://flagcdn.com/20x15/hu.png" alt="" class="lang-flag"> Magyar</button>
+          <button class="lang-mob-opt is-active" data-lang="en">English</button>
+          <button class="lang-mob-opt" data-lang="hu">Magyar</button>
         </div>
       </li>
     </ul>
     <div class="lang-wrap" id="langWrap">
       <button class="lang-btn" id="langBtn" aria-label="Language">
-        <span id="langLabel"><img src="https://flagcdn.com/20x15/gb.png" alt="" class="lang-flag"> EN</span>
+        <svg class="lang-globe" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3Z"/>
+        </svg>
+        <span id="langLabel">EN</span>
         <span class="lang-chevron">▾</span>
       </button>
       <div class="lang-dd" id="langDd">
-        <button class="lang-dd-btn is-active" data-lang="en"><img src="https://flagcdn.com/20x15/gb.png" alt="" class="lang-flag"> English</button>
-        <button class="lang-dd-btn" data-lang="hu"><img src="https://flagcdn.com/20x15/hu.png" alt="" class="lang-flag"> Magyar</button>
+        <button class="lang-dd-btn is-active" data-lang="en">English</button>
+        <button class="lang-dd-btn" data-lang="hu">Magyar</button>
       </div>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -609,9 +613,10 @@ function setLang(lang) {
   localStorage.setItem('lang', lang);
   document.documentElement.lang = lang;
   const labelEl = document.getElementById('langLabel');
-  if(labelEl) labelEl.innerHTML = lang === 'hu'
-    ? '<img src="https://flagcdn.com/20x15/hu.png" alt="" class="lang-flag"> HU'
-    : '<img src="https://flagcdn.com/20x15/gb.png" alt="" class="lang-flag"> EN';
+  if(labelEl) labelEl.textContent = lang === 'hu' ? 'HU' : 'EN';
+  document.title = lang === 'hu'
+    ? 'Esettanulmányok — Automating'
+    : 'Case Studies — Automating';
   const btn = document.getElementById('langBtn');
   const dd  = document.getElementById('langDd');
   if(btn) btn.classList.remove('open');
