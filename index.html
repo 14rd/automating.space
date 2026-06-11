@@ -1,21 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automating — Replace the Work</title>
-<meta name="description" content="Replacing jobs with AI.">
+<title>Automating — Munkahelyeket váltunk ki AI-jal</title>
+<meta name="description" content="AI-automatizálás vállalkozásoknak: telefonos AI-asszisztens, e-mail-automatizálás és munkafolyamat-rendszerek. 8 óra manuális munkából 8 perc. Ingyenes 30 perces konzultáció.">
+<link rel="canonical" href="https://automating.hu/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="Automating">
-<meta property="og:description" content="Replacing jobs with AI.">
-<meta property="og:image" content="https://automating.hu/social-preview.svg">
-<meta property="og:url" content="https://automating.hu">
+<meta property="og:title" content="Automating — Munkahelyeket váltunk ki AI-jal">
+<meta property="og:description" content="AI-automatizálás vállalkozásoknak: telefonos AI-asszisztens, e-mail-automatizálás és munkafolyamat-rendszerek. Ingyenes 30 perces konzultáció.">
+<meta property="og:image" content="https://automating.hu/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automating — Munkahelyeket váltunk ki AI-jal">
+<meta property="og:url" content="https://automating.hu/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Automating">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Automating">
-<meta name="twitter:description" content="Replacing jobs with AI.">
-<meta name="twitter:image" content="https://automating.hu/social-preview.svg">
+<meta name="twitter:title" content="Automating — Munkahelyeket váltunk ki AI-jal">
+<meta name="twitter:description" content="AI-automatizálás vállalkozásoknak: telefonos AI-asszisztens, e-mail-automatizálás és munkafolyamat-rendszerek.">
+<meta name="twitter:image" content="https://automating.hu/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://automating.hu/#org",
+      "name": "Automating",
+      "url": "https://automating.hu/",
+      "logo": "https://automating.hu/favicon.svg",
+      "email": "hello@automating.hu",
+      "description": "AI-automatizálás vállalkozásoknak: telefonos AI-asszisztensek, e-mail-automatizálás és munkafolyamat-rendszerek.",
+      "founder": { "@type": "Person", "name": "Bence Hudácsek" },
+      "address": { "@type": "PostalAddress", "addressCountry": "HU" },
+      "knowsLanguage": ["hu", "en"],
+      "makesOffer": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI telefonos hangasszisztens", "serviceType": "Voice AI infrastructure" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "E-mail-automatizálás", "serviceType": "Email automation" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Munkafolyamat-automatizálás", "serviceType": "Workflow automation" } }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://automating.hu/#website",
+      "url": "https://automating.hu/",
+      "name": "Automating",
+      "publisher": { "@id": "https://automating.hu/#org" },
+      "inLanguage": ["hu", "en"]
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1327,12 +1365,16 @@ function setLang(lang) {
   localStorage.setItem('lang', lang);
   document.documentElement.lang = lang;
 
-  // Update dropdown button label + browser tab title
+  // Update dropdown button label + browser tab title + meta description
   const labelEl = document.getElementById('langLabel');
   if(labelEl) labelEl.textContent = lang === 'hu' ? 'HU' : 'EN';
   document.title = lang === 'hu'
     ? 'Automating — Munkahelyeket váltunk ki AI-jal'
     : 'Automating — Replace the Work';
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if(metaDesc) metaDesc.content = lang === 'hu'
+    ? 'AI-automatizálás vállalkozásoknak: telefonos AI-asszisztens, e-mail-automatizálás és munkafolyamat-rendszerek. 8 óra manuális munkából 8 perc. Ingyenes 30 perces konzultáció.'
+    : 'AI automation for businesses: phone voice assistants, email automation and workflow systems. We turn 8 hours of manual work into 8 minutes. Free 30-minute consultation.';
 
   // Close dropdown
   const btn = document.getElementById('langBtn');
