@@ -20,6 +20,42 @@
 <meta name="twitter:title" content="Esettanulmányok — Automating">
 <meta name="twitter:description" content="Valós eredmények valós vállalkozásoktól: AI-automatizálási esettanulmányok.">
 <meta name="twitter:image" content="https://automating.hu/og-image.png">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://automating.hu/case-studies.html",
+      "url": "https://automating.hu/case-studies.html",
+      "name": "Esettanulmányok — Automating",
+      "description": "AI-automatizálási esettanulmányok valós vállalkozásoktól.",
+      "isPartOf": { "@id": "https://automating.hu/#website" },
+      "inLanguage": ["hu", "en"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Főoldal", "item": "https://automating.hu/" },
+        { "@type": "ListItem", "position": 2, "name": "Esettanulmányok", "item": "https://automating.hu/case-studies.html" }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "name": "AI-automatizálási esettanulmányok",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "AI Hang Infrastruktúra egy Pizzázólánc számára" },
+        { "@type": "ListItem", "position": 2, "name": "AI Import Dokumentum Operátor egy Nemzetközi Forgalmazó Cégnél" },
+        { "@type": "ListItem", "position": 3, "name": "AI Ajánlatkezelő Operátor egy Megújuló Energia Cégnél" },
+        { "@type": "ListItem", "position": 4, "name": "AI Hang Infrastruktúra egy Magán Orvosi Rendelőnél" },
+        { "@type": "ListItem", "position": 5, "name": "AI Érdeklődő Minősítő Ügynök egy Ingatlanirodának" },
+        { "@type": "ListItem", "position": 6, "name": "AI Riport Operátor egy Teljesítmény Marketing Ügynökségnek" }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -621,6 +657,10 @@ function setLang(lang) {
   document.title = lang === 'hu'
     ? 'Esettanulmányok — Automating'
     : 'Case Studies — Automating';
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if(metaDesc) metaDesc.content = lang === 'hu'
+    ? 'Valós eredmények valós vállalkozásoktól: AI-automatizálási esettanulmányok telefonos rendelésfelvételről, dokumentumfeldolgozásról és munkafolyamat-automatizálásról.'
+    : 'Real results from real businesses: AI automation case studies covering phone order-taking, document processing and workflow automation.';
   const btn = document.getElementById('langBtn');
   const dd  = document.getElementById('langDd');
   if(btn) btn.classList.remove('open');

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Automating</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --black: #0a0a0a; --white: #ffffff; --g200: #e8e8e8; --g400: #a0a0a0; --g600: #666666; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--white); color: var(--black);
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  -webkit-font-smoothing: antialiased; text-align: center; padding: 24px;
+}
+.box { max-width: 520px; }
+.box svg { margin-bottom: 28px; }
+h1 { font-size: clamp(56px, 10vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1; margin-bottom: 16px; }
+p { font-size: 17px; color: var(--g600); line-height: 1.6; margin-bottom: 36px; }
+.btn-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--black); color: var(--white);
+  padding: 15px 32px; border-radius: 100px;
+  font-size: 16px; font-weight: 500; text-decoration: none;
+  transition: opacity .2s, transform 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-pill:hover { opacity: .78; transform: scale(1.04); }
+.sub { display: block; margin-top: 18px; font-size: 14px; color: var(--g400); }
+.sub a { color: var(--g600); text-decoration: underline; text-underline-offset: 3px; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <svg width="56" height="56" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+    </svg>
+    <h1>404</h1>
+    <p id="msg">Ez az oldal nem létezik — de a munka, amit kiváltanánk, igen.</p>
+    <a href="/" class="btn-pill" id="cta">Vissza a főoldalra &rarr;</a>
+    <span class="sub" id="sub">Vagy nézd meg az <a href="/case-studies.html">esettanulmányainkat</a>.</span>
+  </div>
+<script>
+if ((localStorage.getItem('lang') || 'hu') === 'en') {
+  document.documentElement.lang = 'en';
+  document.getElementById('msg').textContent = "This page doesn't exist — but the work we'd replace does.";
+  document.getElementById('cta').innerHTML = 'Back to the homepage &rarr;';
+  document.getElementById('sub').innerHTML = 'Or browse our <a href="/case-studies.html">case studies</a>.';
+}
+</script>
+</body>
+</html>
