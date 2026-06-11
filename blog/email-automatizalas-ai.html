@@ -129,7 +129,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; margin-top: 80px; }
 
 <article class="post">
   <div class="wrap">
-    <p class="kicker"><a href="../blog.html">← Blog</a> &nbsp;·&nbsp; 2026. június 11. &nbsp;·&nbsp; 5 perc olvasás &nbsp;·&nbsp; Hudácsek Bence</p>
+    <p class="kicker"><a href="../blog.html">← Blog</a> &nbsp;·&nbsp; 2026. június 11. &nbsp;·&nbsp; 8 perc olvasás &nbsp;·&nbsp; Hudácsek Bence</p>
     <h1>E-mail-automatizálás AI-val: így válaszol a postafiókod magától</h1>
     <p class="lead">A postafiók a legtöbb vállalkozás láthatatlan időrablója: naponta órák mennek el ugyanazoknak a kérdéseknek a megválaszolásával, levelek tologatásával és „majd erre még visszatérek" jelölgetéssel. Az AI-alapú e-mail-automatizálás pontosan ezt a munkát veszi le rólad — megmutatjuk, hogyan.</p>
 
@@ -155,6 +155,25 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; margin-top: 80px; }
       <p><strong>Nézd meg élőben:</strong> a főoldalunkon van egy <a href="../index.html#demo">e-mail-demó</a> — bemásolsz egy ügyfél-levelet, és az AI a szemed előtt kategorizálja, priorizálja és írja meg a válasz-piszkozatot.</p>
     </div>
 
+    <h2>Számoljunk: mennyit ér ez forintban?</h2>
+    <p>Egy példa — a számok kitaláltak, de a nagyságrendek tipikusak egy szolgáltató kkv-nál:</p>
+    <ul>
+      <li>Naponta <strong>60 e-mail</strong> érkezik, amelyek <strong>~70%-a ismétlődő mintájú</strong>: státuszkérdés, árajánlat-kérés, adategyeztetés, GYIK.</li>
+      <li>Egy ilyen levél megválaszolása átlagosan <strong>5 perc</strong> (elolvasás, adat kikeresése, válasz megírása) — ez napi <strong>3,5 óra</strong> tisztán rutin-levelezés.</li>
+      <li>4 000 Ft-os teljes órabérköltséggel számolva ez <strong>~14 000 Ft naponta, ~300 000 Ft havonta</strong> — egyetlen postafiókon.</li>
+      <li>Ha a rutinlevelekre kész piszkozat várja a kollégát, a levelenkénti idő ~1 percre esik: a napi 3,5 órából <strong>~45 perc lesz</strong>.</li>
+    </ul>
+    <p>A saját számaiddal a képlet: <strong>napi levélszám × rutinarány × percek × bérköltség</strong>. A legtöbb cégnél már ez az egy szorzás eldönti a kérdést — és akkor a gyorsabb válaszidő miatt meg nem vesztett ügyfeleket még nem is számoltuk.</p>
+
+    <h2>Milyen rendszerekkel működik együtt?</h2>
+    <p>Az e-mail-automatizálás ereje nem a válaszírásban van, hanem az összekötésben — a levél nem cél, hanem adat, aminek a megfelelő rendszerben a helye:</p>
+    <ul>
+      <li><strong>Levelezés:</strong> Gmail / Google Workspace és Outlook / Microsoft 365 — a meglévő postafiókod marad, nem kell semmit átszoktatni.</li>
+      <li><strong>CRM és feladatkezelő:</strong> az érdeklődő adatai, a panasz vagy a kérés automatikusan bekerül oda, ahol a csapat dolgozik vele — nem a postafiókban él tovább.</li>
+      <li><strong>Webshop és számlázó:</strong> a „hol a csomagom?" levélre a rendszer a tényleges rendelési státusszal válaszol, a számlamásolat-kérésre a számlával.</li>
+      <li><strong>Táblázatok, belső adatbázisok:</strong> ha a működésetek Excelben él, az AI oda is tud írni és onnan is tud olvasni.</li>
+    </ul>
+
     <h2>Mit bízz az AI-ra — és mit ne?</h2>
     <h3>Nyugodtan automatizálható</h3>
     <ul>
@@ -170,6 +189,17 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; margin-top: 80px; }
       <li>Bármi, ami jogi kötelezettséget keletkeztet</li>
     </ul>
 
+    <h2>A tipikus postafiók anatómiája</h2>
+    <p>Mielőtt automatizálnál, érdemes látni, miből áll össze egy átlagos céges postafiók forgalma. A levelek megoszlása persze cégenként eltér, de a minta meglepően állandó:</p>
+    <ul>
+      <li><strong>~40% információkérés:</strong> nyitvatartás, ár, elérhetőség, „mikor érkezik?", „hogyan működik?" — ezekre a válasz a meglévő adataitokban van, az AI azonnal és pontosan megválaszolja.</li>
+      <li><strong>~20% ügymenet:</strong> időpont-módosítás, adategyeztetés, számlamásolat, megerősítések — rendszerből kiolvasható, rendszerbe írható, vagyis automatizálható.</li>
+      <li><strong>~15% belső és partneri levelezés:</strong> itt az AI címkéz, priorizál és összefoglal, de a válasz emberé.</li>
+      <li><strong>~15% zaj:</strong> hírlevelek, spam, automatikus értesítések — az AI csendben kiszűri, hogy ne vigyék el a figyelmet.</li>
+      <li><strong>~10% érdemi döntést igénylő levél:</strong> panasz, alku, egyedi kérés — ez emberhez megy, de már előkészítve: összefoglalóval, előzményekkel, javasolt válaszvázlattal.</li>
+    </ul>
+    <p>A tanulság: a postafiók <strong>kétharmada gépiesíthető</strong> anélkül, hogy bármi ügyfélélmény sérülne — sőt: a válaszidő órákról percekre esik, ami a legtöbb iparágban önmagában versenyelőny.</p>
+
     <h2>Hogyan érdemes bevezetni?</h2>
     <ol>
       <li><strong>Felmérés:</strong> milyen típusú levelek érkeznek, milyen arányban, ki és mennyi idő alatt kezeli őket ma.</li>
@@ -177,7 +207,27 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; margin-top: 80px; }
       <li><strong>Betanítás:</strong> a rendszer megtanulja a cég hangnemét, termékeit, folyamatait.</li>
       <li><strong>Felügyelt próbaidőszak:</strong> az első hetekben minden AI-válasz piszkozatként készül — amikor a pontosság bizonyított, jöhet a fokozatos automatizálás.</li>
     </ol>
-    <p>Ha azt is szeretnéd látni, mi minden automatizálható még az e-mailen túl, olvasd el: <a href="mit-lehet-automatizalni-kisvallalkozasban.html">Mit lehet automatizálni egy kisvállalkozásban?</a></p>
+    <div class="note">
+      <p><strong>Reális ütemterv:</strong> a felméréstől az első élesben futó kategóriáig jellemzően 2-3 hét telik el. Nem azért, mert a technika lassú — hanem mert a bizalomnak fokozatosan kell felépülnie, és ez így egészséges.</p>
+    </div>
+
+    <h2>Hogyan mérd, hogy működik?</h2>
+    <p>Az e-mail-automatizálás szép tulajdonsága, hogy minden lépése mérhető. Négy szám, amit az indulás előtt és után is érdemes felírni — ezekből látszik feketén-fehéren a hatás:</p>
+    <ul>
+      <li><strong>Első válasz ideje:</strong> mennyi idő telik el a levél beérkezése és az első érdemi válasz között. Ez esik a leglátványosabban — órákról percekre.</li>
+      <li><strong>Levelezésre fordított munkaóra:</strong> hetente mennyi időt visz el a postafiók. A piszkozat-előkészítés ezt jellemzően 60-80%-kal csökkenti.</li>
+      <li><strong>Automatikusan lezárt levelek aránya:</strong> a leveleknek mekkora része intéződik el emberi beavatkozás nélkül — ez hónapról hónapra nő, ahogy a rendszer tanul.</li>
+      <li><strong>Félrekategorizálás aránya:</strong> a minőség őre. Ha 2-3% alatt van, jöhet a következő kategória automatizálása; ha nő, finomhangolás kell.</li>
+    </ul>
+
+    <h2>A négy leggyakoribb hiba bevezetéskor</h2>
+    <ul>
+      <li><strong>Mindent egyszerre akarni.</strong> Aki az első napon teljes automatikus válaszadást akar, az két hét múlva kikapcsolja az egészet az első kínos félreértés után. A működő út fordított: először csak címkézés és piszkozat, és csak a bizonyítottan pontos kategóriákban jön az automatikus küldés.</li>
+      <li><strong>Nincs leírt szabálykönyv.</strong> Ha nincs rögzítve, mit válaszolhat az AI magától és mi megy emberhez, akkor a rendszer viselkedése megérzés kérdése lesz — és a kivételek mindig rosszkor derülnek ki. A szabálykönyv egy oldal, de ez az egy oldal a projekt gerince.</li>
+      <li><strong>Nincs napló és mérés.</strong> Minden AI-döntésnek visszakereshetőnek kell lennie: melyik levélre mit válaszolt, mit címkézett félre. E nélkül se a bizalom, se a finomhangolás nem tud felépülni.</li>
+      <li><strong>Nincs gazdája.</strong> Az automatizált postafiók nem „beállítod és elfelejted": valakinek hetente rá kell néznie a riportokra. Ez nálunk a havidíjas üzemeltetés része — de ha házon belül építed, tervezz vele.</li>
+    </ul>
+    <p>Ha azt is szeretnéd látni, mi minden automatizálható még az e-mailen túl, olvasd el: <a href="mit-lehet-automatizalni-kisvallalkozasban.html">Mit lehet automatizálni egy kisvállalkozásban?</a> — telefonos ügyfélkezeléshez pedig ott az <a href="ai-telefonos-asszisztens-magyarul.html">AI telefonos asszisztensről szóló cikkünk</a>.</p>
 
     <div class="faq">
       <h2>Gyakori kérdések</h2>
