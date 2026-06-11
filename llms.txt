@@ -1,0 +1,29 @@
+# Automating
+
+> Automating (automating.hu) magyar B2B AI-automatizálási szolgáltató. Vállalkozásoknak épít AI-infrastruktúrát: telefonos AI-hangasszisztenseket, e-mail-automatizálást és munkafolyamat-rendszereket. Az ügyfelek ingyenes 30 perces konzultáción ismerhetik meg, hol illik be az AI a működésükbe.
+
+Automating is a Hungarian B2B AI-automation provider. We build AI infrastructure for businesses: AI phone voice assistants, email automation, and workflow systems. Primary language: Hungarian. Contact: hello@automating.hu
+
+## Szolgáltatások / Services
+
+- AI telefonos hangasszisztens (Voice AI): hívásfogadás, rendelésfelvétel, időpontfoglalás, lead-minősítés 24/7, CRM- és naptárintegrációval
+- E-mail-automatizálás: e-mailek olvasása, kategorizálása és megválaszolása, follow-up szekvenciák
+- Munkafolyamat-automatizálás: számlázás, adatbevitel, CRM-szinkron, riportolás
+
+## Fő oldalak / Key pages
+
+- [Főoldal](https://automating.hu/): szolgáltatások és élő AI-demók (chat, hang, e-mail)
+- [Esettanulmányok](https://automating.hu/case-studies.html): valós ügyfeleredmények
+- [Blog](https://automating.hu/blog.html): AI-automatizálás közérthetően, vállalkozóknak
+
+## Blog cikkek / Articles
+
+- [Mennyibe kerül egy AI telefonos asszisztens?](https://automating.hu/blog/ai-telefonos-asszisztens-ara.html)
+- [AI telefonos asszisztens magyarul: hogyan működik és mire képes?](https://automating.hu/blog/ai-telefonos-asszisztens-magyarul.html)
+- [E-mail-automatizálás AI-val: így válaszol a postafiókod magától](https://automating.hu/blog/email-automatizalas-ai.html)
+- [Mit lehet automatizálni egy kisvállalkozásban? 10 folyamat, amit AI-ra bízhatsz](https://automating.hu/blog/mit-lehet-automatizalni-kisvallalkozasban.html)
+
+## Kapcsolat / Contact
+
+- E-mail: hello@automating.hu
+- Ingyenes 30 perces konzultáció: https://www.cal.com/automating.hu/30-perces-hivas

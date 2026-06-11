@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Automating — Munkahelyeket váltunk ki AI-jal</title>
-<meta name="description" content="AI-automatizálás vállalkozásoknak: telefonos AI-asszisztens, e-mail-automatizálás és munkafolyamat-rendszerek. 8 óra manuális munkából 8 perc. Ingyenes 30 perces konzultáció.">
+<meta name="description" content="AI-automatizálás vállalkozásoknak: telefonos AI-asszisztens, e-mail-automatizálás és munkafolyamat-rendszerek. Ingyenes 30 perces konzultáció.">
 <link rel="canonical" href="https://automating.hu/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -47,10 +47,40 @@
       },
       "knowsLanguage": ["hu", "en"],
       "makesOffer": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI telefonos hangasszisztens", "serviceType": "Voice AI infrastructure" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "E-mail-automatizálás", "serviceType": "Email automation" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Munkafolyamat-automatizálás", "serviceType": "Workflow automation" } }
+        { "@type": "Offer", "itemOffered": { "@id": "https://automating.hu/#service-voice" } },
+        { "@type": "Offer", "itemOffered": { "@id": "https://automating.hu/#service-email" } },
+        { "@type": "Offer", "itemOffered": { "@id": "https://automating.hu/#service-workflow" } }
       ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://automating.hu/#service-voice",
+      "name": "AI telefonos hangasszisztens",
+      "serviceType": "Voice AI infrastructure",
+      "provider": { "@id": "https://automating.hu/#org" },
+      "areaServed": { "@type": "Country", "name": "Hungary" },
+      "availableLanguage": ["hu", "en"],
+      "description": "AI, amely minden hívást megválaszol: rendelést vesz fel, időpontot foglal és érdeklődőket minősít 24/7, CRM- és naptárintegrációval."
+    },
+    {
+      "@type": "Service",
+      "@id": "https://automating.hu/#service-email",
+      "name": "E-mail-automatizálás",
+      "serviceType": "Email automation",
+      "provider": { "@id": "https://automating.hu/#org" },
+      "areaServed": { "@type": "Country", "name": "Hungary" },
+      "availableLanguage": ["hu", "en"],
+      "description": "AI, amely olvassa, kategorizálja és megválaszolja az e-maileket: automatikus válaszok a GYIK-re, sürgősségi jelölés, follow-up szekvenciák."
+    },
+    {
+      "@type": "Service",
+      "@id": "https://automating.hu/#service-workflow",
+      "name": "Munkafolyamat-automatizálás",
+      "serviceType": "Workflow automation",
+      "provider": { "@id": "https://automating.hu/#org" },
+      "areaServed": { "@type": "Country", "name": "Hungary" },
+      "availableLanguage": ["hu", "en"],
+      "description": "Háttérirodai folyamatok automatizálása: számlázás, adatbevitel, CRM-szinkron és riportolás — csendesen futva a háttérben."
     },
     {
       "@type": "WebSite",
@@ -687,6 +717,22 @@ nav {
 .who-a { color: #616161; }
 
 /* ════════════════════════════════
+   RESOURCES
+════════════════════════════════ */
+.resources { padding: 100px 0 40px; }
+.resources .h1 { margin-bottom: 18px; }
+.resources .b1 { color: var(--g600); margin-bottom: 40px; }
+.res-list { list-style: none; display: flex; flex-direction: column; }
+.res-list li { border-top: 1px solid var(--g200); }
+.res-list li:last-child { border-bottom: 1px solid var(--g200); }
+.res-list a {
+  display: block; padding: 22px 4px;
+  font-size: clamp(17px, 2vw, 22px); font-weight: 500; letter-spacing: -0.02em;
+  transition: opacity .2s;
+}
+.res-list a:hover { opacity: .5; }
+
+/* ════════════════════════════════
    CTA
 ════════════════════════════════ */
 .cta { padding: 160px 0; text-align: center; }
@@ -768,19 +814,19 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   <!-- NAV -->
   <div class="nav-outer">
     <nav>
-      <a href="#" class="nav-logo" id="logoLink" aria-label="Automating">
+      <a href="/" class="nav-logo" id="logoLink" aria-label="Automating">
         <svg width="34" height="34" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
         </svg>
       </a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#products" data-i18n="nav.products">What We Build</a></li>
-        <li><a href="#approach" data-i18n="nav.approach">Approach</a></li>
-        <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.case-studies">Case Studies</a></li>
+        <li><a href="#products" data-i18n="nav.products">Mit Építünk</a></li>
+        <li><a href="#approach" data-i18n="nav.approach">Megközelítésünk</a></li>
+        <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.case-studies">Esettanulmányok</a></li>
         <li class="nav-lang-mob">
           <div class="lang-mob-row">
-            <button class="lang-mob-opt is-active" data-lang="en">English</button>
-            <button class="lang-mob-opt" data-lang="hu">Magyar</button>
+            <button class="lang-mob-opt" data-lang="en">English</button>
+            <button class="lang-mob-opt is-active" data-lang="hu">Magyar</button>
           </div>
         </li>
       </ul>
@@ -791,48 +837,47 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
             <circle cx="12" cy="12" r="9"/>
             <path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3Z"/>
           </svg>
-          <span id="langLabel">EN</span>
+          <span id="langLabel">HU</span>
           <span class="lang-chevron">▾</span>
         </button>
         <div class="lang-dd" id="langDd">
-          <button class="lang-dd-btn is-active" data-lang="en">English</button>
-          <button class="lang-dd-btn" data-lang="hu">Magyar</button>
+          <button class="lang-dd-btn" data-lang="en">English</button>
+          <button class="lang-dd-btn is-active" data-lang="hu">Magyar</button>
         </div>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill nav-cta" data-i18n="nav.book-call">Book A Call</a>
+      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill nav-cta" data-i18n="nav.book-call">Árajánlat</a>
     </nav>
   </div>
 
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="wrap">
-      <h1 class="h1 hero-anim-1" data-i18n="hero.h1">Replacing jobs<br class="mob-br"> with AI.</h1>
-      <p class="b1 hero-anim-2 desk-only" data-i18n="hero.p.desk">We provide infrastructure for businesses to automate phone calls,<br class="desk-br"> emails, and workflow without employees.</p>
-      <p class="b1 hero-anim-2 mob-only" data-i18n="hero.p.mob">We provide infrastructure for businesses<br>to automate phone calls, emails, and<br>workflow without employees.</p>
-      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill btn-large hero-anim-3" data-i18n="cta.book-hero">Book a call</a>
+      <h1 class="h1 hero-anim-1" data-i18n="hero.h1">Munkahelyeket váltunk ki AI-jal.</h1>
+      <p class="b1 hero-anim-2 desk-only" data-i18n="hero.p.desk">Infrastruktúrát adunk a vállalkozásoknak a telefonhívások,<br class="desk-br"> emailek és munkafolyamatok automatizálásához, alkalmazottak nélkül.</p>
+      <p class="b1 hero-anim-2 mob-only" data-i18n="hero.p.mob">Infrastruktúrát adunk a vállalkozásoknak<br>a telefonhívások, emailek és<br>munkafolyamatok automatizálásához,<br>alkalmazottak nélkül.</p>
+      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill btn-large hero-anim-3" data-i18n="cta.book-hero">Árajánlat</a>
     </div>
   </section>
 
   <!-- STATS -->
   <section class="stats" id="stats">
     <div class="wrap">
-      <h2 class="h1 desk-only" data-reveal data-i18n="stats.h2.desk">The adoption of AI has<br>accelerated in business.</h2>
-      <h2 class="h1 mob-only" data-reveal data-i18n="stats.h2.mob">The adoption of<br>AI has accelerated<br>in business.</h2>
+      <h2 class="h1" data-reveal data-i18n="stats.h2">Az AI alkalmazása<br class="mob-br"> felgyorsult<br class="desk-br"> a<br class="mob-br"> vállalkozásokban.</h2>
       <div class="frame-outer" data-reveal data-delay="150">
         <div class="stat-card card-left tilt">
           <div class="stat-num">54%</div>
-          <div class="stat-desc" data-i18n="stat1.desc">Have already integrated AI.</div>
+          <div class="stat-desc" data-i18n="stat1.desc">Már integrálta az AI-t.</div>
         </div>
         <div class="stat-card card-mid tilt">
-          <div class="stat-num">£1.3B</div>
-          <div class="stat-desc" data-i18n="stat2.desc">Automation market by 2030.</div>
+          <div class="stat-num" data-i18n="stat2.num">1,5 Mrd €</div>
+          <div class="stat-desc" data-i18n="stat2.desc">Automatizálási piac 2030-ra.</div>
         </div>
         <div class="stat-card card-right tilt">
           <div class="stat-num">-30%</div>
-          <div class="stat-desc" data-i18n="stat3.desc">Total costs.</div>
+          <div class="stat-desc" data-i18n="stat3.desc">Teljes költségcsökkentés.</div>
         </div>
       </div>
     </div>
@@ -841,8 +886,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   <!-- QUOTE -->
   <section class="quote">
     <div class="wrap">
-      <h2 class="h1 desk-only" data-reveal data-i18n="quote.h2.desk"><span class="grey">Tools don't replace the work.</span><br>Systems built into the business do.</h2>
-      <h2 class="h1 mob-only" data-reveal data-i18n="quote.h2.mob"><span class="grey">Tools don't<br>replace the work.<br>Systems built into<br></span>the business do.</h2>
+      <h2 class="h1" data-reveal data-i18n="quote.h2"><span class="grey">Az eszközök nem<br class="mob-br"> váltják ki a munkát.</span><br>A vállalkozásba épített<br class="mob-br"> rendszerek igen.</h2>
     </div>
   </section>
 
@@ -850,18 +894,17 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   <section class="products" id="products">
     <div class="wrap">
       <div class="products-head" data-reveal>
-        <h2 class="h1 desk-only" data-i18n="products.h2.desk">AI employees. Not tools.</h2>
-        <h2 class="h1 mob-only" data-i18n="products.h2.mob">AI employees.<br>Not tools.</h2>
-        <p class="b1 desk-only" style="color:var(--g600);max-width:580px;margin:20px auto 0;" data-i18n="products.p.desk">Our stack delivers AI systems for businesses to handle calls, emails, and workflows. Integrated into existing operations.</p>
-        <p class="b1 mob-only" style="color:var(--g600);margin:20px auto 0;" data-i18n="products.p.mob">Our stack delivers AI systems for businesses to<br>handle calls, emails, and workflows. Integrated<br>into existing operations.</p>
+        <h2 class="h1" data-i18n="products.h2">AI alkalmazottak.<br class="mob-br"> Nem eszközök.</h2>
+        <p class="b1 desk-only" style="color:var(--g600);max-width:580px;margin:20px auto 0;" data-i18n="products.p.desk">Rendszereink AI megoldásokat biztosítanak vállalkozásoknak hívások, e-mailek és munkafolyamatok kezelésére. Integrálva a meglévő tevékenységekbe.</p>
+        <p class="b1 mob-only" style="color:var(--g600);margin:20px auto 0;" data-i18n="products.p.mob">Rendszereink AI megoldásokat biztosítanak<br>vállalkozásoknak hívások és e-mailek<br>kezelésére. Integrálva a meglévő folyamatokba.</p>
       </div>
       <div class="frame-outer" data-reveal data-delay="150">
 
         <!-- Voice -->
         <div class="prod-card card-left tilt">
-          <div class="prod-tag" data-i18n="voice.tag">Voice Infrastructure</div>
-          <div class="prod-title" data-i18n="voice.title">AI that answers every call.</div>
-          <p class="prod-desc" data-i18n="voice.desc">Answer calls, take orders, book appointments, and qualify leads, 24/7. Natural conversation. Integrated with your CRM and calendar.</p>
+          <div class="prod-tag" data-i18n="voice.tag">Hang Infrastruktúra</div>
+          <h3 class="prod-title" data-i18n="voice.title">AI, amely minden hívást megválaszol.</h3>
+          <p class="prod-desc" data-i18n="voice.desc">Hívásokat fogad, rendeléseket vesz fel, találkozókat foglal és érdeklődőket minősít, 24/7. Természetes kommunikáció. Integrálva a CRM-mel és naptárral.</p>
           <div class="mockup">
             <div class="vm-header">
               <div class="vm-dot"></div>
@@ -875,9 +918,9 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
         <!-- Email -->
         <div class="prod-card card-mid tilt">
-          <div class="prod-tag" data-i18n="email.tag">Email Automation</div>
-          <div class="prod-title" data-i18n="email.title">Inbox that reads, sorts, and replies.</div>
-          <p class="prod-desc" data-i18n="email.desc">Read, categorise, and reply to emails. Auto-responses for FAQs. Urgent flagging. Follow-up sequences that don't miss.</p>
+          <div class="prod-tag" data-i18n="email.tag">E-mail Automatizálás</div>
+          <h3 class="prod-title" data-i18n="email.title">Postafiók, amely olvas, rendez és válaszol.</h3>
+          <p class="prod-desc" data-i18n="email.desc">E-maileket olvas, kategorizál és megválaszol. Automatikus válaszok GYIK-re. Sürgős jelölés. Nyomon követési szekvenciák, amelyek nem maradnak el.</p>
           <div class="mockup">
             <div class="em-list-wrap" id="emailListWrap"></div>
           </div>
@@ -885,9 +928,9 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
         <!-- Workflow -->
         <div class="prod-card card-right tilt">
-          <div class="prod-tag" data-i18n="workflow.tag">Workflow Systems</div>
-          <div class="prod-title" data-i18n="workflow.title">Back-office on autopilot.</div>
-          <p class="prod-desc" data-i18n="workflow.desc">Infrastructure for repetitive tasks, invoicing, data entry, CRM sync, reporting — quietly running in the background.</p>
+          <div class="prod-tag" data-i18n="workflow.tag">Munkafolyamat Rendszerek</div>
+          <h3 class="prod-title" data-i18n="workflow.title">Háttérirodai folyamatok autopilóton.</h3>
+          <p class="prod-desc" data-i18n="workflow.desc">Infrastruktúra ismétlődő feladatokhoz, számlázáshoz, adatbevitelhez, CRM szinkronhoz, riportoláshoz – csendesen fut a háttérben.</p>
           <div class="mockup wf-mockup">
             <div class="wf-header">
               <span id="wfJobName">RUN &nbsp;•&nbsp; workflow_invoice_sync</span>
@@ -905,10 +948,10 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   <section class="approach" id="approach">
     <div class="wrap">
       <div class="approach-inner">
-        <h2 class="h1" data-reveal data-i18n="approach.h2">Our Approach.</h2>
+        <h2 class="h1" data-reveal data-i18n="approach.h2">Megközelítésünk.</h2>
         <p class="approach-body" data-reveal data-delay="150" data-i18n="approach.body">
-          We don't sell <strong>'AI implementation'</strong>.<br>
-          We sell <strong>time saved</strong>, <strong>cost reduced</strong>,<br>and <strong>capacity added</strong>.
+          Nem <strong>'AI implementációt'</strong> értékesítünk.<br>
+          Hanem <strong>időmegtakarítást</strong>, <strong>költségcsökkentést</strong>,<br>és <strong>kapacitásnövelést</strong>.
         </p>
       </div>
     </div>
@@ -917,19 +960,19 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   <!-- WHO -->
   <section class="who" id="who">
     <div class="wrap">
-      <h2 class="h1" data-reveal data-i18n="who.h2">Who we build for:</h2>
+      <h2 class="h1" data-reveal data-i18n="who.h2">Kiknek építünk:</h2>
       <ul class="who-list">
         <li class="who-item" data-reveal data-delay="100">
           <span class="who-num">01.</span>
-          <span data-i18n="who.1"><span class="who-q">Got 3+ people doing the same thing every day? </span><span class="who-a">We replace them.</span></span>
+          <span data-i18n="who.1"><span class="who-q">Nap mint nap 3+ ember ugyanazt csinálja? </span><span class="who-a">Mi felváltjuk őket.</span></span>
         </li>
         <li class="who-item" data-reveal data-delay="200">
           <span class="who-num">02.</span>
-          <span data-i18n="who.2"><span class="who-q">Want to grow without hiring? </span><span class="who-a">We build a team that doesn't quit.</span></span>
+          <span data-i18n="who.2"><span class="who-q">Növekedni szeretnél felvétel nélkül? </span><span class="who-a">Olyan AI csapatot építünk,<br>amely nem mond fel.</span></span>
         </li>
         <li class="who-item" data-reveal data-delay="300">
           <span class="who-num">03.</span>
-          <span data-i18n="who.3"><span class="who-q">Drowning in admin? </span><span class="who-a">We turn 8 hours of manual work into 8 minutes.</span></span>
+          <span data-i18n="who.3"><span class="who-q">Megfulladsz az adminisztrációban? </span><span class="who-a">8 órányi manuális munkát 8<br>percre csökkentünk.</span></span>
         </li>
       </ul>
     </div>
@@ -938,27 +981,27 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   <!-- SEE IT IN ACTION -->
   <section class="see-action" id="demo">
     <div class="wrap">
-      <h2 class="h1" data-reveal data-i18n="see.h2">See it in action.</h2>
-      <p class="b1" data-reveal data-delay="100" data-i18n="see.p">Try our AI live: chat with it, talk to it, or let it handle a customer email.</p>
+      <h2 class="h1" data-reveal data-i18n="see.h2">Lásd működés közben.</h2>
+      <p class="b1" data-reveal data-delay="100" data-i18n="see.p">Próbáld ki élőben: chatelj az AI-unkkal, beszélgess vele, vagy bízz rá egy ügyfél-e-mailt.</p>
       <div class="chat-frame" data-reveal data-delay="200">
         <div class="chat-card">
           <div class="chat-head">
             <svg width="22" height="22" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
             </svg>
-            <span class="chat-title" data-i18n="chat.title">AI assistant</span>
+            <span class="chat-title" data-i18n="chat.title">AI asszisztens</span>
             <span class="chat-status"><span class="chat-dot"></span><span data-i18n="chat.online">Online</span></span>
           </div>
           <div class="chat-log" id="chatLog"></div>
           <div class="chat-chips" id="chatChips">
-            <button class="chat-chip" data-i18n="chat.chip1">What do you do?</button>
-            <button class="chat-chip" data-i18n="chat.chip2">What case studies do you have?</button>
-            <button class="chat-chip" data-i18n="chat.chip3">How does working together look?</button>
-            <button class="chat-chip" data-i18n="chat.chip4">I'd like to book a consultation</button>
+            <button class="chat-chip" data-i18n="chat.chip1">Mivel foglalkoztok?</button>
+            <button class="chat-chip" data-i18n="chat.chip2">Milyen esettanulmányaitok vannak?</button>
+            <button class="chat-chip" data-i18n="chat.chip3">Hogyan zajlik a közös munka?</button>
+            <button class="chat-chip" data-i18n="chat.chip4">Konzultációt szeretnék foglalni</button>
           </div>
           <div class="chat-inputrow">
-            <textarea id="chatInput" rows="1" placeholder="Type your question..." aria-label="Message"></textarea>
-            <button class="btn-pill" id="chatSend" data-i18n="chat.send">Send &rarr;</button>
+            <textarea id="chatInput" rows="1" placeholder="Írd ide a kérdésed..." aria-label="Message"></textarea>
+            <button class="btn-pill" id="chatSend" data-i18n="chat.send">Küldés &rarr;</button>
           </div>
         </div>
       </div>
@@ -967,7 +1010,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
       <div class="voice-frame" data-reveal data-delay="300">
         <div class="voice-card">
           <div class="voice-head">
-            <span class="voice-title" data-i18n="vc.title">Voice demo</span>
+            <span class="voice-title" data-i18n="vc.title">Hang-demó</span>
             <span class="voice-timer" id="voiceTimer" hidden>00:00</span>
           </div>
           <div class="voice-center">
@@ -981,12 +1024,12 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
             <canvas class="voice-wave" id="voiceWave" height="64"></canvas>
           </div>
           <div class="voice-types" id="voiceTypes">
-            <button class="voice-type sel" data-type="about" data-i18n="vc.t.about">About Automating</button>
-            <button class="voice-type" data-type="recep" data-i18n="vc.t.recep">Receptionist</button>
-            <button class="voice-type" data-type="resto" data-i18n="vc.t.resto">Pizzeria</button>
-            <button class="voice-type" data-type="supp" data-i18n="vc.t.supp">Customer support</button>
+            <button class="voice-type sel" data-type="about" data-i18n="vc.t.about">Automating bemutató</button>
+            <button class="voice-type" data-type="recep" data-i18n="vc.t.recep">Recepciós</button>
+            <button class="voice-type" data-type="resto" data-i18n="vc.t.resto">Pizzéria</button>
+            <button class="voice-type" data-type="supp" data-i18n="vc.t.supp">Ügyfélszolgálat</button>
           </div>
-          <button class="btn-pill voice-cta" id="voiceBtn" data-i18n="vc.cta">Try it live</button>
+          <button class="btn-pill voice-cta" id="voiceBtn" data-i18n="vc.cta">Kipróbálom élőben</button>
         </div>
       </div>
 
@@ -1001,17 +1044,17 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
               </svg>
             </div>
             <div>
-              <div class="ed-title" data-i18n="ed.title">Email demo</div>
-              <div class="ed-sub" data-i18n="ed.sub">Paste an incoming customer email — the AI categorises it and drafts the reply.</div>
+              <div class="ed-title" data-i18n="ed.title">E-mail demó</div>
+              <div class="ed-sub" data-i18n="ed.sub">Illessz be egy beérkező ügyfél-e-mailt — az AI kategorizálja, és megírja a válasz-piszkozatot.</div>
             </div>
           </div>
           <div class="ed-chips">
-            <button class="ed-chip" data-key="complaint" data-i18n="ed.s1">Complaint</button>
-            <button class="ed-chip" data-key="quote" data-i18n="ed.s2">Quote request</button>
-            <button class="ed-chip" data-key="invoice" data-i18n="ed.s3">Billing issue</button>
+            <button class="ed-chip" data-key="complaint" data-i18n="ed.s1">Panasz</button>
+            <button class="ed-chip" data-key="quote" data-i18n="ed.s2">Ajánlatkérés</button>
+            <button class="ed-chip" data-key="invoice" data-i18n="ed.s3">Számla-kérdés</button>
           </div>
           <textarea id="edInput" rows="4" aria-label="Email"></textarea>
-          <button class="btn-pill ed-run" id="edRun" data-i18n="ed.run">Process with AI &rarr;</button>
+          <button class="btn-pill ed-run" id="edRun" data-i18n="ed.run">AI feldolgozás &rarr;</button>
           <div class="ed-right" id="edResult"></div>
         </div>
       </div>
@@ -1019,14 +1062,30 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
     </div>
   </section>
 
+  <!-- RESOURCES -->
+  <section class="resources" id="resources">
+    <div class="wrap">
+      <h2 class="h1" data-reveal data-i18n="res.h2">Tudástár.</h2>
+      <p class="b1" data-reveal data-delay="100" data-i18n="res.p">Cikkek és esettanulmányok arról, mit érdemes automatizálni — és mennyibe kerül.</p>
+      <ul class="res-list" data-reveal data-delay="150">
+        <li><a href="blog/ai-telefonos-asszisztens-ara.html" data-i18n="res.l1">Mennyibe kerül egy AI telefonos asszisztens?</a></li>
+        <li><a href="blog/ai-telefonos-asszisztens-magyarul.html" data-i18n="res.l2">AI telefonos asszisztens magyarul: hogyan működik és mire képes?</a></li>
+        <li><a href="blog/email-automatizalas-ai.html" data-i18n="res.l3">E-mail-automatizálás AI-val: így válaszol a postafiókod magától</a></li>
+        <li><a href="blog/mit-lehet-automatizalni-kisvallalkozasban.html" data-i18n="res.l4">Mit lehet automatizálni egy kisvállalkozásban?</a></li>
+        <li><a href="case-studies.html" data-i18n="res.l5">Esettanulmányok: valós eredmények AI-automatizálással</a></li>
+        <li><a href="blog.html" data-i18n="res.l6">Összes cikk a blogon &rarr;</a></li>
+      </ul>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta" id="cta">
     <div class="wrap">
-      <h2 class="h1" data-reveal data-i18n="cta.h2">Ready to replace<br>the work?</h2>
-      <p class="b1 desk-only" data-reveal data-delay="100" data-i18n="cta.p.desk">30 minute call. No sales pitch. We understand your operations, tell you where AI fits. If it doesn't fit, we'll say so. If it does, we build it.</p>
-      <p class="b1 mob-only" data-reveal data-delay="100" data-i18n="cta.p.mob">30 minute call. No sales pitch. We understand<br>your operations, tell you where AI fits. If it<br>doesn't fit, we'll say so. If it does, we build it.</p>
+      <h2 class="h1" data-reveal data-i18n="cta.h2">Készen állsz a<br>munka kiváltására?</h2>
+      <p class="b1 desk-only" data-reveal data-delay="100" data-i18n="cta.p.desk">30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmondjuk hol illik be az AI. Ha nem illik, azt is megmondjuk. Ha igen, megépítjük.</p>
+      <p class="b1 mob-only" data-reveal data-delay="100" data-i18n="cta.p.mob">30 perces hívás. Nincs értékesítési nyomás.<br>Megértjük a működésedet és megmondjuk,<br>hol illik be az AI. Ha igen, megépítjük.</p>
       <div class="cta-row" data-reveal data-delay="200">
-        <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill btn-large" data-i18n="cta.book">Book a call &rarr;</a>
+        <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill btn-large" data-i18n="cta.book">Árajánlat &rarr;</a>
         <a href="mailto:hello@automating.hu" class="email-chip">hello@automating.hu</a>
       </div>
     </div>
@@ -1036,13 +1095,14 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   <footer>
     <div class="wrap">
       <div class="footer-inner">
-        <span class="footer-copy" data-i18n="footer.copy">Automating &copy; All Rights Reserved</span>
+        <span class="footer-copy" data-i18n="footer.copy">Automating &copy; Minden jog fenntartva</span>
         <div class="footer-links">
           <a href="blog.html">Blog</a>
-          <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
-          <a href="terms.html" data-i18n="footer.terms">Terms and Conditions</a>
+          <a href="case-studies.html" data-i18n="footer.cases">Esettanulmányok</a>
+          <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi irányelvek</a>
+          <a href="terms.html" data-i18n="footer.terms">Általános Szerződési Feltételek</a>
         </div>
-        <span class="footer-loc" data-i18n="footer.loc">United Kingdom</span>
+        <span class="footer-loc" data-i18n="footer.loc">Magyarország</span>
       </div>
     </div>
   </footer>
@@ -1057,8 +1117,8 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
       <!-- STEP 1: date + time -->
       <div class="bk-step" id="bkStep1">
-        <div class="bk-title" data-i18n="bk.title">Book a 30-minute call</div>
-        <div class="bk-sub" data-i18n="bk.sub">Free consultation &middot; Google Meet &middot; 30 min</div>
+        <div class="bk-title" data-i18n="bk.title">Foglalj 30 perces hívást</div>
+        <div class="bk-sub" data-i18n="bk.sub">Ingyenes konzultáció &middot; Google Meet &middot; 30 perc</div>
         <div class="bk-grid">
           <div class="bk-cal">
             <div class="bk-cal-head">
@@ -1079,67 +1139,67 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
       <!-- STEP 2: details form -->
       <div class="bk-step" id="bkStep2" hidden>
-        <button class="bk-back" id="bkBack">&larr; <span data-i18n="bk.back">Back</span></button>
-        <div class="bk-title" data-i18n="bk.form-title">Your details</div>
+        <button class="bk-back" id="bkBack">&larr; <span data-i18n="bk.back">Vissza</span></button>
+        <div class="bk-title" data-i18n="bk.form-title">Add meg az adataid</div>
         <div class="bk-chosen" id="bkChosen"></div>
         <form class="bk-form-grid" id="bkForm" novalidate>
           <div class="bk-field">
-            <label class="bk-label" for="bkName"><span data-i18n="bk.f.name">Name</span> <span class="req">*</span></label>
+            <label class="bk-label" for="bkName"><span data-i18n="bk.f.name">Név</span> <span class="req">*</span></label>
             <input type="text" id="bkName" autocomplete="name" required>
           </div>
           <div class="bk-field">
-            <label class="bk-label" for="bkEmail"><span data-i18n="bk.f.email">Email</span> <span class="req">*</span></label>
+            <label class="bk-label" for="bkEmail"><span data-i18n="bk.f.email">E-mail cím</span> <span class="req">*</span></label>
             <input type="email" id="bkEmail" autocomplete="email" required>
           </div>
           <div class="bk-field">
-            <label class="bk-label" for="bkPhone"><span data-i18n="bk.f.phone">Phone</span></label>
+            <label class="bk-label" for="bkPhone"><span data-i18n="bk.f.phone">Telefonszám</span></label>
             <input type="tel" id="bkPhone" autocomplete="tel" placeholder="+36 ...">
           </div>
           <div class="bk-field">
-            <label class="bk-label" for="bkCompany"><span data-i18n="bk.f.company">Company name</span> <span class="req">*</span></label>
+            <label class="bk-label" for="bkCompany"><span data-i18n="bk.f.company">Mi a céged neve?</span> <span class="req">*</span></label>
             <input type="text" id="bkCompany" required>
           </div>
           <div class="bk-field">
-            <label class="bk-label" for="bkPosition"><span data-i18n="bk.f.position">Your role</span> <span class="req">*</span></label>
+            <label class="bk-label" for="bkPosition"><span data-i18n="bk.f.position">Mi a pozíciód?</span> <span class="req">*</span></label>
             <input type="text" id="bkPosition" required>
           </div>
           <div class="bk-field">
-            <label class="bk-label" for="bkIndustry"><span data-i18n="bk.f.industry">Industry</span> <span class="req">*</span></label>
+            <label class="bk-label" for="bkIndustry"><span data-i18n="bk.f.industry">Milyen iparágban működik a céged?</span> <span class="req">*</span></label>
             <input type="text" id="bkIndustry" required>
           </div>
           <div class="bk-field full">
-            <span class="bk-label"><span data-i18n="bk.f.problem">What takes up most of your time?</span> <span class="req">*</span></span>
+            <span class="bk-label"><span data-i18n="bk.f.problem">Mi veszi el a legtöbb idődet?</span> <span class="req">*</span></span>
             <div class="bk-checks" id="bkProblem">
-              <label class="bk-check"><input type="checkbox" value="Hívások kezelése"><span data-i18n="bk.o.p1">Handling calls</span></label>
-              <label class="bk-check"><input type="checkbox" value="E-mailek kezelése"><span data-i18n="bk.o.p2">Handling emails</span></label>
-              <label class="bk-check"><input type="checkbox" value="Adminisztrációs munka"><span data-i18n="bk.o.p3">Admin work</span></label>
-              <label class="bk-check"><input type="checkbox" value="Időpont-egyeztetés"><span data-i18n="bk.o.p4">Scheduling</span></label>
-              <label class="bk-check"><input type="checkbox" value="Egyéb"><span data-i18n="bk.o.p5">Other</span></label>
+              <label class="bk-check"><input type="checkbox" value="Hívások kezelése"><span data-i18n="bk.o.p1">Hívások kezelése</span></label>
+              <label class="bk-check"><input type="checkbox" value="E-mailek kezelése"><span data-i18n="bk.o.p2">E-mailek kezelése</span></label>
+              <label class="bk-check"><input type="checkbox" value="Adminisztrációs munka"><span data-i18n="bk.o.p3">Adminisztrációs munka</span></label>
+              <label class="bk-check"><input type="checkbox" value="Időpont-egyeztetés"><span data-i18n="bk.o.p4">Időpont-egyeztetés</span></label>
+              <label class="bk-check"><input type="checkbox" value="Egyéb"><span data-i18n="bk.o.p5">Egyéb</span></label>
             </div>
             <div class="bk-other" id="bkOtherWrap" hidden>
-              <label class="bk-label" for="bkOther" data-i18n="bk.f.other">Other — tell us briefly</label>
+              <label class="bk-label" for="bkOther" data-i18n="bk.f.other">Egyéb — írd le röviden</label>
               <input type="text" id="bkOther">
             </div>
           </div>
           <div class="bk-field full">
-            <label class="bk-label" for="bkDecision"><span data-i18n="bk.f.decision">Are you the decision maker?</span> <span class="req">*</span></label>
+            <label class="bk-label" for="bkDecision"><span data-i18n="bk.f.decision">Te vagy a döntéshozó?</span> <span class="req">*</span></label>
             <select id="bkDecision" required>
-              <option value="" data-i18n="bk.o.choose">Choose...</option>
-              <option value="Igen, én döntök" data-i18n="bk.o.d1">Yes, I decide</option>
-              <option value="Nem, de befolyásolom a döntést" data-i18n="bk.o.d2">No, but I influence the decision</option>
-              <option value="Nem, csak információt gyűjtök" data-i18n="bk.o.d3">No, I'm just gathering information</option>
+              <option value="" data-i18n="bk.o.choose">Válassz...</option>
+              <option value="Igen, én döntök" data-i18n="bk.o.d1">Igen, én döntök</option>
+              <option value="Nem, de befolyásolom a döntést" data-i18n="bk.o.d2">Nem, de befolyásolom a döntést</option>
+              <option value="Nem, csak információt gyűjtök" data-i18n="bk.o.d3">Nem, csak információt gyűjtök</option>
             </select>
           </div>
           <div class="bk-field full">
-            <label class="bk-label" for="bkTask"><span data-i18n="bk.f.task">Is there a specific task you'd automate?</span></label>
+            <label class="bk-label" for="bkTask"><span data-i18n="bk.f.task">Van konkrét feladat, amit automatizálnál?</span></label>
             <textarea id="bkTask" rows="2"></textarea>
           </div>
           <div class="bk-field full">
-            <label class="bk-label" for="bkNotes"><span data-i18n="bk.f.notes">Additional notes</span></label>
+            <label class="bk-label" for="bkNotes"><span data-i18n="bk.f.notes">További megjegyzések</span></label>
             <textarea id="bkNotes" rows="2"></textarea>
           </div>
           <div class="bk-submit-row">
-            <button type="submit" class="btn-pill btn-large" id="bkSubmit" data-i18n="bk.confirm">Confirm booking &rarr;</button>
+            <button type="submit" class="btn-pill btn-large" id="bkSubmit" data-i18n="bk.confirm">Foglalás megerősítése &rarr;</button>
             <span class="bk-error" id="bkError" hidden></span>
           </div>
         </form>
@@ -1151,10 +1211,10 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
           <div class="bk-done-ic">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div class="bk-done-title" data-i18n="bk.done-title">Booked!</div>
+          <div class="bk-done-title" data-i18n="bk.done-title">Lefoglalva!</div>
           <div class="bk-done-when" id="bkDoneWhen"></div>
-          <p class="bk-done-note" data-i18n="bk.done-note">We've emailed you the confirmation and the Google Meet link. See you on the call!</p>
-          <button class="btn-pill btn-large" id="bkDoneClose" data-i18n="bk.done-close">Close</button>
+          <p class="bk-done-note" data-i18n="bk.done-note">A megerősítést és a Google Meet linket elküldtük e-mailben. Találkozunk a híváson!</p>
+          <button class="btn-pill btn-large" id="bkDoneClose" data-i18n="bk.done-close">Bezárás</button>
         </div>
       </div>
 
@@ -1178,15 +1238,13 @@ const T = {
     'hero.p.desk':      'We provide infrastructure for businesses to automate phone calls,<br class="desk-br"> emails, and workflow without employees.',
     'hero.p.mob':       'We provide infrastructure for businesses<br>to automate phone calls, emails, and<br>workflow without employees.',
     'cta.book-hero':    'Book a call',
-    'stats.h2.desk':    'The adoption of AI has<br>accelerated in business.',
-    'stats.h2.mob':     'The adoption of<br>AI has accelerated<br>in business.',
+    'stats.h2':         'The adoption of<br class="mob-br"> AI has<br class="desk-br"> accelerated<br class="mob-br"> in business.',
     'stat1.desc':       'Have already integrated AI.',
+    'stat2.num':        '€1.5B',
     'stat2.desc':       'Automation market by 2030.',
     'stat3.desc':       'Total costs.',
-    'quote.h2.desk':    '<span class="grey">Tools don\'t replace the work.</span><br>Systems built into the business do.',
-    'quote.h2.mob':     '<span class="grey">Tools don\'t<br>replace the work.<br>Systems built into<br></span>the business do.',
-    'products.h2.desk': 'AI employees. Not tools.',
-    'products.h2.mob':  'AI employees.<br>Not tools.',
+    'quote.h2':         '<span class="grey">Tools don\'t<br class="mob-br"> replace the work.</span><br>Systems built into<br class="mob-br"> the business do.',
+    'products.h2':      'AI employees.<br class="mob-br"> Not tools.',
     'products.p.desk':  'Our stack delivers AI systems for businesses to handle calls, emails, and workflows. Integrated into existing operations.',
     'products.p.mob':   'Our stack delivers AI systems for businesses to<br>handle calls, emails, and workflows. Integrated<br>into existing operations.',
     'voice.tag':        'Voice Infrastructure',
@@ -1253,11 +1311,20 @@ const T = {
     'bk.done-title':    'Booked!',
     'bk.done-note':     'We\'ve emailed you the confirmation and the Google Meet link. See you on the call!',
     'bk.done-close':    'Close',
+    'res.h2':           'Resources.',
+    'res.p':            'Articles and case studies on what\'s worth automating — and what it costs.',
+    'res.l1':           'How much does an AI phone assistant cost?',
+    'res.l2':           'AI phone assistant in Hungarian: how it works and what it can do',
+    'res.l3':           'Email automation with AI: an inbox that replies by itself',
+    'res.l4':           'What can be automated in a small business?',
+    'res.l5':           'Case studies: real results with AI automation',
+    'res.l6':           'All articles on the blog &rarr;',
     'cta.h2':           'Ready to replace<br>the work?',
     'cta.p.desk':       '30 minute call. No sales pitch. We understand your operations, tell you where AI fits. If it doesn\'t fit, we\'ll say so. If it does, we build it.',
     'cta.p.mob':        '30 minute call. No sales pitch. We understand<br>your operations, tell you where AI fits. If it<br>doesn\'t fit, we\'ll say so. If it does, we build it.',
     'cta.book':         'Book a call &rarr;',
     'footer.copy':      'Automating &copy; All Rights Reserved',
+    'footer.cases':     'Case Studies',
     'footer.privacy':   'Privacy Policy',
     'footer.terms':     'Terms and Conditions',
     'footer.loc':       'United Kingdom',
@@ -1271,15 +1338,13 @@ const T = {
     'hero.p.desk':      'Infrastruktúrát adunk a vállalkozásoknak a telefonhívások,<br class="desk-br"> emailek és munkafolyamatok automatizálásához, alkalmazottak nélkül.',
     'hero.p.mob':       'Infrastruktúrát adunk a vállalkozásoknak<br>a telefonhívások, emailek és<br>munkafolyamatok automatizálásához,<br>alkalmazottak nélkül.',
     'cta.book-hero':    'Árajánlat',
-    'stats.h2.desk':    'Az AI alkalmazása felgyorsult<br>a vállalkozásokban.',
-    'stats.h2.mob':     'Az AI alkalmazása<br>felgyorsult a<br>vállalkozásokban.',
+    'stats.h2':         'Az AI alkalmazása<br class="mob-br"> felgyorsult<br class="desk-br"> a<br class="mob-br"> vállalkozásokban.',
     'stat1.desc':       'Már integrálta az AI-t.',
+    'stat2.num':        '1,5 Mrd €',
     'stat2.desc':       'Automatizálási piac 2030-ra.',
     'stat3.desc':       'Teljes költségcsökkentés.',
-    'quote.h2.desk':    '<span class="grey">Az eszközök nem váltják ki a munkát.</span><br>A vállalkozásba épített rendszerek igen.',
-    'quote.h2.mob':     '<span class="grey">Az eszközök nem<br>váltják ki a munkát.</span><br>A vállalkozásba épített<br>rendszerek igen.',
-    'products.h2.desk': 'AI alkalmazottak. Nem eszközök.',
-    'products.h2.mob':  'AI alkalmazottak.<br>Nem eszközök.',
+    'quote.h2':         '<span class="grey">Az eszközök nem<br class="mob-br"> váltják ki a munkát.</span><br>A vállalkozásba épített<br class="mob-br"> rendszerek igen.',
+    'products.h2':      'AI alkalmazottak.<br class="mob-br"> Nem eszközök.',
     'products.p.desk':  'Rendszereink AI megoldásokat biztosítanak vállalkozásoknak hívások, e-mailek és munkafolyamatok kezelésére. Integrálva a meglévő tevékenységekbe.',
     'products.p.mob':   'Rendszereink AI megoldásokat biztosítanak<br>vállalkozásoknak hívások és e-mailek<br>kezelésére. Integrálva a meglévő folyamatokba.',
     'voice.tag':        'Hang Infrastruktúra',
@@ -1346,11 +1411,20 @@ const T = {
     'bk.done-title':    'Lefoglalva!',
     'bk.done-note':     'A megerősítést és a Google Meet linket elküldtük e-mailben. Találkozunk a híváson!',
     'bk.done-close':    'Bezárás',
+    'res.h2':           'Tudástár.',
+    'res.p':            'Cikkek és esettanulmányok arról, mit érdemes automatizálni — és mennyibe kerül.',
+    'res.l1':           'Mennyibe kerül egy AI telefonos asszisztens?',
+    'res.l2':           'AI telefonos asszisztens magyarul: hogyan működik és mire képes?',
+    'res.l3':           'E-mail-automatizálás AI-val: így válaszol a postafiókod magától',
+    'res.l4':           'Mit lehet automatizálni egy kisvállalkozásban?',
+    'res.l5':           'Esettanulmányok: valós eredmények AI-automatizálással',
+    'res.l6':           'Összes cikk a blogon &rarr;',
     'cta.h2':           'Készen állsz a<br>munka kiváltására?',
     'cta.p.desk':       '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmondjuk hol illik be az AI. Ha nem illik, azt is megmondjuk. Ha igen, megépítjük.',
     'cta.p.mob':        '30 perces hívás. Nincs értékesítési nyomás.<br>Megértjük a működésedet és megmondjuk,<br>hol illik be az AI. Ha igen, megépítjük.',
     'cta.book':         'Árajánlat &rarr;',
     'footer.copy':      'Automating &copy; Minden jog fenntartva',
+    'footer.cases':     'Esettanulmányok',
     'footer.privacy':   'Adatvédelmi irányelvek',
     'footer.terms':     'Általános Szerződési Feltételek',
     'footer.loc':       'Magyarország',
@@ -1383,8 +1457,8 @@ function setLang(lang) {
     : 'Automating — Replace the Work';
   const metaDesc = document.querySelector('meta[name="description"]');
   if(metaDesc) metaDesc.content = lang === 'hu'
-    ? 'AI-automatizálás vállalkozásoknak: telefonos AI-asszisztens, e-mail-automatizálás és munkafolyamat-rendszerek. 8 óra manuális munkából 8 perc. Ingyenes 30 perces konzultáció.'
-    : 'AI automation for businesses: phone voice assistants, email automation and workflow systems. We turn 8 hours of manual work into 8 minutes. Free 30-minute consultation.';
+    ? 'AI-automatizálás vállalkozásoknak: telefonos AI-asszisztens, e-mail-automatizálás és munkafolyamat-rendszerek. Ingyenes 30 perces konzultáció.'
+    : 'AI automation for businesses: phone voice assistants, email automation and workflow systems. Free 30-minute consultation.';
 
   // Close dropdown
   const btn = document.getElementById('langBtn');
