@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Automating</title>
+<meta name="description" content="Az Automating blogja az AI-automatizálásról: telefonos AI-asszisztensek, e-mail-automatizálás és munkafolyamatok — közérthetően, vállalkozóknak.">
+<link rel="canonical" href="https://automating.hu/blog.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Blog — Automating">
+<meta property="og:description" content="AI-automatizálás közérthetően, vállalkozóknak.">
+<meta property="og:image" content="https://automating.hu/og-image.png">
+<meta property="og:url" content="https://automating.hu/blog.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Automating">
+<meta property="og:locale" content="hu_HU">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Blog",
+      "@id": "https://automating.hu/blog.html",
+      "url": "https://automating.hu/blog.html",
+      "name": "Automating Blog",
+      "description": "AI-automatizálás közérthetően, vállalkozóknak.",
+      "inLanguage": "hu",
+      "publisher": { "@type": "Organization", "name": "Automating", "url": "https://automating.hu/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Főoldal", "item": "https://automating.hu/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://automating.hu/blog.html" }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "url": "https://automating.hu/blog/ai-telefonos-asszisztens-ara.html", "name": "Mennyibe kerül egy AI telefonos asszisztens?" },
+        { "@type": "ListItem", "position": 2, "url": "https://automating.hu/blog/ai-telefonos-asszisztens-magyarul.html", "name": "AI telefonos asszisztens magyarul: hogyan működik és mire képes?" },
+        { "@type": "ListItem", "position": 3, "url": "https://automating.hu/blog/email-automatizalas-ai.html", "name": "E-mail-automatizálás AI-val: így válaszol a postafiókod magától" },
+        { "@type": "ListItem", "position": 4, "url": "https://automating.hu/blog/mit-lehet-automatizalni-kisvallalkozasban.html", "name": "Mit lehet automatizálni egy kisvállalkozásban? 10 folyamat, amit AI-ra bízhatsz" }
+      ]
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --black: #0a0a0a; --white: #ffffff; --g200: #e8e8e8; --g400: #a0a0a0; --g600: #666666; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--white); color: var(--black); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+.nav-outer { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 200; width: calc(100% - 48px); max-width: 960px; }
+nav { display: flex; align-items: center; justify-content: space-between; padding: 15px; gap: 20px; background: rgba(255,255,255,0.92); border: 1px solid var(--g200); border-radius: 100px; backdrop-filter: blur(12px); }
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; margin-left: 8px; }
+.nav-links { display: flex; align-items: center; gap: 30px; list-style: none; flex: 1; justify-content: center; }
+.nav-links a { font-size: 18px; font-weight: 500; transition: opacity .2s; }
+.nav-links a:hover { opacity: .5; }
+.btn-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--black); color: var(--white); padding: 15px 30px; border-radius: 100px; font-size: 15px; font-weight: 500; white-space: nowrap; transition: opacity .2s; }
+.btn-pill:hover { opacity: .75; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+.blog-page { padding: 170px 0 60px; }
+.blog-header { margin-bottom: 64px; }
+.blog-header h1 { font-size: clamp(40px, 5.5vw, 68px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.08; margin-bottom: 18px; }
+.blog-header p { font-size: 19px; color: var(--g600); line-height: 1.6; max-width: 560px; }
+.post-item { display: block; border: 1px solid var(--g200); border-radius: 24px; padding: 32px 36px; margin-bottom: 16px; transition: border-color .2s, transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+.post-item:hover { border-color: var(--black); transform: translateY(-2px); }
+.post-item .meta { font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--g400); margin-bottom: 12px; }
+.post-item h2 { font-size: clamp(20px, 2.4vw, 26px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.25; margin-bottom: 10px; }
+.post-item p { font-size: 15px; color: var(--g600); line-height: 1.65; margin-bottom: 14px; }
+.post-item .more { font-size: 14.5px; font-weight: 600; }
+footer { border-top: 1px solid var(--g200); padding: 24px 0; margin-top: 80px; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 1320px; margin: 0 auto; padding: 0 60px; font-size: 13px; color: var(--g600); flex-wrap: wrap; }
+.footer-inner a:hover { color: var(--black); }
+.footer-links { display: flex; gap: 28px; }
+@media (max-width: 900px) {
+  .nav-outer { width: calc(100% - 32px); top: 14px; }
+  nav { padding: 12px 16px; }
+  .nav-links { display: none; }
+  .btn-pill { padding: 10px 20px; font-size: 13px; }
+  .blog-page { padding: 140px 0 40px; }
+  .post-item { padding: 24px; }
+  .footer-inner { flex-direction: column; text-align: center; padding: 0 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-outer">
+  <nav>
+    <a href="index.html" class="nav-logo" aria-label="Automating">
+      <svg width="34" height="34" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#products">Mit Építünk</a></li>
+      <li><a href="index.html#demo">Demó</a></li>
+      <li><a href="case-studies.html">Esettanulmányok</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill">Árajánlat</a>
+  </nav>
+</div>
+
+<div class="blog-page">
+  <div class="wrap">
+    <div class="blog-header">
+      <h1>Blog.</h1>
+      <p>AI-automatizálás közérthetően — vállalkozóknak, akik szeretnék visszakapni az idejüket.</p>
+    </div>
+
+    <a class="post-item" href="blog/ai-telefonos-asszisztens-ara.html">
+      <p class="meta">2026. június 11. · Hang-infrastruktúra</p>
+      <h2>Mennyibe kerül egy AI telefonos asszisztens?</h2>
+      <p>Nincs egységár — de van átlátható logika: miből áll össze a költség, mitől függ, és hogyan számold ki, neked megéri-e. Őszintén, kertelés nélkül.</p>
+      <span class="more">Elolvasom →</span>
+    </a>
+
+    <a class="post-item" href="blog/ai-telefonos-asszisztens-magyarul.html">
+      <p class="meta">2026. június 11. · Hang-infrastruktúra</p>
+      <h2>AI telefonos asszisztens magyarul: hogyan működik és mire képes?</h2>
+      <p>Beszédfelismerés, nyelvi modell, hangszintézis — és a magyar nyelv buktatói. Mit tud ma egy magyarul beszélő asszisztens, és mikor éri meg bevezetni?</p>
+      <span class="more">Elolvasom →</span>
+    </a>
+
+    <a class="post-item" href="blog/email-automatizalas-ai.html">
+      <p class="meta">2026. június 11. · E-mail-automatizálás</p>
+      <h2>E-mail-automatizálás AI-val: így válaszol a postafiókod magától</h2>
+      <p>Kategorizálás, priorizálás, válasz-piszkozatok a cég stílusában. Mit bízz az AI-ra, mit ne — és hogyan vezesd be biztonságosan, lépésről lépésre.</p>
+      <span class="more">Elolvasom →</span>
+    </a>
+
+    <a class="post-item" href="blog/mit-lehet-automatizalni-kisvallalkozasban.html">
+      <p class="meta">2026. június 11. · Munkafolyamatok</p>
+      <h2>Mit lehet automatizálni egy kisvállalkozásban? 10 folyamat, amit AI-ra bízhatsz</h2>
+      <p>A telefontól a számlázásig: 10 konkrét folyamat, amit ma már megbízhatóan elvégez az AI — és a képlet, amivel eldöntöd, melyikkel kezdj.</p>
+      <span class="more">Elolvasom →</span>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span>Automating © Minden jog fenntartva</span>
+    <div class="footer-links">
+      <a href="blog.html">Blog</a>
+      <a href="privacy.html">Adatvédelmi irányelvek</a>
+      <a href="terms.html">ÁSZF</a>
+    </div>
+    <span>Magyarország</span>
+  </div>
+</footer>
+
+</body>
+</html>
