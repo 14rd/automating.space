@@ -72,6 +72,18 @@ nav {
   font-size: 15px; color: var(--g600); font-weight: 500;
 }
 
+/* LANGUAGE TOGGLE */
+.lang-toggle { display: flex; gap: 8px; margin-bottom: 40px; }
+.lang-toggle button {
+  border: 1px solid var(--g200); background: var(--white); border-radius: 100px;
+  padding: 9px 18px; font-family: inherit; font-size: 13.5px; font-weight: 500;
+  color: var(--g600); cursor: pointer; transition: all .18s;
+}
+.lang-toggle button:hover { border-color: var(--black); color: var(--black); }
+.lang-toggle button.active { background: var(--black); border-color: var(--black); color: var(--white); }
+.lang-block { display: none; }
+.lang-block.active { display: block; }
+
 /* TWO-COLUMN LAYOUT */
 .policy-body {
   display: grid;
@@ -174,23 +186,30 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
       </svg>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="index.html#products">What We Build</a></li>
-      <li><a href="index.html#approach">Approach</a></li>
-      <li><a href="index.html#demo">Demo</a></li>
-      <li><a href="case-studies.html" class="nav-chip">Case Studies</a></li>
+      <li><a href="index.html#products" data-i18n="nav.products">What We Build</a></li>
+      <li><a href="index.html#approach" data-i18n="nav.approach">Approach</a></li>
+      <li><a href="index.html#demo" data-i18n="nav.demo">Demo</a></li>
+      <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.cases">Case Studies</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
-    <a href="https://www.cal.com/automating/30min" target="_blank" class="btn-pill">Book A Call</a>
+    <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill" data-i18n="nav.book">Book A Call</a>
   </nav>
 </div>
 
 <div class="policy-page">
   <div class="wrap">
+
+    <div class="lang-toggle" id="langToggle">
+      <button data-lang="hu">Magyar</button>
+      <button data-lang="en">English</button>
+    </div>
+
+    <div class="lang-block" data-lang="en">
     <div class="policy-header">
       <h1>Privacy Policy.</h1>
-      <p class="meta">Last updated: April 2025 &nbsp;·&nbsp; automating.hu</p>
+      <p class="meta">Last updated: June 2026 &nbsp;·&nbsp; automating.hu</p>
     </div>
 
     <div class="policy-body">
@@ -438,18 +457,272 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 
       </div><!-- /policy-content -->
     </div><!-- /policy-body -->
+    </div><!-- /lang-block EN -->
+
+    <!-- ════════════ MAGYAR ════════════ -->
+    <div class="lang-block" data-lang="hu">
+    <div class="policy-header">
+      <h1>Adatvédelmi irányelvek.</h1>
+      <p class="meta">Utolsó frissítés: 2026. június &nbsp;·&nbsp; automating.hu</p>
+    </div>
+
+    <div class="policy-body">
+
+      <aside class="policy-toc">
+        <h3>Tartalom</h3>
+        <ul>
+          <li><a href="#hu-s1">1. Bevezetés</a></li>
+          <li><a href="#hu-s2">2. Az adatkezelő</a></li>
+          <li><a href="#hu-s3">3. Fogalmak</a></li>
+          <li><a href="#hu-s4">4. Kezelt adatok</a></li>
+          <li><a href="#hu-s5">5. Jogalapok</a></li>
+          <li><a href="#hu-s6">6. Megőrzési idők</a></li>
+          <li><a href="#hu-s7">7. Adatbiztonság</a></li>
+          <li><a href="#hu-s8">8. Sütik</a></li>
+          <li><a href="#hu-s9">9. Adattovábbítás</a></li>
+          <li><a href="#hu-s10">10. Harmadik országok</a></li>
+          <li><a href="#hu-s11">11. Az Ön jogai</a></li>
+          <li><a href="#hu-s12">12. Joggyakorlás</a></li>
+          <li><a href="#hu-s13">13. Panasz</a></li>
+          <li><a href="#hu-s14">14. Kiskorúak</a></li>
+          <li><a href="#hu-s15">15. Külső hivatkozások</a></li>
+          <li><a href="#hu-s16">16. Módosítás</a></li>
+          <li><a href="#hu-s17">17. Kapcsolat</a></li>
+        </ul>
+      </aside>
+
+      <div class="policy-content">
+
+        <div class="policy-section" id="hu-s1">
+          <h2>1. Bevezetés</h2>
+          <p>Az Automating.hu (a továbbiakban: „Adatkezelő", „mi") elkötelezett az Ön személyes adatainak védelme mellett. A jelen Adatvédelmi irányelvek tájékoztatást nyújtanak arról, hogy milyen személyes adatokat gyűjtünk, amikor Ön meglátogatja és használja a <a href="https://automating.hu">https://automating.hu</a> weboldalt, hogyan használjuk, tároljuk és védjük ezeket az adatokat, valamint hogy Önnek milyen jogai vannak az adataival kapcsolatban.</p>
+          <p>Az adatkezelés az Európai Parlament és a Tanács (EU) 2016/679 rendelete (a továbbiakban: „GDPR"), az információs önrendelkezési jogról és az információszabadságról szóló 2011. évi CXII. törvény (a továbbiakban: „Infotv."), valamint az egyéb alkalmazandó magyar jogszabályok rendelkezéseivel összhangban történik.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s2">
+          <h2>2. Az adatkezelő adatai</h2>
+          <div class="detail-block">
+            <p><strong>Név:</strong> HUDÁCSEK BENCE EV.</p>
+            <p><strong>Székhely:</strong> 9127 Csikvánd, Hunyadi János utca 12.</p>
+            <p><strong>Nyilvántartási szám:</strong> 62151177</p>
+            <p><strong>Adószám:</strong> 91949811-1-28</p>
+            <p><strong>Képviseli:</strong> Hudácsek Bence</p>
+            <p><strong>E-mail:</strong> <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
+            <p><strong>Weboldal:</strong> <a href="https://automating.hu">https://automating.hu</a></p>
+          </div>
+          <h3>Adatvédelmi tisztviselő (DPO)</h3>
+          <p>Adatvédelmi tisztviselő kijelölésére nem került sor.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s3">
+          <h2>3. Értelmező rendelkezések</h2>
+          <ul>
+            <li><strong>Személyes adat:</strong> azonosított vagy azonosítható természetes személyre vonatkozó bármely információ.</li>
+            <li><strong>Adatkezelés:</strong> a személyes adatokon végzett bármely művelet, például gyűjtés, tárolás, módosítás, továbbítás, törlés stb.</li>
+            <li><strong>Adatkezelő:</strong> a jelen irányelvekben megnevezett vállalkozás, amely az adatkezelés céljait és eszközeit meghatározza.</li>
+            <li><strong>Adatfeldolgozó:</strong> az a természetes vagy jogi személy, amely az Adatkezelő nevében személyes adatokat kezel.</li>
+            <li><strong>Érintett:</strong> bármely azonosított vagy azonosítható természetes személy, akinek személyes adatait kezeljük.</li>
+            <li><strong>Sütik (cookie-k):</strong> a böngésző által az Ön eszközén elhelyezett és tárolt kis adatfájlok.</li>
+            <li><strong>Hozzájárulás:</strong> az érintett önkéntes, konkrét, tájékoztatáson alapuló és egyértelmű hozzájárulása a személyes adatok kezeléséhez.</li>
+            <li><strong>Adatvédelmi incidens:</strong> a biztonság olyan sérülése, amely a személyes adatok véletlen vagy jogellenes megsemmisítését, elvesztését, megváltoztatását, jogosulatlan közlését vagy az azokhoz való jogosulatlan hozzáférést eredményezi.</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s4">
+          <h2>4. A kezelt személyes adatok köre</h2>
+          <h3>4.1. Az Ön által közvetlenül megadott adatok</h3>
+          <p>Az alábbi adatokat akkor gyűjtjük, amikor Ön azokat aktívan megadja, például kapcsolatfelvételi űrlapon vagy regisztráció során:</p>
+          <ul>
+            <li>Azonosító adatok: teljes név, felhasználónév</li>
+            <li>Kapcsolattartási adatok: e-mail-cím, telefonszám, postacím</li>
+            <li>Fiókadatok: felhasználónév, jelszó — titkosított formában tárolva</li>
+            <li>Kommunikációs adatok: a velünk folytatott levelezés, a megkeresések és panaszok tartalma</li>
+          </ul>
+          <h3>4.2. Automatikusan gyűjtött adatok</h3>
+          <p>A weboldal látogatásakor automatikusan rögzítjük az alábbi technikai adatokat:</p>
+          <ul>
+            <li>IP-cím és hozzávetőleges földrajzi hely, legfeljebb ország/város szintjén</li>
+            <li>Böngésző típusa és verziója, operációs rendszer</li>
+            <li>Meglátogatott oldalak, kattintások, a látogatás időtartama</li>
+            <li>Hivatkozó URL</li>
+            <li>Süti-azonosítók és munkamenet-azonosítók</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s5">
+          <h2>5. Az adatkezelés céljai és jogalapjai</h2>
+          <p>Az adatkezelés minden esetben a GDPR szerinti jogalapon nyugszik.</p>
+          <h3>5.1. Szerződés teljesítése — GDPR 6. cikk (1) bekezdés b) pont</h3>
+          <ul>
+            <li>Fiók létrehozása és kezelése, hozzáférés biztosítása</li>
+            <li>Ügyfélszolgálati megkeresések megválaszolása</li>
+          </ul>
+          <h3>5.2. Jogos érdek — GDPR 6. cikk (1) bekezdés f) pont</h3>
+          <ul>
+            <li>A weboldal biztonságának fenntartása és a visszaélések megelőzése</li>
+            <li>Összesített statisztikák és elemzések készítése a szolgáltatás fejlesztése érdekében</li>
+            <li>Jogi igények érvényesítése és védelme</li>
+          </ul>
+          <h3>5.3. Hozzájárulás — GDPR 6. cikk (1) bekezdés a) pont</h3>
+          <ul>
+            <li>Nem feltétlenül szükséges sütik elhelyezése, például marketing- és analitikai sütik</li>
+          </ul>
+          <h3>5.4. Jogi kötelezettség teljesítése — GDPR 6. cikk (1) bekezdés c) pont</h3>
+          <ul>
+            <li>Számviteli és adózási kötelezettségek teljesítése</li>
+            <li>Hatósági megkeresések teljesítése</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s6">
+          <h2>6. Az adatok megőrzési ideje</h2>
+          <p>A személyes adatokat csak az adatkezelési cél eléréséhez szükséges ideig, illetve a jogszabályban előírt ideig őrizzük meg:</p>
+          <ul>
+            <li>Kapcsolatfelvételi üzenetek: az utolsó kapcsolatfelvételtől számított 1 évig</li>
+            <li>Hírlevél-feliratkozási adatok: a leiratkozásig</li>
+            <li>Webszerver-naplók: legfeljebb 90 napig, kivéve ha biztonsági incidens kivizsgálásához szükségesek</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s7">
+          <h2>7. Adatbiztonság</h2>
+          <p>Adatai védelme érdekében az iparági szabványoknak megfelelő technikai és szervezési intézkedéseket alkalmazunk, különösen:</p>
+          <ul>
+            <li>SSL/TLS titkosítás használata az adattovábbítás során (HTTPS protokoll)</li>
+            <li>A jelszavakat egyirányú titkosítással (hash) tároljuk</li>
+            <li>Hozzáférés-szabályozás: a személyes adatokhoz csak az arra jogosultak férhetnek hozzá</li>
+            <li>Rendszeres biztonsági mentések és szoftverfrissítések</li>
+            <li>Adatvédelmi incidens esetén a GDPR szerinti 72 órás bejelentési kötelezettség teljesítése a Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH) felé</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s8">
+          <h2>8. Sütik (cookie-k)</h2>
+          <p>Weboldalunk sütiket használ a felhasználói élmény javítása és a weboldal megfelelő működésének biztosítása érdekében.</p>
+          <h3>8.1. Szükséges sütik</h3>
+          <p>A weboldal alapvető működéséhez elengedhetetlenek. Jogalap: jogos érdek / szerződés teljesítése. Ezek a sütik nem kapcsolhatók ki.</p>
+          <h3>8.2. Analitikai sütik</h3>
+          <p>Névtelen statisztikai adatokat gyűjtenek a weboldal használatáról (pl. Google Analytics). Jogalap: hozzájárulás. Előzetes hozzájárulása szükséges.</p>
+          <h3>8.3. Marketingsütik</h3>
+          <p>Célzott hirdetések megjelenítésére szolgálnak (pl. Facebook Pixel, Google Ads). Jogalap: hozzájárulás. Előzetes hozzájárulása szükséges.</p>
+          <h3>8.4. A sütibeállítások kezelése</h3>
+          <p>A sütikhez adott hozzájárulását bármikor visszavonhatja a sütikezelő sávon keresztül vagy a böngészője beállításaiban. A szükséges sütik letiltása esetén a weboldal egyes funkciói nem működnek megfelelően.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s9">
+          <h2>9. Adattovábbítás és harmadik felek</h2>
+          <p>Személyes adatait kizárólag az alábbi esetekben továbbítjuk harmadik fél részére:</p>
+          <ul>
+            <li><strong>Adatfeldolgozók:</strong> megbízható partnereink, például tárhelyszolgáltatónk (Google Cloud). Velük érvényes adatfeldolgozási megállapodást kötöttünk.</li>
+            <li><strong>Hatóságok:</strong> az illetékes hatóságok részére, jogi kötelezettség alapján (pl. bírósági végzés).</li>
+            <li><strong>Üzletátruházás:</strong> egyesülés, felvásárlás vagy értékesítés esetén az adatok a jogutód szervezethez kerülhetnek. Erről előzetesen tájékoztatjuk.</li>
+            <li><strong>Az Ön hozzájárulásával:</strong> minden egyéb esetben kizárólag az Ön előzetes, kifejezett hozzájárulásával.</li>
+          </ul>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s10">
+          <h2>10. Adattovábbítás harmadik országokba</h2>
+          <p>Egyes szolgáltatóink az Európai Gazdasági Térségen (EGT) kívül is üzemeltethetnek szervereket. Ilyen esetben az adattovábbításra kizárólag megfelelő garanciák megléte esetén kerül sor, például az Európai Bizottság megfelelőségi határozata, általános szerződési feltételek (SCC-k), vagy az adott ország GDPR-megfelelőségének elismerése alapján.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s11">
+          <h2>11. Az Ön jogai</h2>
+          <h3>11.1. Hozzáférési jog — GDPR 15. cikk</h3>
+          <p>Ön jogosult tájékoztatást kérni arról, hogy kezeljük-e személyes adatait, és ha igen, másolatot és kapcsolódó tájékoztatást kapni.</p>
+          <h3>11.2. Helyesbítéshez való jog — GDPR 16. cikk</h3>
+          <p>Kérheti a pontatlan vagy hiányos adatok haladéktalan helyesbítését, illetve kiegészítését.</p>
+          <h3>11.3. Törléshez való jog („az elfeledtetéshez való jog") — GDPR 17. cikk</h3>
+          <p>Meghatározott feltételek fennállása esetén kérheti adatai törlését. E jog nem alkalmazandó, ha az adatkezelés jogi kötelezettség teljesítéséhez szükséges.</p>
+          <h3>11.4. Az adatkezelés korlátozásához való jog — GDPR 18. cikk</h3>
+          <p>Kérheti az adatkezelés korlátozását, például ha vitatja az adatok pontosságát.</p>
+          <h3>11.5. Adathordozhatósághoz való jog — GDPR 20. cikk</h3>
+          <p>Hozzájáruláson vagy szerződésen alapuló, automatizált adatkezelés esetén jogosult adatait tagolt, géppel olvasható formátumban (pl. JSON vagy CSV) megkapni.</p>
+          <h3>11.6. Tiltakozáshoz való jog — GDPR 21. cikk</h3>
+          <p>A jogos érdeken alapuló adatkezelés ellen bármikor tiltakozhat. Ilyen esetben az adatkezelést megszüntetjük, kivéve ha azt kényszerítő erejű jogos okok indokolják.</p>
+          <h3>11.7. Automatizált döntéshozatal — GDPR 22. cikk</h3>
+          <p>Ön jogosult arra, hogy ne terjedjen ki Önre a kizárólag automatizált adatkezelésen alapuló döntés hatálya, ha az Önre nézve joghatással járna vagy Önt hasonlóképpen jelentős mértékben érintené.</p>
+          <h3>11.8. A hozzájárulás visszavonása</h3>
+          <p>Ha az adatkezelés hozzájáruláson alapul, azt bármikor visszavonhatja. A visszavonás nem érinti a korábbi adatkezelés jogszerűségét.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s12">
+          <h2>12. A jogok gyakorlásának módja</h2>
+          <p>Kérelmét e-mailben nyújthatja be: <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
+          <p>A GDPR 12. cikke alapján 1 hónapon belül válaszolunk. Összetett kérelmek esetén a határidő legfeljebb 2 hónappal meghosszabbítható. A kérelmek teljesítése főszabály szerint díjmentes.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s13">
+          <h2>13. Panasz és jogorvoslat</h2>
+          <p>Ha úgy véli, hogy adatkezelésünk sérti az alkalmazandó adatvédelmi jogszabályokat, jogosult panaszt tenni a felügyeleti hatóságnál:</p>
+          <div class="detail-block">
+            <p><strong>Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</strong></p>
+            <p>Cím: 1055 Budapest, Falk Miksa utca 9–11.</p>
+            <p>Levelezési cím: 1363 Budapest, Pf. 9.</p>
+            <p>Telefon: +36 (1) 391-1400</p>
+            <p>E-mail: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a></p>
+            <p>Weboldal: <a href="https://www.naih.hu" target="_blank">www.naih.hu</a></p>
+          </div>
+          <p style="margin-top:20px;">Ön emellett bírósághoz is fordulhat az Adatkezelővel vagy az Adatfeldolgozóval szemben, ha megítélése szerint személyes adatainak kezelése sérti a GDPR rendelkezéseit.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s14">
+          <h2>14. Kiskorúak adatainak védelme</h2>
+          <p>Weboldalunk nem irányul 16 év alatti személyekre, és tudatosan nem gyűjtünk tőlük személyes adatot. Ha tudomásunkra jut, hogy 16 év alatti gyermektől szülői vagy törvényes képviselői hozzájárulás nélkül gyűjtöttünk adatot, azt haladéktalanul töröljük.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s15">
+          <h2>15. Más weboldalakra mutató hivatkozások</h2>
+          <p>Weboldalunk más weboldalakra mutató hivatkozásokat tartalmazhat. A hivatkozásokra kattintva elhagyja weboldalunkat; az érintett weboldalak adatkezelési gyakorlatáért felelősséget nem vállalunk. Javasoljuk, hogy ismerje meg a hivatkozott weboldalak adatvédelmi tájékoztatóit is.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s16">
+          <h2>16. Az irányelvek módosítása</h2>
+          <p>Fenntartjuk a jogot a jelen Adatvédelmi irányelvek bármikori módosítására. A változásokról a weboldalon közzétett frissített irányelvek útján és/vagy előzetes e-mail-értesítéssel tájékoztatjuk. A módosítás hatálybalépésének napját az irányelvek tetején tüntetjük fel. Kérjük, rendszeresen tekintse át az irányelveket.</p>
+        </div>
+        <hr class="policy-divider">
+
+        <div class="policy-section" id="hu-s17">
+          <h2>17. Kapcsolat</h2>
+          <p>Ha a jelen Adatvédelmi irányelvekkel kapcsolatban kérdése, kérése vagy észrevétele van, kérjük, vegye fel velünk a kapcsolatot:</p>
+          <div class="detail-block">
+            <p><strong>E-mail:</strong> <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
+            <p><strong>Postacím:</strong> HUDÁCSEK BENCE EV., 9127 Csikvánd, Hunyadi János utca 12.</p>
+            <p><strong>Weboldal:</strong> <a href="https://automating.hu">https://automating.hu</a></p>
+          </div>
+          <p style="margin-top:20px; font-size:14px; color:var(--g400);">A jelen Adatvédelmi irányelvek a GDPR (EU 2016/679) és a 2011. évi CXII. törvény (Infotv.) rendelkezéseivel összhangban készültek.</p>
+        </div>
+
+      </div><!-- /policy-content -->
+    </div><!-- /policy-body -->
+    </div><!-- /lang-block HU -->
+
   </div><!-- /wrap -->
 </div><!-- /policy-page -->
 
 <footer>
   <div class="wrap">
     <div class="footer-inner">
-      <span class="footer-copy">Automating &copy; All Rights Reserved</span>
+      <span class="footer-copy" data-i18n="footer.copy">Automating &copy; All Rights Reserved</span>
       <div class="footer-links">
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="#">Terms and Conditions</a>
+        <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+        <a href="terms.html" data-i18n="footer.terms">Terms and Conditions</a>
       </div>
-      <span class="footer-loc">United Kingdom</span>
+      <span class="footer-loc" data-i18n="footer.loc">United Kingdom</span>
     </div>
   </div>
 </footer>
@@ -459,6 +732,27 @@ const navToggle = document.getElementById('navToggle');
 const navLinks  = document.getElementById('navLinks');
 navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+// language toggle — follows the main site's stored preference
+const langBlocks = document.querySelectorAll('.lang-block');
+const langBtns = document.querySelectorAll('.lang-toggle button');
+const PT = {
+  en: { 'nav.products': 'What We Build', 'nav.approach': 'Approach', 'nav.demo': 'Demo', 'nav.cases': 'Case Studies', 'nav.book': 'Book A Call', 'footer.copy': 'Automating &copy; All Rights Reserved', 'footer.privacy': 'Privacy Policy', 'footer.terms': 'Terms and Conditions', 'footer.loc': 'United Kingdom' },
+  hu: { 'nav.products': 'Mit Építünk', 'nav.approach': 'Megközelítésünk', 'nav.demo': 'Demó', 'nav.cases': 'Esettanulmányok', 'nav.book': 'Árajánlat', 'footer.copy': 'Automating &copy; Minden jog fenntartva', 'footer.privacy': 'Adatvédelmi irányelvek', 'footer.terms': 'Általános Szerződési Feltételek', 'footer.loc': 'Magyarország' }
+};
+function applyLang(l) {
+  langBlocks.forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = PT[l][el.dataset.i18n];
+    if (v) el.innerHTML = v;
+  });
+  localStorage.setItem('lang', l);
+  document.documentElement.lang = l;
+  document.title = l === 'hu' ? 'Adatvédelmi irányelvek — Automating' : 'Privacy Policy — Automating';
+}
+applyLang(localStorage.getItem('lang') === 'en' ? 'en' : 'hu');
+langBtns.forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
 </script>
 </body>
 </html>

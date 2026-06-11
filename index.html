@@ -285,11 +285,340 @@ nav {
 .wf-line .val { color: var(--black); font-weight: 600; }
 
 /* ════════════════════════════════
-   SEE IT IN ACTION
+   SEE IT IN ACTION — LIVE CHAT DEMO
 ════════════════════════════════ */
 .see-action { padding: 100px 0 120px; text-align: center; }
-.see-action .h1 { color: var(--g400); margin-bottom: 18px; }
-.see-action .b1 { color: var(--g400); max-width: 560px; margin: 0 auto; }
+.see-action .h1 { margin-bottom: 18px; }
+.see-action .b1 { color: var(--g600); max-width: 600px; margin: 0 auto 56px; }
+
+/* stacked demo frames — identical size for all three */
+.chat-frame, .voice-frame, .ed-frame {
+  max-width: 760px; margin: 0 auto; background: #FAFAFA; padding: 12px;
+  border: 1px solid var(--g200); border-radius: 36px; box-shadow: var(--card-shadow);
+  text-align: left;
+}
+.voice-frame, .ed-frame { margin-top: 16px; }
+.chat-card, .voice-card, .ed-card {
+  height: 560px; display: flex; flex-direction: column;
+  background: var(--white); border: 1px solid var(--g200); border-radius: 26px;
+}
+.chat-card { overflow: hidden; }
+.chat-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 24px; border-bottom: 1px solid var(--g200);
+}
+.chat-head svg { flex-shrink: 0; }
+.chat-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.chat-status { margin-left: auto; display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--g600); }
+.chat-dot { width: 8px; height: 8px; border-radius: 50%; background: #1fbf64; animation: chatPulse 2s ease infinite; }
+@keyframes chatPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(31,191,100,.35); } 50% { box-shadow: 0 0 0 6px rgba(31,191,100,0); } }
+.chat-log {
+  flex: 1; overflow-y: auto; padding: 24px 24px 10px;
+  display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth;
+}
+.chat-log::-webkit-scrollbar { width: 5px; }
+.chat-log::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 5px; }
+.chat-msg {
+  max-width: 78%; padding: 12px 17px; border-radius: 18px;
+  font-size: 14.5px; font-weight: 400; line-height: 1.55;
+  animation: chatMsgIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+  word-wrap: break-word; overflow-wrap: break-word;
+}
+@keyframes chatMsgIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+.chat-msg.bot  { align-self: flex-start; background: #f4f4f4; border: 1px solid var(--g200); border-bottom-left-radius: 6px; }
+.chat-msg.user { align-self: flex-end; background: var(--black); color: var(--white); border-bottom-right-radius: 6px; }
+.chat-msg a { text-decoration: underline; text-underline-offset: 2px; }
+.chat-msg.bot a:hover { opacity: .6; }
+.chat-msg p + p, .chat-msg ul, .chat-msg ol { margin-top: 8px; }
+.chat-msg ul, .chat-msg ol { padding-left: 20px; }
+.chat-msg li + li { margin-top: 4px; }
+.chat-msg strong { font-weight: 600; }
+.chat-typing { display: inline-flex; gap: 5px; align-items: center; padding: 16px 17px; }
+.chat-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--g400); animation: chatTb 1.2s infinite; }
+.chat-typing i:nth-child(2) { animation-delay: .15s; }
+.chat-typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes chatTb { 0%,60%,100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-5px); opacity: 1; } }
+.chat-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 24px 14px; }
+.chat-chip {
+  border: 1px solid var(--g200); background: var(--white); border-radius: 100px;
+  padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--g600); cursor: pointer; transition: all .2s;
+}
+.chat-chip:hover { border-color: var(--black); color: var(--black); transform: scale(1.03); }
+.chat-inputrow {
+  display: flex; gap: 10px; align-items: flex-end;
+  padding: 14px 16px; border-top: 1px solid var(--g200); background: var(--white);
+}
+.chat-inputrow textarea {
+  flex: 1; resize: none; border: 1px solid var(--g200); border-radius: 22px;
+  padding: 12px 18px; font-family: inherit; font-size: 14.5px; line-height: 1.4;
+  outline: none; max-height: 120px; background: var(--white); color: var(--black);
+  transition: border-color .2s;
+}
+.chat-inputrow textarea:focus { border-color: var(--g400); }
+.chat-inputrow .btn-pill { padding: 12px 24px; font-size: 14.5px; }
+.chat-inputrow .btn-pill:disabled { opacity: .35; cursor: default; transform: none; }
+@media (max-width: 900px) {
+  .chat-frame, .voice-frame, .ed-frame { border-radius: 24px; padding: 8px; }
+  .chat-card, .voice-card, .ed-card { border-radius: 18px; height: auto; }
+  .chat-card { height: 62vh; min-height: 420px; }
+  .chat-msg { max-width: 88%; }
+  .chat-log, .chat-chips { padding-left: 16px; padding-right: 16px; }
+  .chat-inputrow textarea { font-size: 16px; } /* prevents iOS focus zoom */
+}
+
+/* ════════════════════════════════
+   VOICE DEMO (middle card)
+════════════════════════════════ */
+.voice-card { padding: 20px 20px 18px; }
+.voice-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 14px; border-bottom: 1px solid var(--g200);
+}
+.voice-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.voice-timer { font-size: 13px; font-weight: 600; color: var(--g600); font-variant-numeric: tabular-nums; }
+.voice-center {
+  flex: 1; min-height: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 18px; padding: 12px 4px;
+}
+.voice-orb {
+  position: relative; width: 88px; height: 88px; border-radius: 50%;
+  background: var(--black); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: transform .25s cubic-bezier(0.16,1,0.3,1);
+}
+.voice-orb::before {
+  content: ''; position: absolute; inset: -3px; border-radius: 50%;
+  border: 2px solid rgba(10,10,10,0.3); opacity: 0; pointer-events: none;
+  transform: scale(1);
+  transition: transform 0.1s ease-out, opacity 0.2s ease;
+}
+.voice-orb.connecting { animation: orbBreath 1.1s ease-in-out infinite; }
+@keyframes orbBreath { 0%,100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+.voice-orb.live::before {
+  opacity: calc(0.85 - var(--vol, 0) * 0.45);
+  transform: scale(calc(1 + var(--vol, 0) * 0.55));
+}
+.voice-status {
+  font-size: 13.5px; color: var(--g600); line-height: 1.5; text-align: center;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden; min-height: 3em;
+}
+/* live waveform — replaces the status line during a call */
+.voice-wave { display: none; width: 100%; height: 64px; animation: chatMsgIn 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+.voice-card.live-call .voice-wave { display: block; }
+.voice-card.live-call .voice-status { display: none; }
+.voice-types {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  padding-top: 14px; margin-bottom: 14px; border-top: 1px solid var(--g200);
+  transition: opacity .25s ease;
+}
+.voice-type {
+  border: 1px solid var(--g200); background: var(--white); border-radius: 100px;
+  padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--g600); cursor: pointer; transition: all .18s;
+}
+.voice-type:hover { border-color: var(--black); color: var(--black); transform: scale(1.03); }
+.voice-type.sel { background: var(--black); border-color: var(--black); color: var(--white); }
+.voice-card.busy .voice-types { opacity: .45; pointer-events: none; }
+.voice-cta { justify-content: center; padding: 13px; font-size: 14.5px; }
+.voice-cta:disabled { opacity: .45; cursor: default; transform: none; }
+.voice-cta.live { background: #d92d2d; animation: vcPulse 1.6s ease infinite; }
+@keyframes vcPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(217,45,45,.32); } 50% { box-shadow: 0 0 0 9px rgba(217,45,45,0); } }
+@media (max-width: 900px) {
+  .voice-center { padding: 24px 4px; }
+}
+
+/* ════════════════════════════════
+   EMAIL DEMO (right card)
+════════════════════════════════ */
+.ed-card { padding: 20px 20px 18px; }
+.ed-headrow { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.ed-icon {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--black);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ed-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.ed-sub { font-size: 12.5px; color: var(--g600); margin-top: 2px; line-height: 1.45; }
+.ed-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.ed-chip {
+  border: 1px solid var(--g200); background: var(--white); border-radius: 100px;
+  padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--g600); cursor: pointer; transition: all .18s;
+}
+.ed-chip:hover { border-color: var(--black); color: var(--black); transform: scale(1.03); }
+.ed-card textarea {
+  width: 100%; resize: none; min-height: 104px;
+  border: 1px solid var(--g200); border-radius: 14px; padding: 11px 14px;
+  font-family: inherit; font-size: 13.5px; line-height: 1.55; color: var(--black);
+  background: var(--white); outline: none; transition: border-color .2s;
+}
+.ed-card textarea:focus { border-color: var(--g400); }
+.ed-run { margin: 10px 0 12px; justify-content: center; padding: 12px; font-size: 14.5px; }
+.ed-run:disabled { opacity: .4; cursor: default; transform: none; }
+.ed-right {
+  flex: 1; min-height: 0; overflow-y: auto;
+  background: #FAFAFA; border: 1px solid var(--g200); border-radius: 14px;
+  padding: 14px 16px; display: flex; flex-direction: column;
+}
+.ed-right::-webkit-scrollbar { width: 5px; }
+.ed-right::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 5px; }
+.ed-empty { margin: auto; text-align: center; font-size: 13.5px; color: var(--g400); max-width: 230px; line-height: 1.5; }
+.ed-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; flex-shrink: 0; animation: chatMsgIn .45s cubic-bezier(0.16,1,0.3,1) both; }
+.ed-badge { font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+.ed-b-cat  { background: var(--black); color: var(--white); }
+.ed-b-low  { background: #dcfce7; color: #15803d; }
+.ed-b-mid  { background: #fef3c7; color: #b45309; }
+.ed-b-high { background: #fee2e2; color: #dc2626; }
+.ed-b-sent { background: #f4f4f4; color: var(--g600); border: 1px solid var(--g200); }
+.ed-summary { font-size: 13.5px; color: var(--g600); line-height: 1.55; margin-bottom: 14px; animation: chatMsgIn .45s cubic-bezier(0.16,1,0.3,1) .08s both; }
+.ed-reply-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: var(--g400); text-transform: uppercase; margin-bottom: 6px; }
+.ed-reply {
+  font-size: 13.5px; line-height: 1.6; white-space: pre-wrap;
+  background: var(--white); border: 1px solid var(--g200); border-radius: 12px;
+  padding: 13px 16px;
+  animation: chatMsgIn .45s cubic-bezier(0.16,1,0.3,1) .16s both;
+}
+@media (max-width: 900px) {
+  .ed-right { min-height: 220px; }
+  .ed-card textarea { font-size: 16px; min-height: 120px; } /* prevents iOS focus zoom */
+}
+
+/* ════════════════════════════════
+   BOOKING MODAL — custom Cal.com UI
+════════════════════════════════ */
+.bk-overlay {
+  position: fixed; inset: 0; z-index: 400;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: rgba(255,255,255,0.6); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+.bk-overlay.open { opacity: 1; pointer-events: auto; }
+.bk-frame {
+  width: 100%; max-width: 880px; background: #FAFAFA; padding: 12px;
+  border: 1px solid var(--g200); border-radius: 40px; box-shadow: 0 40px 120px rgba(0,0,0,0.12);
+  transform: translateY(20px) scale(0.98); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.bk-overlay.open .bk-frame { transform: translateY(0) scale(1); }
+.bk-card {
+  position: relative; background: var(--white); border: 1px solid var(--g200);
+  border-radius: 30px; padding: 40px 44px 36px;
+  max-height: calc(100vh - 96px); overflow-y: auto; text-align: left;
+}
+.bk-card::-webkit-scrollbar { width: 5px; }
+.bk-card::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 5px; }
+.bk-close {
+  position: absolute; top: 18px; right: 18px; width: 36px; height: 36px;
+  border: 1px solid var(--g200); border-radius: 50%; background: var(--white);
+  font-size: 17px; line-height: 1; cursor: pointer; color: var(--g600);
+  transition: all .2s; font-family: inherit;
+}
+.bk-close:hover { border-color: var(--black); color: var(--black); transform: scale(1.06); }
+.bk-step { animation: chatMsgIn 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+.bk-title { font-size: clamp(22px,2.4vw,28px); font-weight: 600; letter-spacing: -0.025em; margin-bottom: 6px; }
+.bk-sub { font-size: 14px; color: var(--g600); margin-bottom: 28px; }
+
+/* step 1 — calendar + slots */
+.bk-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 36px; }
+.bk-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.bk-month { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; text-transform: capitalize; }
+.bk-nav {
+  width: 32px; height: 32px; border: 1px solid var(--g200); border-radius: 50%;
+  background: var(--white); cursor: pointer; font-size: 13px; color: var(--black);
+  transition: all .2s; font-family: inherit;
+}
+.bk-nav:hover:not(:disabled) { border-color: var(--black); transform: scale(1.06); }
+.bk-nav:disabled { opacity: .3; cursor: default; }
+.bk-dow { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-bottom: 6px; }
+.bk-dow span { text-align: center; font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--g400); }
+.bk-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
+.bk-day {
+  aspect-ratio: 1; border: 1px solid transparent; border-radius: 12px;
+  background: none; font-family: inherit; font-size: 14px; font-weight: 500;
+  color: var(--g400); cursor: default; transition: all .18s;
+}
+.bk-day.avail { color: var(--black); border-color: var(--g200); background: var(--white); cursor: pointer; }
+.bk-day.avail:hover { border-color: var(--black); transform: scale(1.05); }
+.bk-day.sel { background: var(--black); color: var(--white); border-color: var(--black); }
+.bk-day.today:not(.sel) { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.bk-loading { grid-column: 1 / -1; text-align: center; font-size: 13px; color: var(--g400); padding: 32px 0; }
+.bk-slots-head { font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--g600); margin-bottom: 12px; min-height: 18px; }
+.bk-slot-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-height: 308px; overflow-y: auto; padding-right: 4px; align-content: start; }
+.bk-slot-list::-webkit-scrollbar { width: 5px; }
+.bk-slot-list::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 5px; }
+.bk-slot {
+  border: 1px solid var(--g200); background: var(--white); border-radius: 100px;
+  padding: 10px 8px; font-family: inherit; font-size: 14px; font-weight: 500;
+  color: var(--black); cursor: pointer; transition: all .18s; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.bk-slot:hover { border-color: var(--black); transform: scale(1.04); }
+.bk-empty { grid-column: 1 / -1; font-size: 13.5px; color: var(--g400); padding: 18px 0; }
+.bk-tz { margin-top: 22px; font-size: 12px; color: var(--g400); display: flex; align-items: center; gap: 6px; }
+
+/* step 2 — form */
+.bk-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: none; font-family: inherit; font-size: 13.5px; font-weight: 500;
+  color: var(--g600); cursor: pointer; padding: 0; margin-bottom: 18px; transition: color .2s;
+}
+.bk-back:hover { color: var(--black); }
+.bk-chosen {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--g200); border-radius: 100px; padding: 9px 18px;
+  font-size: 13.5px; font-weight: 600; margin-bottom: 24px; background: #FAFAFA;
+}
+.bk-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 14px; }
+.bk-field.full { grid-column: 1 / -1; }
+.bk-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--g600); margin-bottom: 7px; }
+.bk-label .req { color: var(--black); }
+.bk-field input[type=text], .bk-field input[type=email], .bk-field input[type=tel],
+.bk-field textarea, .bk-field select {
+  width: 100%; border: 1px solid var(--g200); border-radius: 14px;
+  padding: 12px 16px; font-family: inherit; font-size: 14.5px; color: var(--black);
+  background: var(--white); outline: none; transition: border-color .2s;
+}
+.bk-field input:focus, .bk-field textarea:focus, .bk-field select:focus { border-color: var(--g400); }
+.bk-field textarea { resize: vertical; min-height: 74px; }
+.bk-field select {
+  appearance: none; -webkit-appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23666' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center;
+}
+.bk-checks { display: flex; flex-wrap: wrap; gap: 8px; }
+.bk-check input { position: absolute; opacity: 0; pointer-events: none; }
+.bk-check span {
+  display: inline-block; border: 1px solid var(--g200); border-radius: 100px;
+  padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--g600);
+  cursor: pointer; transition: all .18s; user-select: none;
+}
+.bk-check span:hover { border-color: var(--black); color: var(--black); }
+.bk-check input:checked + span { background: var(--black); border-color: var(--black); color: var(--white); }
+.bk-other { margin-top: 12px; animation: chatMsgIn 0.4s cubic-bezier(0.16,1,0.3,1) both; }
+.bk-submit-row { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; margin-top: 8px; flex-wrap: wrap; }
+.bk-submit-row .btn-pill:disabled { opacity: .4; cursor: default; transform: none; }
+.bk-error { font-size: 13.5px; color: #d92d2d; line-height: 1.5; }
+
+/* step 3 — success */
+.bk-done { text-align: center; padding: 36px 0 18px; }
+.bk-done-ic {
+  width: 64px; height: 64px; border-radius: 50%; background: var(--black);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 22px;
+  animation: bkPop 0.55s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes bkPop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.bk-done-title { font-size: clamp(24px,2.6vw,32px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 10px; }
+.bk-done-when { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.bk-done-note { font-size: 14px; color: var(--g600); max-width: 420px; margin: 0 auto 28px; line-height: 1.6; }
+
+@media (max-width: 900px) {
+  .bk-overlay { padding: 12px; align-items: flex-start; }
+  .bk-frame { border-radius: 24px; padding: 8px; margin-top: 8px; }
+  .bk-card { border-radius: 18px; padding: 28px 20px 24px; max-height: calc(100vh - 40px); }
+  .bk-grid { grid-template-columns: 1fr; gap: 24px; }
+  .bk-slot-list { max-height: none; }
+  .bk-form-grid { grid-template-columns: 1fr; }
+  .bk-field input, .bk-field textarea, .bk-field select { font-size: 16px; } /* prevents iOS focus zoom */
+}
 
 /* ════════════════════════════════
    APPROACH
@@ -559,7 +888,83 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   <section class="see-action" id="demo">
     <div class="wrap">
       <h2 class="h1" data-reveal data-i18n="see.h2">See it in action.</h2>
-      <p class="b1" data-reveal data-delay="100" data-i18n="see.p">Live and visual demos of the systems we build. Available soon.</p>
+      <p class="b1" data-reveal data-delay="100" data-i18n="see.p">Try our AI live: chat with it, talk to it, or let it handle a customer email.</p>
+      <div class="chat-frame" data-reveal data-delay="200">
+        <div class="chat-card">
+          <div class="chat-head">
+            <svg width="22" height="22" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+            </svg>
+            <span class="chat-title" data-i18n="chat.title">AI assistant</span>
+            <span class="chat-status"><span class="chat-dot"></span><span data-i18n="chat.online">Online</span></span>
+          </div>
+          <div class="chat-log" id="chatLog"></div>
+          <div class="chat-chips" id="chatChips">
+            <button class="chat-chip" data-i18n="chat.chip1">What do you do?</button>
+            <button class="chat-chip" data-i18n="chat.chip2">What case studies do you have?</button>
+            <button class="chat-chip" data-i18n="chat.chip3">How does working together look?</button>
+            <button class="chat-chip" data-i18n="chat.chip4">I'd like to book a consultation</button>
+          </div>
+          <div class="chat-inputrow">
+            <textarea id="chatInput" rows="1" placeholder="Type your question..." aria-label="Message"></textarea>
+            <button class="btn-pill" id="chatSend" data-i18n="chat.send">Send &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VOICE DEMO -->
+      <div class="voice-frame" data-reveal data-delay="300">
+        <div class="voice-card">
+          <div class="voice-head">
+            <span class="voice-title" data-i18n="vc.title">Voice demo</span>
+            <span class="voice-timer" id="voiceTimer" hidden>00:00</span>
+          </div>
+          <div class="voice-center">
+            <div class="voice-orb" id="voiceOrb">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3Z" fill="#fff"/>
+                <path d="M6 11a6 6 0 0 0 12 0M12 17v3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="voice-status" id="voiceStatus"></div>
+            <canvas class="voice-wave" id="voiceWave" height="64"></canvas>
+          </div>
+          <div class="voice-types" id="voiceTypes">
+            <button class="voice-type sel" data-type="about" data-i18n="vc.t.about">About Automating</button>
+            <button class="voice-type" data-type="recep" data-i18n="vc.t.recep">Receptionist</button>
+            <button class="voice-type" data-type="resto" data-i18n="vc.t.resto">Pizzeria</button>
+            <button class="voice-type" data-type="supp" data-i18n="vc.t.supp">Customer support</button>
+          </div>
+          <button class="btn-pill voice-cta" id="voiceBtn" data-i18n="vc.cta">Try it live</button>
+        </div>
+      </div>
+
+      <!-- EMAIL DEMO -->
+      <div class="ed-frame" data-reveal data-delay="400">
+        <div class="ed-card">
+          <div class="ed-headrow">
+            <div class="ed-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="5.5" width="18" height="13" rx="2.5" stroke="#fff" stroke-width="1.8"/>
+                <path d="m4.5 7.5 7.5 5.5 7.5-5.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ed-title" data-i18n="ed.title">Email demo</div>
+              <div class="ed-sub" data-i18n="ed.sub">Paste an incoming customer email — the AI categorises it and drafts the reply.</div>
+            </div>
+          </div>
+          <div class="ed-chips">
+            <button class="ed-chip" data-key="complaint" data-i18n="ed.s1">Complaint</button>
+            <button class="ed-chip" data-key="quote" data-i18n="ed.s2">Quote request</button>
+            <button class="ed-chip" data-key="invoice" data-i18n="ed.s3">Billing issue</button>
+          </div>
+          <textarea id="edInput" rows="4" aria-label="Email"></textarea>
+          <button class="btn-pill ed-run" id="edRun" data-i18n="ed.run">Process with AI &rarr;</button>
+          <div class="ed-right" id="edResult"></div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -583,7 +988,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
         <span class="footer-copy" data-i18n="footer.copy">Automating &copy; All Rights Reserved</span>
         <div class="footer-links">
           <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
-          <a href="#" data-i18n="footer.terms">Terms and Conditions</a>
+          <a href="terms.html" data-i18n="footer.terms">Terms and Conditions</a>
         </div>
         <span class="footer-loc" data-i18n="footer.loc">United Kingdom</span>
       </div>
@@ -591,6 +996,119 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   </footer>
 
 </div><!-- /page -->
+
+<!-- BOOKING MODAL -->
+<div class="bk-overlay" id="bkOverlay" aria-hidden="true">
+  <div class="bk-frame">
+    <div class="bk-card">
+      <button class="bk-close" id="bkClose" aria-label="Close">✕</button>
+
+      <!-- STEP 1: date + time -->
+      <div class="bk-step" id="bkStep1">
+        <div class="bk-title" data-i18n="bk.title">Book a 30-minute call</div>
+        <div class="bk-sub" data-i18n="bk.sub">Free consultation &middot; Google Meet &middot; 30 min</div>
+        <div class="bk-grid">
+          <div class="bk-cal">
+            <div class="bk-cal-head">
+              <button class="bk-nav" id="bkPrev" aria-label="Previous month">&larr;</button>
+              <span class="bk-month" id="bkMonth"></span>
+              <button class="bk-nav" id="bkNext" aria-label="Next month">&rarr;</button>
+            </div>
+            <div class="bk-dow" id="bkDow"></div>
+            <div class="bk-days" id="bkDays"></div>
+          </div>
+          <div class="bk-slots">
+            <div class="bk-slots-head" id="bkSlotsHead"></div>
+            <div class="bk-slot-list" id="bkSlotList"></div>
+          </div>
+        </div>
+        <div class="bk-tz" id="bkTz"></div>
+      </div>
+
+      <!-- STEP 2: details form -->
+      <div class="bk-step" id="bkStep2" hidden>
+        <button class="bk-back" id="bkBack">&larr; <span data-i18n="bk.back">Back</span></button>
+        <div class="bk-title" data-i18n="bk.form-title">Your details</div>
+        <div class="bk-chosen" id="bkChosen"></div>
+        <form class="bk-form-grid" id="bkForm" novalidate>
+          <div class="bk-field">
+            <label class="bk-label" for="bkName"><span data-i18n="bk.f.name">Name</span> <span class="req">*</span></label>
+            <input type="text" id="bkName" autocomplete="name" required>
+          </div>
+          <div class="bk-field">
+            <label class="bk-label" for="bkEmail"><span data-i18n="bk.f.email">Email</span> <span class="req">*</span></label>
+            <input type="email" id="bkEmail" autocomplete="email" required>
+          </div>
+          <div class="bk-field">
+            <label class="bk-label" for="bkPhone"><span data-i18n="bk.f.phone">Phone</span></label>
+            <input type="tel" id="bkPhone" autocomplete="tel" placeholder="+36 ...">
+          </div>
+          <div class="bk-field">
+            <label class="bk-label" for="bkCompany"><span data-i18n="bk.f.company">Company name</span> <span class="req">*</span></label>
+            <input type="text" id="bkCompany" required>
+          </div>
+          <div class="bk-field">
+            <label class="bk-label" for="bkPosition"><span data-i18n="bk.f.position">Your role</span> <span class="req">*</span></label>
+            <input type="text" id="bkPosition" required>
+          </div>
+          <div class="bk-field">
+            <label class="bk-label" for="bkIndustry"><span data-i18n="bk.f.industry">Industry</span> <span class="req">*</span></label>
+            <input type="text" id="bkIndustry" required>
+          </div>
+          <div class="bk-field full">
+            <span class="bk-label"><span data-i18n="bk.f.problem">What takes up most of your time?</span> <span class="req">*</span></span>
+            <div class="bk-checks" id="bkProblem">
+              <label class="bk-check"><input type="checkbox" value="Hívások kezelése"><span data-i18n="bk.o.p1">Handling calls</span></label>
+              <label class="bk-check"><input type="checkbox" value="E-mailek kezelése"><span data-i18n="bk.o.p2">Handling emails</span></label>
+              <label class="bk-check"><input type="checkbox" value="Adminisztrációs munka"><span data-i18n="bk.o.p3">Admin work</span></label>
+              <label class="bk-check"><input type="checkbox" value="Időpont-egyeztetés"><span data-i18n="bk.o.p4">Scheduling</span></label>
+              <label class="bk-check"><input type="checkbox" value="Egyéb"><span data-i18n="bk.o.p5">Other</span></label>
+            </div>
+            <div class="bk-other" id="bkOtherWrap" hidden>
+              <label class="bk-label" for="bkOther" data-i18n="bk.f.other">Other — tell us briefly</label>
+              <input type="text" id="bkOther">
+            </div>
+          </div>
+          <div class="bk-field full">
+            <label class="bk-label" for="bkDecision"><span data-i18n="bk.f.decision">Are you the decision maker?</span> <span class="req">*</span></label>
+            <select id="bkDecision" required>
+              <option value="" data-i18n="bk.o.choose">Choose...</option>
+              <option value="Igen, én döntök" data-i18n="bk.o.d1">Yes, I decide</option>
+              <option value="Nem, de befolyásolom a döntést" data-i18n="bk.o.d2">No, but I influence the decision</option>
+              <option value="Nem, csak információt gyűjtök" data-i18n="bk.o.d3">No, I'm just gathering information</option>
+            </select>
+          </div>
+          <div class="bk-field full">
+            <label class="bk-label" for="bkTask"><span data-i18n="bk.f.task">Is there a specific task you'd automate?</span></label>
+            <textarea id="bkTask" rows="2"></textarea>
+          </div>
+          <div class="bk-field full">
+            <label class="bk-label" for="bkNotes"><span data-i18n="bk.f.notes">Additional notes</span></label>
+            <textarea id="bkNotes" rows="2"></textarea>
+          </div>
+          <div class="bk-submit-row">
+            <button type="submit" class="btn-pill btn-large" id="bkSubmit" data-i18n="bk.confirm">Confirm booking &rarr;</button>
+            <span class="bk-error" id="bkError" hidden></span>
+          </div>
+        </form>
+      </div>
+
+      <!-- STEP 3: success -->
+      <div class="bk-step" id="bkStep3" hidden>
+        <div class="bk-done">
+          <div class="bk-done-ic">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="bk-done-title" data-i18n="bk.done-title">Booked!</div>
+          <div class="bk-done-when" id="bkDoneWhen"></div>
+          <p class="bk-done-note" data-i18n="bk.done-note">We've emailed you the confirmation and the Google Meet link. See you on the call!</p>
+          <button class="btn-pill btn-large" id="bkDoneClose" data-i18n="bk.done-close">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <script>
 'use strict';
@@ -635,7 +1153,54 @@ const T = {
     'who.2':            '<span class="who-q">Want to grow without hiring? </span><span class="who-a">We build a team that doesn\'t quit.</span>',
     'who.3':            '<span class="who-q">Drowning in admin? </span><span class="who-a">We turn 8 hours of manual work into 8 minutes.</span>',
     'see.h2':           'See it in action.',
-    'see.p':            'Live and visual demos of the systems we build. Available soon.',
+    'see.p':            'Try our AI live: chat with it, talk to it, or let it handle a customer email.',
+    'chat.title':       'AI assistant',
+    'chat.online':      'Online',
+    'chat.chip1':       'What do you do?',
+    'chat.chip2':       'What case studies do you have?',
+    'chat.chip3':       'How does working together look?',
+    'chat.chip4':       'I\'d like to book a consultation',
+    'chat.send':        'Send &rarr;',
+    'vc.title':         'Voice demo',
+    'vc.cta':           'Try it live',
+    'vc.t.about':       'About Automating',
+    'vc.t.recep':       'Receptionist',
+    'vc.t.resto':       'Pizzeria',
+    'vc.t.supp':        'Customer support',
+    'ed.title':         'Email demo',
+    'ed.sub':           'Paste an incoming customer email — the AI categorises it and drafts the reply.',
+    'ed.s1':            'Complaint',
+    'ed.s2':            'Quote request',
+    'ed.s3':            'Billing issue',
+    'ed.run':           'Process with AI &rarr;',
+    'bk.title':         'Book a 30-minute call',
+    'bk.sub':           'Free consultation &middot; Google Meet &middot; 30 min',
+    'bk.back':          'Back',
+    'bk.form-title':    'Your details',
+    'bk.f.name':        'Name',
+    'bk.f.email':       'Email',
+    'bk.f.phone':       'Phone',
+    'bk.f.company':     'Company name',
+    'bk.f.position':    'Your role',
+    'bk.f.industry':    'Industry',
+    'bk.f.problem':     'What takes up most of your time?',
+    'bk.o.p1':          'Handling calls',
+    'bk.o.p2':          'Handling emails',
+    'bk.o.p3':          'Admin work',
+    'bk.o.p4':          'Scheduling',
+    'bk.o.p5':          'Other',
+    'bk.f.other':       'Other — tell us briefly',
+    'bk.f.decision':    'Are you the decision maker?',
+    'bk.o.choose':      'Choose...',
+    'bk.o.d1':          'Yes, I decide',
+    'bk.o.d2':          'No, but I influence the decision',
+    'bk.o.d3':          'No, I\'m just gathering information',
+    'bk.f.task':        'Is there a specific task you\'d automate?',
+    'bk.f.notes':       'Additional notes',
+    'bk.confirm':       'Confirm booking &rarr;',
+    'bk.done-title':    'Booked!',
+    'bk.done-note':     'We\'ve emailed you the confirmation and the Google Meet link. See you on the call!',
+    'bk.done-close':    'Close',
     'cta.h2':           'Ready to replace<br>the work?',
     'cta.p.desk':       '30 minute call. No sales pitch. We understand your operations, tell you where AI fits. If it doesn\'t fit, we\'ll say so. If it does, we build it.',
     'cta.p.mob':        '30 minute call. No sales pitch. We understand<br>your operations, tell you where AI fits. If it<br>doesn\'t fit, we\'ll say so. If it does, we build it.',
@@ -681,7 +1246,54 @@ const T = {
     'who.2':            '<span class="who-q">Növekedni szeretnél felvétel nélkül? </span><span class="who-a">Olyan AI csapatot építünk,<br>amely nem mond fel.</span>',
     'who.3':            '<span class="who-q">Megfulladsz az adminisztrációban? </span><span class="who-a">8 órányi manuális munkát 8<br>percre csökkentünk.</span>',
     'see.h2':           'Lásd működés közben.',
-    'see.p':            'Élő, vizuális bemutatók az általunk épített rendszerekről. Hamarosan elérhető.',
+    'see.p':            'Próbáld ki élőben: chatelj az AI-unkkal, beszélgess vele, vagy bízz rá egy ügyfél-e-mailt.',
+    'chat.title':       'AI asszisztens',
+    'chat.online':      'Online',
+    'chat.chip1':       'Mivel foglalkoztok?',
+    'chat.chip2':       'Milyen esettanulmányaitok vannak?',
+    'chat.chip3':       'Hogyan zajlik a közös munka?',
+    'chat.chip4':       'Konzultációt szeretnék foglalni',
+    'chat.send':        'Küldés &rarr;',
+    'vc.title':         'Hang-demó',
+    'vc.cta':           'Kipróbálom élőben',
+    'vc.t.about':       'Automating bemutató',
+    'vc.t.recep':       'Recepciós',
+    'vc.t.resto':       'Pizzéria',
+    'vc.t.supp':        'Ügyfélszolgálat',
+    'ed.title':         'E-mail demó',
+    'ed.sub':           'Illessz be egy beérkező ügyfél-e-mailt — az AI kategorizálja, és megírja a válasz-piszkozatot.',
+    'ed.s1':            'Panasz',
+    'ed.s2':            'Ajánlatkérés',
+    'ed.s3':            'Számla-kérdés',
+    'ed.run':           'AI feldolgozás &rarr;',
+    'bk.title':         'Foglalj 30 perces hívást',
+    'bk.sub':           'Ingyenes konzultáció &middot; Google Meet &middot; 30 perc',
+    'bk.back':          'Vissza',
+    'bk.form-title':    'Add meg az adataid',
+    'bk.f.name':        'Név',
+    'bk.f.email':       'E-mail cím',
+    'bk.f.phone':       'Telefonszám',
+    'bk.f.company':     'Mi a céged neve?',
+    'bk.f.position':    'Mi a pozíciód?',
+    'bk.f.industry':    'Milyen iparágban működik a céged?',
+    'bk.f.problem':     'Mi veszi el a legtöbb idődet?',
+    'bk.o.p1':          'Hívások kezelése',
+    'bk.o.p2':          'E-mailek kezelése',
+    'bk.o.p3':          'Adminisztrációs munka',
+    'bk.o.p4':          'Időpont-egyeztetés',
+    'bk.o.p5':          'Egyéb',
+    'bk.f.other':       'Egyéb — írd le röviden',
+    'bk.f.decision':    'Te vagy a döntéshozó?',
+    'bk.o.choose':      'Válassz...',
+    'bk.o.d1':          'Igen, én döntök',
+    'bk.o.d2':          'Nem, de befolyásolom a döntést',
+    'bk.o.d3':          'Nem, csak információt gyűjtök',
+    'bk.f.task':        'Van konkrét feladat, amit automatizálnál?',
+    'bk.f.notes':       'További megjegyzések',
+    'bk.confirm':       'Foglalás megerősítése &rarr;',
+    'bk.done-title':    'Lefoglalva!',
+    'bk.done-note':     'A megerősítést és a Google Meet linket elküldtük e-mailben. Találkozunk a híváson!',
+    'bk.done-close':    'Bezárás',
     'cta.h2':           'Készen állsz a<br>munka kiváltására?',
     'cta.p.desk':       '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmondjuk hol illik be az AI. Ha nem illik, azt is megmondjuk. Ha igen, megépítjük.',
     'cta.p.mob':        '30 perces hívás. Nincs értékesítési nyomás.<br>Megértjük a működésedet és megmondjuk,<br>hol illik be az AI. Ha igen, megépítjük.',
@@ -785,11 +1397,17 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => na
 (function(){
   if('ontouchstart' in window) return;
   // Initialise from actual scroll position — fixes "jitter to top" after hash navigation
-  let dest = window.scrollY, cur = window.scrollY, running = false;
+  let dest = window.scrollY, cur = window.scrollY, running = false, last = 0;
   // Re-sync after browser processes any hash anchor scroll (e.g. index.html#products)
   requestAnimationFrame(() => requestAnimationFrame(() => {
     if(!running) { dest = window.scrollY; cur = window.scrollY; }
   }));
+
+  function start(){
+    if(running) return;
+    running = true; last = performance.now();
+    requestAnimationFrame(tick);
+  }
 
   window.addEventListener('wheel', e => {
     e.preventDefault();
@@ -797,14 +1415,18 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => na
                 : e.deltaMode === 2 ? e.deltaY * 800
                 : e.deltaY;
     const max = document.documentElement.scrollHeight - window.innerHeight;
+    // Re-sync when idle — scrollbar / keyboard / native scrolls would leave dest stale and cause a jump
+    if(!running){ dest = cur = window.scrollY; }
     dest = Math.max(0, Math.min(dest + delta, max));
-    if(!running){ running = true; tick(); }
+    start();
   }, { passive: false });
 
-  function tick(){
+  function tick(now){
+    const dt = Math.min(now - last, 100); last = now;
     const dist = dest - cur;
     if(Math.abs(dist) < 0.3){ cur = dest; window.scrollTo(0, cur); running = false; return; }
-    cur += dist * 0.085;
+    // time-based easing: same glide as 0.085/frame at 60fps, but doesn't slow down on dropped frames
+    cur += dist * (1 - Math.exp(-dt * 0.00532));
     window.scrollTo(0, cur);
     requestAnimationFrame(tick);
   }
@@ -813,11 +1435,12 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => na
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const id = a.getAttribute('href').slice(1);
+      if(!running){ cur = window.scrollY; }
       // Empty hash = scroll to top
       if(!id) {
         e.preventDefault();
         dest = 0;
-        if(!running){ running = true; tick(); }
+        start();
         return;
       }
       const el = document.getElementById(id);
@@ -825,7 +1448,7 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => na
         e.preventDefault();
         const max = document.documentElement.scrollHeight - window.innerHeight;
         dest = Math.max(0, Math.min(el.offsetTop - 90, max));
-        if(!running){ running = true; tick(); }
+        start();
       }
     });
   });
@@ -863,23 +1486,28 @@ document.querySelectorAll('a[href]').forEach(a => {
 ════════════════════════════ */
 (function(){
   document.querySelectorAll('.tilt').forEach(card => {
-    let mx = 0.5, my = 0.5, cx = 0, cy = 0;
+    let mx = 0.5, my = 0.5, cx = 0, cy = 0, hover = false, raf = null;
     const MAX_TILT = 7;
+    // rAF only runs while hovered or settling back — idle cards cost nothing
+    function loop(){
+      const tx = (mx - 0.5) * MAX_TILT * 2;
+      const ty = (my - 0.5) * -MAX_TILT * 2;
+      cx += (tx - cx) * 0.07; cy += (ty - cy) * 0.07;
+      if(!hover && Math.abs(cx) < 0.01 && Math.abs(cy) < 0.01){
+        cx = 0; cy = 0; card.style.transform = ''; raf = null; return;
+      }
+      card.style.transform = `perspective(1000px) rotateX(${cy}deg) rotateY(${cx}deg)`;
+      raf = requestAnimationFrame(loop);
+    }
+    function wake(){ if(!raf) raf = requestAnimationFrame(loop); }
+    card.addEventListener('mouseenter', () => { hover = true; wake(); });
     card.addEventListener('mousemove', e => {
       const r = card.getBoundingClientRect();
       mx = (e.clientX - r.left) / r.width;
       my = (e.clientY - r.top) / r.height;
+      wake();
     });
-    card.addEventListener('mouseleave', () => { mx = 0.5; my = 0.5; });
-    function loop(){
-      requestAnimationFrame(loop);
-      const tx = (mx - 0.5) * MAX_TILT * 2;
-      const ty = (my - 0.5) * -MAX_TILT * 2;
-      cx += (tx - cx) * 0.07; cy += (ty - cy) * 0.07;
-      if(Math.abs(cx) > 0.01 || Math.abs(cy) > 0.01)
-        card.style.transform = `perspective(1000px) rotateX(${cy}deg) rotateY(${cx}deg)`;
-    }
-    loop();
+    card.addEventListener('mouseleave', () => { hover = false; mx = 0.5; my = 0.5; wake(); });
   });
 })();
 
@@ -893,26 +1521,33 @@ document.querySelectorAll('a[href]').forEach(a => {
   const CH = 'アイウエオカキクケコサシスセソタチ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>{}[]|/\\=+-*&#@!';
   const R_BASE = 170;
   let mx = -999, my = -999, targetMx = -999, targetMy = -999;
-  let cols, rows, grid;
+  let cols, rows, grid, prevBox = null;
+  const STYLES = []; // cached rgba() strings, 1%-alpha buckets — avoids per-cell string allocs
 
   function build(){
     cv.width = innerWidth; cv.height = innerHeight;
     cols = Math.ceil(cv.width / FONT); rows = Math.ceil(cv.height / FONT);
     grid = Array.from({length: cols}, () => Array.from({length: rows}, () => ({ch: CH[Math.random()*CH.length|0], t: Math.random()*40|0})));
+    cx.font = FONT + 'px monospace'; cx.textBaseline = 'top'; // resize resets canvas state — set once here
+    prevBox = null;
   }
   function frame(){
     requestAnimationFrame(frame);
+    // clear only the area painted last frame instead of the whole screen
+    if(prevBox){ cx.clearRect(prevBox.x, prevBox.y, prevBox.w, prevBox.h); prevBox = null; }
+    if(targetMx < -500 && mx < -500) return; // pointer never entered — skip all work
     mx += (targetMx - mx) * 0.08; my += (targetMy - my) * 0.08;
     const R = R_BASE + Math.sin(Date.now() * 0.0008) * 10;
-    cx.clearRect(0, 0, cv.width, cv.height);
-    cx.font = FONT + 'px monospace'; cx.textBaseline = 'top';
     const c0=Math.max(0,((mx-R)/FONT)|0), c1=Math.min(cols,Math.ceil((mx+R)/FONT));
     const r0=Math.max(0,((my-R)/FONT)|0), r1=Math.min(rows,Math.ceil((my+R)/FONT));
+    if(c1<=c0 || r1<=r0) return;
+    prevBox = { x: c0*FONT, y: r0*FONT, w: (c1-c0)*FONT, h: (r1-r0)*FONT };
     for(let c=c0;c<c1;c++) for(let r=r0;r<r1;r++){
       const px=c*FONT, py=r*FONT;
       const dx=(px+FONT*.5-mx)*.92, dy=py+FONT*.5-my;
       const d=Math.sqrt(dx*dx+dy*dy); if(d>=R) continue;
-      cx.fillStyle=`rgba(80,80,80,${((1-d/R)*.28).toFixed(3)})`;
+      const ai=((1-d/R)*28)|0; if(!ai) continue;
+      cx.fillStyle = STYLES[ai] || (STYLES[ai] = 'rgba(80,80,80,' + (ai/100) + ')');
       cx.fillText(grid[c][r].ch, px, py);
       if(--grid[c][r].t<=0){ grid[c][r].ch=CH[Math.random()*CH.length|0]; grid[c][r].t=12+(Math.random()*35|0); }
     }
@@ -982,6 +1617,16 @@ const JOBS_HU=[
 ];
 
 /* ════════════════════════════
+   PRODUCTS VISIBILITY — pause card animations while off-screen
+════════════════════════════ */
+let prodVisible = false;
+(function(){
+  const sec = document.getElementById('products');
+  if(!sec){ prodVisible = true; return; }
+  new IntersectionObserver(en => { prodVisible = en[0].isIntersecting; }, { rootMargin: '120px' }).observe(sec);
+})();
+
+/* ════════════════════════════
    VOICE — 4 CALL CONTEXTS
 ════════════════════════════ */
 (function(){
@@ -1041,13 +1686,14 @@ const JOBS_HU=[
     document.querySelector('.vm-dot').style.background=call.type==='OUTGOING'?'#f59e0b':'#22c55e';
     convoEl.innerHTML='';
     if(timerInt) clearInterval(timerInt);
-    timerInt=setInterval(()=>{secs++;timerEl.textContent=fmt(secs);},1000);
+    timerInt=setInterval(()=>{secs++;if(prodVisible)timerEl.textContent=fmt(secs);},1000);
     scheduleMsg(call);
   }
   function scheduleMsg(call){
     if(msgIdx>=call.msgs.length){ if(timerInt){clearInterval(timerInt);timerInt=null;} setTimeout(startCall,3200); return; }
     const delay=msgIdx===0?800:2200;
     setTimeout(()=>{
+      if(!prodVisible){ setTimeout(()=>scheduleMsg(call),800); return; } // idle while off-screen
       const m=call.msgs[msgIdx++];
       const div=document.createElement('div'); div.className='vm-msg';
       div.innerHTML=`<span class="vm-role${m.r==='caller'?' vm-role--caller':''}">${m.r==='agent'?'Agent':'Caller'}:</span> ${m.t}`;
@@ -1077,13 +1723,15 @@ const JOBS_HU=[
   const cx=cv.getContext('2d');
   const N=256, noise=Array.from({length:N},()=>Math.random()*2-1);
   function sn(x){ const i=Math.floor(x)%N,f=x-Math.floor(x),a=noise[(i+N)%N],b=noise[(i+1+N)%N],t=f*f*(3-2*f); return a+(b-a)*t; }
-  let t=0;
+  let t=0, W=0;
   function draw(){
+    if(!prodVisible){ setTimeout(draw,400); return; } // pause while off-screen
     requestAnimationFrame(draw);
-    const W=cv.offsetWidth; if(!W) return;
-    cv.width=W; cv.height=28; cx.clearRect(0,0,W,28);
+    const w=cv.offsetWidth; if(!w) return;
+    if(w!==W){ W=w; cv.width=W; cv.height=28; } // resize only when width actually changed — reallocating every frame is expensive
+    cx.clearRect(0,0,W,28);
     cx.beginPath(); cx.strokeStyle='#0a0a0a'; cx.lineWidth=1.5; cx.lineJoin='round'; cx.lineCap='round';
-    for(let x=0;x<=W;x++){
+    for(let x=0;x<=W;x+=2){
       const n=x/W, env=Math.pow(Math.sin(n*Math.PI),0.6)*.8+.2;
       const y=14+env*(sn(n*8+t*1.1)*6+sn(n*18+t*2.3)*3+sn(n*3+t*.6)*4.5+Math.sin(n*28+t*3.8)*1.5+Math.sin(n*9+t*1.9)*2.5);
       x===0?cx.moveTo(x,y):cx.lineTo(x,y);
@@ -1133,6 +1781,7 @@ const JOBS_HU=[
     poolIdx++;
   }
   function addEmail(){
+    if(!prodVisible){ setTimeout(addEmail,1000); return; } // idle while off-screen
     const email=activePool[poolIdx++%activePool.length], rows=Array.from(wrap.querySelectorAll('.em-row'));
     const newRow=makeRow(email,-ROW_H); newRow.style.transition='none'; wrap.appendChild(newRow);
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
@@ -1169,6 +1818,7 @@ const JOBS_HU=[
     setTimeout(()=>{wrap.innerHTML='';cb();},380);
   }
   function addTask(){
+    if(!prodVisible){ setTimeout(addTask,1000); return; } // idle while off-screen
     const job=activeJobs[jobIdx%activeJobs.length];
     if(taskIdx===0){
       fadeOutAll(()=>{
@@ -1190,6 +1840,812 @@ const JOBS_HU=[
     } else { taskIdx=0; jobIdx++; setTimeout(addTask,2800); }
   }
   setTimeout(addTask,900);
+})();
+
+/* ════════════════════════════
+   LIVE CHAT DEMO — n8n RAG chatbot
+════════════════════════════ */
+(function(){
+  const log = document.getElementById('chatLog');
+  const input = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('chatSend');
+  const chips = document.getElementById('chatChips');
+  if(!log || !input || !sendBtn) return;
+
+  const WEBHOOK = 'https://n8n.automating.hu/webhook/automating-chatbot/chat';
+  const CHAT_T = {
+    en: {
+      greeting: 'Hi! 👋 I\'m the **Automating** AI assistant.\nAsk me about our services, case studies, or AI automation!',
+      error: 'Sorry, I couldn\'t answer just now. 🙇 Please try again in a moment, or email us: **hello@automating.hu**',
+      empty: 'Oops, I received an empty reply. Please try again!',
+      placeholder: 'Type your question...',
+    },
+    hu: {
+      greeting: 'Szia! 👋 Az **Automating** AI asszisztense vagyok.\nKérdezz bátran a szolgáltatásainkról, esettanulmányainkról vagy az AI-automatizálásról!',
+      error: 'Elnézést, most nem sikerült válaszolnom. 🙇 Próbáld újra egy pillanat múlva, vagy írj nekünk: **hello@automating.hu**',
+      empty: 'Hoppá, üres válasz érkezett. Próbáld újra!',
+      placeholder: 'Írd ide a kérdésed...',
+    }
+  };
+
+  let sessionId = sessionStorage.getItem('chatSession');
+  if(!sessionId) {
+    sessionId = 'web-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+    sessionStorage.setItem('chatSession', sessionId);
+  }
+
+  /* mini-markdown: escape -> bold, links, lists, paragraphs */
+  function render(md) {
+    const esc = md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const lines = esc.split(/\r?\n/);
+    let html = '', list = null, para = [];
+    const inline = s => s
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+      .replace(/(^|[^"(>])(https?:\/\/[^\s<),]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+    const flushPara = () => { if (para.length) { html += '<p>' + para.map(inline).join('<br>') + '</p>'; para = []; } };
+    const flushList = () => { if (list) { html += (list.ord ? '<ol>' : '<ul>') + list.items.map(i => '<li>' + inline(i) + '</li>').join('') + (list.ord ? '</ol>' : '</ul>'); list = null; } };
+    for (const raw of lines) {
+      const line = raw.trim();
+      const ul = line.match(/^[-*•]\s+(.*)/);
+      const ol = line.match(/^\d+[.)]\s+(.*)/);
+      if (ul || ol) {
+        flushPara();
+        const ord = !!ol;
+        if (!list || list.ord !== ord) { flushList(); list = { ord, items: [] }; }
+        list.items.push((ul || ol)[1]);
+      } else if (line === '') { flushPara(); flushList(); }
+      else { flushList(); para.push(line); }
+    }
+    flushPara(); flushList();
+    return html;
+  }
+
+  function bubble(cls, html) {
+    const el = document.createElement('div');
+    el.className = 'chat-msg ' + cls;
+    el.innerHTML = html;
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+    return el;
+  }
+
+  let interacted = false;
+  async function send(text) {
+    text = (text || input.value).trim();
+    if (!text || sendBtn.disabled) return;
+    interacted = true;
+    input.value = ''; autosize();
+    if (chips && chips.parentNode) chips.remove();
+    bubble('user', render(text));
+    sendBtn.disabled = true;
+    const t = bubble('bot chat-typing', '<i></i><i></i><i></i>');
+    const tr = CHAT_T[currentLang] || CHAT_T.hu;
+    try {
+      const res = await fetch(WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'sendMessage', sessionId, chatInput: text }),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      t.classList.remove('chat-typing');
+      t.innerHTML = render(data.output || tr.empty);
+    } catch (err) {
+      t.classList.remove('chat-typing');
+      t.innerHTML = render(tr.error);
+    }
+    sendBtn.disabled = false;
+    log.scrollTop = log.scrollHeight;
+  }
+
+  sendBtn.addEventListener('click', () => send());
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+  function autosize() {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  }
+  input.addEventListener('input', autosize);
+  document.querySelectorAll('.chat-chip').forEach(c => c.addEventListener('click', () => send(c.textContent)));
+
+  // The site-wide smooth-scroll hijacks wheel events on window — let the log scroll natively
+  log.addEventListener('wheel', e => e.stopPropagation());
+
+  const greetEl = bubble('bot', render((CHAT_T[currentLang] || CHAT_T.hu).greeting));
+  input.placeholder = (CHAT_T[currentLang] || CHAT_T.hu).placeholder;
+
+  langCallbacks.push(lang => {
+    const tr = CHAT_T[lang] || CHAT_T.hu;
+    input.placeholder = tr.placeholder;
+    if (!interacted) greetEl.innerHTML = render(tr.greeting);
+  });
+})();
+
+/* ════════════════════════════
+   VOICE DEMO — Vapi web call
+════════════════════════════ */
+(function(){
+  const btn = document.getElementById('voiceBtn');
+  if (!btn) return;
+
+  // PUBLIC key — böngészőbe való; a privát kulcs SOHA nem kerülhet ide!
+  const VAPI_PUBLIC_KEY = 'af7513b7-8bdf-482f-965a-5b99c8ffb331';
+  const VAPI_ASSISTANTS = {
+    about: '971548af-a5b3-4139-bcc5-3a9664338f51', // Automating Web Demo
+    recep: '09d45384-a77b-4916-8a21-922a5b4b1c9c', // Recepciós (Bella Szalon)
+    resto: '58e1e6c1-d737-4f56-9460-e7d6fe043cc4', // Pizzéria (Napoli)
+    supp:  '02cc0a77-f67e-4521-b3b1-76c45511a3ee', // Ügyfélszolgálat (TechShop)
+  };
+
+  const card = document.querySelector('.voice-card');
+  const orb = document.getElementById('voiceOrb');
+  const statusEl = document.getElementById('voiceStatus');
+  const waveCv = document.getElementById('voiceWave');
+  const timerEl = document.getElementById('voiceTimer');
+  const typeBtns = document.querySelectorAll('.voice-type');
+
+  const VC_T = {
+    en: {
+      desc: {
+        about: 'Ask anything about Automating and AI automation — all you need is a microphone.',
+        recep: 'Receptionist of a fictional beauty salon — try booking an appointment with her.',
+        resto: 'Order line of a fictional pizzeria — try placing an order.',
+        supp:  'Support agent of a fictional webshop — ask about an order, return or warranty.',
+      },
+      connecting: 'Connecting… please allow microphone access.',
+      live: 'Live — go ahead, say hi!',
+      error: 'Could not start the call. Please try again.',
+      errDenied: 'Microphone access is blocked for this site. Click the lock icon in the address bar, allow the microphone, then reload the page.',
+      errNoMic: 'No microphone found. Connect one, or check your system sound settings.',
+      errBusy: 'The microphone is in use by another app. Close it (e.g. Teams, Discord) and try again.',
+      errInsecure: 'The microphone only works over HTTPS or localhost — don\'t open the page as a file.',
+      errTimeout: 'Could not connect. Check your internet connection (a firewall or VPN may block calls) and try again.',
+      stop: '⏹ End call',
+      connectingBtn: 'Connecting…',
+      missingKey: 'The Vapi PUBLIC key is missing!\n\nPaste it into index.html as VAPI_PUBLIC_KEY:\ndashboard.vapi.ai → Vapi API Keys → Public Key',
+    },
+    hu: {
+      desc: {
+        about: 'Kérdezz bármit az Automatingról és az AI-automatizálásról — csak egy mikrofon kell hozzá.',
+        recep: 'Egy fiktív szépségszalon recepciósa — próbálj időpontot foglalni nála.',
+        resto: 'Egy fiktív pizzéria rendelésfelvevője — próbálj leadni egy rendelést.',
+        supp:  'Egy fiktív webshop ügyfélszolgálata — kérdezz rendelésről, visszaküldésről, garanciáról.',
+      },
+      connecting: 'Csatlakozás… engedélyezd a mikrofont!',
+      live: 'Élő — beszélj nyugodtan!',
+      error: 'Nem sikerült elindítani a hívást. Próbáld újra!',
+      errDenied: 'A mikrofon le van tiltva ennél az oldalnál. Kattints a címsor lakat ikonjára, engedélyezd a mikrofont, majd töltsd újra az oldalt.',
+      errNoMic: 'Nem találtam mikrofont. Csatlakoztass egyet, vagy nézd meg a rendszer hangbeállításait.',
+      errBusy: 'A mikrofont másik program használja. Zárd be (pl. Teams, Discord), és próbáld újra.',
+      errInsecure: 'A mikrofon csak HTTPS-en vagy localhoston működik — ne fájlként nyisd meg az oldalt.',
+      errTimeout: 'Nem sikerült kapcsolódni. Ellenőrizd a netkapcsolatot (tűzfal/VPN blokkolhatja a hívást), és próbáld újra.',
+      stop: '⏹ Befejezés',
+      connectingBtn: 'Csatlakozás…',
+      missingKey: 'Hiányzik a Vapi PUBLIC kulcs!\n\nMásold be az index.html-be a VAPI_PUBLIC_KEY értékét:\ndashboard.vapi.ai → Vapi API Keys → Public Key',
+    }
+  };
+  const tr = () => VC_T[currentLang] || VC_T.hu;
+
+  let vapi = null, VapiCtor = null, state = 'idle', secs = 0, timerInt = null, selType = 'about', connectWatch = null;
+
+  function clearWatch() { if (connectWatch) { clearTimeout(connectWatch); connectWatch = null; } }
+
+  function wireVapi() {
+    vapi = new VapiCtor(VAPI_PUBLIC_KEY);
+    vapi.on('call-start', setLive);
+    vapi.on('call-end', setIdle);
+    vapi.on('error', err => {
+      console.error('Vapi error event:', JSON.stringify(err));
+      if (state !== 'idle') { setIdle(); showFailure(err); }
+    });
+    vapi.on('volume-level', v => {
+      if (state === 'live') {
+        vol = Math.min(1, v);
+        orb.style.setProperty('--vol', vol);
+      }
+    });
+  }
+
+  async function loadVapi() {
+    const urls = ['https://esm.sh/@vapi-ai/web', 'https://cdn.jsdelivr.net/npm/@vapi-ai/web/+esm'];
+    let lastErr;
+    for (const u of urls) {
+      try {
+        const m = await import(u);
+        let C = m.default || m.Vapi || m;
+        if (typeof C !== 'function' && C && typeof C.default === 'function') C = C.default; // CJS double-default wrap (jsdelivr)
+        if (typeof C === 'function') return C;
+        throw new Error('no constructor export');
+      }
+      catch (e) { lastErr = e; console.warn('Vapi SDK load failed from', u, e); }
+    }
+    throw lastErr;
+  }
+
+  function errDetail(err) {
+    const d = err && (err.errorMsg || err.message || (err.error && (err.error.msg || err.error.message || err.error.errorMsg)));
+    return (typeof d === 'string' && d.length && d.length < 90) ? ' (' + d + ')' : '';
+  }
+
+  // classify failures precisely — probe the mic only AFTER something failed
+  async function showFailure(err) {
+    const n = err && err.name;
+    if (n === 'InsecureContext') return setStatus(tr().errInsecure);
+    const map = nm =>
+      nm === 'NotAllowedError' || nm === 'PermissionDeniedError' ? tr().errDenied
+      : nm === 'NotFoundError' || nm === 'DevicesNotFoundError' ? tr().errNoMic
+      : nm === 'NotReadableError' || nm === 'TrackStartError' ? tr().errBusy
+      : null;
+    if (map(n)) return setStatus(map(n));
+    try {
+      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+      s.getTracks().forEach(t => t.stop());
+      setStatus(tr().error + errDetail(err)); // mic is fine → network/SDK problem, show detail
+    } catch (e2) {
+      setStatus(map(e2.name) || tr().error + errDetail(err));
+    }
+  }
+
+  function setStatus(text) {
+    statusEl.textContent = text;
+  }
+
+  function setIdle() {
+    state = 'idle';
+    clearWatch();
+    if (timerInt) { clearInterval(timerInt); timerInt = null; }
+    timerEl.hidden = true;
+    orb.classList.remove('live', 'connecting');
+    orb.style.removeProperty('--vol');
+    card.classList.remove('busy', 'live-call');
+    vol = 0; volS = 0;
+    btn.disabled = false;
+    btn.classList.remove('live');
+    btn.innerHTML = (T[currentLang] || T.hu)['vc.cta'];
+    setStatus(tr().desc[selType]);
+  }
+
+  // live waveform — layered sine waves (echo layers in the site greys),
+  // amplitude and tempo driven by the live call volume
+  let vol = 0, volS = 0, waveRun = false, wt = 0, waveW = 0, waveCtx = null;
+  const WAVE_H = 64;
+  const WAVE_LAYERS = [
+    { color: 'rgba(160,160,160,0.40)', lw: 1.2, amp: 0.42, sp: 0.7, ph: 4.2 },
+    { color: 'rgba(102,102,102,0.50)', lw: 1.4, amp: 0.65, sp: 1.4, ph: 2.1 },
+    { color: '#0a0a0a',                lw: 1.8, amp: 1.0,  sp: 1.0, ph: 0   },
+  ];
+  const wNoise = Array.from({ length: 256 }, () => Math.random() * 2 - 1);
+  function wsn(x) {
+    const i = Math.floor(x) % 256, f = x - Math.floor(x), t = f * f * (3 - 2 * f);
+    const a = wNoise[(i + 256) % 256], b = wNoise[(i + 1 + 256) % 256];
+    return a + (b - a) * t;
+  }
+  function waveDraw() {
+    if (state !== 'live') { waveRun = false; return; }
+    requestAnimationFrame(waveDraw);
+    const w = waveCv.offsetWidth;
+    if (!w) return;
+    const dpr = window.devicePixelRatio || 1;
+    if (w !== waveW || !waveCtx) {
+      waveW = w;
+      waveCv.width = w * dpr; waveCv.height = WAVE_H * dpr;
+      waveCtx = waveCv.getContext('2d');
+      waveCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      waveCtx.lineCap = 'round'; waveCtx.lineJoin = 'round';
+    }
+    const cx = waveCtx, mid = WAVE_H / 2;
+    volS += (vol - volS) * 0.18;
+    const A = 4 + volS * 22;
+    cx.clearRect(0, 0, waveW, WAVE_H);
+    // hairline baseline — matches the site's border grey
+    cx.strokeStyle = '#e8e8e8'; cx.lineWidth = 1;
+    cx.beginPath(); cx.moveTo(0, mid); cx.lineTo(waveW, mid); cx.stroke();
+    for (const L of WAVE_LAYERS) {
+      cx.strokeStyle = L.color; cx.lineWidth = L.lw;
+      cx.beginPath();
+      for (let x = 0; x <= waveW; x += 2) {
+        const n = x / waveW;
+        const env = Math.pow(Math.sin(n * Math.PI), 1.15);
+        const ph = wt * L.sp + L.ph;
+        const yv = Math.sin(n * 8.8 + ph) * 0.55
+                 + Math.sin(n * 17 - ph * 1.3) * 0.3
+                 + wsn(n * 5 + ph) * 0.25;
+        const y = mid + env * A * L.amp * yv;
+        x === 0 ? cx.moveTo(x, y) : cx.lineTo(x, y);
+      }
+      cx.stroke();
+    }
+    wt += 0.045 + volS * 0.06;
+  }
+
+  function setLive() {
+    state = 'live';
+    clearWatch();
+    secs = 0;
+    timerEl.textContent = '00:00';
+    timerEl.hidden = false;
+    timerInt = setInterval(() => {
+      secs++;
+      timerEl.textContent = String(Math.floor(secs / 60)).padStart(2, '0') + ':' + String(secs % 60).padStart(2, '0');
+    }, 1000);
+    orb.classList.remove('connecting');
+    orb.classList.add('live');
+    card.classList.add('live-call');
+    if (!waveRun) { waveRun = true; requestAnimationFrame(waveDraw); }
+    btn.disabled = false;
+    btn.classList.add('live');
+    btn.textContent = tr().stop;
+    setStatus(tr().live);
+  }
+
+  btn.addEventListener('click', async () => {
+    if (state === 'connecting') return;
+    if (state === 'live') { try { vapi.stop(); } catch (e) {} return; }
+    if (VAPI_PUBLIC_KEY.indexOf('IDE_') === 0) { alert(tr().missingKey); return; }
+    state = 'connecting';
+    card.classList.add('busy');
+    btn.disabled = true;
+    btn.textContent = tr().connectingBtn;
+    orb.classList.add('connecting');
+    setStatus(tr().connecting);
+    try {
+      if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw { name: 'InsecureContext' };
+      }
+      if (!VapiCtor) VapiCtor = await loadVapi();
+      if (!vapi) wireVapi();
+      try { vapi.stop(); } catch (e) {} // defensive: clear any half-torn-down previous call
+      // watchdog: never hang in "connecting" — abort and explain after 20s
+      connectWatch = setTimeout(() => {
+        if (state === 'connecting') {
+          try { vapi.stop(); } catch (e) {}
+          setIdle();
+          setStatus(tr().errTimeout);
+        }
+      }, 20000);
+      try {
+        await vapi.start(VAPI_ASSISTANTS[selType]);
+      } catch (e1) {
+        // stale Daily instance from a previous call — rebuild once and retry
+        const d = String((e1 && (e1.message || e1.errorMsg)) || e1);
+        console.warn('Vapi start retry, ok:', d);
+        if (!/duplicate|already|in progress|destroyed/i.test(d)) throw e1;
+        try { vapi.stop(); } catch (e) {}
+        wireVapi();
+        await new Promise(r => setTimeout(r, 500));
+        await vapi.start(VAPI_ASSISTANTS[selType]);
+      }
+    } catch (err) {
+      console.error('Vapi indítási hiba:', err);
+      setIdle();
+      showFailure(err);
+    }
+  });
+
+  typeBtns.forEach(b => b.addEventListener('click', () => {
+    if (state !== 'idle') return;
+    selType = b.dataset.type;
+    typeBtns.forEach(x => x.classList.toggle('sel', x === b));
+    setStatus(tr().desc[selType]);
+  }));
+
+  setIdle();
+  // setLang rewrites the data-i18n button label — restore the state-specific label after it
+  langCallbacks.push(() => {
+    if (state === 'idle') setIdle();
+    else if (state === 'live') { btn.textContent = tr().stop; setStatus(tr().live); }
+    else if (state === 'connecting') { btn.textContent = tr().connectingBtn; setStatus(tr().connecting); }
+  });
+})();
+
+/* ════════════════════════════
+   EMAIL DEMO — n8n + Gemini elemzés
+════════════════════════════ */
+(function(){
+  const runBtn = document.getElementById('edRun');
+  if (!runBtn) return;
+  const input = document.getElementById('edInput');
+  const result = document.getElementById('edResult');
+  const ED_URL = 'https://n8n.automating.hu/webhook/automating-email-demo';
+
+  const SAMPLES = {
+    hu: {
+      complaint: 'Tisztelt Cégük!\n\nMúlt héten rendeltem Önöktől egy kávéfőzőt (rendelésszám: 48213), de a csomag sérülten érkezett meg, a víztartály megrepedt. Kérem, mielőbb oldják meg a cserét, mert ajándékba szántam.\n\nVárom mielőbbi válaszukat!\nÜdvözlettel,\nNagy Petra',
+      quote: 'Jó napot!\n\nEgy 12 szobás panziót üzemeltetek Egerben, és érdekelne egy AI telefonos asszisztens, ami a foglalásokat kezeli. Kaphatnék árajánlatot arról, hogy ez nálunk hogyan működne?\n\nKöszönettel,\nKovács Bence',
+      invoice: 'Üdvözlöm!\n\nA májusi számlájukon (AUT-2026-0512) szereplő összeg nem egyezik a szerződésben rögzített díjjal. Kérem, ellenőrizzék, és küldjenek helyesbített számlát.\n\nÜdvözlettel,\nTóth Andrea\npénzügyi vezető',
+    },
+    en: {
+      complaint: 'Dear Support,\n\nI ordered a coffee machine from you last week (order #48213), but it arrived damaged — the water tank is cracked. Please arrange a replacement as soon as possible, it was meant to be a gift.\n\nRegards,\nPetra Nagy',
+      quote: 'Hello!\n\nI run a 12-room guesthouse in Eger and I would be interested in an AI phone assistant that handles bookings. Could you send me a quote on how this would work for us?\n\nThanks,\nBence Kovács',
+      invoice: 'Hi,\n\nThe amount on your May invoice (AUT-2026-0512) does not match the fee set in our contract. Please check it and send a corrected invoice.\n\nBest regards,\nAndrea Tóth\nCFO',
+    }
+  };
+
+  const ED_T = {
+    en: {
+      empty: 'The analysis and the drafted reply will appear here.',
+      error: 'Something went wrong — please try again in a moment.',
+      replyLabel: 'Suggested reply',
+      ph: 'Paste or type an incoming customer email here...',
+      cat: { 'Panasz': 'Complaint', 'Ajánlatkérés': 'Quote request', 'Számlázás': 'Billing', 'Időpontfoglalás': 'Scheduling', 'Információkérés': 'Information', 'Egyéb': 'Other' },
+      urg: { 'alacsony': 'Low priority', 'közepes': 'Medium priority', 'sürgős': 'Urgent' },
+      sent: { 'pozitív': 'Positive', 'semleges': 'Neutral', 'negatív': 'Negative' },
+    },
+    hu: {
+      empty: 'Itt jelenik meg az elemzés és a válasz-piszkozat.',
+      error: 'Hiba történt — próbáld újra egy pillanat múlva.',
+      replyLabel: 'Javasolt válasz',
+      ph: 'Illessz be vagy írj ide egy beérkező ügyfél-e-mailt...',
+      cat: {},
+      urg: { 'alacsony': 'Alacsony prioritás', 'közepes': 'Közepes prioritás', 'sürgős': 'Sürgős' },
+      sent: { 'pozitív': 'Pozitív', 'semleges': 'Semleges', 'negatív': 'Negatív' },
+    }
+  };
+  const tr = () => ED_T[currentLang] || ED_T.hu;
+
+  let busy = false, last = null;
+
+  function setEmpty(msg) {
+    result.innerHTML = '<div class="ed-empty">' + (msg || tr().empty) + '</div>';
+  }
+
+  function renderResult(d) {
+    last = d;
+    const t = tr();
+    result.innerHTML = '';
+    const badges = document.createElement('div');
+    badges.className = 'ed-badges';
+    const mk = (cls, txt) => {
+      const s = document.createElement('span');
+      s.className = 'ed-badge ' + cls;
+      s.textContent = txt;
+      badges.appendChild(s);
+    };
+    mk('ed-b-cat', t.cat[d.category] || d.category);
+    mk(d.urgency === 'sürgős' ? 'ed-b-high' : d.urgency === 'alacsony' ? 'ed-b-low' : 'ed-b-mid', t.urg[d.urgency] || d.urgency);
+    mk('ed-b-sent', t.sent[d.sentiment] || d.sentiment);
+    const sum = document.createElement('div'); sum.className = 'ed-summary'; sum.textContent = d.summary;
+    const lab = document.createElement('div'); lab.className = 'ed-reply-label'; lab.textContent = t.replyLabel;
+    const rep = document.createElement('div'); rep.className = 'ed-reply'; rep.textContent = d.reply;
+    result.append(badges, sum, lab, rep);
+  }
+
+  async function run() {
+    const text = input.value.trim();
+    if (!text || busy) return;
+    busy = true;
+    runBtn.disabled = true;
+    result.innerHTML = '<div class="ed-empty"><span class="chat-typing"><i></i><i></i><i></i></span></div>';
+    try {
+      const res = await fetch(ED_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: text }),
+      });
+      const d = await res.json().catch(() => null);
+      if (!res.ok || !d || !d.ok) throw new Error('bad response');
+      renderResult(d);
+    } catch (e) {
+      last = null;
+      setEmpty(tr().error);
+    }
+    busy = false;
+    runBtn.disabled = false;
+  }
+
+  runBtn.addEventListener('click', run);
+  document.querySelectorAll('.ed-chip').forEach(c => c.addEventListener('click', () => {
+    input.value = (SAMPLES[currentLang] || SAMPLES.hu)[c.dataset.key];
+    input.focus();
+  }));
+
+  input.placeholder = tr().ph;
+  setEmpty();
+  langCallbacks.push(() => {
+    input.placeholder = tr().ph;
+    if (busy) return;
+    if (last) renderResult(last); else setEmpty();
+  });
+})();
+
+/* ════════════════════════════
+   BOOKING MODAL — Cal.com v2 public API, custom UI
+════════════════════════════ */
+(function(){
+  const overlay = document.getElementById('bkOverlay');
+  if (!overlay) return;
+
+  const EVENT_TYPE_ID = 5521608;          // cal.com/automating.hu/30-perces-hivas
+  const API = 'https://api.cal.com/v2';
+  const TZ = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'Europe/Budapest';
+
+  const BK_T = {
+    en: {
+      locale: 'en-GB',
+      pickDay: 'Pick a date',
+      loading: 'Loading availability…',
+      noSlotsMonth: 'No available times this month — try the next one.',
+      noSlotsDay: 'No times on this day.',
+      tz: 'Times shown in your time zone:',
+      slotTaken: 'Sorry — that time was just taken. Please pick another one.',
+      generic: 'Something went wrong. Please try again, or book at cal.com/automating.hu/30-perces-hivas',
+      needProblem: 'Please pick at least one option for "What takes up most of your time?".',
+      needFields: 'Please fill in all required fields.',
+      badEmail: 'Please enter a valid email address.',
+      badPhone: 'Invalid phone number — use international format, e.g. +36301234567 (or leave it empty).',
+      pastSlot: 'That time is in the past or too close — please pick a later one.',
+      rateLimit: 'Too many attempts — please wait a minute and try again.',
+      sending: 'Booking…',
+      phCompany: 'e.g. Automating Ltd.',
+      phPosition: 'e.g. Co-founder',
+      phIndustry: 'e.g. digital technology',
+      phNotes: 'Share anything that helps us prepare for the call.',
+    },
+    hu: {
+      locale: 'hu-HU',
+      pickDay: 'Válassz napot',
+      loading: 'Szabad időpontok betöltése…',
+      noSlotsMonth: 'Ebben a hónapban nincs szabad időpont — nézd meg a következőt.',
+      noSlotsDay: 'Ezen a napon nincs időpont.',
+      tz: 'Az időpontok a te időzónádban:',
+      slotTaken: 'Sajnáljuk — ezt az időpontot épp most foglalták le. Válassz másikat!',
+      generic: 'Hiba történt. Próbáld újra, vagy foglalj itt: cal.com/automating.hu/30-perces-hivas',
+      needProblem: 'Jelölj be legalább egy lehetőséget a „Mi veszi el a legtöbb idődet?" kérdésnél.',
+      needFields: 'Kérlek, tölts ki minden kötelező mezőt.',
+      badEmail: 'Kérlek, valós e-mail címet adj meg.',
+      badPhone: 'Érvénytelen telefonszám — nemzetközi formátumban add meg, pl. +36301234567 (vagy hagyd üresen).',
+      pastSlot: 'Ez az időpont már elmúlt vagy túl közeli — válassz későbbit.',
+      rateLimit: 'Túl sok próbálkozás — várj egy percet, és próbáld újra.',
+      sending: 'Foglalás…',
+      phCompany: 'Pl. Automating KFT.',
+      phPosition: 'Pl. Társ-alapító',
+      phIndustry: 'Pl. digitális technológia',
+      phNotes: 'Kérlek, ossz meg bármit, ami segít felkészülnünk a hívásunkra.',
+    }
+  };
+  const tr = () => BK_T[currentLang] || BK_T.hu;
+
+  const $ = id => document.getElementById(id);
+  const steps = [$('bkStep1'), $('bkStep2'), $('bkStep3')];
+  const monthEl = $('bkMonth'), dowEl = $('bkDow'), daysEl = $('bkDays');
+  const slotsHead = $('bkSlotsHead'), slotList = $('bkSlotList'), tzEl = $('bkTz');
+  const chosenEl = $('bkChosen'), errEl = $('bkError'), submitBtn = $('bkSubmit');
+
+  const now = new Date();
+  let viewY = now.getFullYear(), viewM = now.getMonth();
+  let selectedDate = null, selectedSlot = null;
+  const monthCache = {};
+
+  const pad = n => String(n).padStart(2, '0');
+  const mKey = (y, m) => y + '-' + pad(m + 1);
+  const dStr = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+
+  function showStep(i) {
+    steps.forEach((s, j) => { s.hidden = j !== i; });
+    if (overlay.querySelector('.bk-card')) overlay.querySelector('.bk-card').scrollTop = 0;
+  }
+
+  async function loadMonth(y, m) {
+    const key = mKey(y, m);
+    if (monthCache[key]) return monthCache[key];
+    const today = new Date();
+    const first = new Date(y, m, 1), last = new Date(y, m + 1, 0);
+    const from = (y === today.getFullYear() && m === today.getMonth()) ? today : first;
+    const url = API + '/slots?eventTypeId=' + EVENT_TYPE_ID +
+      '&start=' + dStr(from) + '&end=' + dStr(last) +
+      '&timeZone=' + encodeURIComponent(TZ);
+    const res = await fetch(url, { headers: { 'cal-api-version': '2024-09-04' } });
+    const data = await res.json();
+    const map = {};
+    if (data.status === 'success' && data.data) {
+      for (const d in data.data) map[d] = data.data[d].map(s => s.start);
+    }
+    monthCache[key] = map;
+    return map;
+  }
+
+  function renderDow() {
+    let html = '';
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(Date.UTC(2024, 0, 1 + i)); // 2024-01-01 = Monday
+      html += '<span>' + d.toLocaleDateString(tr().locale, { weekday: 'short', timeZone: 'UTC' }).replace('.', '') + '</span>';
+    }
+    dowEl.innerHTML = html;
+  }
+
+  function renderTz() {
+    let off = '';
+    try { off = ' (' + new Intl.DateTimeFormat('en-US', { timeZone: TZ, timeZoneName: 'shortOffset' }).formatToParts(new Date()).find(p => p.type === 'timeZoneName').value + ')'; } catch (e) {}
+    tzEl.textContent = tr().tz + ' ' + TZ.replace('_', ' ') + off;
+  }
+
+  async function renderCal() {
+    const monthDate = new Date(viewY, viewM, 1);
+    monthEl.textContent = monthDate.toLocaleDateString(tr().locale, { year: 'numeric', month: 'long' });
+    $('bkPrev').disabled = viewY === now.getFullYear() && viewM === now.getMonth();
+    renderDow();
+    renderTz();
+    daysEl.innerHTML = '<div class="bk-loading">' + tr().loading + '</div>';
+    slotsHead.textContent = tr().pickDay;
+    slotList.innerHTML = '';
+    let map;
+    try { map = await loadMonth(viewY, viewM); } catch (e) { map = {}; }
+    if (viewY !== monthDate.getFullYear() || viewM !== monthDate.getMonth()) return; // user navigated away meanwhile
+    const first = new Date(viewY, viewM, 1);
+    const daysInMonth = new Date(viewY, viewM + 1, 0).getDate();
+    const lead = (first.getDay() + 6) % 7; // Monday start
+    let html = '';
+    for (let i = 0; i < lead; i++) html += '<span></span>';
+    const todayStr = dStr(new Date());
+    for (let d = 1; d <= daysInMonth; d++) {
+      const ds = viewY + '-' + pad(viewM + 1) + '-' + pad(d);
+      const avail = map[ds] && map[ds].length;
+      html += '<button type="button" class="bk-day' + (avail ? ' avail' : '') +
+        (ds === todayStr ? ' today' : '') + (ds === selectedDate ? ' sel' : '') +
+        '" data-date="' + ds + '"' + (avail ? '' : ' disabled tabindex="-1"') + '>' + d + '</button>';
+    }
+    daysEl.innerHTML = html;
+    if (!Object.keys(map).length) slotList.innerHTML = '<div class="bk-empty">' + tr().noSlotsMonth + '</div>';
+    daysEl.querySelectorAll('.bk-day.avail').forEach(b => b.addEventListener('click', () => selectDay(b.dataset.date)));
+    if (selectedDate && map[selectedDate]) renderSlots(map[selectedDate]);
+  }
+
+  function selectDay(ds) {
+    selectedDate = ds;
+    daysEl.querySelectorAll('.bk-day').forEach(b => b.classList.toggle('sel', b.dataset.date === ds));
+    const map = monthCache[mKey(viewY, viewM)] || {};
+    renderSlots(map[ds] || []);
+  }
+
+  function renderSlots(slots) {
+    const d = new Date(selectedDate + 'T12:00:00');
+    slotsHead.textContent = d.toLocaleDateString(tr().locale, { weekday: 'long', month: 'long', day: 'numeric' });
+    if (!slots.length) { slotList.innerHTML = '<div class="bk-empty">' + tr().noSlotsDay + '</div>'; return; }
+    slotList.innerHTML = slots.map(iso =>
+      '<button type="button" class="bk-slot" data-iso="' + iso + '">' +
+      new Date(iso).toLocaleTimeString(tr().locale, { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: TZ }) +
+      '</button>').join('');
+    slotList.querySelectorAll('.bk-slot').forEach(b => b.addEventListener('click', () => {
+      selectedSlot = b.dataset.iso;
+      chosenEl.textContent = fmtChosen(selectedSlot);
+      errEl.hidden = true;
+      showStep(1);
+    }));
+  }
+
+  function fmtChosen(iso) {
+    const d = new Date(iso);
+    const date = d.toLocaleDateString(tr().locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const t1 = d.toLocaleTimeString(tr().locale, { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: TZ });
+    const t2 = new Date(d.getTime() + 30 * 60000).toLocaleTimeString(tr().locale, { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: TZ });
+    return date + ' · ' + t1 + '–' + t2;
+  }
+
+  function applyPlaceholders() {
+    $('bkCompany').placeholder = tr().phCompany;
+    $('bkPosition').placeholder = tr().phPosition;
+    $('bkIndustry').placeholder = tr().phIndustry;
+    $('bkNotes').placeholder = tr().phNotes;
+  }
+
+  /* open / close */
+  let inited = false;
+  function openBk() {
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    showStep(0);
+    applyPlaceholders();
+    if (!inited) { inited = true; renderCal(); }
+  }
+  function closeBk() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+  }
+  $('bkClose').addEventListener('click', closeBk);
+  $('bkDoneClose').addEventListener('click', closeBk);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeBk(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeBk(); });
+  // Keep the site-wide wheel hijack from scrolling the page behind the modal
+  overlay.addEventListener('wheel', e => e.stopPropagation());
+
+  // Every cal.com link on the page (nav, hero, CTA, even links in chat replies) opens the modal
+  document.addEventListener('click', e => {
+    if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const a = e.target.closest('a[href*="cal.com/automating.hu"]');
+    if (a && overlay) { e.preventDefault(); openBk(); }
+  });
+
+  // "Egyéb" chip reveals a free-text field
+  const otherCb = document.querySelector('#bkProblem input[value="Egyéb"]');
+  if (otherCb) otherCb.addEventListener('change', () => {
+    $('bkOtherWrap').hidden = !otherCb.checked;
+    if (otherCb.checked) $('bkOther').focus();
+  });
+
+  $('bkPrev').addEventListener('click', () => { viewM--; if (viewM < 0) { viewM = 11; viewY--; } renderCal(); });
+  $('bkNext').addEventListener('click', () => { viewM++; if (viewM > 11) { viewM = 0; viewY++; } renderCal(); });
+  $('bkBack').addEventListener('click', () => { errEl.hidden = true; showStep(0); });
+
+  /* submit */
+  $('bkForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const t = tr();
+    const name = $('bkName').value.trim(), email = $('bkEmail').value.trim();
+    const phone = $('bkPhone').value.trim(), company = $('bkCompany').value.trim();
+    const position = $('bkPosition').value.trim(), industry = $('bkIndustry').value.trim();
+    const decision = $('bkDecision').value;
+    const problems = Array.from(document.querySelectorAll('#bkProblem input:checked')).map(c => c.value);
+    const fail = msg => { errEl.textContent = msg; errEl.hidden = false; };
+    if (!name || !email || !company || !position || !industry || !decision) return fail(t.needFields);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail(t.badEmail);
+    if (!problems.length) return fail(t.needProblem);
+    errEl.hidden = true;
+    submitBtn.disabled = true;
+    const origLabel = submitBtn.innerHTML;
+    submitBtn.textContent = t.sending;
+    const fields = { title: company, position: position, iparag: industry, problema: problems, donteshozo: decision };
+    if ($('bkTask').value.trim()) fields.feladat = $('bkTask').value.trim();
+    // Cal.com only accepts the predefined multiselect options, so the
+    // free-text "Egyéb" detail travels in the notes field
+    const otherTxt = problems.includes('Egyéb') ? $('bkOther').value.trim() : '';
+    const notesTxt = (otherTxt ? 'Egyéb időrabló: ' + otherTxt + '\n' : '') + $('bkNotes').value.trim();
+    if (notesTxt) fields.notes = notesTxt;
+    const attendee = { name: name, email: email, timeZone: TZ, language: currentLang === 'hu' ? 'hu' : 'en' };
+    if (phone) attendee.phoneNumber = phone.replace(/[\s()-]/g, '');
+    try {
+      const res = await fetch(API + '/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'cal-api-version': '2024-08-13' },
+        body: JSON.stringify({
+          start: new Date(selectedSlot).toISOString(),
+          eventTypeId: EVENT_TYPE_ID,
+          attendee: attendee,
+          bookingFieldsResponses: fields,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.status !== 'success') {
+        const msg = (data && data.error && data.error.message) || '';
+        if (/already has booking|not available|no_available/i.test(msg)) {
+          delete monthCache[mKey(viewY, viewM)];
+          selectedSlot = null;
+          showStep(0);
+          renderCal();
+          slotsHead.textContent = t.slotTaken;
+          return;
+        }
+        // translate known Cal.com error messages to the UI language
+        if (/phone/i.test(msg)) fail(t.badPhone);
+        else if (/email/i.test(msg)) fail(t.badEmail);
+        else if (/past|minimum booking notice|too close/i.test(msg)) fail(t.pastSlot);
+        else if (res.status === 429 || /too many|rate limit/i.test(msg)) fail(t.rateLimit);
+        else fail(t.generic);
+        return;
+      }
+      $('bkDoneWhen').textContent = fmtChosen(selectedSlot);
+      showStep(2);
+      delete monthCache[mKey(viewY, viewM)];
+    } catch (err) {
+      fail(t.generic);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origLabel;
+    }
+  });
+
+  /* language switch — re-render visible dynamic texts */
+  langCallbacks.push(() => {
+    applyPlaceholders();
+    if (inited) {
+      renderCal();
+      if (selectedSlot) {
+        chosenEl.textContent = fmtChosen(selectedSlot);
+        $('bkDoneWhen').textContent = fmtChosen(selectedSlot);
+      }
+    }
+  });
 })();
 </script>
 </body>
