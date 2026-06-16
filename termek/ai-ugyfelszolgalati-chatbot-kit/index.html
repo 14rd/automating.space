@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Ügyfélszolgálati Chatbot Kit — Automating Store</title>
+<meta name="description" content="Teljes chatbot-csomag a weboldaladra: system prompt, beágyazható widget és átadás élő ügyintézőnek.">
+<link rel="canonical" href="https://store.automating.hu/termek/ai-ugyfelszolgalati-chatbot-kit/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="AI Ügyfélszolgálati Chatbot Kit — Automating Store">
+<meta property="og:description" content="Teljes chatbot-csomag a weboldaladra: system prompt, beágyazható widget és átadás élő ügyintézőnek.">
+<meta property="og:image" content="https://automating.hu/og-image.png">
+<meta property="og:url" content="https://store.automating.hu/termek/ai-ugyfelszolgalati-chatbot-kit/">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Automating">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"AI Ügyfélszolgálati Chatbot Kit","description":"Teljes chatbot-csomag a weboldaladra: system prompt, beágyazható widget és átadás élő ügyintézőnek.","category":"Automatizálási sablon","brand":{"@type":"Brand","name":"Automating"},"url":"https://store.automating.hu/termek/ai-ugyfelszolgalati-chatbot-kit/","offers":{"@type":"Offer","price":"19900","priceCurrency":"HUF","availability":"https://schema.org/InStock","url":"https://store.automating.hu/termek/ai-ugyfelszolgalati-chatbot-kit/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Store","item":"https://store.automating.hu/"},{"@type":"ListItem","position":2,"name":"AI Ügyfélszolgálati Chatbot Kit","item":"https://store.automating.hu/termek/ai-ugyfelszolgalati-chatbot-kit/"}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --black:#0a0a0a; --white:#fff; --g200:#e8e8e8; --g400:#a0a0a0; --g600:#666; --card-shadow:0 80px 120px rgba(0,0,0,0.03); }
+html { height: 100%; }
+body { font-family:'Inter',-apple-system,sans-serif; background:var(--white); color:var(--black); overflow-x:hidden; -webkit-font-smoothing:antialiased; animation:pageFadeIn .35s ease both; }
+@keyframes pageFadeIn { from{opacity:0} to{opacity:1} }
+a { color:inherit; text-decoration:none; }
+.mob-br { display:none; }
+#matrix { position:fixed; inset:0; pointer-events:none; z-index:0; }
+.page { position:relative; z-index:1; }
+.wrap { max-width:1100px; margin:0 auto; padding:0 60px; }
+[data-reveal] { opacity:0; transform:translateY(40px); transition:opacity 1.1s cubic-bezier(0.16,1,0.3,1),transform 1.1s cubic-bezier(0.16,1,0.3,1); }
+[data-reveal].is-visible { opacity:1; transform:translateY(0); }
+[data-reveal][data-delay="100"] { transition-delay:.1s; }
+[data-reveal][data-delay="200"] { transition-delay:.2s; }
+/* NAV */
+.nav-outer { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:200; width:calc(100% - 48px); max-width:960px; }
+nav { display:flex; align-items:center; justify-content:space-between; padding:15px; gap:12px; background:rgba(255,255,255,0.92); border:1px solid var(--g200); border-radius:100px; backdrop-filter:blur(12px); position:relative; }
+.nav-logo { display:flex; align-items:center; flex-shrink:0; margin-left:14px; }
+.nav-links { display:flex; align-items:center; gap:30px; list-style:none; flex:1; justify-content:center; }
+.nav-links a { font-size:18px; font-weight:500; color:var(--black); transition:opacity .2s; white-space:nowrap; }
+.nav-links a:hover { opacity:.5; }
+.lang-wrap { position:relative; flex-shrink:0; }
+.lang-btn { display:flex; align-items:center; gap:5px; background:none; border:1px solid var(--g200); border-radius:100px; padding:8px 12px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; color:var(--black); transition:opacity .2s; letter-spacing:.06em; }
+.lang-btn:hover { opacity:.6; }
+.lang-globe { display:block; opacity:.7; }
+.lang-chevron { font-size:9px; opacity:.6; transition:transform .2s; }
+.lang-btn.open .lang-chevron { transform:rotate(180deg); }
+.lang-dd { position:absolute; top:calc(100% + 8px); right:0; background:var(--white); border:1px solid var(--g200); border-radius:14px; padding:5px; min-width:130px; box-shadow:0 8px 32px rgba(0,0,0,0.09); opacity:0; transform:translateY(-6px); pointer-events:none; transition:opacity .18s ease,transform .18s ease; z-index:300; }
+.lang-dd.open { opacity:1; transform:translateY(0); pointer-events:auto; }
+.lang-dd-btn { display:block; width:100%; text-align:left; background:none; border:none; padding:9px 13px; border-radius:9px; font-family:inherit; font-size:14px; font-weight:500; cursor:pointer; color:var(--black); transition:background .12s; }
+.lang-dd-btn:hover { background:#f2f2f2; }
+.lang-dd-btn.is-active { font-weight:700; }
+.nav-lang-mob { display:none !important; }
+.lang-mob-row { display:flex; gap:8px; }
+.lang-mob-opt { flex:1; background:none; border:1px solid var(--g200); border-radius:10px; padding:9px 10px; font-family:inherit; font-size:15px; font-weight:500; cursor:pointer; color:var(--g600); text-align:center; }
+.lang-mob-opt.is-active { border-color:var(--black); color:var(--black); font-weight:600; }
+.btn-pill { display:inline-flex; align-items:center; gap:8px; background:var(--black); color:var(--white); border:none; padding:10px 22px; border-radius:100px; font-family:inherit; font-size:14px; font-weight:500; cursor:pointer; white-space:nowrap; transition:opacity .2s,transform .25s cubic-bezier(0.16,1,0.3,1); text-decoration:none; }
+.btn-pill:hover { opacity:.78; transform:scale(1.04); }
+.btn-large { padding:15px 32px; font-size:16px; }
+.nav-cta { padding:15px 30px; font-size:15px; margin-right:4px; }
+.nav-toggle { display:none; flex-direction:column; gap:4px; cursor:pointer; padding:4px; background:none; border:none; margin-right:8px; }
+.nav-toggle span { display:block; width:20px; height:1.5px; background:var(--black); }
+@keyframes menuOpen { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+/* PDP */
+.pdp { padding:150px 0 40px; }
+.crumb { font-size:13px; color:var(--g400); margin-bottom:26px; }
+.crumb a:hover { color:var(--black); }
+.pdp-head { max-width:760px; }
+.pdp-tag { display:inline-block; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--g600); margin-bottom:16px; }
+.pdp-title { font-size:clamp(32px,4.4vw,52px); font-weight:600; letter-spacing:-.035em; line-height:1.1; margin-bottom:18px; }
+.pdp-tagline { font-size:clamp(17px,2vw,20px); font-weight:500; line-height:1.5; color:var(--g600); margin-bottom:32px; }
+.pdp-meta { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+.pdp-price { font-size:30px; font-weight:600; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+.pdp-badge { font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:5px 11px; border-radius:6px; background:#dcfce7; color:#15803d; }
+/* body grid */
+.pdp-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:24px; margin-top:64px; align-items:start; }
+.section + .section { margin-top:44px; }
+.section h2 { font-size:13px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--g400); margin-bottom:16px; }
+.section p { font-size:16px; line-height:1.7; color:var(--g600); }
+.inc-card { background:#FAFAFA; border:1px solid var(--g200); border-radius:24px; padding:30px 30px; box-shadow:var(--card-shadow); position:sticky; top:110px; }
+.inc-card h2 { margin-bottom:20px; }
+.inc-list { list-style:none; display:flex; flex-direction:column; gap:14px; margin-bottom:26px; }
+.inc-item { display:flex; gap:11px; font-size:14.5px; line-height:1.55; }
+.inc-check { color:#15803d; font-weight:700; flex-shrink:0; }
+.inc-buy { width:100%; justify-content:center; }
+.inc-note { text-align:center; font-size:12px; color:var(--g400); margin-top:12px; }
+/* FAQ */
+.faq { margin-top:64px; }
+.faq h2 { font-size:13px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--g400); margin-bottom:16px; }
+.faq-item { border:1px solid var(--g200); border-radius:16px; padding:4px 22px; margin-bottom:10px; transition:border-color .2s; }
+.faq-item[open] { border-color:var(--black); }
+.faq-item summary { list-style:none; cursor:pointer; padding:18px 0; font-size:16px; font-weight:600; letter-spacing:-.01em; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.faq-item summary::-webkit-details-marker { display:none; }
+.faq-item summary::after { content:'+'; font-size:22px; font-weight:400; color:var(--g400); transition:transform .2s; }
+.faq-item[open] summary::after { transform:rotate(45deg); }
+.faq-a { font-size:15px; line-height:1.65; color:var(--g600); padding:0 0 20px; }
+/* related */
+.related { margin-top:80px; }
+.related h2 { font-size:clamp(22px,2.4vw,28px); font-weight:600; letter-spacing:-.025em; margin-bottom:24px; }
+.rel-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.rel-card { display:flex; flex-direction:column; gap:8px; background:var(--white); border:1px solid var(--g200); border-radius:20px; padding:24px; box-shadow:var(--card-shadow); transition:border-color .2s,transform .4s cubic-bezier(0.16,1,0.3,1); }
+.rel-card:hover { border-color:var(--black); transform:translateY(-3px); }
+.rel-tag { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--g600); }
+.rel-title { font-size:17px; font-weight:600; letter-spacing:-.02em; line-height:1.3; flex:1; }
+.rel-price { font-size:16px; font-weight:600; letter-spacing:-.02em; }
+.back-row { margin-top:56px; }
+.back-link { font-size:15px; font-weight:600; color:var(--g600); transition:color .2s; }
+.back-link:hover { color:var(--black); }
+/* footer */
+footer { border-top:1px solid var(--g200); padding:24px 0; margin-top:90px; }
+.footer-inner { display:flex; align-items:center; justify-content:space-between; gap:20px; font-size:13px; color:var(--g600); flex-wrap:wrap; }
+.footer-links { display:flex; gap:28px; flex-wrap:wrap; }
+.footer-links a:hover { color:var(--black); }
+@media (max-width:900px) {
+  .wrap { padding:0 24px; }
+  .nav-outer { width:calc(100% - 32px); top:14px; }
+  nav { padding:10px 12px; gap:0; }
+  .nav-logo { margin-left:4px; }
+  .btn-pill.nav-cta { position:absolute; left:50%; transform:translateX(-50%); padding:10px 18px; font-size:13px; margin-right:0; }
+  .btn-pill.nav-cta:hover { transform:translateX(-50%) scale(1.04); }
+  .lang-wrap { display:none; }
+  .nav-links { display:none; }
+  .nav-links.open { display:flex; flex-direction:column; position:absolute; top:calc(100% + 10px); left:0; right:0; background:rgba(255,255,255,0.97); border:1px solid var(--g200); border-radius:20px; padding:20px 24px; gap:20px; backdrop-filter:blur(16px); z-index:10; animation:menuOpen .28s cubic-bezier(0.16,1,0.3,1) both; }
+  .nav-lang-mob { display:list-item !important; }
+  .nav-toggle { display:flex; margin-right:4px; }
+  .pdp { padding:130px 0 30px; }
+  .pdp-grid { grid-template-columns:1fr; gap:40px; }
+  .inc-card { position:static; }
+  .rel-grid { grid-template-columns:1fr; }
+  .footer-inner { flex-direction:column; text-align:center; }
+  .mob-br { display:block; }
+}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="page">
+
+  <div class="nav-outer">
+    <nav>
+      <a href="/" class="nav-logo" aria-label="Automating Store"><svg width="34" height="34" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/></svg></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/" data-i18n="nav.store">A bolt</a></li>
+        <li><a href="https://automating.hu/">Automating.hu</a></li>
+        <li class="nav-lang-mob"><div class="lang-mob-row">
+          <button class="lang-mob-opt" data-lang="en">English</button>
+          <button class="lang-mob-opt is-active" data-lang="hu">Magyar</button>
+        </div></li>
+      </ul>
+      <div class="lang-wrap" id="langWrap">
+        <button class="lang-btn" id="langBtn" aria-label="Language">
+          <svg class="lang-globe" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3Z"/></svg>
+          <span id="langLabel">HU</span><span class="lang-chevron">▾</span>
+        </button>
+        <div class="lang-dd" id="langDd">
+          <button class="lang-dd-btn" data-lang="en">English</button>
+          <button class="lang-dd-btn is-active" data-lang="hu">Magyar</button>
+        </div>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      <a href="mailto:hello@automating.hu" class="btn-pill nav-cta" data-i18n="nav.contact">Kapcsolat</a>
+    </nav>
+  </div>
+
+  <section class="pdp">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a href="/" data-i18n="crumb.store">Store</a> / <span data-i18n="p.tag">Automatizálási sablon</span>
+      </nav>
+      <div class="pdp-head">
+        <span class="pdp-tag" data-i18n="p.tag">Automatizálási sablon</span>
+        <h1 class="pdp-title" data-i18n="p.title">AI Ügyfélszolgálati Chatbot Kit</h1>
+        <p class="pdp-tagline" data-i18n="p.tagline">Teljes chatbot-csomag a weboldaladra: system prompt, beágyazható widget és átadás élő ügyintézőnek.</p>
+        <div class="pdp-meta">
+          <span class="pdp-price" data-i18n="p.price">19 900 Ft</span>
+          <a class="btn-pill btn-large" href="mailto:hello@automating.hu?subject=Megrendel%C3%A9s%3A%20AI%20%C3%9Cgyf%C3%A9lszolg%C3%A1lati%20Chatbot%20Kit" data-i18n="buy">Megveszem</a>
+          <span class="pdp-badge" data-i18n="badge.dl">Azonnali letöltés</span>
+        </div>
+      </div>
+
+      <div class="pdp-grid">
+        <div class="pdp-left">
+          <div class="section" data-reveal>
+            <h2 data-i18n="sec.about">Leírás</h2>
+            <p data-i18n="p.intro">A legtöbb chatbot vagy buta, vagy bonyolult beépíteni. Ez a kit egy kész, beágyazható widgetet ad, AI-háttérrel, ami a GYIK-ből tanul, és ha nem tud valamit, átad egy embernek.</p>
+          </div>
+          <div class="section" data-reveal data-delay="100">
+            <h2 data-i18n="sec.forwhom">Kinek való</h2>
+            <p data-i18n="p.forwhom">Webshopoknak és szolgáltatóknak, akik 24/7 elérhetőséget akarnak a weboldalukon anélkül, hogy folyamatos ügyeletet tartanának.</p>
+          </div>
+        </div>
+        <aside class="inc-card" data-reveal data-delay="100">
+          <h2 data-i18n="sec.includes">Mit tartalmaz</h2>
+          <ul class="inc-list">
+            <li class="inc-item"><span class="inc-check">✓</span><span data-i18n="inc0">Beágyazható chat-widget (egyetlen script-sor a weboldaladon)</span></li>
+            <li class="inc-item"><span class="inc-check">✓</span><span data-i18n="inc1">Finomhangolt system prompt magyar ügyfélszolgálati hangnemre</span></li>
+            <li class="inc-item"><span class="inc-check">✓</span><span data-i18n="inc2">GYIK-betanító sablon: a saját kérdéseiddel feltöltöd, és a bot abból válaszol</span></li>
+            <li class="inc-item"><span class="inc-check">✓</span><span data-i18n="inc3">Átadás élő ügyintézőnek e-mailben vagy chatben, ha a bot elakad</span></li>
+            <li class="inc-item"><span class="inc-check">✓</span><span data-i18n="inc4">Stílus-testreszabás (szín, logó, üdvözlő üzenet) és telepítési útmutató</span></li>
+          </ul>
+          <a class="btn-pill inc-buy" href="mailto:hello@automating.hu?subject=Megrendel%C3%A9s%3A%20AI%20%C3%9Cgyf%C3%A9lszolg%C3%A1lati%20Chatbot%20Kit" data-i18n="buy">Megveszem</a>
+          <p class="inc-note" data-i18n="badge.dl">Azonnali letöltés</p>
+        </aside>
+      </div>
+
+      <div class="faq" data-reveal>
+        <h2 data-i18n="sec.faq">Gyakori kérdések</h2>
+        <details class="faq-item"><summary data-i18n="faqq0">Kell hozzá szerver?</summary><div class="faq-a" data-i18n="faqa0">A widget statikus oldalra is felrakható; az AI-válaszokhoz egy egyszerű végpont kell, amihez adunk mintát és útmutatót.</div></details>
+          <details class="faq-item"><summary data-i18n="faqq1">Honnan tudja a válaszokat?</summary><div class="faq-a" data-i18n="faqa1">A te GYIK-edből és dokumentumaidból, amelyeket a betanító sablonba töltesz. Nem talál ki dolgokat a semmiből.</div></details>
+          <details class="faq-item"><summary data-i18n="faqq2">Több nyelven is tud?</summary><div class="faq-a" data-i18n="faqa2">Igen, alapból magyar és angol, és a prompt bővíthető további nyelvekkel.</div></details>
+      </div>
+
+      <div class="related" data-reveal>
+        <h2 data-i18n="related.h">Nézd meg ezeket is</h2>
+        <div class="rel-grid">
+          <a class="rel-card" href="/termek/email-triage-workflow-n8n/"><span class="rel-tag">Automatizálási sablon</span><span class="rel-title">E-mail Triage Workflow (n8n)</span><span class="rel-price">14 900 Ft</span></a>
+          <a class="rel-card" href="/termek/crm-szinkron-sablon-make/"><span class="rel-tag">Automatizálási sablon</span><span class="rel-title">CRM Szinkron Sablon (Make.com)</span><span class="rel-price">12 900 Ft</span></a>
+          <a class="rel-card" href="/termek/szamlazas-automatizalas-workflow-n8n/"><span class="rel-tag">Automatizálási sablon</span><span class="rel-title">Számlázás Automatizálás Workflow (n8n)</span><span class="rel-price">11 900 Ft</span></a>
+        </div>
+      </div>
+
+      <div class="back-row">
+        <a class="back-link" href="/" data-i18n="back">← Vissza a boltba</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <span data-i18n="footer.copy">Automating &copy; Minden jog fenntartva</span>
+        <div class="footer-links">
+          <a href="/" data-i18n="crumb.store">Store</a>
+          <a href="https://automating.hu/" data-i18n="footer.main">Automating.hu</a>
+          <a href="https://automating.hu/privacy.html" data-i18n="footer.privacy">Adatvédelmi irányelvek</a>
+          <a href="https://automating.hu/terms.html" data-i18n="footer.terms">ÁSZF</a>
+        </div>
+        <span data-i18n="footer.loc">Magyarország</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+'use strict';
+const T = {"hu":{"nav.store":"A bolt","nav.contact":"Kapcsolat","crumb.store":"Store","badge.dl":"Azonnali letöltés","buy":"Megveszem","back":"← Vissza a boltba","sec.about":"Leírás","sec.includes":"Mit tartalmaz","sec.forwhom":"Kinek való","sec.faq":"Gyakori kérdések","related.h":"Nézd meg ezeket is","footer.copy":"Automating &copy; Minden jog fenntartva","footer.main":"Automating.hu","footer.privacy":"Adatvédelmi irányelvek","footer.terms":"ÁSZF","footer.loc":"Magyarország","p.tag":"Automatizálási sablon","p.title":"AI Ügyfélszolgálati Chatbot Kit","p.tagline":"Teljes chatbot-csomag a weboldaladra: system prompt, beágyazható widget és átadás élő ügyintézőnek.","p.price":"19 900 Ft","p.intro":"A legtöbb chatbot vagy buta, vagy bonyolult beépíteni. Ez a kit egy kész, beágyazható widgetet ad, AI-háttérrel, ami a GYIK-ből tanul, és ha nem tud valamit, átad egy embernek.","p.forwhom":"Webshopoknak és szolgáltatóknak, akik 24/7 elérhetőséget akarnak a weboldalukon anélkül, hogy folyamatos ügyeletet tartanának.","inc0":"Beágyazható chat-widget (egyetlen script-sor a weboldaladon)","inc1":"Finomhangolt system prompt magyar ügyfélszolgálati hangnemre","inc2":"GYIK-betanító sablon: a saját kérdéseiddel feltöltöd, és a bot abból válaszol","inc3":"Átadás élő ügyintézőnek e-mailben vagy chatben, ha a bot elakad","inc4":"Stílus-testreszabás (szín, logó, üdvözlő üzenet) és telepítési útmutató","faqq0":"Kell hozzá szerver?","faqa0":"A widget statikus oldalra is felrakható; az AI-válaszokhoz egy egyszerű végpont kell, amihez adunk mintát és útmutatót.","faqq1":"Honnan tudja a válaszokat?","faqa1":"A te GYIK-edből és dokumentumaidból, amelyeket a betanító sablonba töltesz. Nem talál ki dolgokat a semmiből.","faqq2":"Több nyelven is tud?","faqa2":"Igen, alapból magyar és angol, és a prompt bővíthető további nyelvekkel."},"en":{"nav.store":"The store","nav.contact":"Contact","crumb.store":"Store","badge.dl":"Instant download","buy":"Buy","back":"← Back to the store","sec.about":"Overview","sec.includes":"What's included","sec.forwhom":"Who it's for","sec.faq":"FAQ","related.h":"You might also like","footer.copy":"Automating &copy; All Rights Reserved","footer.main":"Automating.hu","footer.privacy":"Privacy Policy","footer.terms":"Terms","footer.loc":"Hungary","p.tag":"Automation template","p.title":"AI Customer Support Chatbot Kit","p.tagline":"A complete chatbot kit for your site: system prompt, embeddable widget, and handoff to a live agent.","p.price":"€52","p.intro":"Most chatbots are either dumb or painful to embed. This kit gives you a ready embeddable widget with an AI backend that learns from your FAQ and hands off to a human when it cannot help.","p.forwhom":"For online stores and service providers who want 24/7 availability on their site without staffing a constant support shift.","inc0":"Embeddable chat widget (a single script line on your site)","inc1":"Tuned system prompt for a natural support tone","inc2":"FAQ training template: load your own questions and the bot answers from them","inc3":"Handoff to a live agent by email or chat when the bot gets stuck","inc4":"Style customisation (colour, logo, welcome message) and a setup guide","faqq0":"Do I need a server?","faqa0":"The widget works on a static site; the AI replies need a simple endpoint, for which we provide a sample and guide.","faqq1":"Where does it get answers?","faqa1":"From your FAQ and documents loaded into the training template. It does not invent things out of nowhere.","faqq2":"Does it speak multiple languages?","faqa2":"Yes, Hungarian and English by default, and the prompt can be extended with more languages."}};
+const TITLE = { hu: T.hu['p.title'] + ' — Automating Store', en: T.en['p.title'] + ' — Automating Store' };
+function detectLang(){ const s=localStorage.getItem('lang'); if(s) return s; const ls=navigator.languages||[navigator.language||'en']; for(const l of ls){ if(l.toLowerCase().startsWith('hu')) return 'hu'; } return 'hu'; }
+let currentLang = detectLang();
+function setLang(lang){
+  currentLang = lang; localStorage.setItem('lang', lang); document.documentElement.lang = lang;
+  const lbl=document.getElementById('langLabel'); if(lbl) lbl.textContent = lang==='hu'?'HU':'EN';
+  document.title = TITLE[lang];
+  const md=document.querySelector('meta[name="description"]'); if(md) md.content = T[lang]['p.tagline'];
+  document.getElementById('langBtn').classList.remove('open');
+  document.getElementById('langDd').classList.remove('open');
+  document.querySelectorAll('.lang-dd-btn').forEach(b=>b.classList.toggle('is-active', b.dataset.lang===lang));
+  document.querySelectorAll('.lang-mob-opt').forEach(b=>b.classList.toggle('is-active', b.dataset.lang===lang));
+  const tr=T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(tr[k]!==undefined) el.innerHTML=tr[k]; });
+}
+document.getElementById('langBtn').addEventListener('click', function(e){ e.stopPropagation(); this.classList.toggle('open'); document.getElementById('langDd').classList.toggle('open'); });
+document.addEventListener('click', function(e){ const w=document.getElementById('langWrap'); if(w && !w.contains(e.target)){ document.getElementById('langBtn').classList.remove('open'); document.getElementById('langDd').classList.remove('open'); } });
+document.querySelectorAll('.lang-dd-btn').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+document.querySelectorAll('.lang-mob-opt').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+setLang(currentLang);
+const nt=document.getElementById('navToggle'), nl=document.getElementById('navLinks');
+nt.addEventListener('click',()=>nl.classList.toggle('open'));
+nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nl.classList.remove('open')));
+(function(){ const els=document.querySelectorAll('[data-reveal]'); const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');ob.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'}); els.forEach(el=>ob.observe(el)); })();
+(function(){
+  const cv=document.getElementById('matrix'), cx=cv.getContext('2d'); const FONT=13;
+  const CH='アイウエオカキクケコサシスセソタチ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>{}[]|/=+-*&#@!';
+  const R_BASE=170; let mx=-999,my=-999,tx=-999,ty=-999,cols,rows,grid,pb=null; const S=[];
+  function build(){ cv.width=innerWidth; cv.height=innerHeight; cols=Math.ceil(cv.width/FONT); rows=Math.ceil(cv.height/FONT); grid=Array.from({length:cols},()=>Array.from({length:rows},()=>({ch:CH[Math.random()*CH.length|0],t:Math.random()*40|0}))); cx.font=FONT+'px monospace'; cx.textBaseline='top'; pb=null; }
+  function frame(){ requestAnimationFrame(frame); if(pb){cx.clearRect(pb.x,pb.y,pb.w,pb.h);pb=null;} if(tx<-500&&mx<-500) return; mx+=(tx-mx)*0.08; my+=(ty-my)*0.08; const R=R_BASE+Math.sin(Date.now()*0.0008)*10; const c0=Math.max(0,((mx-R)/FONT)|0),c1=Math.min(cols,Math.ceil((mx+R)/FONT)),r0=Math.max(0,((my-R)/FONT)|0),r1=Math.min(rows,Math.ceil((my+R)/FONT)); if(c1<=c0||r1<=r0) return; pb={x:c0*FONT,y:r0*FONT,w:(c1-c0)*FONT,h:(r1-r0)*FONT}; for(let c=c0;c<c1;c++)for(let r=r0;r<r1;r++){ const px=c*FONT,py=r*FONT,dx=(px+FONT*.5-mx)*.92,dy=py+FONT*.5-my,d=Math.sqrt(dx*dx+dy*dy); if(d>=R) continue; const ai=((1-d/R)*28)|0; if(!ai) continue; cx.fillStyle=S[ai]||(S[ai]='rgba(80,80,80,'+(ai/100)+')'); cx.fillText(grid[c][r].ch,px,py); if(--grid[c][r].t<=0){grid[c][r].ch=CH[Math.random()*CH.length|0];grid[c][r].t=12+(Math.random()*35|0);} } }
+  addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;}); addEventListener('touchmove',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true}); addEventListener('resize',build); build(); frame();
+})();
+</script>
+</body>
+</html>
