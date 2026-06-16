@@ -259,6 +259,8 @@ nav {
 .hero-anim-1 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
 .hero-anim-2 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
 .hero-anim-3 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
+.hero-anim-4 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.52s both; }
+.hero-cta2 { margin-top: 16px; }
 @keyframes heroUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -859,6 +861,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
       <p class="b1 hero-anim-2 desk-only" data-i18n="hero.p.desk">Infrastruktúrát adunk a vállalkozásoknak a telefonhívások,<br class="desk-br"> emailek és munkafolyamatok automatizálásához, alkalmazottak nélkül.</p>
       <p class="b1 hero-anim-2 mob-only" data-i18n="hero.p.mob">Infrastruktúrát adunk a vállalkozásoknak<br>a telefonhívások, emailek és<br>munkafolyamatok automatizálásához,<br>alkalmazottak nélkül.</p>
       <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill btn-large hero-anim-3" data-i18n="cta.book-hero">Árajánlat</a>
+      <div class="hero-cta2 hero-anim-4"><a href="#demo" class="nav-chip" data-i18n="cta.demo-hero">Lásd működés közben</a></div>
     </div>
   </section>
 
@@ -1238,6 +1241,7 @@ const T = {
     'hero.p.desk':      'We provide infrastructure for businesses to automate phone calls,<br class="desk-br"> emails, and workflow without employees.',
     'hero.p.mob':       'We provide infrastructure for businesses<br>to automate phone calls, emails, and<br>workflow without employees.',
     'cta.book-hero':    'Book a call',
+    'cta.demo-hero':    'See it in action',
     'stats.h2':         'The adoption of<br class="mob-br"> AI has<br class="desk-br"> accelerated<br class="mob-br"> in business.',
     'stat1.desc':       'Have already integrated AI.',
     'stat2.num':        '€1.5B',
@@ -1338,6 +1342,7 @@ const T = {
     'hero.p.desk':      'Infrastruktúrát adunk a vállalkozásoknak a telefonhívások,<br class="desk-br"> emailek és munkafolyamatok automatizálásához, alkalmazottak nélkül.',
     'hero.p.mob':       'Infrastruktúrát adunk a vállalkozásoknak<br>a telefonhívások, emailek és<br>munkafolyamatok automatizálásához,<br>alkalmazottak nélkül.',
     'cta.book-hero':    'Árajánlat',
+    'cta.demo-hero':    'Lásd működés közben',
     'stats.h2':         'Az AI alkalmazása<br class="mob-br"> felgyorsult<br class="desk-br"> a<br class="mob-br"> vállalkozásokban.',
     'stat1.desc':       'Már integrálta az AI-t.',
     'stat2.num':        '1,5 Mrd €',
@@ -2081,8 +2086,17 @@ let prodVisible = false;
   input.addEventListener('input', autosize);
   document.querySelectorAll('.chat-chip').forEach(c => c.addEventListener('click', () => send(c.textContent)));
 
-  // The site-wide smooth-scroll hijacks wheel events on window — let the log scroll natively
-  log.addEventListener('wheel', e => e.stopPropagation());
+  // The site-wide smooth-scroll hijacks wheel events on window. Let the log scroll
+  // natively only while it can still scroll in that direction; at its top/bottom edge
+  // (or when there's nothing to scroll) let the event bubble so the page scrolls.
+  log.addEventListener('wheel', e => {
+    const canScroll = log.scrollHeight > log.clientHeight;
+    const atTop = log.scrollTop <= 0;
+    const atBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 1;
+    if (canScroll && ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop))) {
+      e.stopPropagation();
+    }
+  });
 
   const greetEl = bubble('bot', render((CHAT_T[currentLang] || CHAT_T.hu).greeting));
   input.placeholder = (CHAT_T[currentLang] || CHAT_T.hu).placeholder;
