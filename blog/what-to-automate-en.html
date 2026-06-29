@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which processes to automate first in your operation — Automating</title>
+<meta name="description" content="A practical guide for larger US enterprises on which back-office and shared-services processes to automate first: how to prioritize by volume × pain × risk, the highest-value candidate processes, how to sequence a rollout, build-vs-buy, integration with Salesforce, ServiceNow, NetSuite, and Zendesk, and the security and compliance controls that make it safe.">
+<link rel="canonical" href="https://automating.hu/blog/what-to-automate-en.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Which processes to automate first in your operation">
+<meta property="og:description" content="How larger enterprises decide what to automate first — prioritize by volume × pain × risk, pick the right candidate processes, sequence a phased rollout, weigh build-vs-buy, and integrate with your existing stack, safely and compliantly.">
+<meta property="og:image" content="https://automating.hu/og-image.png">
+<meta property="og:url" content="https://automating.hu/blog/what-to-automate-en.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Automating">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Which processes to automate first in your operation",
+      "description": "A practical framework for larger enterprises on choosing the right processes to automate first — prioritizing by volume, pain, and risk; the highest-value candidate processes across shared-services and back-office; how to sequence a phased rollout; build-vs-buy; integration with the existing stack; and the security and compliance controls that make it safe.",
+      "inLanguage": "en",
+      "datePublished": "2026-06-11",
+      "dateModified": "2026-06-11",
+      "author": { "@type": "Person", "name": "Bence Hudácsek" },
+      "publisher": { "@type": "Organization", "name": "Automating", "url": "https://automating.hu/" },
+      "image": "https://automating.hu/og-image.png",
+      "mainEntityOfPage": "https://automating.hu/blog/what-to-automate-en.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://automating.hu/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://automating.hu/blog-en.html" },
+        { "@type": "ListItem", "position": 3, "name": "Which processes to automate first in your operation" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How do we decide which process to automate first?", "acceptedAnswer": { "@type": "Answer", "text": "Score your candidate processes on three axes: volume (how many times the task runs each month), pain (how much manual effort, error, and frustration it creates), and risk (how much can go wrong if a step is missed). The first thing to automate is the process that scores high on volume and pain but low on irreversible risk — typically inbound call handling, email triage, order or data entry, or status lookups. Those deliver fast, visible ROI while keeping the blast radius small, which builds the internal confidence you need to take on higher-stakes work later." } },
+        { "@type": "Question", "name": "Should we build automation in-house or buy it?", "acceptedAnswer": { "@type": "Answer", "text": "Build where the process is your competitive edge and you have the engineering capacity to own it for years. Buy — or have it built and operated for you — where the process is common back-office work that every company runs the same way, because reinventing inbound call handling or invoice processing rarely pays back. Most enterprises land on a hybrid: buy the proven building blocks, then configure and integrate them tightly to your stack and policies. The deciding question is whether maintaining the system is core to your business or a distraction from it." } },
+        { "@type": "Question", "name": "How does automation integrate with our existing stack?", "acceptedAnswer": { "@type": "Answer", "text": "It connects over the APIs of the systems you already run rather than replacing them. Cases and tickets flow through ServiceNow and Zendesk, customer records and pipeline update in Salesforce, and financial transactions post into NetSuite or your ERP. The automation reads and writes where your teams already work, so the change shows up as cleaner queues and faster throughput, not a new tool everyone has to learn." } },
+        { "@type": "Question", "name": "How do you keep automation safe and compliant?", "acceptedAnswer": { "@type": "Answer", "text": "Safety comes from a phased rollout and human-in-the-loop controls: the system observes, then drafts for approval, then acts autonomously only on low-risk, high-confidence steps you have signed off. Compliance is built in — processing under a data processing agreement, role-based access, full audit logging, and configurable retention, with an architecture designed to support GDPR, CCPA, and EU AI Act obligations and the controls a SOC 2 program expects, so security and legal can review before go-live." } }
+      ]
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --black: #0a0a0a; --white: #ffffff; --g200: #e8e8e8; --g400: #a0a0a0; --g600: #666666; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--white); color: var(--black); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+.nav-outer { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 200; width: calc(100% - 48px); max-width: 960px; }
+nav { display: flex; align-items: center; justify-content: space-between; padding: 15px; gap: 20px; background: rgba(255,255,255,0.92); border: 1px solid var(--g200); border-radius: 100px; backdrop-filter: blur(12px); }
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; margin-left: 8px; }
+.nav-links { display: flex; align-items: center; gap: 30px; list-style: none; flex: 1; justify-content: center; }
+.nav-links a { font-size: 18px; font-weight: 500; transition: opacity .2s; }
+.nav-links a:hover { opacity: .5; }
+.btn-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--black); color: var(--white); padding: 15px 30px; border-radius: 100px; font-size: 15px; font-weight: 500; white-space: nowrap; transition: opacity .2s; }
+.btn-pill:hover { opacity: .75; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+.post { padding: 170px 0 40px; }
+.kicker { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--g400); margin-bottom: 18px; }
+.kicker a { color: var(--g600); }
+.kicker a:hover { color: var(--black); }
+h1 { font-size: clamp(34px, 5vw, 52px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.12; margin-bottom: 22px; }
+.lead { font-size: 19px; color: var(--g600); line-height: 1.65; margin-bottom: 44px; }
+.post h2 { font-size: clamp(22px, 2.6vw, 28px); font-weight: 600; letter-spacing: -0.025em; margin: 48px 0 16px; }
+.post h3 { font-size: 17px; font-weight: 600; margin: 28px 0 10px; }
+.post p { font-size: 16.5px; line-height: 1.8; color: var(--g600); margin-bottom: 16px; }
+.post ul, .post ol { list-style: none; margin-bottom: 16px; }
+.post li { font-size: 16.5px; line-height: 1.8; color: var(--g600); padding-left: 22px; position: relative; margin-bottom: 8px; }
+.post li::before { content: '—'; position: absolute; left: 0; color: var(--g400); }
+.post strong { color: var(--black); font-weight: 600; }
+.post a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+.note { background: #fafafa; border: 1px solid var(--g200); border-radius: 14px; padding: 20px 24px; margin: 28px 0; }
+.note p { margin-bottom: 0; font-size: 15px; }
+.faq { margin-top: 56px; border-top: 1px solid var(--g200); padding-top: 40px; }
+.faq h2 { margin-top: 0; }
+.faq-item { border: 1px solid var(--g200); border-radius: 14px; padding: 18px 22px; margin-bottom: 10px; }
+.faq-item h3 { margin: 0 0 8px; font-size: 16px; }
+.faq-item p { margin: 0; font-size: 15px; }
+.cta-box { margin: 56px 0 0; background: #fafafa; border: 1px solid var(--g200); border-radius: 24px; padding: 40px 32px; text-align: center; }
+.cta-box h2 { margin: 0 0 10px; }
+.cta-box p { margin-bottom: 24px; }
+footer { border-top: 1px solid var(--g200); padding: 24px 0; margin-top: 80px; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 1320px; margin: 0 auto; padding: 0 60px; font-size: 13px; color: var(--g600); flex-wrap: wrap; }
+.footer-inner a:hover { color: var(--black); }
+.footer-links { display: flex; gap: 28px; }
+@media (max-width: 900px) {
+  .nav-outer { width: calc(100% - 32px); top: 14px; }
+  nav { padding: 12px 16px; }
+  .nav-links { display: none; }
+  .btn-pill { padding: 10px 20px; font-size: 13px; }
+  .post { padding: 140px 0 30px; }
+  .footer-inner { flex-direction: column; text-align: center; padding: 0 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-outer">
+  <nav>
+    <a href="/" class="nav-logo" aria-label="Automating">
+      <svg width="34" height="34" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html#products">What we build</a></li>
+      <li><a href="../index.html#demo">Demo</a></li>
+      <li><a href="../case-studies.html">Case Studies</a></li>
+      <li><a href="../blog-en.html">Blog</a></li>
+    </ul>
+    <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill">Get a quote</a>
+  </nav>
+</div>
+
+<article class="post">
+  <div class="wrap">
+    <p class="kicker"><a href="../blog-en.html">← Blog</a> &nbsp;·&nbsp; June 11, 2026 &nbsp;·&nbsp; 10 min read &nbsp;·&nbsp; Bence Hudácsek</p>
+    <h1>Which processes to automate first in your operation</h1>
+    <p class="lead">At enterprise scale the question is never <em>whether</em> to automate — it's where to start. Pick the wrong first process and you burn a quarter on an edge case that touches nobody; pick the right one and you free hundreds of hours a month, prove the model internally, and earn the mandate to go further. This is a practical framework for choosing what to automate first across your shared-services and back-office functions: how to prioritize, which processes consistently pay off, how to sequence the rollout, and how to keep the whole thing safe and compliant.</p>
+
+    <h2>Start with a clear principle: employees, not tools</h2>
+    <p>Before picking a process, it helps to be precise about what you are deploying. At Automating we build <strong>AI employees, not tools</strong> — across Voice, Email, and Workflow systems. The distinction matters for prioritization: a tool waits to be used, while an employee owns a process end to end. When you evaluate a candidate process, you're really asking, "Can a reliable digital teammate take ownership of this queue?" The best first targets are the ones where the answer is an obvious yes — high-volume, well-understood work that follows a pattern.</p>
+
+    <h2>Prioritize by volume × pain × risk</h2>
+    <p>Every process you might automate can be scored on three simple axes. Multiply them and you get a ranked backlog instead of a wish list.</p>
+    <ul>
+      <li><strong>Volume.</strong> How many times does this run each month? A task performed ten thousand times has ten thousand times the savings potential of one performed ten times. Volume is where enterprise automation earns its keep, so weight it heavily.</li>
+      <li><strong>Pain.</strong> How much manual effort, error, rework, and frustration does it create today? Processes that cause overtime, backlogs, SLA breaches, or constant context-switching score high — and these are the wins your operations leaders will feel immediately.</li>
+      <li><strong>Risk.</strong> How much can go wrong if a step is mishandled, and how reversible is it? A misrouted ticket is recoverable; a wrong wire transfer is not. Higher risk doesn't disqualify a process — it just means it comes later, behind more human oversight.</li>
+    </ul>
+    <p>The sweet spot for your <em>first</em> automation is <strong>high volume, high pain, contained risk</strong>. That combination delivers fast, measurable ROI while keeping the blast radius small enough that any early imperfection is easy to catch and correct. Resist the temptation to start with the most painful process if it's also the riskiest — early credibility is worth more than early ambition.</p>
+
+    <h2>The candidate processes that consistently pay off</h2>
+    <p>Across larger operations, the same back-office and shared-services processes show up again and again as strong first or early targets. Map your own functions against this list:</p>
+    <ul>
+      <li><strong>Inbound call handling.</strong> A Voice AI employee answers, authenticates, handles routine requests, and routes the rest — absorbing peak volume without hold queues or added headcount.</li>
+      <li><strong>Email triage.</strong> Every message arrives categorized, prioritized, and draft-ready, so shared-services teams approve and send instead of starting from a blank reply.</li>
+      <li><strong>Order and data entry.</strong> Structured details are extracted from emails, PDFs, and forms and written straight into your systems of record, eliminating one of the largest sources of manual error.</li>
+      <li><strong>Invoicing and accounts payable.</strong> Invoices are captured, matched against purchase orders, coded, and queued for approval — turning a slow, exception-heavy process into a fast, auditable one.</li>
+      <li><strong>CRM hygiene and sync.</strong> Records are deduplicated, enriched, and kept consistent across systems so your pipeline data is trustworthy without an army of administrators.</li>
+      <li><strong>Reporting.</strong> Recurring operational and financial reports are assembled, reconciled, and distributed on schedule, freeing analysts for the questions that actually need judgment.</li>
+      <li><strong>Appointment and scheduling.</strong> Bookings, reschedules, reminders, and confirmations are handled end to end across channels, cutting no-shows and back-and-forth.</li>
+      <li><strong>Status lookups.</strong> "Where's my order / claim / ticket?" is answered instantly from your systems, deflecting a huge share of repetitive inbound contacts.</li>
+      <li><strong>Lead qualification.</strong> Inbound leads are scored, enriched, and routed in minutes, so sales spends time on the opportunities most likely to close.</li>
+    </ul>
+    <p>Notice the pattern: each is high-frequency, follows recognizable rules, and has a clear definition of "done." Those are exactly the traits that make a process a good first hire for a digital teammate.</p>
+
+    <h2>Sequence the rollout — don't boil the ocean</h2>
+    <p>Once you've ranked the backlog, resist deploying everything at once. A staged sequence compounds trust and minimizes disruption:</p>
+    <ul>
+      <li><strong>Land one beachhead.</strong> Take your top-ranked process and automate it well end to end. One visible win — say, status lookups or email triage — does more to build internal support than five half-finished pilots.</li>
+      <li><strong>Instrument and prove it.</strong> Measure throughput, accuracy, response time, deflection rate, and reclaimed hours against a clear baseline. Hard numbers are what unlock the budget for the next phase.</li>
+      <li><strong>Expand to adjacent work.</strong> Move to processes that share data, systems, or teams with your beachhead, so each new deployment reuses integrations and learnings rather than starting cold.</li>
+      <li><strong>Climb the risk curve.</strong> Only after the pattern is proven do you take on higher-stakes processes like AP or anything that moves money — now with the oversight and audit trail those deserve.</li>
+    </ul>
+    <div class="note">
+      <p><strong>The point:</strong> automation should earn its scope. Win one process decisively, prove the numbers, then expand along lines of least resistance. That sequencing is what turns a pilot into an operating model — and keeps the program from stalling after its first stumble.</p>
+    </div>
+
+    <h2>Build vs. buy — and where to draw the line</h2>
+    <p>For each process you decide to automate, you face a build-or-buy choice. The deciding question is simple: is owning and maintaining this system core to your business, or a distraction from it?</p>
+    <ul>
+      <li><strong>Build</strong> when the process is genuinely your competitive edge and you have the engineering capacity to own, secure, and improve it for years.</li>
+      <li><strong>Buy — or have it built and operated for you —</strong> when the process is common back-office work that every company runs much the same way. Reinventing inbound call handling or invoice processing rarely pays back the maintenance burden.</li>
+      <li><strong>Hybrid, in practice.</strong> Most enterprises buy proven building blocks, then configure and integrate them tightly to their own stack, policies, and data. You get speed and reliability without surrendering control.</li>
+    </ul>
+    <p>The hidden cost in "build" is rarely the first version — it's the years of upkeep, on-call, and model maintenance afterward. Weigh that honestly against the leverage of a partner who already runs the process at scale.</p>
+
+    <h2>Integrate with the stack you already run</h2>
+    <p>Automation is only an employee if it works inside the systems your teams already live in. Rather than replacing your platforms, the right approach connects over their APIs so work shows up already done in the tools people use today:</p>
+    <ul>
+      <li><strong>Salesforce</strong> — leads, accounts, and activities are created, enriched, and kept in sync as part of handling each interaction.</li>
+      <li><strong>ServiceNow</strong> — cases and requests are opened, categorized, prioritized, and routed with context attached.</li>
+      <li><strong>NetSuite</strong> and your ERP — invoices, orders, and financial transactions post directly into your books with the right coding.</li>
+      <li><strong>Zendesk</strong> — tickets arrive triaged and draft-ready, so agents approve rather than compose from scratch.</li>
+    </ul>
+    <p>Because the work lands inside existing platforms, adoption doesn't ask your teams to learn a new interface. The change appears as cleaner queues, faster throughput, and fewer manual handoffs.</p>
+
+    <h2>Security, compliance, and human-in-the-loop</h2>
+    <p>At enterprise scale, nothing reaches a live process until security and legal can sign off — so the controls are part of the design, not an afterthought:</p>
+    <ul>
+      <li><strong>Human-in-the-loop by default.</strong> The system observes, then drafts for approval, then acts autonomously only on the low-risk, high-confidence steps you have explicitly cleared. You set the boundary and move it outward only as confidence grows.</li>
+      <li><strong>Data protection.</strong> Content is processed and stored under a data processing agreement with configurable retention, so nothing is kept longer than your policy allows.</li>
+      <li><strong>Regulatory alignment.</strong> The architecture is designed to support GDPR and CCPA obligations and EU AI Act requirements, including transparency about where AI is involved.</li>
+      <li><strong>Audit logging.</strong> Every classification, action, edit, and approval leaves a complete, reviewable trail — what the system did, what a person changed, and when.</li>
+      <li><strong>Role-based access.</strong> Who can view data, approve actions, or change automation rules is controlled and logged, in line with the controls a SOC 2 program expects.</li>
+    </ul>
+
+    <h2>Measure the ROI that justifies the next phase</h2>
+    <p>The economics of enterprise automation are driven by volume, so the metrics that matter are the ones that scale: reclaimed labor hours, cost per transaction, response and cycle time, error and rework rates, deflection rate, and SLA adherence. Set a clear baseline before you start, then track the delta. When tens of thousands of transactions a month are handled by a digital teammate, the labor reclaimed and the consistency gained typically more than cover the run cost within the first few billing cycles — and the effective cost per transaction keeps falling as volume grows. Those numbers are exactly what you take back to leadership to fund the next process on the backlog.</p>
+
+    <h2>What it costs</h2>
+    <p>Pricing follows the system you actually need, because volume, integration depth, and compliance scope vary widely between enterprises. As reference points, Voice systems start <strong>from $800</strong>, Email systems <strong>from $500</strong>, and Workflow systems <strong>from $700</strong> — but enterprise deployments are scoped and priced to your volumes, your integrations across Salesforce, ServiceNow, NetSuite, and Zendesk, and your compliance requirements rather than a flat list price. The right number comes out of a short scoping conversation, not a price sheet.</p>
+
+    <div class="faq">
+      <h2>Frequently asked questions</h2>
+      <div class="faq-item">
+        <h3>How do we decide which process to automate first?</h3>
+        <p>Score your candidates on volume, pain, and risk. The best first target scores high on volume and pain but keeps risk contained — typically inbound call handling, email triage, order or data entry, or status lookups. Those deliver fast, visible ROI while keeping the blast radius small, which builds the confidence to take on higher-stakes work later.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Should we build automation in-house or buy it?</h3>
+        <p>Build where the process is your competitive edge and you can own it for years; buy — or have it built and run for you — where it's common back-office work every company does the same way. Most enterprises land on a hybrid: buy proven building blocks, then integrate them tightly to your stack and policies. Ask whether maintaining it is core to your business or a distraction.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does automation integrate with our existing stack?</h3>
+        <p>It connects over the APIs of the systems you already run. Cases flow through ServiceNow and Zendesk, records and pipeline update in Salesforce, and transactions post into NetSuite or your ERP. The work shows up where your teams already operate, so the change is cleaner queues and faster throughput — not a new tool to learn.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do you keep automation safe and compliant?</h3>
+        <p>Through a phased rollout and human-in-the-loop controls — the system observes, then drafts for approval, then acts autonomously only on low-risk steps you've cleared. Compliance is built in with data processing agreements, role-based access, audit logging, and retention controls, and an architecture designed to support GDPR, CCPA, and EU AI Act obligations and SOC 2 controls.</p>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2>Not sure where to start?</h2>
+      <p>A 30-minute working session, no sales pressure. We'll map your highest-volume processes, score them by volume, pain, and risk, and outline a safe, phased rollout that fits your existing stack.</p>
+      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill">Get a quote →</a>
+    </div>
+  </div>
+</article>
+
+<footer>
+  <div class="footer-inner">
+    <span>Automating © All rights reserved</span>
+    <div class="footer-links">
+      <a href="../blog-en.html">Blog</a>
+      <a href="../privacy.html">Privacy Policy</a>
+      <a href="../terms.html">Terms</a>
+    </div>
+    <span>Hungary</span>
+  </div>
+</footer>
+
+</body>
+</html>

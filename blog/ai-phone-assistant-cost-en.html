@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What does an AI phone assistant cost? — Automating</title>
+<meta name="description" content="What an AI phone assistant costs in USD at enterprise scale: per-minute vs. per-seat pricing, how call volume drives cost, total cost of ownership vs. hiring or a BPO, and where ROI shows up.">
+<link rel="canonical" href="https://automating.hu/blog/ai-phone-assistant-cost-en.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="What does an AI phone assistant cost?">
+<meta property="og:description" content="Per-minute vs. per-seat pricing, how call volume drives cost, and where the ROI actually comes from at enterprise scale.">
+<meta property="og:image" content="https://automating.hu/og-image.png">
+<meta property="og:url" content="https://automating.hu/blog/ai-phone-assistant-cost-en.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Automating">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "What does an AI phone assistant cost?",
+      "description": "How AI phone assistant pricing breaks down at enterprise scale — per-minute vs. per-seat, how call volume drives cost, and how to calculate total cost of ownership and ROI.",
+      "inLanguage": "en",
+      "datePublished": "2026-06-11",
+      "dateModified": "2026-06-11",
+      "author": { "@type": "Person", "name": "Bence Hudácsek" },
+      "publisher": { "@type": "Organization", "name": "Automating", "url": "https://automating.hu/" },
+      "image": "https://automating.hu/og-image.png",
+      "mainEntityOfPage": "https://automating.hu/blog/ai-phone-assistant-cost-en.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://automating.hu/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://automating.hu/blog-en.html" },
+        { "@type": "ListItem", "position": 3, "name": "What does an AI phone assistant cost?" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How is enterprise AI phone assistant pricing structured?", "acceptedAnswer": { "@type": "Answer", "text": "Most enterprise engagements combine a one-time implementation fee (discovery, build, integration with your CRM and telephony, testing), a recurring platform and operations fee, and a usage component tied to call volume — typically billed per minute. Per-seat pricing exists, but it rarely fits high-volume use cases because AI capacity isn't constrained the way a human headcount is." } },
+        { "@type": "Question", "name": "Per-minute or per-seat — which model is cheaper at scale?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on your call profile. Per-seat works when volume is steady and predictable. Per-minute almost always wins for spiky, seasonal, or high-volume operations because you pay for handled conversation, not idle capacity — and the assistant absorbs surges without you provisioning extra headcount." } },
+        { "@type": "Question", "name": "How does an AI phone assistant compare to hiring or a BPO?", "acceptedAnswer": { "@type": "Answer", "text": "A loaded U.S. agent typically runs well past base salary once you add benefits, management, facilities, and attrition. Offshore BPO lowers the per-hour rate but adds QA overhead, ramp time, and quality variance. An AI assistant carries a higher up-front build cost and a low marginal cost per call, so the more volume it absorbs, the lower your effective cost per interaction." } },
+        { "@type": "Question", "name": "How fast does an AI phone assistant pay for itself?", "acceptedAnswer": { "@type": "Answer", "text": "For high-volume operations, the recovered revenue from answered calls plus reclaimed agent hours usually exceeds the monthly run cost within the first few billing cycles. The break-even is fastest where missed calls equal lost revenue and where a large share of calls follow repeatable patterns." } }
+      ]
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --black: #0a0a0a; --white: #ffffff; --g200: #e8e8e8; --g400: #a0a0a0; --g600: #666666; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--white); color: var(--black); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+.nav-outer { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 200; width: calc(100% - 48px); max-width: 960px; }
+nav { display: flex; align-items: center; justify-content: space-between; padding: 15px; gap: 20px; background: rgba(255,255,255,0.92); border: 1px solid var(--g200); border-radius: 100px; backdrop-filter: blur(12px); }
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; margin-left: 8px; }
+.nav-links { display: flex; align-items: center; gap: 30px; list-style: none; flex: 1; justify-content: center; }
+.nav-links a { font-size: 18px; font-weight: 500; transition: opacity .2s; }
+.nav-links a:hover { opacity: .5; }
+.btn-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--black); color: var(--white); padding: 15px 30px; border-radius: 100px; font-size: 15px; font-weight: 500; white-space: nowrap; transition: opacity .2s; }
+.btn-pill:hover { opacity: .75; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+.post { padding: 170px 0 40px; }
+.kicker { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--g400); margin-bottom: 18px; }
+.kicker a { color: var(--g600); }
+.kicker a:hover { color: var(--black); }
+h1 { font-size: clamp(34px, 5vw, 52px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.12; margin-bottom: 22px; }
+.lead { font-size: 19px; color: var(--g600); line-height: 1.65; margin-bottom: 44px; }
+.post h2 { font-size: clamp(22px, 2.6vw, 28px); font-weight: 600; letter-spacing: -0.025em; margin: 48px 0 16px; }
+.post h3 { font-size: 17px; font-weight: 600; margin: 28px 0 10px; }
+.post p { font-size: 16.5px; line-height: 1.8; color: var(--g600); margin-bottom: 16px; }
+.post ul, .post ol { list-style: none; margin-bottom: 16px; }
+.post li { font-size: 16.5px; line-height: 1.8; color: var(--g600); padding-left: 22px; position: relative; margin-bottom: 8px; }
+.post li::before { content: '—'; position: absolute; left: 0; color: var(--g400); }
+.post strong { color: var(--black); font-weight: 600; }
+.post a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+.note { background: #fafafa; border: 1px solid var(--g200); border-radius: 14px; padding: 20px 24px; margin: 28px 0; }
+.note p { margin-bottom: 0; font-size: 15px; }
+.faq { margin-top: 56px; border-top: 1px solid var(--g200); padding-top: 40px; }
+.faq h2 { margin-top: 0; }
+.faq-item { border: 1px solid var(--g200); border-radius: 14px; padding: 18px 22px; margin-bottom: 10px; }
+.faq-item h3 { margin: 0 0 8px; font-size: 16px; }
+.faq-item p { margin: 0; font-size: 15px; }
+.cta-box { margin: 56px 0 0; background: #fafafa; border: 1px solid var(--g200); border-radius: 24px; padding: 40px 32px; text-align: center; }
+.cta-box h2 { margin: 0 0 10px; }
+.cta-box p { margin-bottom: 24px; }
+footer { border-top: 1px solid var(--g200); padding: 24px 0; margin-top: 80px; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 1320px; margin: 0 auto; padding: 0 60px; font-size: 13px; color: var(--g600); flex-wrap: wrap; }
+.footer-inner a:hover { color: var(--black); }
+.footer-links { display: flex; gap: 28px; }
+@media (max-width: 900px) {
+  .nav-outer { width: calc(100% - 32px); top: 14px; }
+  nav { padding: 12px 16px; }
+  .nav-links { display: none; }
+  .btn-pill { padding: 10px 20px; font-size: 13px; }
+  .post { padding: 140px 0 30px; }
+  .footer-inner { flex-direction: column; text-align: center; padding: 0 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-outer">
+  <nav>
+    <a href="/" class="nav-logo" aria-label="Automating">
+      <svg width="34" height="34" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html#products">What we build</a></li>
+      <li><a href="../index.html#demo">Demo</a></li>
+      <li><a href="../case-studies.html">Case Studies</a></li>
+      <li><a href="../blog-en.html">Blog</a></li>
+    </ul>
+    <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill">Get a quote</a>
+  </nav>
+</div>
+
+<article class="post">
+  <div class="wrap">
+    <p class="kicker"><a href="../blog-en.html">← Blog</a> &nbsp;·&nbsp; June 11, 2026 &nbsp;·&nbsp; 9 min read &nbsp;·&nbsp; Bence Hudácsek</p>
+    <h1>What does an AI phone assistant cost?</h1>
+    <p class="lead">It's the first question every operations and finance leader asks, and the honest short answer is: there's no list price, because an enterprise voice assistant isn't a product you buy off a shelf — it's a system built around your call volume, your stack, and your compliance requirements. The useful answer is the one below: how the cost actually breaks down, what moves you up or down the range, and how to model total cost of ownership and ROI before you sign anything.</p>
+
+    <h2>The three layers of cost</h2>
+    <p>A production-grade AI phone assistant carries cost in three distinct layers. Conflating them is where most budget comparisons go wrong.</p>
+    <ul>
+      <li><strong>One-time implementation.</strong> Discovery of your call flows, building and tuning the assistant (what it says, what it asks, what it must never say), and integrating it with your existing systems — Salesforce, HubSpot, ServiceNow, Zendesk, NetSuite, and your telephony layer. Rigorous testing against real call recordings happens here, before a single live customer is exposed.</li>
+      <li><strong>Recurring platform and operations.</strong> A live assistant is not "set and forget." Conversations are monitored, responses tuned, models and integrations kept current, and audit logging maintained. The monthly fee covers support, oversight, and continuous optimization — the part that keeps quality from drifting.</li>
+      <li><strong>Usage, tied to volume.</strong> Every call consumes real compute: speech recognition, language-model reasoning, and speech synthesis. This is the layer that scales with call volume, and it's the one to model carefully — negligible at low volume, a real line item at enterprise scale.</li>
+    </ul>
+
+    <h2>Per-minute vs. per-seat: which model fits</h2>
+    <p>Vendors price the usage layer two ways, and the choice has real budget consequences at scale.</p>
+    <h3>Per-seat</h3>
+    <p>You pay for a fixed number of concurrent "agents," much like a SaaS license. It's predictable and easy to forecast — and it's a poor fit for high-volume or spiky operations, because you end up paying for idle capacity during quiet hours and hitting ceilings during surges. Per-seat logic comes from a human-headcount world; AI capacity doesn't behave that way.</p>
+    <h3>Per-minute</h3>
+    <p>You pay for handled conversation. When volume triples on a Monday morning or during a seasonal peak, the assistant absorbs it and you pay only for the minutes used — no scrambling to provision extra headcount. For most enterprise contact-center and front-line use cases, per-minute is the model that tracks the economics honestly. The number to negotiate isn't just the rate; it's <strong>what counts as a billable minute</strong> (see hidden costs below).</p>
+
+    <h2>How call volume drives the number</h2>
+    <p>Volume is the single biggest lever on the usage layer, and it interacts with everything else:</p>
+    <ul>
+      <li><strong>Total minutes.</strong> 5,000 handled minutes a month and 500,000 are different cost universes. Model your real distribution — average handle time times call count — not a flat estimate.</li>
+      <li><strong>Concurrency and peaks.</strong> An assistant that needs to hold 200 simultaneous conversations at peak is architected differently than one handling a handful. Peak concurrency, not average, sizes the system.</li>
+      <li><strong>Task complexity per call.</strong> An after-hours message-taker is a fraction of the cost of full order-taking that looks up SKUs, quotes prices, checks inventory, and writes the order back into NetSuite. The more the assistant does per call, the more reasoning each minute requires.</li>
+      <li><strong>Integration depth.</strong> Every connected system — CRM, ticketing, scheduling, billing, internal databases — is build effort. But integration is also where the value lives: a connected assistant doesn't just talk, it closes the loop.</li>
+    </ul>
+
+    <h2>Total cost of ownership vs. hiring, BPO, and offshore</h2>
+    <p>The sticker price only matters next to the alternative. Three comparisons enterprise buyers actually run:</p>
+    <ul>
+      <li><strong>In-house hiring.</strong> A U.S. front-line agent's fully loaded cost runs well beyond base salary once you add benefits, payroll taxes, management overhead, facilities, tooling, and the cost of attrition and re-training. Coverage stops at shift boundaries; 24/7 means three shifts, not one.</li>
+      <li><strong>Domestic or offshore BPO.</strong> A BPO lowers the per-hour rate, especially offshore — but reintroduces cost as QA overhead, multi-week ramp time, quality variance, accent and context friction, and the management bandwidth to keep an external vendor on-brand. The savings are real but partial, and they don't compound.</li>
+      <li><strong>AI assistant.</strong> Higher up-front build, then a low and predictable marginal cost per call. Coverage is continuous with no shift premium, capacity flexes with demand, and quality is consistent because it's governed centrally. The economics invert with scale: the more volume the assistant absorbs, the lower your effective cost per interaction.</li>
+    </ul>
+    <div class="note">
+      <p><strong>Rule of thumb:</strong> when the recovered revenue from answered calls plus the reclaimed agent hours exceeds the assistant's monthly run cost, it pays for itself — and at high volume that crossover usually lands within the first few billing cycles.</p>
+    </div>
+
+    <h2>Where ROI actually shows up at scale</h2>
+    <p>Price tells you nothing on its own; return is the real question. Four numbers worth putting on the table:</p>
+    <ol>
+      <li><strong>Recovered revenue from answered calls.</strong> Count the calls that go unanswered today — after hours, during peaks, when every agent is busy — and multiply by your average deal or order value. In high-volume operations this line alone often covers the system.</li>
+      <li><strong>Reclaimed labor.</strong> When repetitive, scriptable calls move to the assistant, your team's time shifts to complex, high-value conversations. That's not just cost saved; it's capacity redeployed without adding headcount.</li>
+      <li><strong>The cost of errors avoided.</strong> Misheard addresses, dropped callbacks, mistyped orders. The assistant reads critical data back, confirms it, and logs every interaction — turning silent failures into an auditable trail.</li>
+      <li><strong>Elastic capacity.</strong> Surges that used to mean abandoned calls or expensive overtime get absorbed at marginal cost. The value of never being capacity-constrained is hard to invoice but easy to feel.</li>
+    </ol>
+
+    <h2>Hidden costs: what to ask every vendor</h2>
+    <p>When you compare quotes, the bottom-line number isn't the only thing that matters. Five questions to ask before you sign:</p>
+    <ul>
+      <li><strong>What counts as a billable minute?</strong> Only handled conversation, or also ring time and failed connections? Is there a monthly minimum, and what happens on overage?</li>
+      <li><strong>Who maintains the integrations?</strong> When your CRM or telephony platform updates and a connection breaks, is the fix included in the monthly fee or a separate invoice?</li>
+      <li><strong>How is data handled?</strong> Where do transcripts live, is there a data processing agreement, and does the vendor operate with a SOC 2 mindset and support for GDPR/CCPA and the EU AI Act — including audit logging and role-based access?</li>
+      <li><strong>How portable are you?</strong> If you switch vendors, do you get your scripts, prompts, and transcripts, or do you rebuild from zero?</li>
+      <li><strong>What does the rollout look like?</strong> A phased deployment with a human-in-the-loop review period costs more to plan and far less to regret than a hard cutover.</li>
+    </ul>
+
+    <h2>When it isn't worth it</h2>
+    <p>To be straight about it: there are operations where an AI phone assistant isn't the right investment yet. If your call volume is genuinely low and comfortably handled today; if nearly every call is a unique, emotionally sensitive conversation where human presence is the service; or if there's no system of record (CRM, scheduling, order management) for the assistant to act inside — your money works harder elsewhere. We'll tell you that on the call, too.</p>
+
+    <h2>Why we don't quote a flat price sight-unseen</h2>
+    <p>Because it would be a guess dressed up as a number. Two companies in the same industry can differ several-fold in call volume, integration scope, and process complexity. At Automating we build <strong>AI employees, not tools</strong> — across voice infrastructure, email automation, and workflow systems — so pricing follows the system you actually need. As reference points, voice engagements start from $800, email from $500, and workflows from $700; enterprise deployments are scoped and priced to your volume, integrations, and compliance requirements. The first step is always a working session: we map your call flows, identify where AI fits, and give you an itemized quote you can take to finance.</p>
+
+    <div class="faq">
+      <h2>Frequently asked questions</h2>
+      <div class="faq-item">
+        <h3>How is enterprise AI phone assistant pricing structured?</h3>
+        <p>Most engagements combine a one-time implementation fee (discovery, build, integration with your CRM and telephony, testing), a recurring platform and operations fee, and a usage component tied to call volume — typically billed per minute. Per-seat pricing exists but rarely fits high-volume use cases.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Per-minute or per-seat — which is cheaper at scale?</h3>
+        <p>Per-seat works when volume is steady and predictable. Per-minute almost always wins for spiky, seasonal, or high-volume operations, because you pay for handled conversation rather than idle capacity, and the assistant absorbs surges without new headcount.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does it compare to hiring or a BPO?</h3>
+        <p>A fully loaded U.S. agent costs far more than base salary; offshore BPO lowers the rate but adds QA, ramp, and quality variance. An AI assistant trades a higher up-front build for a low marginal cost per call, so effective cost per interaction falls as volume rises.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How fast does it pay for itself?</h3>
+        <p>For high-volume operations, recovered revenue from answered calls plus reclaimed agent hours typically exceeds the monthly run cost within the first few billing cycles. Break-even is fastest where missed calls equal lost revenue and most calls follow repeatable patterns. For how the system works, see <a href="ai-phone-assistant-en.html">AI phone assistant: how it works and what it can do</a>.</p>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2>Find out what it would cost in your operation.</h2>
+      <p>A 30-minute working session, no sales pressure. We'll model your volume, map the integrations, and tell you plainly whether it pays off.</p>
+      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill">Get a quote →</a>
+    </div>
+  </div>
+</article>
+
+<footer>
+  <div class="footer-inner">
+    <span>Automating © All rights reserved</span>
+    <div class="footer-links">
+      <a href="../blog-en.html">Blog</a>
+      <a href="../privacy.html">Privacy Policy</a>
+      <a href="../terms.html">Terms</a>
+    </div>
+    <span>Hungary</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1245,12 +1245,12 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
       <h2 class="h1" data-reveal data-i18n="res.h2">Tudástár.</h2>
       <p class="b1" data-reveal data-delay="100" data-i18n="res.p">Cikkek és esettanulmányok arról, mit érdemes automatizálni - és mennyibe kerül.</p>
       <ul class="res-list" data-reveal data-delay="150">
-        <li><a href="blog/ai-telefonos-asszisztens-ara.html" data-i18n="res.l1">Mennyibe kerül egy AI telefonos asszisztens?</a></li>
-        <li><a href="blog/ai-telefonos-asszisztens-magyarul.html" data-i18n="res.l2">AI telefonos asszisztens magyarul: hogyan működik és mire képes?</a></li>
-        <li><a href="blog/email-automatizalas-ai.html" data-i18n="res.l3">E-mail-automatizálás AI-val: így válaszol a postafiókod magától</a></li>
-        <li><a href="blog/mit-lehet-automatizalni-kisvallalkozasban.html" data-i18n="res.l4">Mit lehet automatizálni egy kisvállalkozásban?</a></li>
+        <li><a href="blog/ai-telefonos-asszisztens-ara.html" data-en-href="blog/ai-phone-assistant-cost-en.html" data-i18n="res.l1">Mennyibe kerül egy AI telefonos asszisztens?</a></li>
+        <li><a href="blog/ai-telefonos-asszisztens-magyarul.html" data-en-href="blog/ai-phone-assistant-en.html" data-i18n="res.l2">AI telefonos asszisztens magyarul: hogyan működik és mire képes?</a></li>
+        <li><a href="blog/email-automatizalas-ai.html" data-en-href="blog/email-automation-ai-en.html" data-i18n="res.l3">E-mail-automatizálás AI-val: így válaszol a postafiókod magától</a></li>
+        <li><a href="blog/mit-lehet-automatizalni-kisvallalkozasban.html" data-en-href="blog/what-to-automate-en.html" data-i18n="res.l4">Mit lehet automatizálni egy kisvállalkozásban?</a></li>
         <li><a href="case-studies.html" data-i18n="res.l5">Esettanulmányok: valós eredmények AI-automatizálással</a></li>
-        <li><a href="blog.html" data-i18n="res.l6">Összes cikk a blogon &rarr;</a></li>
+        <li><a href="blog.html" data-en-href="blog-en.html" data-i18n="res.l6">Összes cikk a blogon &rarr;</a></li>
       </ul>
     </div>
   </section>
@@ -1276,7 +1276,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
           <summary data-i18n="faq.q4">Megéri egy ekkora cégnek, mint az enyém?</summary>
           <div class="faq-answer" data-i18n="faq.a4">A konzultáción megmondjuk, hol és mennyit spórolhatsz. Ha nem éri meg, azt is megmondjuk.</div>
         </details>
-        <details class="faq-item">
+        <details class="faq-item" id="faqHungarianOnly">
           <summary data-i18n="faq.q5">Magyarul is jól megy?</summary>
           <div class="faq-answer" data-i18n="faq.a5">Igen. A hang- és e-mail-rendszereink magyar nyelvre vannak hangolva, természetes párbeszéddel. A demóban kipróbálhatod.</div>
         </details>
@@ -1312,7 +1312,7 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
       <div class="footer-inner">
         <span class="footer-copy" data-i18n="footer.copy">Automating &copy; Minden jog fenntartva</span>
         <div class="footer-links">
-          <a href="blog.html">Blog</a>
+          <a href="blog.html" data-en-href="blog-en.html">Blog</a>
           <a href="case-studies.html" data-i18n="footer.cases">Esettanulmányok</a>
           <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi irányelvek</a>
           <a href="terms.html" data-i18n="footer.terms">Általános Szerződési Feltételek</a>
@@ -1466,15 +1466,15 @@ const T = {
     'products.p.mob':   'Our stack delivers AI systems for businesses to<br>handle calls, emails, and workflows. Integrated<br>into existing operations.',
     'voice.tag':        'Voice Infrastructure',
     'voice.title':      'AI that answers every call.',
-    'voice.price':      'From 250,000 Ft',
+    'voice.price':      'From $800',
     'voice.desc':       'Answer calls, take orders, book appointments, and qualify leads, 24/7. Natural conversation. Integrated with your CRM and calendar.',
     'email.tag':        'Email Automation',
     'email.title':      'Inbox that reads, sorts, and replies.',
-    'email.price':      'From 150,000 Ft',
+    'email.price':      'From $500',
     'email.desc':       'Read, categorise, and reply to emails. Auto-responses for FAQs. Urgent flagging. Follow-up sequences that don\'t miss.',
     'workflow.tag':     'Workflow Systems',
     'workflow.title':   'Back-office on autopilot.',
-    'workflow.price':   'From 220,000 Ft',
+    'workflow.price':   'From $700',
     'workflow.desc':    'Infrastructure for repetitive tasks, invoicing, data entry, CRM sync, reporting, quietly running in the background.',
     'products.bridge':  'You get the exact price in the proposal, tailored to the task. For larger companies we build a custom package.',
     'approach.h2':      'Our Approach.',
@@ -1535,9 +1535,9 @@ const T = {
     'res.h2':           'Resources.',
     'res.p':            'Articles and case studies on what\'s worth automating - and what it costs.',
     'res.l1':           'How much does an AI phone assistant cost?',
-    'res.l2':           'AI phone assistant in Hungarian: how it works and what it can do',
+    'res.l2':           'AI phone assistant: how it works and what it can do',
     'res.l3':           'Email automation with AI: an inbox that replies by itself',
-    'res.l4':           'What can be automated in a small business?',
+    'res.l4':           'Which processes to automate first in your operation',
     'res.l5':           'Case studies: real results with AI automation',
     'res.l6':           'All articles on the blog &rarr;',
     'cta.h2':           'Ready to replace<br>the work?',
@@ -1550,7 +1550,7 @@ const T = {
     'footer.terms':     'Terms and Conditions',
     'footer.loc':       'United Kingdom',
     'rev.eyebrow':      'What our clients say',
-    'rev.h2':           'We didn\'t switch on ads. We built working AI into their operations.',
+    'rev.h2':           'We didn\'t run ads. We built agentic AI into their operations.',
     'rev1.industry':    'Hospitality',
     'rev1.when':        '2 months ago',
     'rev1.quote':       '"At peak hours we lost half our calls, and the revenue with them. Now the AI answers every call, takes the order, offers the add-on. The phone is no longer a bottleneck."',
@@ -1569,20 +1569,20 @@ const T = {
     'rev3.m1':          'Calc errors ~0',
     'rev.note':         'Reviews are from real, consenting clients.',
     'faq.h2':           'Frequently asked questions',
-    'faq.q1':           'Are you sure the AI won\'t break anything?',
-    'faq.a1':           'Yes, because you don\'t get an off-the-shelf bot. We train the system on your processes down to the smallest detail.',
-    'faq.q2':           'Will it replace my people?',
-    'faq.a2':           'We replace the repetitive, monotonous work, not the person. Your team gets time for what truly needs a human.',
-    'faq.q3':           'Do I have to overhaul my whole operation?',
-    'faq.a3':           'No. We start with your most painful point, integrated into your existing systems (CRM, calendar, ERP). We begin small, then expand.',
-    'faq.q4':           'Is it worth it for a company my size?',
-    'faq.a4':           'On the consultation we tell you where and how much you can save. If it isn\'t worth it, we\'ll say so.',
+    'faq.q1':           'Will this integrate with our existing tech stack?',
+    'faq.a1':           'Yes. We build into your current systems - CRM, ERP, telephony, helpdesk and ticketing (Salesforce, HubSpot, ServiceNow, Zendesk and others) - through their APIs. It\'s an integration layer, not a rip-and-replace.',
+    'faq.q2':           'How do you handle data security and compliance?',
+    'faq.a2':           'Systems are built to your security and data-handling policies, aligned with GDPR/CCPA and the EU AI Act, with role-based access and audit logging. Compliance is designed in, not bolted on.',
+    'faq.q3':           'Will it replace our team?',
+    'faq.a3':           'It replaces the repetitive, high-volume work - not your people. Your team is freed for higher-value work, and humans stay in the loop on the edge cases that need judgment.',
+    'faq.q4':           'How do you prove ROI before we commit at scale?',
+    'faq.a4':           'We start with a scoped pilot on one of your highest-volume processes, agree the success metrics up front, and measure against them. If the numbers don\'t land, we tell you.',
     'faq.q5':           'Does it work well in Hungarian?',
     'faq.a5':           'Yes. Our voice and email systems are tuned for Hungarian, with natural conversation. You can try it in the demo.',
-    'faq.q6':           'What about our data?',
-    'faq.a6':           'The systems are built into your existing processes, in line with GDPR and the EU AI Act. Compliance is not an afterthought for us.',
-    'faq.q7':           'What if it doesn\'t fit after all?',
-    'faq.a7':           'The first consultation comes with no obligation.',
+    'faq.q6':           'How long does implementation take, and how disruptive is it?',
+    'faq.a6':           'We roll out in phases - one workflow first, with minimal disruption to live operations - then expand once it\'s proven in production. Most teams see a first process live in weeks, not quarters.',
+    'faq.q7':           'What if it doesn\'t fit our organization?',
+    'faq.a7':           'The first consultation is no-obligation, and a pilot is scoped to measurable goals. If it doesn\'t hit them, we say so - no lock-in.',
   },
   hu: {
     'nav.products':     'Mit Építünk',
@@ -1776,6 +1776,16 @@ function setLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
     if(tr[key] !== undefined) el.innerHTML = tr[key];
+  });
+
+  // The "Does it work well in Hungarian?" FAQ only makes sense on the HU site
+  const faqHuOnly = document.getElementById('faqHungarianOnly');
+  if(faqHuOnly) faqHuOnly.style.display = lang === 'hu' ? '' : 'none';
+
+  // Blog / resource links point to the English blog when the site is in English
+  document.querySelectorAll('[data-en-href]').forEach(a => {
+    if(!a.dataset.huHref) a.dataset.huHref = a.getAttribute('href');
+    a.setAttribute('href', lang === 'en' ? a.dataset.enHref : a.dataset.huHref);
   });
 
   // Update card content (voice / email / workflow)
@@ -2278,7 +2288,8 @@ let prodVisible = false;
   const chips = document.getElementById('chatChips');
   if(!log || !input || !sendBtn) return;
 
-  const WEBHOOK = 'https://n8n.automating.hu/webhook/automating-chatbot/chat';
+  const WEBHOOK    = 'https://n8n.automating.hu/webhook/automating-chatbot/chat';
+  const WEBHOOK_EN = 'https://n8n.automating.hu/webhook/automating-chatbot-en/chat';
   const CHAT_T = {
     en: {
       greeting: 'Hi! 👋 I\'m the **Automating** AI assistant.\nAsk me about our services, case studies, or AI automation!',
@@ -2348,7 +2359,7 @@ let prodVisible = false;
     const t = bubble('bot chat-typing', '<i></i><i></i><i></i>');
     const tr = CHAT_T[currentLang] || CHAT_T.hu;
     try {
-      const res = await fetch(WEBHOOK, {
+      const res = await fetch(currentLang === 'en' ? WEBHOOK_EN : WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'sendMessage', sessionId, chatInput: text }),
@@ -2413,6 +2424,14 @@ let prodVisible = false;
     resto: '58e1e6c1-d737-4f56-9460-e7d6fe043cc4', // Pizzéria (Napoli)
     supp:  '02cc0a77-f67e-4521-b3b1-76c45511a3ee', // Ügyfélszolgálat (TechShop)
   };
+  // English voice assistants (used when the site language is EN)
+  const VAPI_ASSISTANTS_EN = {
+    about: 'b6d6c817-123e-4cbe-a777-82b2cd9f459d', // Automating Web Demo (EN)
+    recep: 'c58af664-bbe4-4be2-8aa5-309d5f7065a0', // Receptionist (Bella Salon, EN)
+    resto: 'd1800084-26db-47b4-bd99-2ede0cd97d96', // Pizzeria (Napoli, EN)
+    supp:  '6c426c08-62d5-4b16-80e8-2e782cdb7ef6', // Support (TechShop, EN)
+  };
+  const assistantId = () => (currentLang === 'en' ? VAPI_ASSISTANTS_EN : VAPI_ASSISTANTS)[selType];
 
   const card = document.querySelector('.voice-card');
   const orb = document.getElementById('voiceOrb');
@@ -2641,7 +2660,7 @@ let prodVisible = false;
         }
       }, 20000);
       try {
-        await vapi.start(VAPI_ASSISTANTS[selType]);
+        await vapi.start(assistantId());
       } catch (e1) {
         // stale Daily instance from a previous call - rebuild once and retry
         const d = String((e1 && (e1.message || e1.errorMsg)) || e1);
@@ -2650,7 +2669,7 @@ let prodVisible = false;
         try { vapi.stop(); } catch (e) {}
         wireVapi();
         await new Promise(r => setTimeout(r, 500));
-        await vapi.start(VAPI_ASSISTANTS[selType]);
+        await vapi.start(assistantId());
       }
     } catch (err) {
       console.error('Vapi indítási hiba:', err);
@@ -2683,7 +2702,8 @@ let prodVisible = false;
   if (!runBtn) return;
   const input = document.getElementById('edInput');
   const result = document.getElementById('edResult');
-  const ED_URL = 'https://n8n.automating.hu/webhook/automating-email-demo';
+  const ED_URL    = 'https://n8n.automating.hu/webhook/automating-email-demo';
+  const ED_URL_EN = 'https://n8n.automating.hu/webhook/automating-email-demo-en';
 
   const SAMPLES = {
     hu: {
@@ -2754,7 +2774,7 @@ let prodVisible = false;
     runBtn.disabled = true;
     result.innerHTML = '<div class="ed-empty"><span class="chat-typing"><i></i><i></i><i></i></span></div>';
     try {
-      const res = await fetch(ED_URL, {
+      const res = await fetch(currentLang === 'en' ? ED_URL_EN : ED_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: text }),
