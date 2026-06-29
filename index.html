@@ -276,10 +276,12 @@ nav {
   padding: 10px 22px; border-radius: 100px;
   font-family: inherit; font-size: 14px; font-weight: 500;
   cursor: pointer; white-space: nowrap;
-  transition: opacity .2s, transform 0.25s cubic-bezier(0.16,1,0.3,1);
-  text-decoration: none;
+  transition: transform .5s cubic-bezier(0.22,1,0.36,1), opacity .5s cubic-bezier(0.22,1,0.36,1);
+  text-decoration: none; will-change: transform;
 }
-.btn-pill:hover { opacity: .78; transform: scale(1.04); }
+.btn-pill:hover { opacity: .9; transform: scale(1.03); }
+.btn-pill:active { transform: scale(.965); transition: transform .12s cubic-bezier(0.22,1,0.36,1), opacity .12s ease; }
+@media (hover: none) { .btn-pill:hover { opacity: 1; transform: none; } }
 .btn-large { padding: 15px 32px; font-size: 16px; }
 .nav-cta { padding: 15px 30px; font-size: 15px; margin-right: 4px; }
 .nav-toggle {
