@@ -1730,6 +1730,8 @@ const T = {
 
 // Detect language from localStorage, then browser locale
 function detectLang() {
+  const _u = new URLSearchParams(location.search).get('lang');
+  if(_u === 'en' || _u === 'hu') { localStorage.setItem('lang', _u); return _u; }
   const saved = localStorage.getItem('lang');
   if(saved) return saved;
   const langs = navigator.languages || [navigator.language || 'en'];
