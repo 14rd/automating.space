@@ -1,0 +1,12 @@
+# GitHub Pages (Jekyll) config for automating.hu
+# store.html + termek/ are the STORE, which lives canonically on
+# https://store.automating.hu (a separate Cloudflare Pages deploy built from
+# store-deploy/). They stay in the repo because build-products.mjs uses them as
+# build source, but they must NOT be published on automating.hu — otherwise Google
+# sees cross-domain duplicates and reports the "Alternate page with proper
+# canonical tag" page-indexing issue.
+exclude:
+  - store.html
+  - termek
+  - build-products.mjs
+  - node_modules
