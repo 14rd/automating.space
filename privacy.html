@@ -208,6 +208,119 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   .policy-page { padding: 120px 0 80px; }
   .footer-inner { flex-direction: column; text-align: center; }
 }
+
+/* ════════════════════════════════
+   MOBILE HEADER GEOMETRY
+   Fixed 69 px pill, 16 px below the viewport top -> bottom edge at 85 px.
+   Height is set on <nav> rather than via padding so the value is exact
+   regardless of the logo/button line-heights inside it; box-sizing is
+   border-box globally, so the 1 px border is included in the 69 px.
+   Desktop (>=810 px) is untouched.
+════════════════════════════════ */
+@media (max-width: 809px) {
+  .nav-outer { top: 16px; }
+  /* content-box + a fixed 67 px row: 67 + 2 px border = the required 69 px,
+     and the content box stays 67 px however far the menu pushes padding-bottom,
+     so row 1 never moves. */
+  nav { box-sizing: content-box; height: 67px; padding-top: 0; padding-bottom: 0; }
+}
+
+/* ════════════════════════════════
+   MOBILE MENU — the header pill itself opens
+   The links are taken out of flow *inside* <nav>, so every page keeps its own
+   row-1 layout untouched (flex here, grid on terms/privacy, absolutely-centred
+   CTA). What animates is <nav>'s own height: the existing pill grows downward
+   and reveals the links already sitting inside it. No second panel is created.
+   --navh is the closed pill height, written by the script, so the links stay
+   pinned directly under row 1 at every breakpoint.
+════════════════════════════════ */
+@media (max-width: 900px) {
+  nav {
+    position: relative; overflow: hidden;
+    /* padding-bottom, not height: padding sits OUTSIDE the content box, so the
+       pill grows downward while row 1 keeps its own box and stays exactly where
+       it is. Animating height instead re-centres the logo/CTA/burger inside the
+       taller pill, which is why the row slid to the middle. */
+    transition: padding-bottom .46s cubic-bezier(.16, 1, .3, 1);
+    /* Radius pinned to half the CLOSED height, and it never animates. The old
+       100px was being clamped down to half the height while the pill was short,
+       so the *effective* radius kept changing as the pill grew and the corners
+       visibly popped on the first frames. A fixed value renders identically to
+       today when closed and stays seamless all the way open. */
+    border-radius: 28px;
+  }
+
+  /* the burger is a plain <button>: kill the platform tap flash so nothing
+     grey ever paints behind it. Keyboard :focus-visible is left intact. */
+  .nav-toggle {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none; appearance: none;
+    background: none; border: 0; outline: none;
+    touch-action: manipulation;
+    -webkit-user-select: none; user-select: none;
+  }
+  .nav-toggle:hover, .nav-toggle:active, .nav-toggle:focus {
+    background: none; outline: none; box-shadow: none;
+  }
+
+  .nav-links {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 20px;
+    position: absolute; left: 0; right: 0; top: var(--navrow, 100%); bottom: auto;
+    padding: 4px 22px 24px; margin: 0; z-index: 1;
+    background: none; border: 0; border-radius: 0; box-shadow: none;
+    backdrop-filter: none; -webkit-backdrop-filter: none; animation: none;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .2s ease, visibility 0s linear .2s;
+  }
+  nav.is-open .nav-links {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity .34s ease .08s, visibility 0s linear 0s;
+  }
+
+  /* three bars -> X. The bars are 1.5 px with a 4 px gap, so the outer two sit
+     exactly 5.5 px from the middle one: that is the exact travel to the centre. */
+  .nav-toggle span {
+    transform-origin: 50% 50%;
+    transition: transform .38s cubic-bezier(.16, 1, .3, 1), opacity .18s ease;
+  }
+  nav.is-open .nav-toggle span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  nav.is-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(.35); }
+  nav.is-open .nav-toggle span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+}
+
+/* Half of the 69 px closed pill. Declared after the menu block so it wins over
+   the 28 px used between 810-900 px, where the closed pill is 56 px tall. */
+@media (max-width: 809px) {
+  nav { border-radius: 34.5px; }
+}
+
+/* ════════════════════════════════
+   NO GREY PRESS / HOVER ARTEFACTS  (site-wide, every breakpoint)
+   The grey box that flashes on tap is the platform tap highlight, not our own
+   CSS, so it has to be switched off explicitly - it is not covered by any
+   background/hover rule. The same goes for the focus ring the browser paints
+   after a mouse or touch press: that is dropped via :focus:not(:focus-visible),
+   which leaves the KEYBOARD focus ring fully intact for accessibility.
+   touch-action: manipulation also removes the double-tap-zoom delay, which is
+   what makes the highlight linger long enough to be noticed.
+════════════════════════════════ */
+* { -webkit-tap-highlight-color: transparent; }
+
+a, button, summary, label, select, input, textarea,
+[role="button"], [tabindex] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
 </style>
 </head>
 <body>
@@ -766,8 +879,30 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 <script>
 const navToggle = document.getElementById('navToggle');
 const navLinks  = document.getElementById('navLinks');
-navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+const navEl = navToggle.closest('nav');
+function setNavOpen(open) {
+  if (open) {
+    /* measure the closed pill first: clientHeight is the padding box, so this
+       is exactly where row 1 ends and the links should start */
+    navEl.style.paddingBottom = '';
+    navEl.style.setProperty('--navrow', navEl.clientHeight + 'px');
+    navEl.style.paddingBottom = navLinks.scrollHeight + 'px';
+  } else {
+    navEl.style.paddingBottom = '';
+  }
+  navEl.classList.toggle('is-open', open);
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+navToggle.setAttribute('aria-expanded', 'false');
+navToggle.addEventListener('click', () => setNavOpen(!navEl.classList.contains('is-open')));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNavOpen(false)));
+addEventListener('resize', () => {
+  if (innerWidth > 900 && navEl.classList.contains('is-open')) {
+    navEl.classList.remove('is-open');
+    navEl.style.paddingBottom = '';
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+});
 
 // language toggle — follows the main site's stored preference
 const langBlocks = document.querySelectorAll('.lang-block');

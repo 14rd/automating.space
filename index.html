@@ -36,7 +36,10 @@
       "email": "hello@automating.hu",
       "slogan": "Munkahelyeket váltunk ki AI-jal.",
       "description": "AI-automatizálás vállalkozásoknak: telefonos AI-asszisztensek, e-mail-automatizálás és munkafolyamat-rendszerek.",
-      "founder": { "@type": "Person", "name": "Bence Hudácsek" },
+      "founder": [
+        { "@type": "Person", "name": "Gábor Homoki", "jobTitle": "Co-Founder" },
+        { "@type": "Person", "name": "Bence Hudácsek", "jobTitle": "Co-Founder" }
+      ],
       "address": { "@type": "PostalAddress", "addressCountry": "HU" },
       "areaServed": { "@type": "Country", "name": "Hungary" },
       "contactPoint": {
@@ -256,7 +259,7 @@ nav {
   font-family: inherit; font-size: 14px; font-weight: 500;
   cursor: pointer; color: var(--black); transition: background .12s; white-space: nowrap;
 }
-.lang-dd-btn:hover { background: #f2f2f2; }
+.lang-dd-btn:hover { opacity: .55; }
 .lang-dd-btn.is-active { font-weight: 700; }
 
 /* Mobile-only lang switch inside hamburger dropdown */
@@ -882,6 +885,163 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 .reviews-note { text-align: center; font-size: 12px; color: var(--g400); margin-top: 36px; }
 
 /* ════════════════════════════════
+   TEAM  (proof section: humans + AI agents, single row)
+   ════════════════════════════════ */
+.team { padding: 120px 0 140px; }
+.team-head { text-align: center; max-width: 820px; margin: 0 auto; }
+.team-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--g600); margin-bottom: 18px; }
+.team .h1 { margin-bottom: 22px; }
+.team-lead { color: var(--g600); max-width: 700px; margin: 0 auto; }
+.team-proof { font-size: 15px; color: var(--g400); line-height: 1.6; max-width: 640px; margin: 20px auto 0; }
+
+/* ── track: 8 profiles in one uninterrupted row ── */
+.team-track {
+  margin-top: 64px;
+  display: grid; grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 22px; align-items: start;
+}
+.team-track:focus-visible { outline: 2px solid rgba(21,128,61,.5); outline-offset: 8px; border-radius: 14px; }
+.team-member { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 0; }
+
+/* ── portrait base (shared circle system for humans + orbs) ── */
+.tm-portrait {
+  position: relative; width: 100%; max-width: 128px; aspect-ratio: 1 / 1;
+  margin: 0 auto; border-radius: 50%;
+}
+.tm-name { margin-top: 18px; font-size: 17px; font-weight: 600; color: var(--black); letter-spacing: -.01em;
+  /* the grid column is narrower than the longest name, so let the name
+     spill a few px into the 22 px gutter rather than break in two */
+  white-space: nowrap; }
+.tm-role { margin-top: 6px; font-size: 13px; color: var(--g600); line-height: 1.4; max-width: 16ch; margin-left: auto; margin-right: auto; }
+
+/* ── human photos: same ring + glow language as the orbs ── */
+.tm-photo {
+  width: 100%; height: 100%; display: block; object-fit: cover; object-position: center 12%;
+  border-radius: 50%; background: #f2f2f2;
+  box-shadow: inset 0 0 0 4px rgba(255,255,255,.92), 0 0 0 1px var(--g200);
+}
+
+/* ════════ TEAM AI ORBS — static material assets ════════
+   The six WebP textures own the whole sphere: colour regions, tonal range
+   and film grain are baked into the image. No CSS gradient orb, no grain
+   overlay, no breathing filter — nothing may show through or layer over. */
+.tm-orb {
+  overflow: hidden; isolation: isolate; cursor: default; background: transparent;
+  border-radius: 50%;
+  /* overflow + border-radius alone does not clip a hardware-composited <video>
+     layer in WebKit, so the opaque square frame stays visible at the corners as
+     a grey box. clip-path and a mask are both honoured on composited layers, so
+     the circle holds in every engine. Geometry only: no border, outline, glow
+     or shadow is introduced here, and nothing inside the circle changes. */
+  clip-path: circle(50% at 50% 50%);
+  -webkit-mask-image: -webkit-radial-gradient(circle closest-side, #000 99.5%, transparent 100%);
+          mask-image: radial-gradient(circle closest-side, #000 99.5%, transparent 100%);
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+/* outer physical contour (0.5 px inset), nothing else lives here */
+.tm-orb::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  /* 0.5 px inset contour at 10%, plus ONE soft asymmetric inner-depth wash.
+     Both shadows are offset and heavily spread-negative, so neither closes into
+     a continuous annulus: there is no Fresnel ring, no bubble and no planet
+     terminator, and the effect is only legible against a side-by-side. */
+  box-shadow:
+    inset 0 0 0 0.5px rgba(0, 0, 0, .10),
+    inset -11px -15px 26px -13px rgba(8, 10, 11, .34),
+    inset 13px 9px 21px -15px rgba(255, 255, 255, .15);
+  pointer-events: none; z-index: 3; clip-path: circle(50% at 50% 50%);
+}
+/* fine screen-space film grain: static, monochrome, clipped to the circle.
+   512 px filmic texture shown at 128 px -> ~0.25 CSS px per particle, and a
+   different offset per agent so the six orbs never share one fingerprint. */
+.tm-orb::after {
+  content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  border-radius: 50%; background-image: url("assets/orb/orb-grain.png");
+  /* 512 px source shown at 200% of a 128 px box = 256 CSS px, so one source
+     particle is 0.5 CSS px on a 2x display. pixelated keeps that particle a
+     hard square instead of letting the browser resample it into mush. */
+  background-size: 200% 200%; background-repeat: repeat;
+  image-rendering: pixelated;
+  mix-blend-mode: overlay; opacity: .5;
+  clip-path: circle(50% at 50% 50%);
+}
+.tm-orb[data-orb="alfred"]::after { background-position:   0px   0px; }
+.tm-orb[data-orb="orch"]::after   { background-position:  53px  17px; }
+.tm-orb[data-orb="kutato"]::after { background-position: 101px  74px; transform: scaleX(-1); }
+.tm-orb[data-orb="epito"]::after  { background-position:  29px 133px; }
+.tm-orb[data-orb="iro"]::after    { background-position: 167px  41px; transform: scaleY(-1); }
+.tm-orb[data-orb="or"]::after     { background-position:  88px 191px; transform: scale(-1,-1); }
+.tm-orb-canvas {
+  position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+  display: block; border-radius: 50%; object-fit: cover;
+  clip-path: circle(50% at 50% 50%);
+}
+.tm-orb-video {
+  position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%;
+  display: block; object-fit: cover; border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
+  pointer-events: none; background: transparent;
+}
+/* reduced motion: no video at all, the approved static WebP stays visible */
+@media (prefers-reduced-motion: reduce) { .tm-orb-video { display: none; } }
+@keyframes tmSwipe {
+  0%, 100% { transform: translateX(0); opacity: .55; }
+  50%      { transform: translateX(4px); opacity: 1; }
+}
+
+/* ── reveal: neutralise the generic slide on the container, stagger the members L→R ── */
+.team-track[data-reveal] { opacity: 1; transform: none; transition: none; }
+.team-track .team-member {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+}
+.team-track.is-visible .team-member { opacity: 1; transform: none; }
+.team-track.is-visible .team-member:nth-child(1) { transition-delay: 0s; }
+.team-track.is-visible .team-member:nth-child(2) { transition-delay: .06s; }
+.team-track.is-visible .team-member:nth-child(3) { transition-delay: .12s; }
+.team-track.is-visible .team-member:nth-child(4) { transition-delay: .18s; }
+.team-track.is-visible .team-member:nth-child(5) { transition-delay: .24s; }
+.team-track.is-visible .team-member:nth-child(6) { transition-delay: .30s; }
+.team-track.is-visible .team-member:nth-child(7) { transition-delay: .36s; }
+
+/* mobile swipe hint — hidden on desktop grid */
+.team-hint { display: none; }
+
+/* ── tablet + mobile: wrap the row instead of scrolling it ──
+   A horizontal scroller always cuts a card at both edges of the viewport,
+   which reads as a rendering bug rather than an affordance. Below 1100 px the
+   eight profiles wrap into a plain grid, so every member is fully visible and
+   nothing is ever clipped. No horizontal overflow means the swipe hint has
+   nothing left to hint at, so it is hidden with it. */
+@media (max-width: 1100px) {
+  .team-track {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 40px 16px; margin-top: 52px;
+    overflow: visible; padding: 0;
+  }
+  .team-member { width: auto; }
+  .tm-portrait { max-width: 120px; }
+  .team-hint { display: none; }
+}
+@media (max-width: 700px) {
+  .team-track { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px 14px; }
+}
+@media (max-width: 560px) {
+  .team { padding: 90px 0 90px; }
+  .team-track { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 14px; margin-top: 44px; }
+  .tm-portrait { max-width: 116px; }
+}
+
+/* ── respect reduced motion: everything static, no breathing, no slide-in ── */
+@media (prefers-reduced-motion: reduce) {
+  .team [data-reveal] { transition: none !important; }
+  .team-track .team-member { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .tm-orb { animation: none !important; }
+  .team-hint svg { animation: none !important; }
+}
+
+/* ════════════════════════════════
    STORE SEGMENT
    ════════════════════════════════ */
 .store-seg { padding: 0 0 140px; }
@@ -920,6 +1080,119 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   .store-inner { padding: 44px 28px; border-radius: 28px; }
   .reviews { padding: 90px 0 90px; }
   .store-seg, .faq { padding-bottom: 90px; }
+}
+
+/* ════════════════════════════════
+   MOBILE HEADER GEOMETRY
+   Fixed 69 px pill, 16 px below the viewport top -> bottom edge at 85 px.
+   Height is set on <nav> rather than via padding so the value is exact
+   regardless of the logo/button line-heights inside it; box-sizing is
+   border-box globally, so the 1 px border is included in the 69 px.
+   Desktop (>=810 px) is untouched.
+════════════════════════════════ */
+@media (max-width: 809px) {
+  .nav-outer { top: 16px; }
+  /* content-box + a fixed 67 px row: 67 + 2 px border = the required 69 px,
+     and the content box stays 67 px however far the menu pushes padding-bottom,
+     so row 1 never moves. */
+  nav { box-sizing: content-box; height: 67px; padding-top: 0; padding-bottom: 0; }
+}
+
+/* ════════════════════════════════
+   MOBILE MENU — the header pill itself opens
+   The links are taken out of flow *inside* <nav>, so every page keeps its own
+   row-1 layout untouched (flex here, grid on terms/privacy, absolutely-centred
+   CTA). What animates is <nav>'s own height: the existing pill grows downward
+   and reveals the links already sitting inside it. No second panel is created.
+   --navh is the closed pill height, written by the script, so the links stay
+   pinned directly under row 1 at every breakpoint.
+════════════════════════════════ */
+@media (max-width: 900px) {
+  nav {
+    position: relative; overflow: hidden;
+    /* padding-bottom, not height: padding sits OUTSIDE the content box, so the
+       pill grows downward while row 1 keeps its own box and stays exactly where
+       it is. Animating height instead re-centres the logo/CTA/burger inside the
+       taller pill, which is why the row slid to the middle. */
+    transition: padding-bottom .46s cubic-bezier(.16, 1, .3, 1);
+    /* Radius pinned to half the CLOSED height, and it never animates. The old
+       100px was being clamped down to half the height while the pill was short,
+       so the *effective* radius kept changing as the pill grew and the corners
+       visibly popped on the first frames. A fixed value renders identically to
+       today when closed and stays seamless all the way open. */
+    border-radius: 28px;
+  }
+
+  /* the burger is a plain <button>: kill the platform tap flash so nothing
+     grey ever paints behind it. Keyboard :focus-visible is left intact. */
+  .nav-toggle {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none; appearance: none;
+    background: none; border: 0; outline: none;
+    touch-action: manipulation;
+    -webkit-user-select: none; user-select: none;
+  }
+  .nav-toggle:hover, .nav-toggle:active, .nav-toggle:focus {
+    background: none; outline: none; box-shadow: none;
+  }
+
+  .nav-links {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 20px;
+    position: absolute; left: 0; right: 0; top: var(--navrow, 100%); bottom: auto;
+    padding: 4px 22px 24px; margin: 0; z-index: 1;
+    background: none; border: 0; border-radius: 0; box-shadow: none;
+    backdrop-filter: none; -webkit-backdrop-filter: none; animation: none;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .2s ease, visibility 0s linear .2s;
+  }
+  nav.is-open .nav-links {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity .34s ease .08s, visibility 0s linear 0s;
+  }
+
+  /* three bars -> X. The bars are 1.5 px with a 4 px gap, so the outer two sit
+     exactly 5.5 px from the middle one: that is the exact travel to the centre. */
+  .nav-toggle span {
+    transform-origin: 50% 50%;
+    transition: transform .38s cubic-bezier(.16, 1, .3, 1), opacity .18s ease;
+  }
+  nav.is-open .nav-toggle span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  nav.is-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(.35); }
+  nav.is-open .nav-toggle span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+}
+
+/* Half of the 69 px closed pill. Declared after the menu block so it wins over
+   the 28 px used between 810-900 px, where the closed pill is 56 px tall. */
+@media (max-width: 809px) {
+  nav { border-radius: 34.5px; }
+}
+
+/* ════════════════════════════════
+   NO GREY PRESS / HOVER ARTEFACTS  (site-wide, every breakpoint)
+   The grey box that flashes on tap is the platform tap highlight, not our own
+   CSS, so it has to be switched off explicitly - it is not covered by any
+   background/hover rule. The same goes for the focus ring the browser paints
+   after a mouse or touch press: that is dropped via :focus:not(:focus-visible),
+   which leaves the KEYBOARD focus ring fully intact for accessibility.
+   touch-action: manipulation also removes the double-tap-zoom delay, which is
+   what makes the highlight linger long enough to be noticed.
+════════════════════════════════ */
+* { -webkit-tap-highlight-color: transparent; }
+
+a, button, summary, label, select, input, textarea,
+[role="button"], [tabindex] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
 }
 </style>
 </head>
@@ -1181,6 +1454,86 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team" id="team" aria-labelledby="team-heading">
+    <div class="wrap">
+      <div class="team-head">
+        <div class="team-eyebrow" data-reveal data-i18n="team.eyebrow">A CSAPAT</div>
+        <h2 class="h1" id="team-heading" data-reveal data-delay="100" data-i18n="team.h2">Nem csak AI alkalmazottakat építünk. Velük dolgozunk.</h2>
+        <p class="team-lead b1" data-reveal data-delay="150" data-i18n="team.lead">Az emberek adják az irányt. AI agentjeink kutatnak, írnak, építenek, ellenőriznek és koordinálnak - minden nap.</p>
+        <p class="team-proof" data-reveal data-delay="200" data-i18n="team.proof">A saját működésünk ugyanarra az elvre épül, amit az ügyfeleink rendszereibe is bevezetünk.</p>
+      </div>
+
+      <div class="team-track" data-reveal tabindex="0" role="list" aria-label="Automating csapat">
+
+        <!-- Human · Homoki Gábor -->
+        <div class="team-member" role="listitem">
+          <div class="tm-portrait tm-human">
+            <img class="tm-photo" src="assets/team-homoki-gabor.webp" width="400" height="400"
+                
+                 alt="Homoki Gábor portréja"
+                 data-alt-hu="Homoki Gábor portréja" data-alt-en="Portrait of Gábor Homoki">
+          </div>
+          <div class="tm-name">Homoki Gábor</div>
+          <div class="tm-role" data-i18n="team.gabor.role">Alapító, Vezérigazgató</div>
+        </div>
+
+        <!-- Human · Hudácsek Bence -->
+        <div class="team-member" role="listitem">
+          <div class="tm-portrait tm-human">
+            <img class="tm-photo" src="assets/team-hudacsek-bence.webp" width="400" height="400"
+                
+                 alt="Hudácsek Bence portréja"
+                 data-alt-hu="Hudácsek Bence portréja" data-alt-en="Portrait of Bence Hudácsek">
+          </div>
+          <div class="tm-name">Hudácsek Bence</div>
+          <div class="tm-role" data-i18n="team.bence.role">Alapító, Technológiai igazgató</div>
+        </div>
+
+        <!-- AI · Alfréd -->
+        <div class="team-member" role="listitem">
+          <div class="tm-portrait tm-orb" data-orb="alfred" role="img" aria-label="Alfréd"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-alfred.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-alfred.mp4" poster="assets/orb/orb-alfred.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
+          <div class="tm-name">Alfréd</div>
+          <div class="tm-role" data-i18n="team.alfred.role">AI, Operatív igazgató</div>
+        </div>
+
+        <!-- AI · Konrád -->
+        <div class="team-member" role="listitem">
+          <div class="tm-portrait tm-orb" data-orb="kutato" role="img" aria-label="Konrád"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-kutato.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-kutato.mp4" poster="assets/orb/orb-kutato.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
+          <div class="tm-name">Konrád</div>
+          <div class="tm-role" data-i18n="team.kutato.role">AI, Kutatási igazgató</div>
+        </div>
+
+        <!-- AI · Leó -->
+        <div class="team-member" role="listitem">
+          <div class="tm-portrait tm-orb" data-orb="orch" role="img" aria-label="Leó"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-orch.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-orch.mp4" poster="assets/orb/orb-orch.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
+          <div class="tm-name">Leó</div>
+          <div class="tm-role" data-i18n="team.epito.role">AI, Fejlesztési igazgató</div>
+        </div>
+
+        <!-- AI · Félix -->
+        <div class="team-member" role="listitem">
+          <div class="tm-portrait tm-orb" data-orb="iro" role="img" aria-label="Félix"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-iro.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-iro.mp4" poster="assets/orb/orb-iro.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
+          <div class="tm-name">Félix</div>
+          <div class="tm-role" data-i18n="team.iro.role">AI, Tartalomigazgató</div>
+        </div>
+
+        <!-- AI · Rudolf -->
+        <div class="team-member" role="listitem">
+          <div class="tm-portrait tm-orb" data-orb="or" role="img" aria-label="Rudolf"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-or.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-or.mp4" poster="assets/orb/orb-or.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
+          <div class="tm-name">Rudolf</div>
+          <div class="tm-role" data-i18n="team.or.role">AI, Minőségügyi igazgató</div>
+        </div>
+
+      </div>
+
+      <div class="team-hint" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12h15m0 0-5.5-5.5M19 12l-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="team.hint">Húzd oldalra</span>
+      </div>
     </div>
   </section>
 
@@ -1553,6 +1906,18 @@ const T = {
     'footer.privacy':   'Privacy Policy',
     'footer.terms':     'Terms and Conditions',
     'footer.loc':       'United Kingdom',
+    'team.eyebrow':     'THE TEAM',
+    'team.h2':          'We don\'t just build AI employees. We work with them.',
+    'team.lead':        'Humans set the direction. Our AI agents research, write, build, monitor and coordinate - every day.',
+    'team.proof':       'Our own operation runs on the same principle we bring into our clients\' businesses.',
+    'team.hint':        'Swipe to explore',
+    'team.gabor.role':  'Founder, Chief Executive Officer',
+    'team.bence.role':  'Founder, Chief Technology Officer',
+    'team.alfred.role': 'AI, Chief Operating Officer',
+    'team.kutato.role': 'AI, Chief Research Officer',
+    'team.epito.role':  'AI, Chief Development Officer',
+    'team.iro.role':    'AI, Chief Content Officer',
+    'team.or.role':     'AI, Chief Quality Officer',
     'rev.eyebrow':      'What our clients say',
     'rev.h2':           'We didn\'t run ads. We built agentic AI into their operations.',
     'rev1.industry':    'Hospitality',
@@ -1695,6 +2060,18 @@ const T = {
     'footer.privacy':   'Adatvédelmi irányelvek',
     'footer.terms':     'Általános Szerződési Feltételek',
     'footer.loc':       'Magyarország',
+    'team.eyebrow':     'A CSAPAT',
+    'team.h2':          'Nem csak AI alkalmazottakat építünk. Velük dolgozunk.',
+    'team.lead':        'Az emberek adják az irányt. AI agentjeink kutatnak, írnak, építenek, ellenőriznek és koordinálnak - minden nap.',
+    'team.proof':       'A saját működésünk ugyanarra az elvre épül, amit az ügyfeleink rendszereibe is bevezetünk.',
+    'team.hint':        'Húzd oldalra',
+    'team.gabor.role':  'Alapító, Vezérigazgató',
+    'team.bence.role':  'Alapító, Technológiai igazgató',
+    'team.alfred.role': 'AI, Operatív igazgató',
+    'team.kutato.role': 'AI, Kutatási igazgató',
+    'team.epito.role':  'AI, Fejlesztési igazgató',
+    'team.iro.role':    'AI, Tartalomigazgató',
+    'team.or.role':     'AI, Minőségügyi igazgató',
     'rev.eyebrow':      'Ügyfeleink mondták',
     'rev.h2':           'Nem hirdetést kapcsoltunk be. Működő AI-t építettünk a folyamataikba.',
     'rev1.industry':    'Vendéglátás',
@@ -1826,13 +2203,44 @@ document.querySelectorAll('.lang-mob-opt').forEach(btn => {
 // Apply detected language on load
 setLang(currentLang);
 
+// Bilingual alt text for team portraits (uses the existing langCallbacks hook)
+const teamAlt = function(lang) {
+  document.querySelectorAll('img[data-alt-hu][data-alt-en]').forEach(img => {
+    img.alt = lang === 'en' ? img.dataset.altEn : img.dataset.altHu;
+  });
+};
+langCallbacks.push(teamAlt);
+teamAlt(currentLang);
+
 /* ════════════════════════════
    MOBILE NAV
 ════════════════════════════ */
 const navToggle = document.getElementById('navToggle');
 const navLinks  = document.getElementById('navLinks');
-navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+const navEl = navToggle.closest('nav');
+function setNavOpen(open) {
+  if (open) {
+    /* measure the closed pill first: clientHeight is the padding box, so this
+       is exactly where row 1 ends and the links should start */
+    navEl.style.paddingBottom = '';
+    navEl.style.setProperty('--navrow', navEl.clientHeight + 'px');
+    navEl.style.paddingBottom = navLinks.scrollHeight + 'px';
+  } else {
+    navEl.style.paddingBottom = '';
+  }
+  navEl.classList.toggle('is-open', open);
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+navToggle.setAttribute('aria-expanded', 'false');
+navToggle.addEventListener('click', () => setNavOpen(!navEl.classList.contains('is-open')));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNavOpen(false)));
+addEventListener('resize', () => {
+  if (innerWidth > 900 && navEl.classList.contains('is-open')) {
+    navEl.classList.remove('is-open');
+    navEl.style.paddingBottom = '';
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+});
 
 /* ════════════════════════════
    SMOOTH SCROLL

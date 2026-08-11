@@ -89,6 +89,47 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; margin-top: 80px; }
   .post-item { padding: 24px; }
   .footer-inner { flex-direction: column; text-align: center; padding: 0 24px; }
 }
+
+/* ════════════════════════════════
+   MOBILE HEADER GEOMETRY
+   Fixed 69 px pill, 16 px below the viewport top -> bottom edge at 85 px.
+   Height is set on <nav> rather than via padding so the value is exact
+   regardless of the logo/button line-heights inside it; box-sizing is
+   border-box globally, so the 1 px border is included in the 69 px.
+   Desktop (>=810 px) is untouched.
+════════════════════════════════ */
+@media (max-width: 809px) {
+  .nav-outer { top: 16px; }
+  nav { height: 69px; padding-top: 0; padding-bottom: 0; }
+}
+
+/* ════════════════════════════════
+   NO GREY PRESS / HOVER ARTEFACTS  (site-wide, every breakpoint)
+   The grey box that flashes on tap is the platform tap highlight, not our own
+   CSS, so it has to be switched off explicitly - it is not covered by any
+   background/hover rule. The same goes for the focus ring the browser paints
+   after a mouse or touch press: that is dropped via :focus:not(:focus-visible),
+   which leaves the KEYBOARD focus ring fully intact for accessibility.
+   touch-action: manipulation also removes the double-tap-zoom delay, which is
+   what makes the highlight linger long enough to be noticed.
+════════════════════════════════ */
+* { -webkit-tap-highlight-color: transparent; }
+
+a, button, summary, label, select, input, textarea,
+[role="button"], [tabindex] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
 </style>
 </head>
 <body>

@@ -23,6 +23,34 @@
   .muted { font-size: 13px; color: #999; margin-top: 22px; }
   .err { color: #b00020; }
   a.back { display: inline-block; margin-top: 24px; font-size: 14px; color: #555; }
+
+/* ════════════════════════════════
+   NO GREY PRESS / HOVER ARTEFACTS  (site-wide, every breakpoint)
+   The grey box that flashes on tap is the platform tap highlight, not our own
+   CSS, so it has to be switched off explicitly - it is not covered by any
+   background/hover rule. The same goes for the focus ring the browser paints
+   after a mouse or touch press: that is dropped via :focus:not(:focus-visible),
+   which leaves the KEYBOARD focus ring fully intact for accessibility.
+   touch-action: manipulation also removes the double-tap-zoom delay, which is
+   what makes the highlight linger long enough to be noticed.
+════════════════════════════════ */
+* { -webkit-tap-highlight-color: transparent; }
+
+a, button, summary, label, select, input, textarea,
+[role="button"], [tabindex] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
 </style>
 </head>
 <body>
