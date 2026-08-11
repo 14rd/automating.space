@@ -1168,6 +1168,60 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
 }
 
 /* ════════════════════════════════
+   NAV CTA REVEAL  (mobile only)
+   The nav CTA and the hero CTA are the same button, so on mobile - where the
+   nav pill sits directly on top of the hero - showing both at once just says
+   the same thing twice inside one screen. The nav one therefore stays sealed
+   while the hero owns the call to action, and opens once the hero button has
+   travelled up behind the bar.
+
+   The button is never cut down to a smaller shape on the way in - a half-open
+   black capsule in the middle of the bar reads as a notch, not as a button. It
+   keeps its full size throughout and arrives out of depth instead: hinged on
+   the bar's centre line it tips forward from -42deg, condensing out of a blur
+   as it lands, with a slight overshoot at the end so it settles rather than
+   stops. Closing again is fast and plain - a reveal earns a flourish, a
+   dismissal does not.
+════════════════════════════════ */
+@media (max-width: 900px) {
+  .btn-pill.nav-cta {
+    /* hinge on the top edge, so it swings down into the bar rather than
+       rotating around its own middle (which would flatten it to a sliver) */
+    transform-origin: 50% 0;
+    transform: translateX(-50%) perspective(600px) rotateX(-42deg) scale(.9);
+    opacity: 0; filter: blur(8px);
+    pointer-events: none;
+    /* opacity is the fastest channel on purpose: the motion should be what
+       you notice, not a slow wash-in */
+    transition: transform .62s cubic-bezier(.18, 1.12, .34, 1),
+                opacity .26s ease-out,
+                filter .42s ease-out;
+  }
+  nav.cta-live .btn-pill.nav-cta {
+    transform: translateX(-50%) perspective(600px) rotateX(0deg) scale(1);
+    opacity: 1; filter: blur(0);
+    pointer-events: auto;
+  }
+
+  /* the generic mobile hover rule is less specific than .cta-live, so the
+     press/hover feedback has to be restated in the landed transform */
+  nav.cta-live .btn-pill.nav-cta:hover {
+    transform: translateX(-50%) perspective(600px) rotateX(0deg) scale(1.04);
+  }
+
+  /* closing: quick, no overshoot */
+  nav:not(.cta-live) .btn-pill.nav-cta {
+    transition: transform .28s cubic-bezier(.5, 0, .75, 0),
+                opacity .2s ease-in,
+                filter .22s ease-in;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-pill.nav-cta { transition: none !important; }
+}
+
+/* ════════════════════════════════
    NO GREY PRESS / HOVER ARTEFACTS  (site-wide, every breakpoint)
    The grey box that flashes on tap is the platform tap highlight, not our own
    CSS, so it has to be switched off explicitly - it is not covered by any
@@ -1237,7 +1291,7 @@ select:focus:not(:focus-visible),
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill nav-cta" data-i18n="nav.book-call">Konzultációt kérek</a>
+      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill nav-cta" id="navCta" data-i18n="nav.book-call">Konzultációt kérek</a>
     </nav>
   </div>
 
@@ -2241,6 +2295,40 @@ addEventListener('resize', () => {
     navToggle.setAttribute('aria-expanded', 'false');
   }
 });
+
+/* ════════════════════════════
+   NAV CTA REVEAL
+   Hold the nav CTA back while the hero's own button is on screen, so the same
+   call to action never appears twice in one viewport. The trigger line is the
+   bottom of the nav pill: the swap lands the instant the hero button slips
+   underneath it, which is why it reads as a handover rather than a pop-in.
+   The animation itself is CSS (nav.cta-live) - see NAV CTA REVEAL above.
+════════════════════════════ */
+(function(){
+  const cta = document.getElementById('navCta');
+  if (!cta) return;
+  const heroCta = document.querySelector('.hero .btn-pill');
+  const mq = matchMedia('(max-width: 900px)');
+  let live = true;                     /* no hero button = nothing to defer to */
+
+  function sync(){
+    navEl.classList.toggle('cta-live', live);
+    /* the pill is only ever hidden in the mobile layout; on desktop it is a
+       permanent part of the bar and has to stay reachable */
+    const hidden = mq.matches && !live;
+    cta.setAttribute('aria-hidden', hidden ? 'true' : 'false');
+    cta.tabIndex = hidden ? -1 : 0;
+  }
+
+  if (heroCta) {
+    live = false;
+    const line = Math.round(navEl.getBoundingClientRect().bottom) + 8;
+    new IntersectionObserver(([e]) => { live = !e.isIntersecting; sync(); },
+      { rootMargin: `-${line}px 0px 0px 0px`, threshold: 0 }).observe(heroCta);
+  }
+  sync();
+  mq.addEventListener('change', sync);
+})();
 
 /* ════════════════════════════
    SMOOTH SCROLL
