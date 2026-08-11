@@ -810,12 +810,118 @@ nav {
 /* ════════════════════════════════
    FOOTER
 ════════════════════════════════ */
-footer { border-top: 1px solid var(--g200); padding: 24px 0; }
-.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.footer-copy, .footer-loc { font-size: 13px; color: var(--g600); }
-.footer-links { display: flex; gap: 28px; }
-.footer-links a { font-size: 13px; color: var(--g600); transition: color .2s; }
-.footer-links a:hover { color: var(--black); }
+/* One inverted card, inset from the page like the store/FAQ panels, so the
+   site ends on a deliberate block rather than trailing off into a thin rule.
+   Everything inside is expressed against the card, not the page: the greys are
+   white at low alpha rather than --g400/--g600, because those were mixed for a
+   white background and go muddy on black. */
+/* The card is full-bleed rather than sitting inside .wrap: the inset is the
+   same on the left, the right and the bottom, so it reads as one block set
+   into the page instead of a centred column with the page showing past it. */
+footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
+.ft-card {
+  background: var(--black); color: #fff;
+  border-radius: 36px; padding: 44px 48px 26px;
+}
+
+/* ── top row: identity, language, promise, the one action ── */
+.ft-top {
+  display: flex; align-items: center; gap: 26px;
+  padding-bottom: 44px;
+}
+.ft-logo { display: flex; flex-shrink: 0; }
+.ft-logo svg path { fill: #fff; }
+.ft-rule { width: 1px; height: 26px; background: rgba(255,255,255,.16); flex-shrink: 0; }
+.ft-langs { display: flex; gap: 2px; padding: 3px; border-radius: 100px; background: rgba(255,255,255,.08); flex-shrink: 0; }
+.ft-lang {
+  font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: .04em;
+  padding: 6px 12px; border: 0; border-radius: 100px; cursor: pointer;
+  background: none; color: rgba(255,255,255,.55); transition: color .2s, background .2s;
+}
+.ft-lang:hover { color: #fff; }
+.ft-lang.is-active { background: #fff; color: var(--black); }
+.ft-tagline { font-size: 15px; color: rgba(255,255,255,.62); line-height: 1.5; }
+/* the mail chip is the inverse of the black pill used everywhere else */
+.ft-mail {
+  margin-left: auto; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; color: var(--black);
+  border-radius: 100px; padding: 14px 30px;
+  font-size: 15px; font-weight: 500; text-decoration: none;
+  transition: transform .25s cubic-bezier(.22,1,.36,1), opacity .2s;
+}
+.ft-mail:hover { transform: translateY(-2px); opacity: .92; }
+
+/* ── link columns ── */
+.ft-cols {
+  display: grid; grid-template-columns: 1.1fr 1.5fr 1.2fr 1fr;
+  gap: 40px; padding: 40px 0;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.ft-h {
+  font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(255,255,255,.4); margin-bottom: 22px;
+}
+.ft-col a {
+  display: block; font-size: 15px; color: rgba(255,255,255,.72);
+  text-decoration: none; margin-bottom: 15px; transition: color .2s;
+  width: fit-content;
+}
+.ft-col a:hover { color: #fff; }
+.ft-tag {
+  display: inline-block; margin-left: 8px; padding: 2px 7px;
+  font-size: 10px; font-weight: 600; letter-spacing: .06em;
+  border: 1px solid rgba(255,255,255,.25); border-radius: 6px;
+  color: rgba(255,255,255,.75); vertical-align: 2px;
+}
+
+/* ── proof cards ── */
+.ft-badges { display: flex; gap: 12px; }
+.ft-badge {
+  flex: 1; aspect-ratio: 1 / 1; border-radius: 16px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  text-align: center; padding: 10px;
+}
+.ft-badge-dark  { background: #15803d; color: #fff; }
+.ft-badge-light { background: #fff; color: var(--black); }
+.ft-badge-mark { font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+.ft-badge-sub  { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; opacity: .72; }
+.ft-status { display: flex; align-items: center; gap: 9px; margin-top: 18px; font-size: 13px; color: rgba(255,255,255,.72); }
+.ft-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.2); flex-shrink: 0; }
+
+/* ── bottom rule ── */
+.ft-bottom {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1);
+  font-size: 13px; color: rgba(255,255,255,.45);
+}
+.ft-bottom a { color: rgba(255,255,255,.45); text-decoration: none; transition: color .2s; }
+.ft-bottom a:hover { color: #fff; }
+
+@media (max-width: 1100px) {
+  .ft-cols { grid-template-columns: 1fr 1fr; gap: 36px 40px; }
+  .ft-top { flex-wrap: wrap; }
+  .ft-tagline { order: 3; flex-basis: 100%; }
+  .ft-mail { margin-left: auto; }
+}
+@media (max-width: 700px) {
+  footer { --ft-gap: 16px; }
+  .ft-card { padding: 34px 26px 22px; border-radius: 28px; }
+  .ft-top { gap: 16px; padding-bottom: 32px; }
+  .ft-mail { width: 100%; margin-left: 0; order: 4; justify-content: center; }
+  .ft-cols { grid-template-columns: 1fr 1fr; gap: 32px 24px; padding: 32px 0; }
+  .ft-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+/* On a phone the columns stack, which is right for tap targets but makes the
+   card tall - so the rhythm tightens to pay for it, and the proof cards stop
+   stretching to the full column width. */
+@media (max-width: 440px) {
+  .ft-cols { grid-template-columns: 1fr; gap: 26px; }
+  .ft-h { margin-bottom: 14px; }
+  .ft-col a { margin-bottom: 12px; }
+  .ft-badges { max-width: 250px; }
+  .ft-status { margin-top: 14px; }
+}
 
 /* ════════════════════════════════
    RESPONSIVE - TABLET
@@ -1744,17 +1850,73 @@ select:focus:not(:focus-visible),
 
   <!-- FOOTER -->
   <footer>
-    <div class="wrap">
-      <div class="footer-inner">
-        <span class="footer-copy" data-i18n="footer.copy">Automating &copy; Minden jog fenntartva</span>
-        <div class="footer-links">
-          <a href="blog.html" data-en-href="blog-en.html">Blog</a>
-          <a href="case-studies.html" data-i18n="footer.cases">Esettanulmányok</a>
-          <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi irányelvek</a>
-          <a href="terms.html" data-i18n="footer.terms">Általános Szerződési Feltételek</a>
+    <div class="ft-card">
+
+        <div class="ft-top">
+          <a href="/" class="ft-logo" aria-label="Automating">
+            <svg width="30" height="30" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+            </svg>
+          </a>
+          <div class="ft-rule"></div>
+          <div class="ft-langs">
+            <button class="ft-lang is-active" data-lang="hu">HU</button>
+            <button class="ft-lang" data-lang="en">EN</button>
+          </div>
+          <p class="ft-tagline" data-i18n="footer.tagline">Munkahelyeket váltunk ki AI-jal.</p>
+          <a class="ft-mail" href="mailto:hello@automating.hu?subject=%C3%89rdekl%C5%91d%C3%A9s%20%E2%80%93%20AI%20automatiz%C3%A1l%C3%A1s&amp;body=Sziasztok%21%0A%0AC%C3%A9g%C3%BCnk%3A%0AAmit%20automatiz%C3%A1ln%C3%A1nk%3A%0AEl%C3%A9rhet%C5%91s%C3%A9g%3A%0A%0A%C3%9Cdv%C3%B6zlettel%2C%0A" data-en-href="mailto:hello@automating.hu?subject=Enquiry%20%E2%80%93%20AI%20automation&amp;body=Hi%20Automating%20team%2C%0A%0AOur%20company%3A%0AWhat%20we%20would%20automate%3A%0AContact%3A%0A%0ABest%20regards%2C%0A">hello@automating.hu</a>
         </div>
-        <span class="footer-loc" data-i18n="footer.loc">Magyarország</span>
+
+        <div class="ft-cols">
+          <div class="ft-col">
+            <div class="ft-h" data-i18n="footer.h.links">Linkek</div>
+            <a href="#products" data-i18n="nav.products">Mit Építünk</a>
+            <a href="#approach" data-i18n="nav.approach">Megközelítésünk</a>
+            <a href="#team" data-i18n="footer.team">A csapat</a>
+            <a href="#demo" data-i18n="footer.s.demo">Élő demó</a>
+            <a href="case-studies.html" data-i18n="footer.cases">Esettanulmányok</a>
+            <a href="blog.html" data-en-href="blog-en.html">Blog</a>
+            <a href="#faq" data-i18n="footer.faq">Gyakori kérdések</a>
+          </div>
+
+          <div class="ft-col">
+            <div class="ft-h" data-i18n="footer.h.services">Szolgáltatások</div>
+            <a href="#products" data-i18n="footer.s.voice">AI telefonos asszisztens</a>
+            <a href="#products" data-i18n="footer.s.email">AI e-mail kezelés</a>
+            <a href="#products" data-i18n="footer.s.flow">Munkafolyamat-automatizálás</a>
+          </div>
+
+          <div class="ft-col">
+            <div class="ft-h" data-i18n="footer.h.docs">Dokumentumok</div>
+            <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi irányelvek</a>
+            <a href="terms.html" data-i18n="footer.terms">Általános Szerződési Feltételek</a>
+            <a href="impresszum.html" data-i18n="footer.imprint">Impresszum</a>
+          </div>
+
+          <div class="ft-col">
+            <div class="ft-h" data-i18n="footer.h.proof">Tanúsítványok</div>
+            <div class="ft-badges">
+              <div class="ft-badge ft-badge-dark">
+                <span class="ft-badge-mark">GDPR</span>
+                <span class="ft-badge-sub">Ready</span>
+              </div>
+              <div class="ft-badge ft-badge-light">
+                <span class="ft-badge-mark">AES</span>
+                <span class="ft-badge-sub">Ready</span>
+              </div>
+            </div>
+            <div class="ft-status">
+              <span class="ft-dot"></span>
+              <span data-i18n="footer.status">Minden rendszer elérhető</span>
+            </div>
+          </div>
+        </div>
+
+      <div class="ft-bottom">
+        <span data-i18n="footer.copy">Automating &copy; 2026 - Minden jog fenntartva</span>
+        <span data-i18n="footer.loc">Magyarország</span>
       </div>
+
     </div>
   </footer>
 
@@ -1982,11 +2144,24 @@ const T = {
     'cta.p.desk':       '30 minute call. No sales pitch. We understand your operations, tell you where AI fits. If it doesn\'t fit, we\'ll say so. If it does, we build it.',
     'cta.p.mob':        '30 minute call. No sales pitch. We understand<br>your operations, tell you where AI fits. If it<br>doesn\'t fit, we\'ll say so. If it does, we build it.',
     'cta.book':         'Book a consultation &rarr;',
-    'footer.copy':      'Automating &copy; All Rights Reserved',
+    'footer.copy':      'Automating &copy; 2026 - All rights reserved',
     'footer.cases':     'Case Studies',
     'footer.privacy':   'Privacy Policy',
     'footer.terms':     'Terms and Conditions',
     'footer.loc':       'United Kingdom',
+    'footer.tagline':   'We replace jobs with AI.',
+    'footer.h.links':   'Links',
+    'footer.h.services':'Services',
+    'footer.h.docs':    'Documents',
+    'footer.h.proof':   'Certificates',
+    'footer.team':      'The team',
+    'footer.faq':       'FAQ',
+    'footer.s.voice':   'AI phone assistant',
+    'footer.s.email':   'AI inbox handling',
+    'footer.s.flow':    'Workflow automation',
+    'footer.s.demo':    'Live demo',
+    'footer.imprint':   'Imprint',
+    'footer.status':    'All systems operational',
     'team.eyebrow':     'THE TEAM',
     'team.h2':          'We don\'t just build AI employees. We work with them.',
     'team.lead':        'Humans set the direction. Our AI agents research, write, build, monitor and coordinate - every day.',
@@ -2135,11 +2310,24 @@ const T = {
     'cta.p.desk':       '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmondjuk hol illik be az AI. Ha nem illik, azt is megmondjuk. Ha igen, megépítjük.',
     'cta.p.mob':        '30 perces hívás. Nincs értékesítési nyomás.<br>Megértjük a működésedet és megmondjuk,<br>hol illik be az AI. Ha igen, megépítjük.',
     'cta.book':         'Konzultációt kérek &rarr;',
-    'footer.copy':      'Automating &copy; Minden jog fenntartva',
+    'footer.copy':      'Automating &copy; 2026 - Minden jog fenntartva',
     'footer.cases':     'Esettanulmányok',
     'footer.privacy':   'Adatvédelmi irányelvek',
     'footer.terms':     'Általános Szerződési Feltételek',
     'footer.loc':       'Magyarország',
+    'footer.tagline':   'Munkahelyeket váltunk ki AI-jal.',
+    'footer.h.links':   'Linkek',
+    'footer.h.services':'Szolgáltatások',
+    'footer.h.docs':    'Dokumentumok',
+    'footer.h.proof':   'Tanúsítványok',
+    'footer.team':      'A csapat',
+    'footer.faq':       'Gyakori kérdések',
+    'footer.s.voice':   'AI telefonos asszisztens',
+    'footer.s.email':   'AI e-mail kezelés',
+    'footer.s.flow':    'Munkafolyamat-automatizálás',
+    'footer.s.demo':    'Élő demó',
+    'footer.imprint':   'Impresszum',
+    'footer.status':    'Minden rendszer elérhető',
     'team.eyebrow':     'A CSAPAT',
     'team.h2':          'Nem csak AI alkalmazottakat építünk. Velük dolgozunk.',
     'team.lead':        'Az emberek adják az irányt. AI agentjeink kutatnak, írnak, építenek, ellenőriznek és koordinálnak - minden nap.',
@@ -2231,7 +2419,7 @@ function setLang(lang) {
   });
 
   // Update active state on mobile lang row
-  document.querySelectorAll('.lang-mob-opt').forEach(b => {
+  document.querySelectorAll('.lang-mob-opt, .ft-lang').forEach(b => {
     b.classList.toggle('is-active', b.dataset.lang === lang);
   });
 
@@ -2275,7 +2463,7 @@ document.querySelectorAll('.lang-dd-btn').forEach(btn => {
   btn.addEventListener('click', () => setLang(btn.dataset.lang));
 });
 // Mobile lang row buttons
-document.querySelectorAll('.lang-mob-opt').forEach(btn => {
+document.querySelectorAll('.lang-mob-opt, .ft-lang').forEach(btn => {
   btn.addEventListener('click', () => setLang(btn.dataset.lang));
 });
 
