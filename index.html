@@ -145,6 +145,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/consent.css">
+<script src="assets/consent.js" defer></script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1583,7 +1585,7 @@ select:focus:not(:focus-visible),
             <button class="chat-chip" data-i18n="chat.chip4">Konzultációt szeretnék foglalni</button>
           </div>
           <div class="chat-inputrow">
-            <textarea id="chatInput" rows="1" placeholder="Írd ide a kérdésed..." aria-label="Message"></textarea>
+            <textarea id="chatInput" rows="1" placeholder="Írd ide a kérdésed..." aria-label="Message" data-clarity-mask="true"></textarea>
             <button class="btn-pill" id="chatSend" data-i18n="chat.send">Küldés &rarr;</button>
           </div>
         </div>
@@ -1636,7 +1638,7 @@ select:focus:not(:focus-visible),
             <button class="ed-chip" data-key="quote" data-i18n="ed.s2">Ajánlatkérés</button>
             <button class="ed-chip" data-key="invoice" data-i18n="ed.s3">Számla-kérdés</button>
           </div>
-          <textarea id="edInput" rows="4" aria-label="Email"></textarea>
+          <textarea id="edInput" rows="4" aria-label="Email" data-clarity-mask="true"></textarea>
           <button class="btn-pill ed-run" id="edRun" data-i18n="ed.run">AI feldolgozás &rarr;</button>
           <div class="ed-right" id="edResult"></div>
         </div>
@@ -1891,6 +1893,7 @@ select:focus:not(:focus-visible),
             <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi nyilatkozat</a>
             <a href="terms.html" data-i18n="footer.terms">Általános Szerződési Feltételek</a>
             <a href="impresszum.html" data-i18n="footer.imprint">Impresszum</a>
+            <a data-cookie-settings role="button" tabindex="0" data-i18n="footer.cookies">Sütibeállítások</a>
           </div>
 
           <div class="ft-col">
@@ -1955,7 +1958,8 @@ select:focus:not(:focus-visible),
         <button class="bk-back" id="bkBack">&larr; <span data-i18n="bk.back">Vissza</span></button>
         <div class="bk-title" data-i18n="bk.form-title">Add meg az adataid</div>
         <div class="bk-chosen" id="bkChosen"></div>
-        <form class="bk-form-grid" id="bkForm" novalidate>
+        <!-- Clarity records sessions; nothing typed in here may reach it -->
+        <form class="bk-form-grid" id="bkForm" novalidate data-clarity-mask="true">
           <div class="bk-field">
             <label class="bk-label" for="bkName"><span data-i18n="bk.f.name">Név</span> <span class="req">*</span></label>
             <input type="text" id="bkName" autocomplete="name" required>
@@ -2161,6 +2165,7 @@ const T = {
     'footer.s.flow':    'Workflow automation',
     'footer.s.demo':    'Live demo',
     'footer.imprint':   'Imprint',
+    'footer.cookies':   'Cookie settings',
     'footer.status':    'All systems operational',
     'team.eyebrow':     'THE TEAM',
     'team.h2':          'We don\'t just build AI employees. We work with them.',
@@ -2327,6 +2332,7 @@ const T = {
     'footer.s.flow':    'Munkafolyamat-automatizálás',
     'footer.s.demo':    'Élő demó',
     'footer.imprint':   'Impresszum',
+    'footer.cookies':   'Sütibeállítások',
     'footer.status':    'Minden rendszer elérhető',
     'team.eyebrow':     'A CSAPAT',
     'team.h2':          'Nem csak AI alkalmazottakat építünk. Velük dolgozunk.',
@@ -3898,6 +3904,13 @@ let prodVisible = false;
         else if (res.status === 429 || /too many|rate limit/i.test(msg)) fail(t.rateLimit);
         else fail(t.generic);
         return;
+      }
+      /* The conversion, and the only one. Cal.com has confirmed the booking
+         here — a CTA click or an opened modal is an intent, not a lead, and
+         is deliberately not counted. Nothing the visitor typed is passed on;
+         the booking uid only guards against a double fire. */
+      if (window.AutomatingConsent) {
+        window.AutomatingConsent.trackBooking(data && data.data && data.data.uid);
       }
       $('bkDoneWhen').textContent = fmtChosen(selectedSlot);
       showStep(2);

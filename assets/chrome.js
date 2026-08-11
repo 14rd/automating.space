@@ -46,6 +46,7 @@
     "footer.s.flow": "Munkafolyamat-automatizálás",
     "footer.s.demo": "Élő demó",
     "footer.imprint": "Impresszum",
+    "footer.cookies": "Sütibeállítások",
     "footer.status": "Minden rendszer elérhető"
   },
   "en": {
@@ -77,6 +78,7 @@
     "footer.s.flow": "Workflow automation",
     "footer.s.demo": "Live demo",
     "footer.imprint": "Imprint",
+    "footer.cookies": "Cookie settings",
     "footer.status": "All systems operational"
   }
 };

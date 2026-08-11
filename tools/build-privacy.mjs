@@ -255,7 +255,21 @@ ${ul([
 '<strong>Célzott vagy reklámsütik:</strong> ezek segítségével a weboldalak az érdeklődési körnek megfelelő hirdetést tudnak megjeleníteni. Ehhez az Ön kifejezett beleegyezése szükséges.',
 ])}
 <h3>5. Amit ez a honlap ténylegesen használ</h3>
-<p>Jelen honlap <strong>nem használ analitikai, statisztikai vagy reklámcélú sütit</strong>, és nem futtat harmadik féltől származó nyomkövető szkriptet. Az Ön böngészőjében kizárólag a működéshez szükséges technikai tárolás történik: a választott nyelv megjegyzése, valamint a demók munkamenetének azonosítója. Ezek az adatok az Ön eszközét nem hagyják el, és nem alkalmasak az Ön azonosítására.</p>
+<p>A honlap a működéshez szükséges technikai tároláson felül analitikai és marketingcélú szolgáltatásokat is használ, <strong>de kizárólag az Ön előzetes hozzájárulásával</strong>. Amíg Ön nem döntött, ezek a szkriptek nem töltődnek be, és a szolgáltatóik felé egyetlen kérés sem indul.</p>
+<h3>5.1 Szükséges — mindig aktív</h3>
+<p>A weboldal alapvető működéséhez tartozó tárolás az Ön böngészőjében: a választott nyelv, a demók munkamenet-azonosítója, valamint maga a sütibeállítás (<code>automating_consent_v1</code> néven). Ezek az adatok az Ön eszközét nem hagyják el, nem alkalmasak az Ön azonosítására, és nem kapcsolhatók ki.</p>
+<h3>5.2 Hozzájáruláshoz kötött szolgáltatások</h3>
+<table class="policy-table">
+<thead><tr><th>Szolgáltatás</th><th>Kategória</th><th>Mire használjuk</th><th>Szolgáltatói tájékoztató</th></tr></thead>
+<tbody>
+<tr><td data-label="Szolgáltatás">Google Analytics 4<br>(Google Ireland Ltd.)</td><td data-label="Kategória">Analitika</td><td data-label="Mire használjuk">Összesített látogatottsági statisztika: mely oldalakat nézik meg, honnan érkeznek a látogatók, és megtörtént-e a konzultációfoglalás.</td><td data-label="Szolgáltatói tájékoztató"><a href="https://policies.google.com/privacy">policies.google.com/privacy</a></td></tr>
+<tr><td data-label="Szolgáltatás">Microsoft Clarity<br>(Microsoft Ireland Operations Ltd.)</td><td data-label="Kategória">Analitika</td><td data-label="Mire használjuk">Hőtérkép és munkamenet-felvétel: hol kattintanak és hol akadnak el a látogatók az oldalon.</td><td data-label="Szolgáltatói tájékoztató"><a href="https://privacy.microsoft.com/privacystatement">privacy.microsoft.com/privacystatement</a></td></tr>
+<tr><td data-label="Szolgáltatás">Meta Pixel<br>(Meta Platforms Ireland Ltd.)</td><td data-label="Kategória">Marketing</td><td data-label="Mire használjuk">Hirdetéseink eredményének mérése (konverziómérés) és remarketing-közönségek képzése.</td><td data-label="Szolgáltatói tájékoztató"><a href="https://www.facebook.com/privacy/policy">facebook.com/privacy/policy</a></td></tr>
+</tbody></table>
+<p>A Google szolgáltatásai a Google <em>Consent Mode v2</em> szerint működnek: hozzájárulás hiányában a mérési és a hirdetési célú tárolás egyaránt tiltott (<em>denied</em>) állapotban van.</p>
+<p><strong>Amit ezek a szolgáltatók nem kapnak meg:</strong> a foglalási űrlapon vagy a demókban megadott név, e-mail-cím, telefonszám, cégnév, pozíció, iparág és megjegyzés a fenti szolgáltatókhoz nem kerül továbbításra, és a munkamenet-felvételen ezek a mezők maszkolva jelennek meg. Sikeres konzultációfoglalás esetén kizárólag a foglalás megtörténtének ténye kerül átadásra, a foglaló adatai nélkül.</p>
+<h3>5.3 A hozzájárulás módosítása és visszavonása</h3>
+<p>A döntését bármikor megváltoztathatja a lábléc <a data-cookie-settings role="button" tabindex="0">„Sütibeállítások”</a> hivatkozásával. A hozzájárulás visszavonása esetén a rendszer a szolgáltatók felé visszavonó jelzést küld, törli a hozzájuk tartozó helyi tárolást, majd újratölti az oldalt, hogy az adott mérőszkript ne fusson tovább. A visszavonás nem érinti a visszavonás előtti adatkezelés jogszerűségét.</p>
 <h3>6. Tartalmaznak a sütik személyes adatot?</h3>
 <p>A legtöbb süti nem tartalmaz személyes információt, segítségével a felhasználók nem azonosíthatók. A tárolt adatok a kényelmesebb böngészésért szükségesek, tárolásuk olyan módon történik, hogy jogosulatlan személy ne férhessen hozzájuk.</p>
 <h3>7. Biztonsággal kapcsolatos tényezők</h3>
@@ -282,7 +296,21 @@ ${ul([
 '<strong>Targeting or advertising cookies:</strong> these allow websites to show advertising matching your interests. They require your explicit consent.',
 ])}
 <h3>5. What this site actually uses</h3>
-<p>This website <strong>uses no analytical, statistical or advertising cookies</strong>, and runs no third-party tracking script. Only technical storage necessary for operation takes place in your browser: remembering the chosen language and the session identifier of the demos. This data does not leave your device and cannot identify you.</p>
+<p>Beyond the technical storage needed to run the site, this website also uses analytics and marketing services, <strong>but only with your prior consent</strong>. Until you have decided, those scripts are not loaded and no request is made to their providers.</p>
+<h3>5.1 Necessary — always on</h3>
+<p>Storage the site needs to work at all, kept in your browser: the chosen language, the session identifier of the demos, and the cookie setting itself (under the name <code>automating_consent_v1</code>). This data does not leave your device, cannot identify you, and cannot be turned off.</p>
+<h3>5.2 Services subject to consent</h3>
+<table class="policy-table">
+<thead><tr><th>Service</th><th>Category</th><th>What we use it for</th><th>Provider's notice</th></tr></thead>
+<tbody>
+<tr><td data-label="Service">Google Analytics 4<br>(Google Ireland Ltd.)</td><td data-label="Category">Analytics</td><td data-label="What we use it for">Aggregated traffic statistics: which pages are viewed, where visitors come from, and whether a consultation was booked.</td><td data-label="Provider's notice"><a href="https://policies.google.com/privacy">policies.google.com/privacy</a></td></tr>
+<tr><td data-label="Service">Microsoft Clarity<br>(Microsoft Ireland Operations Ltd.)</td><td data-label="Category">Analytics</td><td data-label="What we use it for">Heatmaps and session recording: where visitors click and where they get stuck on the page.</td><td data-label="Provider's notice"><a href="https://privacy.microsoft.com/privacystatement">privacy.microsoft.com/privacystatement</a></td></tr>
+<tr><td data-label="Service">Meta Pixel<br>(Meta Platforms Ireland Ltd.)</td><td data-label="Category">Marketing</td><td data-label="What we use it for">Measuring how our ads perform (conversion tracking) and building remarketing audiences.</td><td data-label="Provider's notice"><a href="https://www.facebook.com/privacy/policy">facebook.com/privacy/policy</a></td></tr>
+</tbody></table>
+<p>Google's services run under Google <em>Consent Mode v2</em>: without consent both analytics storage and advertising storage are held in the <em>denied</em> state.</p>
+<p><strong>What these providers do not receive:</strong> the name, email address, phone number, company, position, industry and notes entered in the booking form or in the demos are not transmitted to the providers above, and those fields appear masked in session recordings. When a consultation is booked successfully, only the fact that a booking happened is passed on — never the details of the person booking.</p>
+<h3>5.3 Changing or withdrawing consent</h3>
+<p>You can change your decision at any time through the <a data-cookie-settings role="button" tabindex="0">“Cookie settings”</a> link in the footer. On withdrawal the site sends a revoking signal to the providers, clears the local storage belonging to them and reloads the page so the measurement script stops running. Withdrawal does not affect the lawfulness of processing carried out beforehand.</p>
 <h3>6. Do cookies contain personal data?</h3>
 <p>Most cookies contain no personal information and cannot identify users. The stored data serves more convenient browsing and is stored so that unauthorised persons cannot access it.</p>
 <h3>7. Security considerations</h3>

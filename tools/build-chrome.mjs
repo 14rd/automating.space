@@ -209,15 +209,33 @@ for (const page of PAGES) {
     if (rest.trim().length !== st.css.trim().length) notes.push('inline chrome css stripped');
     html = html.replace(st.full, `<style>\n${rest}\n</style>`);
   }
-  const cssHref = `${'../'.repeat(depth)}assets/chrome.css`;
-  const jsSrc   = `${'../'.repeat(depth)}assets/chrome.js`;
+  const up      = '../'.repeat(depth);
+  const cssHref = `${up}assets/chrome.css`;
+  const jsSrc   = `${up}assets/chrome.js`;
+  /* the head is where these belong; <style> is the anchor every page has, and
+     </head> is the fallback for one that ever loses it */
+  const intoHead = (h, markup) => h.includes('<style>')
+    ? h.replace('<style>', `${markup}\n<style>`)
+    : h.replace('</head>', `${markup}\n</head>`);
+
   if (!html.includes(cssHref)) {
-    html = html.replace(/(<style>)/, `<link rel="stylesheet" href="${cssHref}">\n$1`);
+    html = intoHead(html, `<link rel="stylesheet" href="${cssHref}">`);
     notes.push('chrome.css linked');
   }
   if (!html.includes(jsSrc)) {
     html = html.replace(/(\n?<\/body>)/, `\n<script src="${jsSrc}" defer></script>$1`);
     notes.push('chrome.js linked');
+  }
+
+  /* ── 2b. the cookie banner and the tracking it gates ──
+     Deferred from the head, exactly as index.html loads it, so the Consent
+     Mode defaults are queued before any vendor tag could be created. The
+     module is hand-written, not generated: this only links it. */
+  const consentCss = `${up}assets/consent.css`;
+  const consentJs  = `${up}assets/consent.js`;
+  if (!html.includes(consentCss)) {
+    html = intoHead(html, `<link rel="stylesheet" href="${consentCss}">\n<script src="${consentJs}" defer></script>`);
+    notes.push('consent linked');
   }
 
   if (html !== before) { changed++; if (!CHECK) fs.writeFileSync(file, html); }
