@@ -1175,45 +1175,53 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
    while the hero owns the call to action, and opens once the hero button has
    travelled up behind the bar.
 
-   The button is never cut down to a smaller shape on the way in - a half-open
-   black capsule in the middle of the bar reads as a notch, not as a button. It
-   keeps its full size throughout and arrives out of depth instead: hinged on
-   the bar's centre line it tips forward from -42deg, condensing out of a blur
-   as it lands, with a slight overshoot at the end so it settles rather than
-   stops. Closing again is fast and plain - a reveal earns a flourish, a
-   dismissal does not.
+   It starts narrow and widens open while it condenses out of a blur, both on
+   the same bezier so the two read as one gesture. It is never a small solid
+   shape on the way in - that is what made an earlier version look like a
+   notch; here the narrow state is soft and barely there, and it is already
+   sharpening by the time it has any presence. Closing again is fast and plain
+   - a reveal earns a flourish, a dismissal does not.
+
+   The width is a real box width, not scaleX. Scaling the pill horizontally
+   also scales its corners, so the caps flatten into ellipses while it is
+   narrow and only round out at the end - the radius visibly changes during
+   the move. Animating max-width instead leaves border-radius:100px to do its
+   job at every width, so the caps stay true semicircles the whole way. The
+   label is centred and simply clipped by the narrow box; the blur covers the
+   last couple of pixels of it.
+
+   --cta-w is the pill's own natural width, measured in JS (it depends on the
+   label, so it changes with the language) - see NAV CTA REVEAL in the script.
 ════════════════════════════════ */
 @media (max-width: 900px) {
   .btn-pill.nav-cta {
-    /* hinge on the top edge, so it swings down into the bar rather than
-       rotating around its own middle (which would flatten it to a sliver) */
-    transform-origin: 50% 0;
-    transform: translateX(-50%) perspective(600px) rotateX(-42deg) scale(.9);
-    opacity: 0; filter: blur(8px);
+    justify-content: center;      /* so the narrow box clips the label evenly */
+    overflow: hidden;
+    max-width: calc(var(--cta-w, 160px) * .58);
+    opacity: 0; filter: blur(10px);
     pointer-events: none;
-    /* opacity is the fastest channel on purpose: the motion should be what
+    /* opacity is the fastest channel on purpose: the opening should be what
        you notice, not a slow wash-in */
-    transition: transform .62s cubic-bezier(.18, 1.12, .34, 1),
-                opacity .26s ease-out,
-                filter .42s ease-out;
+    transition: max-width .72s cubic-bezier(.2, .96, .26, 1),
+                opacity .32s ease-out,
+                filter .52s ease-out,
+                transform .5s cubic-bezier(.22, 1, .36, 1);
   }
   nav.cta-live .btn-pill.nav-cta {
-    transform: translateX(-50%) perspective(600px) rotateX(0deg) scale(1);
+    max-width: var(--cta-w, 160px);
     opacity: 1; filter: blur(0);
     pointer-events: auto;
   }
 
-  /* the generic mobile hover rule is less specific than .cta-live, so the
-     press/hover feedback has to be restated in the landed transform */
-  nav.cta-live .btn-pill.nav-cta:hover {
-    transform: translateX(-50%) perspective(600px) rotateX(0deg) scale(1.04);
-  }
+  /* never let the label shrink to fit - it has to keep its natural width and
+     be clipped, otherwise the type would compress as the pill narrows */
+  .nav-cta-label { flex: none; }
 
   /* closing: quick, no overshoot */
   nav:not(.cta-live) .btn-pill.nav-cta {
-    transition: transform .28s cubic-bezier(.5, 0, .75, 0),
-                opacity .2s ease-in,
-                filter .22s ease-in;
+    transition: max-width .3s cubic-bezier(.5, 0, .75, 0),
+                opacity .22s ease-in,
+                filter .24s ease-in;
   }
 }
 
@@ -1291,7 +1299,7 @@ select:focus:not(:focus-visible),
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill nav-cta" id="navCta" data-i18n="nav.book-call">Konzultációt kérek</a>
+      <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill nav-cta" id="navCta"><span class="nav-cta-label" data-i18n="nav.book-call">Konzultációt kérek</span></a>
     </nav>
   </div>
 
@@ -2311,6 +2319,18 @@ addEventListener('resize', () => {
   const mq = matchMedia('(max-width: 900px)');
   let live = true;                     /* no hero button = nothing to defer to */
 
+  /* The open state is an explicit max-width, so it needs a number: the pill's
+     own natural width. It depends on the label, which changes with the
+     language and with the breakpoint's font size, so it is re-measured rather
+     than hardcoded. Lifting the cap to measure is invisible - either the pill
+     is hidden, or it is already sitting at exactly this width. */
+  function measure(){
+    cta.style.maxWidth = 'none';
+    const w = cta.getBoundingClientRect().width;
+    cta.style.maxWidth = '';
+    if (w) cta.style.setProperty('--cta-w', w.toFixed(2) + 'px');
+  }
+
   function sync(){
     navEl.classList.toggle('cta-live', live);
     /* the pill is only ever hidden in the mobile layout; on desktop it is a
@@ -2319,6 +2339,13 @@ addEventListener('resize', () => {
     cta.setAttribute('aria-hidden', hidden ? 'true' : 'false');
     cta.tabIndex = hidden ? -1 : 0;
   }
+
+  measure();
+  /* web fonts land after first paint and change the text metrics */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  addEventListener('resize', measure);
+  /* the language switch rewrites the label */
+  new MutationObserver(measure).observe(cta, { childList: true, subtree: true, characterData: true });
 
   if (heroCta) {
     live = false;
