@@ -912,7 +912,19 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
   /* the grid column is narrower than the longest name, so let the name
      spill a few px into the 22 px gutter rather than break in two */
   white-space: nowrap; }
-.tm-role { margin-top: 6px; font-size: 13px; color: var(--g600); line-height: 1.4; max-width: 16ch; margin-left: auto; margin-right: auto; }
+/* The break is authored into the string - prefix on top, position underneath -
+   so every card reads the same way. The old 16ch cap forced a second break
+   inside the position ("AI, Pénzügyi / igazgató"), which is exactly what made
+   the row look ragged; without it the grid column decides.
+
+   A couple of the longest positions still miss one line by a few pixels, so
+   they get the same treatment as the names above: nowrap, and let them spill
+   into the 22 px gutter rather than break in two. The two-column phone layout
+   is actually roomier than the seven-column desktop one, so the escape hatch
+   sits at 340 px - below that the gutter is too small to absorb the longest
+   English title and the position is allowed to wrap again. */
+.tm-role { margin-top: 6px; font-size: 13px; color: var(--g600); line-height: 1.4; white-space: nowrap; }
+@media (max-width: 340px) { .tm-role { white-space: normal; } }
 
 /* ── human photos: same ring + glow language as the orbs ── */
 .tm-photo {
@@ -1540,7 +1552,7 @@ select:focus:not(:focus-visible),
                  data-alt-hu="Homoki Gábor portréja" data-alt-en="Portrait of Gábor Homoki">
           </div>
           <div class="tm-name">Homoki Gábor</div>
-          <div class="tm-role" data-i18n="team.gabor.role">Alapító, Vezérigazgató</div>
+          <div class="tm-role" data-i18n="team.gabor.role">Alapító,<br>Vezérigazgató</div>
         </div>
 
         <!-- Human · Hudácsek Bence -->
@@ -1552,42 +1564,42 @@ select:focus:not(:focus-visible),
                  data-alt-hu="Hudácsek Bence portréja" data-alt-en="Portrait of Bence Hudácsek">
           </div>
           <div class="tm-name">Hudácsek Bence</div>
-          <div class="tm-role" data-i18n="team.bence.role">Alapító, Technológiai igazgató</div>
+          <div class="tm-role" data-i18n="team.bence.role">Alapító,<br>Technológiai igazgató</div>
         </div>
 
         <!-- AI · Alfréd -->
         <div class="team-member" role="listitem">
           <div class="tm-portrait tm-orb" data-orb="alfred" role="img" aria-label="Alfréd"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-alfred.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-alfred.mp4" poster="assets/orb/orb-alfred.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
           <div class="tm-name">Alfréd</div>
-          <div class="tm-role" data-i18n="team.alfred.role">AI, Operatív igazgató</div>
+          <div class="tm-role" data-i18n="team.alfred.role">AI,<br>Operatív igazgató</div>
         </div>
 
         <!-- AI · Konrád -->
         <div class="team-member" role="listitem">
           <div class="tm-portrait tm-orb" data-orb="kutato" role="img" aria-label="Konrád"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-kutato.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-kutato.mp4" poster="assets/orb/orb-kutato.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
           <div class="tm-name">Konrád</div>
-          <div class="tm-role" data-i18n="team.kutato.role">AI, Pénzügyi igazgató</div>
+          <div class="tm-role" data-i18n="team.kutato.role">AI,<br>Pénzügyi igazgató</div>
         </div>
 
         <!-- AI · Leó -->
         <div class="team-member" role="listitem">
           <div class="tm-portrait tm-orb" data-orb="orch" role="img" aria-label="Leó"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-orch.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-orch.mp4" poster="assets/orb/orb-orch.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
           <div class="tm-name">Leó</div>
-          <div class="tm-role" data-i18n="team.epito.role">AI, Fejlesztési igazgató</div>
+          <div class="tm-role" data-i18n="team.epito.role">AI,<br>Fejlesztési igazgató</div>
         </div>
 
         <!-- AI · Félix -->
         <div class="team-member" role="listitem">
           <div class="tm-portrait tm-orb" data-orb="iro" role="img" aria-label="Félix"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-iro.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-iro.mp4" poster="assets/orb/orb-iro.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
           <div class="tm-name">Félix</div>
-          <div class="tm-role" data-i18n="team.iro.role">AI, Marketing igazgató</div>
+          <div class="tm-role" data-i18n="team.iro.role">AI,<br>Marketing igazgató</div>
         </div>
 
         <!-- AI · Rudolf -->
         <div class="team-member" role="listitem">
           <div class="tm-portrait tm-orb" data-orb="or" role="img" aria-label="Rudolf"><img class="tm-orb-canvas" loading="lazy" decoding="async" src="assets/orb/orb-or.webp" width="768" height="768" alt="" aria-hidden="true"><video class="tm-orb-video" src="assets/orb/orb-or.mp4" poster="assets/orb/orb-or.webp" width="256" height="256" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video></div>
           <div class="tm-name">Rudolf</div>
-          <div class="tm-role" data-i18n="team.or.role">AI, Kommunikációs igazgató</div>
+          <div class="tm-role" data-i18n="team.or.role">AI,<br>Kommunikációs igazgató</div>
         </div>
 
       </div>
@@ -1973,13 +1985,13 @@ const T = {
     'team.lead':        'Humans set the direction. Our AI agents research, write, build, monitor and coordinate - every day.',
     'team.proof':       'Our own operation runs on the same principle we bring into our clients\' businesses.',
     'team.hint':        'Swipe to explore',
-    'team.gabor.role':  'Founder, Chief Executive Officer',
-    'team.bence.role':  'Founder, Chief Technology Officer',
-    'team.alfred.role': 'AI, Chief Operating Officer',
-    'team.kutato.role': 'AI, Chief Financial Officer',
-    'team.epito.role':  'AI, Chief Development Officer',
-    'team.iro.role':    'AI, Chief Marketing Officer',
-    'team.or.role':     'AI, Chief Communications Officer',
+    'team.gabor.role':  'Founder,<br>Chief Executive Officer',
+    'team.bence.role':  'Founder,<br>Chief Technology Officer',
+    'team.alfred.role': 'AI,<br>Chief Operating Officer',
+    'team.kutato.role': 'AI,<br>Chief Financial Officer',
+    'team.epito.role':  'AI,<br>Chief Development Officer',
+    'team.iro.role':    'AI,<br>Chief Marketing Officer',
+    'team.or.role':     'AI,<br>Chief Communications Officer',
     'rev.eyebrow':      'What our clients say',
     'rev.h2':           'We didn\'t run ads. We built agentic AI into their operations.',
     'rev1.industry':    'Hospitality',
@@ -2127,13 +2139,13 @@ const T = {
     'team.lead':        'Az emberek adják az irányt. AI agentjeink kutatnak, írnak, építenek, ellenőriznek és koordinálnak - minden nap.',
     'team.proof':       'A saját működésünk ugyanarra az elvre épül, amit az ügyfeleink rendszereibe is bevezetünk.',
     'team.hint':        'Húzd oldalra',
-    'team.gabor.role':  'Alapító, Vezérigazgató',
-    'team.bence.role':  'Alapító, Technológiai igazgató',
-    'team.alfred.role': 'AI, Operatív igazgató',
-    'team.kutato.role': 'AI, Pénzügyi igazgató',
-    'team.epito.role':  'AI, Fejlesztési igazgató',
-    'team.iro.role':    'AI, Marketing igazgató',
-    'team.or.role':     'AI, Kommunikációs igazgató',
+    'team.gabor.role':  'Alapító,<br>Vezérigazgató',
+    'team.bence.role':  'Alapító,<br>Technológiai igazgató',
+    'team.alfred.role': 'AI,<br>Operatív igazgató',
+    'team.kutato.role': 'AI,<br>Pénzügyi igazgató',
+    'team.epito.role':  'AI,<br>Fejlesztési igazgató',
+    'team.iro.role':    'AI,<br>Marketing igazgató',
+    'team.or.role':     'AI,<br>Kommunikációs igazgató',
     'rev.eyebrow':      'Ügyfeleink mondták',
     'rev.h2':           'Nem hirdetést kapcsoltunk be. Működő AI-t építettünk a folyamataikba.',
     'rev1.industry':    'Vendéglátás',
