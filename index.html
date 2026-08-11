@@ -426,6 +426,135 @@ nav {
 .wf-line .val { color: var(--black); font-weight: 600; }
 
 /* ════════════════════════════════
+   AI DEMO PRIMITIVES - shared by the three live demos
+════════════════════════════════ */
+:root { --ease-ai: cubic-bezier(0.23,1,0.32,1); }
+
+@keyframes aiPixelOn  { 0%,100% { opacity: .13; } 50% { opacity: .55; } }
+@keyframes aiShimmer  { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@keyframes aiStreamIn { from { opacity: 0; filter: blur(6px); } to { opacity: 1; filter: blur(0); } }
+@keyframes aiPopIn    { from { opacity: 0; transform: scale(.86); } to { opacity: 1; transform: scale(1); } }
+@keyframes aiFadeUp   { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes aiSpin     { to { transform: rotate(360deg); } }
+@keyframes aiEq       { 0%,100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
+
+/* shimmering label - shared by .ai-loader and the active .ai-trace row */
+.ai-shimmer {
+  background: linear-gradient(90deg, var(--g400) 35%, var(--black) 50%, var(--g400) 65%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  animation: aiShimmer 1.4s linear infinite;
+}
+
+/* A) .ai-loader - pixel grid + shimmer label + real elapsed time */
+.ai-loader { display: flex; align-items: center; gap: 10px; width: fit-content; }
+.ai-loader-grid { display: grid; grid-template-columns: repeat(3, 4px); gap: 1.5px; flex-shrink: 0; }
+.ai-loader-grid i {
+  width: 4px; height: 4px; background: var(--black); border-radius: 1px;
+  opacity: .13; animation: aiPixelOn 650ms ease-in-out infinite;
+}
+/* chevron wavefront: (col + |row-1|) * 90ms */
+.ai-loader-grid i:nth-child(4) { animation-delay: 0ms; }
+.ai-loader-grid i:nth-child(1), .ai-loader-grid i:nth-child(5), .ai-loader-grid i:nth-child(7) { animation-delay: 90ms; }
+.ai-loader-grid i:nth-child(2), .ai-loader-grid i:nth-child(6), .ai-loader-grid i:nth-child(8) { animation-delay: 180ms; }
+.ai-loader-grid i:nth-child(3), .ai-loader-grid i:nth-child(9) { animation-delay: 270ms; }
+.ai-loader-label { font-size: 13px; font-weight: 500; white-space: nowrap; }
+.ai-loader-time {
+  font-size: 12px; color: var(--g400); font-variant-numeric: tabular-nums;
+  font-family: 'SF Mono','Fira Code','Courier New',monospace;
+}
+
+/* B) .ai-trace - step list that collapses into one line when finished */
+.ai-trace { display: flex; flex-direction: column; align-items: flex-start; }
+.ai-trace-head {
+  display: flex; align-items: center; gap: 7px; width: fit-content;
+  margin-left: -6px; padding: 3px 6px; border: 0; border-radius: 7px;
+  background: none; font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--g600); cursor: pointer; -webkit-appearance: none;
+  transition: background-color .14s ease;
+}
+.ai-trace-head[hidden] { display: none; }
+.ai-trace-head:hover { background: #f4f4f4; }
+.ai-trace-chev { flex-shrink: 0; transition: transform 300ms var(--ease-ai); }
+.ai-trace.open .ai-trace-chev { transform: rotate(180deg); }
+.ai-trace-body {
+  display: grid; grid-template-rows: 0fr; opacity: 0; width: 100%;
+  transition: grid-template-rows 320ms var(--ease-ai), opacity 320ms ease;
+}
+.ai-trace.open .ai-trace-body { grid-template-rows: 1fr; opacity: 1; }
+.ai-trace-inner { overflow: hidden; }
+.ai-trace-steps {
+  display: flex; flex-direction: column;
+  border-left: 1px solid var(--g200); margin-left: 6.5px; padding: 3px 0 3px 14px;
+}
+.ai-step {
+  display: flex; align-items: center; gap: 10px; min-height: 28px; font-size: 13px;
+  animation: aiFadeUp 320ms var(--ease-ai) both;
+}
+.ai-step-ico {
+  width: 14px; height: 14px; flex-shrink: 0; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+}
+.ai-step-ico > svg { display: none; }
+.ai-step.pending { opacity: .35; }
+.ai-step.pending .ai-step-ico,
+.ai-step.active .ai-step-ico { border: 1.5px solid var(--g200); border-radius: 50%; }
+.ai-step.active .ai-step-ico { border-top-color: var(--black); animation: aiSpin 700ms linear infinite; }
+.ai-step.done .ai-i-ok { display: block; }
+.ai-step.fail .ai-i-err { display: block; }
+.ai-step.done .ai-step-lb { color: var(--g600); }
+.ai-step.fail .ai-step-lb { color: #d92d2d; }
+
+/* C) .ai-stream - word-by-word reveal driven purely by CSS delays */
+.ai-stream > span { display: inline; animation: aiStreamIn 420ms cubic-bezier(0.22,0.61,0.25,1) both; }
+.ai-stream.instant > span { animation: none; opacity: 1; filter: none; }
+
+/* D) .ai-empty - idle state */
+.ai-empty {
+  margin: auto; display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 4px; padding: 10px;
+  animation: aiFadeUp 300ms var(--ease-ai) both;
+}
+.ai-empty-ico {
+  width: 32px; height: 32px; margin-bottom: 6px; border-radius: 8px;
+  background: #f4f4f4; border: 1px solid var(--g200); color: var(--g400);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ai-empty-t { font-size: 13px; font-weight: 500; color: var(--black); }
+.ai-empty-s { font-size: 12px; color: var(--g400); max-width: 240px; line-height: 1.5; }
+
+/* E) .ai-actions - small icon text buttons under generated content */
+.ai-actions { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; animation: aiFadeUp 300ms var(--ease-ai) both; }
+.ai-act {
+  display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 8px;
+  border: 0; border-radius: 6px; background: none; font-family: inherit;
+  font-size: 11.5px; font-weight: 500; color: var(--g400); cursor: pointer;
+  -webkit-appearance: none;
+  transition: background-color .14s ease, color .14s ease, transform .1s ease;
+}
+.ai-act:hover { background: #f4f4f4; color: var(--black); }
+.ai-act:active { transform: scale(.96); }
+.ai-act-ico { display: flex; align-items: center; }
+.ai-act.ok, .ai-act.ok:hover { color: #1fbf64; }
+
+/* shared error line */
+.ai-error { font-size: 13.5px; color: var(--g600); line-height: 1.55; animation: aiFadeUp 300ms var(--ease-ai) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-loader-grid i { animation: none; opacity: .4; }
+  .ai-shimmer {
+    animation: none; background: none;
+    -webkit-background-clip: border-box; background-clip: border-box; color: var(--black);
+  }
+  .ai-step, .ai-empty, .ai-actions, .ai-error { animation: none; }
+  .ai-step.active .ai-step-ico { animation: none; }
+  .ai-stream > span { animation: none; opacity: 1; filter: none; }
+  .ai-trace-body { transition: none; }
+  .ai-trace-chev { transition: none; }
+}
+
+/* ════════════════════════════════
    SEE IT IN ACTION - LIVE CHAT DEMO
 ════════════════════════════════ */
 .see-action { padding: 100px 0 120px; text-align: center; }
@@ -486,6 +615,25 @@ nav {
   color: var(--g600); cursor: pointer; transition: all .2s;
 }
 .chat-chip:hover { border-color: var(--black); color: var(--black); transform: scale(1.03); }
+/* idle: a quiet, static line about what the assistant actually knows */
+.ai-kb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 2px 0 4px; }
+.ai-kb-lb { font-size: 12px; color: var(--g400); margin-right: 2px; }
+.ai-kb-chip {
+  display: inline-flex; align-items: center; height: 22px; padding: 0 10px;
+  border: 1px solid var(--g200); border-radius: 100px; background: var(--white);
+  font-size: 12px; color: var(--g600); white-space: nowrap;
+  animation: aiPopIn 250ms var(--ease-ai) both;
+}
+/* the step trace lives inside the bot bubble, so it needs a darker hover than #f4f4f4 */
+.chat-msg .ai-trace { margin: 1px 0; }
+.chat-msg .ai-trace-head:hover { background: var(--g200); }
+.chat-msg .ai-answer { margin-top: 10px; }
+.chat-msg .ai-answer:first-child { margin-top: 0; }
+/* markdown-safe word stream: spans sit inside <p>/<li>/<a>, not at the root */
+.ai-stream-md span { display: inline; animation: aiStreamIn 420ms cubic-bezier(0.22,0.61,0.25,1) both; }
+.ai-stream-md.instant span { animation: none; opacity: 1; filter: none; }
+.chat-acts { align-self: flex-start; margin: -8px 0 -2px 8px; }
+.chat-fups { align-self: flex-start; display: flex; flex-wrap: wrap; gap: 8px; max-width: 92%; }
 .chat-inputrow {
   display: flex; gap: 10px; align-items: flex-end;
   padding: 14px 16px; border-top: 1px solid var(--g200); background: var(--white);
@@ -506,6 +654,12 @@ nav {
   .chat-msg { max-width: 88%; }
   .chat-log, .chat-chips { padding-left: 16px; padding-right: 16px; }
   .chat-inputrow textarea { font-size: 16px; } /* prevents iOS focus zoom */
+  .chat-fups { max-width: 100%; }
+  .chat-acts { margin-left: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-kb-chip, .chat-fups .chat-chip { animation: none; }
+  .ai-stream-md span { animation: none; opacity: 1; filter: none; }
 }
 
 /* ════════════════════════════════
@@ -544,10 +698,39 @@ nav {
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
   overflow: hidden; min-height: 3em;
 }
+/* the status line doubles as the connect loader slot - line-clamp would swallow it */
+.voice-status.has-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; }
+.vc-hint { font-size: 12px; color: var(--g400); animation: aiFadeUp 300ms var(--ease-ai) both; }
+/* idle: what the selected assistant can actually do - three rows, swapped per type */
+.vc-caps { display: flex; flex-direction: column; width: 100%; max-width: 300px; transition: opacity 120ms ease; }
+.vc-caps.out { opacity: 0; }
+.vc-cap {
+  display: flex; align-items: center; gap: 10px; height: 34px;
+  font-size: 12.5px; color: var(--g600); line-height: 1.35;
+  animation: aiFadeUp 340ms var(--ease-ai) both;
+}
+.vc-cap-ico {
+  width: 18px; height: 18px; border-radius: 50%; background: #f4f4f4; color: var(--g600);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
 /* live waveform - replaces the status line during a call */
 .voice-wave { display: none; width: 100%; height: 64px; animation: chatMsgIn 0.45s cubic-bezier(0.16,1,0.3,1) both; }
 .voice-card.live-call .voice-wave { display: block; }
-.voice-card.live-call .voice-status { display: none; }
+.voice-card.live-call .voice-status,
+.voice-card.live-call .vc-caps { display: none; }
+/* live transcript - only shown once a final transcript line actually arrived */
+.ai-transcript {
+  display: none; width: 100%; max-width: 430px; height: 86px; overflow: hidden;
+  flex-direction: column; justify-content: flex-end; gap: 3px; text-align: left;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 24px);
+  mask-image: linear-gradient(to bottom, transparent, #000 24px);
+}
+.voice-card.live-call .ai-transcript.has { display: flex; }
+.ai-tr-line {
+  font-size: 12.5px; line-height: 1.45; color: var(--black);
+  animation: aiFadeUp 300ms var(--ease-ai) both;
+}
+.ai-tr-line b { color: var(--g400); font-weight: 500; margin-right: 5px; }
 .voice-types {
   display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
   padding-top: 14px; margin-bottom: 14px; border-top: 1px solid var(--g200);
@@ -567,6 +750,13 @@ nav {
 @keyframes vcPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(217,45,45,.32); } 50% { box-shadow: 0 0 0 9px rgba(217,45,45,0); } }
 @media (max-width: 900px) {
   .voice-center { padding: 24px 4px; }
+  .vc-caps { max-width: 100%; }
+  .vc-cap { font-size: 12px; }
+  .ai-transcript { max-width: 100%; height: 76px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vc-caps { transition: none; }
+  .vc-cap, .ai-tr-line, .vc-hint { animation: none; }
 }
 
 /* ════════════════════════════════
@@ -603,25 +793,49 @@ nav {
 }
 .ed-right::-webkit-scrollbar { width: 5px; }
 .ed-right::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 5px; }
-.ed-empty { margin: auto; text-align: center; font-size: 13.5px; color: var(--g400); max-width: 230px; line-height: 1.5; }
-.ed-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; flex-shrink: 0; animation: chatMsgIn .45s cubic-bezier(0.16,1,0.3,1) both; }
-.ed-badge { font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+.ed-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; flex-shrink: 0; }
+.ed-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 4px 10px;
+  border-radius: 6px; text-transform: uppercase;
+  animation: aiPopIn 250ms var(--ease-ai) both;
+}
+.ed-badge .ai-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+/* live pipeline view - loader + trace, kept in place while the result streams in */
+/* while the request runs the trace sits lower in the panel, then settles to the top
+   as it collapses - the margin transition is what keeps that move from snapping */
+.ed-proc {
+  display: flex; flex-direction: column; gap: 10px; align-items: flex-start; flex-shrink: 0;
+  margin-top: 34px; transition: margin-top 320ms var(--ease-ai);
+}
+.ed-proc-done { gap: 0; margin-top: 0; margin-bottom: 12px; }
 .ed-b-cat  { background: var(--black); color: var(--white); }
 .ed-b-low  { background: #dcfce7; color: #15803d; }
 .ed-b-mid  { background: #fef3c7; color: #b45309; }
 .ed-b-high { background: #fee2e2; color: #dc2626; }
 .ed-b-sent { background: #f4f4f4; color: var(--g600); border: 1px solid var(--g200); }
-.ed-summary { font-size: 13.5px; color: var(--g600); line-height: 1.55; margin-bottom: 14px; animation: chatMsgIn .45s cubic-bezier(0.16,1,0.3,1) .08s both; }
-.ed-reply-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: var(--g400); text-transform: uppercase; margin-bottom: 6px; }
+.ed-summary { font-size: 13.5px; color: var(--g600); line-height: 1.55; margin-bottom: 14px; animation: aiFadeUp 350ms var(--ease-ai) 100ms both; }
+.ed-reply-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: var(--g400); text-transform: uppercase; margin-bottom: 6px; animation: aiFadeUp 350ms var(--ease-ai) 180ms both; }
 .ed-reply {
   font-size: 13.5px; line-height: 1.6; white-space: pre-wrap;
   background: var(--white); border: 1px solid var(--g200); border-radius: 12px;
   padding: 13px 16px;
-  animation: chatMsgIn .45s cubic-bezier(0.16,1,0.3,1) .16s both;
 }
+.ed-results { display: flex; flex-direction: column; flex-shrink: 0; }
+.ed-results .ai-actions { margin-top: 8px; }
+.ed-right .ai-error { margin-top: 10px; }
 @media (max-width: 900px) {
   .ed-right { min-height: 220px; }
   .ed-card textarea { font-size: 16px; min-height: 120px; } /* prevents iOS focus zoom */
+  .ed-proc { gap: 8px; margin-top: 18px; }
+  .ai-loader-label { white-space: normal; }
+  .ai-step { font-size: 12.5px; }
+  .ai-trace-head { font-size: 12.5px; }
+}
+/* these rules live after the shared primitives, so they need their own reduced-motion pass */
+@media (prefers-reduced-motion: reduce) {
+  .ed-proc { transition: none; }
+  .ed-badge, .ed-summary, .ed-reply-label { animation: none; }
 }
 
 /* ════════════════════════════════
@@ -1606,7 +1820,9 @@ select:focus:not(:focus-visible),
               </svg>
             </div>
             <div class="voice-status" id="voiceStatus"></div>
+            <div class="vc-caps" id="voiceCaps"></div>
             <canvas class="voice-wave" id="voiceWave" height="64"></canvas>
+            <div class="ai-transcript" id="voiceTranscript"></div>
           </div>
           <div class="voice-types" id="voiceTypes">
             <button class="voice-type sel" data-type="about" data-i18n="vc.t.about">Automating bemutató</button>
@@ -3122,14 +3338,32 @@ let prodVisible = false;
       error: 'Sorry, I couldn\'t answer just now. 🙇 Please try again in a moment, or email us: **hello@automating.hu**',
       empty: 'Oops, I received an empty reply. Please try again!',
       placeholder: 'Type your question...',
+      kbLabel: 'Knows:',
+      kb: ['services', 'case studies', 'pricing', 'booking'],
+      steps: ['Understanding the question', 'Searching the knowledge base', 'Composing the answer'],
+      stepsDone: (n, t) => n + ' steps · ' + t,
+      copy: 'Copy',
+      copied: 'Copied',
+      again: 'Retry',
+      fups: ['How much does it cost?', 'How long does it take to set up?', 'Book a consultation'],
     },
     hu: {
       greeting: 'Szia! 👋 Az **Automating** AI asszisztense vagyok.\nKérdezz bátran a szolgáltatásainkról, esettanulmányainkról vagy az AI-automatizálásról!',
       error: 'Elnézést, most nem sikerült válaszolnom. 🙇 Próbáld újra egy pillanat múlva, vagy írj nekünk: **hello@automating.hu**',
       empty: 'Hoppá, üres válasz érkezett. Próbáld újra!',
       placeholder: 'Írd ide a kérdésed...',
+      kbLabel: 'Ismeri:',
+      kb: ['szolgáltatások', 'esettanulmányok', 'árazás', 'foglalás'],
+      steps: ['Kérdés értelmezése', 'Tudásbázis keresése', 'Válasz összeállítása'],
+      stepsDone: (n, t) => n + ' lépés · ' + t,
+      copy: 'Másolás',
+      copied: 'Másolva',
+      again: 'Újra',
+      fups: ['Mennyibe kerül?', 'Mennyi idő alatt vezethető be?', 'Kérek egy konzultációt'],
     }
   };
+  const ctr = () => CHAT_T[currentLang] || CHAT_T.hu;
+  const reducedMo = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let sessionId = sessionStorage.getItem('chatSession');
   if(!sessionId) {
@@ -3173,17 +3407,101 @@ let prodVisible = false;
     return el;
   }
 
-  let interacted = false;
-  async function send(text) {
+  /* idle: static, true summary of what the assistant is trained on */
+  function kbStrip() {
+    const t = ctr();
+    const el = document.createElement('div');
+    el.className = 'ai-kb';
+    const lb = document.createElement('span');
+    lb.className = 'ai-kb-lb';
+    lb.textContent = t.kbLabel;
+    el.appendChild(lb);
+    t.kb.forEach((k, i) => {
+      const c = document.createElement('span');
+      c.className = 'ai-kb-chip';
+      c.textContent = k;
+      c.style.animationDelay = (i * 80) + 'ms';
+      el.appendChild(c);
+    });
+    return el;
+  }
+
+  /* word-by-word reveal that keeps the rendered markdown tree intact:
+     only text nodes get split, elements (<a>, <li>, <strong>) stay whole */
+  function streamMd(el, html) {
+    el.innerHTML = html;
+    el.classList.add('ai-stream-md');
+    if (AIUI.reduced()) { el.classList.add('instant'); return; }
+    const nodes = [];
+    const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while ((n = walk.nextNode())) if (/\S/.test(n.nodeValue)) nodes.push(n);
+    const total = nodes.reduce((a, t) => a + (t.nodeValue.match(/\S+/g) || []).length, 0);
+    const step = total > 0 ? Math.min(55, 5000 / total) : 55;
+    let i = 0;
+    nodes.forEach(t => {
+      const frag = document.createDocumentFragment();
+      t.nodeValue.split(/(\s+)/).forEach(p => {
+        if (!p) return;
+        if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+        const s = document.createElement('span');
+        s.textContent = p;
+        s.style.animationDelay = Math.round(i * step) + 'ms';
+        i++;
+        frag.appendChild(s);
+      });
+      t.parentNode.replaceChild(frag, t);
+    });
+  }
+
+  /* generic next-step chips - a static list, never presented as model output */
+  let fupsEl = null;
+  function showFollowups() {
+    if (fupsEl && fupsEl.parentNode) fupsEl.remove();
+    fupsEl = document.createElement('div');
+    fupsEl.className = 'chat-fups';
+    ctr().fups.forEach((q, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chat-chip';
+      b.textContent = q;
+      if (!reducedMo()) {
+        b.style.animation = 'aiFadeUp 320ms var(--ease-ai) both';
+        b.style.animationDelay = (i * 90) + 'ms';
+      }
+      b.addEventListener('click', () => send(q));
+      fupsEl.appendChild(b);
+    });
+    log.appendChild(fupsEl);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  let interacted = false, kbEl = null;
+  const turns = []; /* finished turns, kept so the language switch can relabel them */
+  async function send(text, opts) {
+    opts = opts || {};
     text = (text || input.value).trim();
     if (!text || sendBtn.disabled) return;
     interacted = true;
     input.value = ''; autosize();
+    if (kbEl && kbEl.parentNode) { kbEl.remove(); kbEl = null; }
+    if (fupsEl && fupsEl.parentNode) { fupsEl.remove(); fupsEl = null; }
     if (chips && chips.parentNode) chips.remove();
-    bubble('user', render(text));
+    if (opts.echo !== false) bubble('user', render(text));
     sendBtn.disabled = true;
-    const t = bubble('bot chat-typing', '<i></i><i></i><i></i>');
-    const tr = CHAT_T[currentLang] || CHAT_T.hu;
+    const tr = ctr();
+
+    /* the three-dot typing bubble is replaced by the real RAG pipeline steps */
+    const wrap = bubble('bot', '');
+    const tc = AIUI.trace(tr.steps);
+    wrap.appendChild(tc.el);
+    tc.advance(0);
+    log.scrollTop = log.scrollHeight;
+    const t0 = performance.now();
+    /* step 2 as the request goes out, step 3 ~900ms later if nothing came back yet */
+    const timers = [setTimeout(() => tc.advance(1), 350), setTimeout(() => tc.advance(2), 1250)];
+
+    let out = null, failed = false;
     try {
       const res = await fetch(currentLang === 'en' ? WEBHOOK_EN : WEBHOOK, {
         method: 'POST',
@@ -3192,11 +3510,29 @@ let prodVisible = false;
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
-      t.classList.remove('chat-typing');
-      t.innerHTML = render(data.output || tr.empty);
-    } catch (err) {
-      t.classList.remove('chat-typing');
-      t.innerHTML = render(tr.error);
+      out = data.output || tr.empty;
+    } catch (err) { failed = true; }
+    timers.forEach(clearTimeout);
+    const ms = performance.now() - t0;
+
+    const ans = document.createElement('div');
+    ans.className = 'ai-answer';
+    wrap.appendChild(ans);
+    if (failed) {
+      tc.set(tc.currentIndex(), 'fail');
+      ans.innerHTML = render(tr.error);
+    } else {
+      tc.allDone();
+      tc.collapse(tr.stepsDone(tr.steps.length, AIUI.fmt(ms)));
+      streamMd(ans, render(out));
+      const row = AIUI.actions([
+        { icon: 'copy',  label: tr.copy,  onClick: b => AIUI.copyAction(b, out, tr.copied, tr.copy) },
+        { icon: 'retry', label: tr.again, onClick: () => send(text, { echo: false }) }
+      ]);
+      row.classList.add('chat-acts');
+      log.appendChild(row);
+      turns.push({ tc: tc, ms: ms, row: row });
+      showFollowups();
     }
     sendBtn.disabled = false;
     log.scrollTop = log.scrollHeight;
@@ -3211,7 +3547,13 @@ let prodVisible = false;
     input.style.height = Math.min(input.scrollHeight, 120) + 'px';
   }
   input.addEventListener('input', autosize);
-  document.querySelectorAll('.chat-chip').forEach(c => c.addEventListener('click', () => send(c.textContent)));
+  document.querySelectorAll('.chat-chip').forEach((c, i) => {
+    c.addEventListener('click', () => send(c.textContent));
+    if (!reducedMo()) {
+      c.style.animation = 'aiFadeUp 320ms var(--ease-ai) both';
+      c.style.animationDelay = (i * 60) + 'ms';
+    }
+  });
 
   // The site-wide smooth-scroll hijacks wheel events on window. Let the log scroll
   // natively only while it can still scroll in that direction; at its top/bottom edge
@@ -3225,13 +3567,26 @@ let prodVisible = false;
     }
   });
 
-  const greetEl = bubble('bot', render((CHAT_T[currentLang] || CHAT_T.hu).greeting));
-  input.placeholder = (CHAT_T[currentLang] || CHAT_T.hu).placeholder;
+  const greetEl = bubble('bot', render(ctr().greeting));
+  kbEl = kbStrip();
+  log.appendChild(kbEl);
+  input.placeholder = ctr().placeholder;
 
   langCallbacks.push(lang => {
     const tr = CHAT_T[lang] || CHAT_T.hu;
     input.placeholder = tr.placeholder;
-    if (!interacted) greetEl.innerHTML = render(tr.greeting);
+    if (!interacted) {
+      greetEl.innerHTML = render(tr.greeting);
+      if (kbEl && kbEl.parentNode) { const fresh = kbStrip(); kbEl.replaceWith(fresh); kbEl = fresh; }
+    }
+    if (fupsEl && fupsEl.parentNode) showFollowups();
+    turns.forEach(t => {
+      t.tc.setLabels(tr.steps);
+      t.tc.setHead(tr.stepsDone(tr.steps.length, AIUI.fmt(t.ms)));
+      const lbs = t.row.querySelectorAll('.ai-act-lb');
+      if (lbs[0] && !t.row.querySelector('.ai-act.ok')) lbs[0].textContent = tr.copy;
+      if (lbs[1]) lbs[1].textContent = tr.again;
+    });
   });
 })();
 
@@ -3265,6 +3620,8 @@ let prodVisible = false;
   const waveCv = document.getElementById('voiceWave');
   const timerEl = document.getElementById('voiceTimer');
   const typeBtns = document.querySelectorAll('.voice-type');
+  const capsEl = document.getElementById('voiceCaps');
+  const scriptEl = document.getElementById('voiceTranscript');
 
   const VC_T = {
     en: {
@@ -3274,6 +3631,16 @@ let prodVisible = false;
         resto: 'Order line of a fictional pizzeria - try placing an order.',
         supp:  'Support agent of a fictional webshop - ask about an order, return or warranty.',
       },
+      caps: {
+        about: ['Walks you through our services', 'Answers questions about pricing', 'Offers a consultation'],
+        recep: ['Books an appointment', 'Looks for a free slot', 'Confirms the booking'],
+        resto: ['Takes the order', 'Knows the menu and the prices', 'Sums up the order'],
+        supp:  ['Checks the status of an order', 'Handles a return', 'Explains the warranty'],
+      },
+      connectingLoad: 'Connecting',
+      micHint: 'Please allow microphone access.',
+      roleYou: 'You:',
+      roleAi: 'AI:',
       connecting: 'Connecting… please allow microphone access.',
       live: 'Live - go ahead, say hi!',
       error: 'Could not start the call. Please try again.',
@@ -3293,6 +3660,16 @@ let prodVisible = false;
         resto: 'Egy fiktív pizzéria rendelésfelvevője - próbálj leadni egy rendelést.',
         supp:  'Egy fiktív webshop ügyfélszolgálata - kérdezz rendelésről, visszaküldésről, garanciáról.',
       },
+      caps: {
+        about: ['Bemutatja a szolgáltatásainkat', 'Válaszol az árazásról', 'Konzultációt ajánl'],
+        recep: ['Időpontot foglal', 'Szabad időpontot keres', 'Visszaigazolást ad'],
+        resto: ['Felveszi a rendelést', 'Ismeri az étlapot és az árakat', 'Összegzi a rendelést'],
+        supp:  ['Rendelés állapotát ellenőrzi', 'Visszaküldést intéz', 'Garanciáról tájékoztat'],
+      },
+      connectingLoad: 'Csatlakozás',
+      micHint: 'Engedélyezd a mikrofont!',
+      roleYou: 'Te:',
+      roleAi: 'AI:',
       connecting: 'Csatlakozás… engedélyezd a mikrofont!',
       live: 'Élő - beszélj nyugodtan!',
       error: 'Nem sikerült elindítani a hívást. Próbáld újra!',
@@ -3312,6 +3689,72 @@ let prodVisible = false;
 
   function clearWatch() { if (connectWatch) { clearTimeout(connectWatch); connectWatch = null; } }
 
+  /* ---- idle capability rows: what the selected assistant actually does ---- */
+  const CAP_ICO = [
+    '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-5.5A8 8 0 0 1 11 4h2a8 8 0 0 1 8 8Z"/></svg>',
+    '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',
+    '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
+  ];
+  function paintCaps(animate) {
+    if (!capsEl) return;
+    const list = (tr().caps && tr().caps[selType]) || [];
+    capsEl.innerHTML = '';
+    list.forEach((txt, i) => {
+      const r = document.createElement('div');
+      r.className = 'vc-cap';
+      r.innerHTML = '<span class="vc-cap-ico">' + CAP_ICO[i % CAP_ICO.length] + '</span>';
+      const s = document.createElement('span');
+      s.textContent = txt;
+      r.appendChild(s);
+      if (animate) r.style.animationDelay = (i * 70) + 'ms';
+      else r.style.animation = 'none';
+      capsEl.appendChild(r);
+    });
+    capsEl.classList.remove('out');
+  }
+  /* type switch: fade the old three out, then stagger the new three in */
+  function swapCaps() {
+    if (!capsEl) return;
+    capsEl.classList.add('out');
+    setTimeout(() => paintCaps(true), 120);
+  }
+
+  /* ---- live transcript (optional, additive - never required for the call) ---- */
+  const trLines = [];
+  function clearTranscript() {
+    if (!scriptEl) return;
+    trLines.length = 0;
+    scriptEl.innerHTML = '';
+    scriptEl.classList.remove('has');
+  }
+  function addTranscript(role, text) {
+    if (!scriptEl || !text) return;
+    const line = document.createElement('div');
+    line.className = 'ai-tr-line';
+    line.dataset.role = role;
+    const b = document.createElement('b');
+    b.textContent = role === 'user' ? tr().roleYou : tr().roleAi;
+    const s = document.createElement('span');
+    s.textContent = text;
+    line.append(b, s);
+    scriptEl.appendChild(line);
+    trLines.push(line);
+    while (trLines.length > 4) { const old = trLines.shift(); if (old.parentNode) old.remove(); }
+    scriptEl.classList.add('has');
+  }
+  /* tolerant by design: unknown payload shapes are ignored, never thrown */
+  function onVapiMessage(m) {
+    try {
+      if (!m || m.type !== 'transcript') return;
+      if (m.transcriptType && m.transcriptType !== 'final') return; // partials jitter too much
+      const txt = typeof m.transcript === 'string' ? m.transcript.trim() : '';
+      if (!txt) return;
+      addTranscript(m.role === 'user' ? 'user' : 'assistant', txt);
+    } catch (e) { /* a transcript problem must never affect the call itself */ }
+  }
+  // reachable for manual verification without a microphone (see the element, not window)
+  if (scriptEl) scriptEl.onVapiMessage = onVapiMessage;
+
   function wireVapi() {
     vapi = new VapiCtor(VAPI_PUBLIC_KEY);
     vapi.on('call-start', setLive);
@@ -3326,6 +3769,9 @@ let prodVisible = false;
         orb.style.setProperty('--vol', vol);
       }
     });
+    // additive: if this event never fires the demo behaves exactly as before
+    try { vapi.on('message', onVapiMessage); }
+    catch (e) { console.warn('Vapi transcript listener not attached:', e); }
   }
 
   async function loadVapi() {
@@ -3368,13 +3814,31 @@ let prodVisible = false;
     }
   }
 
+  let vLoader = null;
+  function stopLoader() { if (vLoader) { vLoader.stop(); vLoader = null; } }
+
   function setStatus(text) {
+    stopLoader();
+    statusEl.classList.remove('has-loader');
     statusEl.textContent = text;
+  }
+
+  /* the status line becomes the loader slot while connecting - same height, no jump */
+  function setConnectingLoader() {
+    stopLoader();
+    statusEl.textContent = '';
+    statusEl.classList.add('has-loader');
+    vLoader = AIUI.loader(tr().connectingLoad);
+    const hint = document.createElement('span');
+    hint.className = 'vc-hint';
+    hint.textContent = tr().micHint;
+    statusEl.append(vLoader.el, hint);
   }
 
   function setIdle() {
     state = 'idle';
     clearWatch();
+    clearTranscript();
     if (timerInt) { clearInterval(timerInt); timerInt = null; }
     timerEl.hidden = true;
     orb.classList.remove('live', 'connecting');
@@ -3385,6 +3849,7 @@ let prodVisible = false;
     btn.classList.remove('live');
     btn.innerHTML = (T[currentLang] || T.hu)['vc.cta'];
     setStatus(tr().desc[selType]);
+    paintCaps(true);
   }
 
   // live waveform - layered sine waves (echo layers in the site greys),
@@ -3443,6 +3908,7 @@ let prodVisible = false;
   function setLive() {
     state = 'live';
     clearWatch();
+    clearTranscript();
     secs = 0;
     timerEl.textContent = '00:00';
     timerEl.hidden = false;
@@ -3469,7 +3935,7 @@ let prodVisible = false;
     btn.disabled = true;
     btn.textContent = tr().connectingBtn;
     orb.classList.add('connecting');
-    setStatus(tr().connecting);
+    setConnectingLoader();
     try {
       if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         throw { name: 'InsecureContext' };
@@ -3506,9 +3972,11 @@ let prodVisible = false;
 
   typeBtns.forEach(b => b.addEventListener('click', () => {
     if (state !== 'idle') return;
+    if (b.classList.contains('sel')) return;
     selType = b.dataset.type;
     typeBtns.forEach(x => x.classList.toggle('sel', x === b));
     setStatus(tr().desc[selType]);
+    swapCaps();
   }));
 
   setIdle();
@@ -3516,8 +3984,222 @@ let prodVisible = false;
   langCallbacks.push(() => {
     if (state === 'idle') setIdle();
     else if (state === 'live') { btn.textContent = tr().stop; setStatus(tr().live); }
-    else if (state === 'connecting') { btn.textContent = tr().connectingBtn; setStatus(tr().connecting); }
+    else if (state === 'connecting') {
+      btn.textContent = tr().connectingBtn;
+      // relabel in place - rebuilding would reset the real elapsed timer
+      if (vLoader) {
+        vLoader.setLabel(tr().connectingLoad);
+        const h = statusEl.querySelector('.vc-hint');
+        if (h) h.textContent = tr().micHint;
+      } else setConnectingLoader();
+    }
+    if (state !== 'idle') paintCaps(false);
+    if (scriptEl) scriptEl.querySelectorAll('.ai-tr-line').forEach(l => {
+      const b2 = l.querySelector('b');
+      if (b2) b2.textContent = l.dataset.role === 'user' ? tr().roleYou : tr().roleAi;
+    });
   });
+})();
+
+/* ════════════════════════════
+   AI DEMO PRIMITIVES - shared building blocks for the three live demos
+   (loader / trace / word stream / empty state / action row)
+════════════════════════════ */
+const AIUI = (function(){
+  const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const ICO = {
+    ok:    '<svg class="ai-i-ok" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--black)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+    err:   '<svg class="ai-i-err" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d92d2d" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+    chev:  '<svg class="ai-trace-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+    copy:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+    check: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+    retry: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>',
+    mail:  '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4.5 8.5 7.5 5 7.5-5"/></svg>'
+  };
+
+  /* real elapsed time, never faked */
+  function fmt(ms) {
+    const s = ms / 1000;
+    return s < 60 ? s.toFixed(1) + 's' : Math.floor(s / 60) + 'm ' + (s % 60).toFixed(1) + 's';
+  }
+
+  function loader(label) {
+    const el = document.createElement('div');
+    el.className = 'ai-loader';
+    el.innerHTML = '<span class="ai-loader-grid" aria-hidden="true">' + '<i></i>'.repeat(9) + '</span>'
+      + '<span class="ai-loader-label ai-shimmer"></span>'
+      + '<span class="ai-loader-time">0.0s</span>';
+    const lb = el.querySelector('.ai-loader-label');
+    const tm = el.querySelector('.ai-loader-time');
+    lb.textContent = label || '';
+    const t0 = performance.now();
+    const iv = setInterval(() => { tm.textContent = fmt(performance.now() - t0); }, 100);
+    return {
+      el: el,
+      setLabel(x) { lb.textContent = x; },
+      elapsed() { return performance.now() - t0; },
+      stop() { clearInterval(iv); const e = performance.now() - t0; tm.textContent = fmt(e); return e; }
+    };
+  }
+
+  /* vertical step list; states: pending | active | done | fail */
+  function trace(labels) {
+    const el = document.createElement('div');
+    el.className = 'ai-trace open';
+    const head = document.createElement('button');
+    head.type = 'button';
+    head.className = 'ai-trace-head';
+    head.hidden = true;
+    head.setAttribute('aria-expanded', 'true');
+    const headTxt = document.createElement('span');
+    head.appendChild(headTxt);
+    head.insertAdjacentHTML('beforeend', ICO.chev);
+    const body = document.createElement('div'); body.className = 'ai-trace-body';
+    const inner = document.createElement('div'); inner.className = 'ai-trace-inner';
+    const list = document.createElement('div'); list.className = 'ai-trace-steps';
+    inner.appendChild(list); body.appendChild(inner);
+    el.append(head, body);
+
+    const rows = labels.map((lbl, i) => {
+      const r = document.createElement('div');
+      r.className = 'ai-step pending';
+      if (!reduced()) r.style.animationDelay = (i * 120) + 'ms';
+      r.innerHTML = '<span class="ai-step-ico">' + ICO.ok + ICO.err + '</span><span class="ai-step-lb"></span>';
+      r.querySelector('.ai-step-lb').textContent = lbl;
+      list.appendChild(r);
+      return r;
+    });
+
+    head.addEventListener('click', () => {
+      const open = el.classList.toggle('open');
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    function set(i, st) {
+      const r = rows[i];
+      if (!r) return;
+      r.className = 'ai-step ' + st;
+      r.querySelector('.ai-step-lb').classList.toggle('ai-shimmer', st === 'active');
+    }
+    return {
+      el: el,
+      rows: rows,
+      set: set,
+      /* advance to step i: everything before it is done, i is active */
+      advance(i) { for (let k = 0; k <= i && k < rows.length; k++) set(k, k < i ? 'done' : 'active'); },
+      allDone() { rows.forEach((r, i) => set(i, 'done')); },
+      currentIndex() {
+        for (let i = 0; i < rows.length; i++) if (rows[i].classList.contains('active')) return i;
+        return Math.max(0, rows.length - 1);
+      },
+      setLabels(arr) { rows.forEach((r, i) => { if (arr[i]) r.querySelector('.ai-step-lb').textContent = arr[i]; }); },
+      /* fold the whole trace into a single clickable summary line */
+      collapse(text) {
+        headTxt.textContent = text;
+        head.hidden = false;
+        el.classList.remove('open');
+        head.setAttribute('aria-expanded', 'false');
+      },
+      setHead(text) { headTxt.textContent = text; head.hidden = false; },
+      freeze() { rows.forEach(r => { r.style.animationDelay = ''; r.style.animation = 'none'; }); }
+    };
+  }
+
+  /* word-by-word reveal using CSS animation-delay (cheap + interruptible) */
+  function stream(el, text, opts) {
+    opts = opts || {};
+    const startAt = opts.delay || 0;
+    const instant = opts.instant || reduced();
+    el.textContent = '';
+    el.classList.add('ai-stream');
+    el.classList.toggle('instant', !!instant);
+    const parts = String(text == null ? '' : text).split(/(\s+)/);
+    let n = 0;
+    const words = parts.filter(p => p && !/^\s+$/.test(p)).length;
+    const step = words > 0 ? Math.min(55, 5000 / words) : 55;
+    parts.forEach(p => {
+      if (!p) return;
+      if (/^\s+$/.test(p)) { el.appendChild(document.createTextNode(p)); return; }
+      const s = document.createElement('span');
+      s.textContent = p;
+      if (!instant) s.style.animationDelay = Math.round(startAt + n * step) + 'ms';
+      n++;
+      el.appendChild(s);
+    });
+    return instant ? 0 : Math.round(startAt + n * step);
+  }
+
+  function empty(icon, title, sub) {
+    const el = document.createElement('div');
+    el.className = 'ai-empty';
+    el.innerHTML = '<span class="ai-empty-ico">' + (ICO[icon] || icon) + '</span>'
+      + '<span class="ai-empty-t"></span><span class="ai-empty-s"></span>';
+    el.querySelector('.ai-empty-t').textContent = title;
+    el.querySelector('.ai-empty-s').textContent = sub;
+    return el;
+  }
+
+  function legacyCopy(text) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) { return false; }
+  }
+
+  function copyText(text) {
+    return new Promise(resolve => {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => resolve(true), () => resolve(legacyCopy(text)));
+        } else resolve(legacyCopy(text));
+      } catch (e) { resolve(legacyCopy(text)); }
+    });
+  }
+
+  /* defs: [{ icon, label, onClick(btn) }] */
+  function actions(defs) {
+    const row = document.createElement('div');
+    row.className = 'ai-actions';
+    defs.forEach(d => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ai-act';
+      b.innerHTML = '<span class="ai-act-ico">' + (ICO[d.icon] || '') + '</span><span class="ai-act-lb"></span>';
+      b.querySelector('.ai-act-lb').textContent = d.label;
+      b.dataset.icon = d.icon || '';
+      b.addEventListener('click', () => d.onClick(b));
+      row.appendChild(b);
+    });
+    return row;
+  }
+
+  /* copy button feedback: green check + "Copied", reverts after 1.5s */
+  function copyAction(btn, text, okLabel, backLabel) {
+    if (btn.dataset.busy === '1') return;
+    copyText(text).then(ok => {
+      if (!ok) return;
+      btn.dataset.busy = '1';
+      btn.classList.add('ok');
+      btn.querySelector('.ai-act-ico').innerHTML = ICO.check;
+      btn.querySelector('.ai-act-lb').textContent = okLabel;
+      setTimeout(() => {
+        btn.dataset.busy = '0';
+        btn.classList.remove('ok');
+        btn.querySelector('.ai-act-ico').innerHTML = ICO[btn.dataset.icon] || ICO.copy;
+        btn.querySelector('.ai-act-lb').textContent = backLabel;
+      }, 1500);
+    });
+  }
+
+  return { ICO, fmt, reduced, loader, trace, stream, empty, actions, copyText, copyAction };
 })();
 
 /* ════════════════════════════
@@ -3547,18 +4229,32 @@ let prodVisible = false;
   const ED_T = {
     en: {
       empty: 'The analysis and the drafted reply will appear here.',
+      emptyTitle: 'Ready',
       error: 'Something went wrong - please try again in a moment.',
       replyLabel: 'Suggested reply',
       ph: 'Paste or type an incoming customer email here...',
+      proc: 'Processing',
+      steps: ['Reading the email', 'Categorising', 'Urgency and sentiment', 'Drafting the reply'],
+      stepsDone: (n, t) => n + ' steps · ' + t,
+      copy: 'Copy',
+      copied: 'Copied',
+      rewrite: 'Rewrite',
       cat: { 'Panasz': 'Complaint', 'Ajánlatkérés': 'Quote request', 'Számlázás': 'Billing', 'Időpontfoglalás': 'Scheduling', 'Információkérés': 'Information', 'Egyéb': 'Other' },
       urg: { 'alacsony': 'Low priority', 'közepes': 'Medium priority', 'sürgős': 'Urgent' },
       sent: { 'pozitív': 'Positive', 'semleges': 'Neutral', 'negatív': 'Negative' },
     },
     hu: {
       empty: 'Itt jelenik meg az elemzés és a válasz-piszkozat.',
+      emptyTitle: 'Készen áll',
       error: 'Hiba történt - próbáld újra egy pillanat múlva.',
       replyLabel: 'Javasolt válasz',
       ph: 'Illessz be vagy írj ide egy beérkező ügyfél-e-mailt...',
+      proc: 'Feldolgozás',
+      steps: ['E-mail beolvasása', 'Kategorizálás', 'Sürgősség és hangulat', 'Válasz-piszkozat írása'],
+      stepsDone: (n, t) => n + ' lépés · ' + t,
+      copy: 'Másolás',
+      copied: 'Másolva',
+      rewrite: 'Újraírás',
       cat: {},
       urg: { 'alacsony': 'Alacsony prioritás', 'közepes': 'Közepes prioritás', 'sürgős': 'Sürgős' },
       sent: { 'pozitív': 'Pozitív', 'semleges': 'Semleges', 'negatív': 'Negatív' },
@@ -3567,38 +4263,130 @@ let prodVisible = false;
   const tr = () => ED_T[currentLang] || ED_T.hu;
 
   let busy = false, last = null;
+  let lastInput = '', lastMs = 0, lastFail = -1;
+  let timers = [], liveLoader = null, liveTrace = null;
 
-  function setEmpty(msg) {
-    result.innerHTML = '<div class="ed-empty">' + (msg || tr().empty) + '</div>';
-  }
+  const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
 
-  function renderResult(d) {
-    last = d;
+  function setIdle(msg) {
+    clearTimers();
+    if (liveLoader) { liveLoader.stop(); liveLoader = null; }
+    liveTrace = null;
     const t = tr();
     result.innerHTML = '';
-    const badges = document.createElement('div');
-    badges.className = 'ed-badges';
-    const mk = (cls, txt) => {
-      const s = document.createElement('span');
-      s.className = 'ed-badge ' + cls;
-      s.textContent = txt;
-      badges.appendChild(s);
-    };
-    mk('ed-b-cat', t.cat[d.category] || d.category);
-    mk(d.urgency === 'sürgős' ? 'ed-b-high' : d.urgency === 'alacsony' ? 'ed-b-low' : 'ed-b-mid', t.urg[d.urgency] || d.urgency);
-    mk('ed-b-sent', t.sent[d.sentiment] || d.sentiment);
-    const sum = document.createElement('div'); sum.className = 'ed-summary'; sum.textContent = d.summary;
-    const lab = document.createElement('div'); lab.className = 'ed-reply-label'; lab.textContent = t.replyLabel;
-    const rep = document.createElement('div'); rep.className = 'ed-reply'; rep.textContent = d.reply;
-    result.append(badges, sum, lab, rep);
+    result.appendChild(AIUI.empty('mail', t.emptyTitle, msg || t.empty));
   }
 
-  async function run() {
-    const text = input.value.trim();
+  /* the loader + step trace that stays on screen from the request to the result */
+  function buildPipeline() {
+    clearTimers();
+    if (liveLoader) { liveLoader.stop(); liveLoader = null; }
+    const t = tr();
+    result.innerHTML = '';
+    const proc = document.createElement('div');
+    proc.className = 'ed-proc';
+    const ld = AIUI.loader(t.proc);
+    const tc = AIUI.trace(t.steps);
+    proc.append(ld.el, tc.el);
+    result.appendChild(proc);
+    liveLoader = ld; liveTrace = tc;
+    return { ld, tc, proc };
+  }
+
+  /* already-finished trace, rendered collapsed and un-animated (language switch) */
+  function buildDoneTrace(ms) {
+    const t = tr();
+    result.innerHTML = '';
+    const proc = document.createElement('div');
+    proc.className = 'ed-proc ed-proc-done';
+    const tc = AIUI.trace(t.steps);
+    tc.freeze();
+    tc.allDone();
+    tc.collapse(t.stepsDone(t.steps.length, AIUI.fmt(ms)));
+    proc.appendChild(tc.el);
+    result.appendChild(proc);
+    liveTrace = tc; liveLoader = null;
+    return tc;
+  }
+
+  function paintResult(d, instant) {
+    const t = tr();
+    const box = document.createElement('div');
+    box.className = 'ed-results';
+
+    const badges = document.createElement('div');
+    badges.className = 'ed-badges';
+    const mk = (cls, txt, i) => {
+      const s = document.createElement('span');
+      s.className = 'ed-badge ' + cls;
+      s.innerHTML = '<span class="ai-dot"></span>';
+      const lb = document.createElement('span');
+      lb.textContent = txt;
+      s.appendChild(lb);
+      if (instant) s.style.animation = 'none';
+      else s.style.animationDelay = (i * 80) + 'ms';
+      badges.appendChild(s);
+    };
+    mk('ed-b-cat', t.cat[d.category] || d.category, 0);
+    mk(d.urgency === 'sürgős' ? 'ed-b-high' : d.urgency === 'alacsony' ? 'ed-b-low' : 'ed-b-mid', t.urg[d.urgency] || d.urgency, 1);
+    mk('ed-b-sent', t.sent[d.sentiment] || d.sentiment, 2);
+
+    const sum = document.createElement('div'); sum.className = 'ed-summary'; sum.textContent = d.summary;
+    const lab = document.createElement('div'); lab.className = 'ed-reply-label'; lab.textContent = t.replyLabel;
+    const rep = document.createElement('div'); rep.className = 'ed-reply';
+    if (instant) { sum.style.animation = 'none'; lab.style.animation = 'none'; }
+    box.append(badges, sum, lab, rep);
+    result.appendChild(box);
+
+    const end = AIUI.stream(rep, d.reply, { delay: instant ? 0 : 250, instant: instant });
+
+    const row = AIUI.actions([
+      { icon: 'copy',  label: t.copy,    onClick: b => AIUI.copyAction(b, d.reply, t.copied, t.copy) },
+      { icon: 'retry', label: t.rewrite, onClick: () => run(lastInput) }
+    ]);
+    if (instant) row.style.animation = 'none';
+    else row.style.animationDelay = Math.min(end + 140, 5600) + 'ms';
+    box.appendChild(row);
+  }
+
+  /* redraw of a stored result - used by the language switch, no re-streaming */
+  function renderResult(d) {
+    last = d;
+    buildDoneTrace(lastMs);
+    paintResult(d, true);
+  }
+
+  function renderError(idx) {
+    const t = tr();
+    result.innerHTML = '';
+    const proc = document.createElement('div');
+    proc.className = 'ed-proc ed-proc-done';
+    const tc = AIUI.trace(t.steps);
+    tc.freeze();
+    for (let i = 0; i < idx; i++) tc.set(i, 'done');
+    tc.set(idx, 'fail');
+    proc.appendChild(tc.el);
+    result.appendChild(proc);
+    const err = document.createElement('div');
+    err.className = 'ai-error';
+    err.textContent = t.error;
+    result.appendChild(err);
+    liveTrace = tc; liveLoader = null;
+  }
+
+  async function run(overrideText) {
+    const text = String(overrideText != null ? overrideText : input.value).trim();
     if (!text || busy) return;
     busy = true;
     runBtn.disabled = true;
-    result.innerHTML = '<div class="ed-empty"><span class="chat-typing"><i></i><i></i><i></i></span></div>';
+    last = null; lastFail = -1; lastInput = text;
+
+    const p = buildPipeline();
+    p.tc.advance(0);
+    timers.push(setTimeout(() => p.tc.advance(1), 700));
+    timers.push(setTimeout(() => p.tc.advance(2), 1500));
+    timers.push(setTimeout(() => p.tc.advance(3), 2400));
+
     try {
       const res = await fetch(currentLang === 'en' ? ED_URL_EN : ED_URL, {
         method: 'POST',
@@ -3606,28 +4394,49 @@ let prodVisible = false;
         body: JSON.stringify({ email: text }),
       });
       const d = await res.json().catch(() => null);
+      clearTimers();
+      lastMs = p.ld.stop(); liveLoader = null;
+      p.ld.el.remove();
+      p.proc.classList.add('ed-proc-done');
       if (!res.ok || !d || !d.ok) throw new Error('bad response');
-      renderResult(d);
+      p.tc.allDone();
+      p.tc.collapse(tr().stepsDone(tr().steps.length, AIUI.fmt(lastMs)));
+      last = d;
+      paintResult(d, false);
     } catch (e) {
+      clearTimers();
+      if (liveLoader) { lastMs = liveLoader.stop(); liveLoader = null; p.ld.el.remove(); p.proc.classList.add('ed-proc-done'); }
       last = null;
-      setEmpty(tr().error);
+      lastFail = p.tc.currentIndex();
+      p.tc.set(lastFail, 'fail');
+      const err = document.createElement('div');
+      err.className = 'ai-error';
+      err.textContent = tr().error;
+      result.appendChild(err);
     }
     busy = false;
     runBtn.disabled = false;
   }
 
-  runBtn.addEventListener('click', run);
+  runBtn.addEventListener('click', () => run());
   document.querySelectorAll('.ed-chip').forEach(c => c.addEventListener('click', () => {
     input.value = (SAMPLES[currentLang] || SAMPLES.hu)[c.dataset.key];
     input.focus();
   }));
 
   input.placeholder = tr().ph;
-  setEmpty();
+  setIdle();
   langCallbacks.push(() => {
     input.placeholder = tr().ph;
-    if (busy) return;
-    if (last) renderResult(last); else setEmpty();
+    if (busy) {
+      // relabel the running pipeline in place - never restart it mid-request
+      if (liveLoader) liveLoader.setLabel(tr().proc);
+      if (liveTrace) liveTrace.setLabels(tr().steps);
+      return;
+    }
+    if (last) renderResult(last);
+    else if (lastFail >= 0) renderError(lastFail);
+    else setIdle();
   });
 })();
 
