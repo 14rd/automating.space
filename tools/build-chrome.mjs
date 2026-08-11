@@ -27,9 +27,17 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const CHECK = process.argv.includes('--check');
 const read  = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
-/* Which selectors belong to the chrome. Anything matching moves to
-   chrome.css and is deleted from the pages' own inline styles. */
-const CHROME_SELECTOR = /(^|[\s,>+~])(nav\b|footer\b|\.nav-|\.lang-|\.ft-|\.footer-|\.btn-pill|\.menuOpen)/;
+/* Which selectors belong to the chrome. Anything matching moves to chrome.css
+   and is deleted from the pages' own inline styles, so this list has to be
+   exact rather than prefix-ish. A blanket .lang- once swallowed the pages' own
+   .lang-block / .lang-toggle rules, which are how privacy.html and terms.html
+   show one language at a time - both versions then rendered at once. */
+const CHROME_SELECTOR = new RegExp('(^|[\\s,>+~])(' + [
+  'nav\\b', 'footer\\b',
+  '\\.nav-', '\\.ft-', '\\.footer-', '\\.btn-pill', '\\.menuOpen',
+  '\\.lang-wrap', '\\.lang-btn', '\\.lang-globe', '\\.lang-chevron',
+  '\\.lang-dd', '\\.lang-mob-',
+].join('|') + ')');
 const CHROME_ATRULE   = /@keyframes\s+menuOpen/;
 
 /* ── a very small CSS splitter: good enough for a hand-written stylesheet ── */
@@ -122,7 +130,7 @@ if (jsOut !== jsPrev && !CHECK) fs.writeFileSync(jsPath, jsOut);
    are the shop's build inputs and are excluded from Pages by _config.yml. */
 const PAGES = [
   'blog.html', 'blog-en.html', 'case-studies.html', 'koszonjuk.html',
-  'privacy.html', 'terms.html', '404.html',
+  'privacy.html', 'terms.html', 'impresszum.html', '404.html',
   ...fs.readdirSync(path.join(ROOT, 'blog')).filter(f => f.endsWith('.html')).map(f => `blog/${f}`),
 ];
 
