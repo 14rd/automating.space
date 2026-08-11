@@ -347,6 +347,15 @@ nav {
 .quote { padding: 120px 0; }
 .quote .h1 { text-align: center; max-width: 1100px; margin: 0 auto; }
 .quote .grey { color: var(--g400); white-space: nowrap; }
+/* The payoff line starts out the same grey as the setup line above it and is
+   inked in character by character as the section scrolls through. The colour
+   is written per character from JS, so nothing here sets it beyond the grey
+   starting point - without JS the line simply stays grey, which still reads.
+   Words are kept whole: per-character spans would otherwise let the browser
+   break a line in the middle of a word. */
+.quote-fill { color: var(--g400); }
+.qr-w { white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .quote-fill { color: var(--black); } }
 
 /* ════════════════════════════════
    PRODUCTS
@@ -1350,7 +1359,7 @@ select:focus:not(:focus-visible),
   <!-- QUOTE -->
   <section class="quote">
     <div class="wrap">
-      <h2 class="h1" data-reveal data-i18n="quote.h2"><span class="grey">Az eszközök nem<br class="mob-br"> váltják ki a munkát.</span><br>A vállalkozásba épített<br class="mob-br"> rendszerek igen.</h2>
+      <h2 class="h1" data-reveal data-i18n="quote.h2"><span class="grey">Az eszközök nem<br class="mob-br"> váltják ki a munkát.</span><br><span class="quote-fill">A vállalkozásba épített<br class="mob-br"> rendszerek igen.</span></h2>
     </div>
   </section>
 
@@ -1889,7 +1898,7 @@ const T = {
     'stat2.desc':       'AI systems live across 8 industries',
     'stat3.num':        '2,710+',
     'stat3.desc':       'Hours/mo given back to our clients.',
-    'quote.h2':         '<span class="grey">Tools don\'t<br class="mob-br"> replace the work.</span><br>Systems built into<br class="mob-br"> the business do.',
+    'quote.h2':         '<span class="grey">Tools don\'t<br class="mob-br"> replace the work.</span><br><span class="quote-fill">Systems built into<br class="mob-br"> the business do.</span>',
     'products.h2':      'AI employees.<br class="mob-br"> Not tools.',
     'products.p.desk':  'Our stack delivers AI systems for businesses to handle calls, emails, and workflows. Integrated into existing operations.',
     'products.p.mob':   'Our stack delivers AI systems for businesses to<br>handle calls, emails, and workflows. Integrated<br>into existing operations.',
@@ -2042,7 +2051,7 @@ const T = {
     'stat2.desc':       'AI rendszer éles üzemben 8 iparágban',
     'stat3.num':        '2 710+',
     'stat3.desc':       'Óra/hó visszaadott munkaidő ügyfeleinknek.',
-    'quote.h2':         '<span class="grey">Az eszközök nem<br class="mob-br"> váltják ki a munkát.</span><br>A vállalkozásba épített<br class="mob-br"> rendszerek igen.',
+    'quote.h2':         '<span class="grey">Az eszközök nem<br class="mob-br"> váltják ki a munkát.</span><br><span class="quote-fill">A vállalkozásba épített<br class="mob-br"> rendszerek igen.</span>',
     'products.h2':      'AI alkalmazottak.<br class="mob-br"> Nem eszközök.',
     'products.p.desk':  'Rendszereink AI megoldásokat biztosítanak vállalkozásoknak hívások, e-mailek és munkafolyamatok kezelésére. Integrálva a meglévő tevékenységekbe.',
     'products.p.mob':   'Rendszereink AI megoldásokat biztosítanak<br>vállalkozásoknak hívások és e-mailek<br>kezelésére. Integrálva a meglévő folyamatokba.',
@@ -2454,6 +2463,90 @@ document.querySelectorAll('a[href]').forEach(a => {
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-visible'); obs.unobserve(e.target); }});
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
   els.forEach(el => obs.observe(el));
+})();
+
+/* ════════════════════════════
+   QUOTE: THE PAYOFF LINE IS INKED IN BY SCROLL
+   Both sentences start in the same grey; the second one earns its black as the
+   section travels up the viewport, character by character, left to right.
+
+   Two details do the work. Each character has its own ramp rather than a hard
+   switch, and the ramps overlap by SPREAD characters, so the ink arrives as a
+   soft wave instead of a row of toggles. And the whole thing is tied to scroll
+   position rather than fired once on entry, so it also runs backwards when you
+   scroll back up - it reads as something you are doing, not something playing
+   at you.
+════════════════════════════ */
+(function(){
+  const quote = document.querySelector('.quote .h1');
+  if (!quote || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const SPREAD = 14;              /* characters covered by the leading edge */
+  const START  = .88;             /* line top enters here -> first character */
+  const END    = .34;             /* line top reaches here -> last character */
+
+  /* read the two ends of the ramp off the page rather than hardcoding them,
+     so the effect follows the palette if it ever changes */
+  const css  = getComputedStyle(document.documentElement);
+  const hex  = v => { const h = css.getPropertyValue(v).trim().slice(1);
+                      return [0,2,4].map(i => parseInt(h.substr(i,2),16)); };
+  const FROM = hex('--g400'), TO = hex('--black');
+
+  let chars = [], active = false, raf = 0, last = -1;
+  const mo = new MutationObserver(() => split());   /* the language switch rewrites the line */
+
+  function split(){
+    mo.disconnect();
+    chars = [];
+    const fill = quote.querySelector('.quote-fill');
+    if (fill) [...fill.childNodes].forEach(node => {
+      if (node.nodeType !== 3) return;              /* leave <br> alone */
+      const frag = document.createDocumentFragment();
+      node.data.split(/(\s+)/).forEach(chunk => {
+        if (!chunk) return;
+        if (/^\s+$/.test(chunk)) { frag.appendChild(document.createTextNode(chunk)); return; }
+        /* one wrapper per word, so lines still break at spaces and never
+           inside a word */
+        const w = document.createElement('span'); w.className = 'qr-w';
+        [...chunk].forEach(ch => {
+          const c = document.createElement('span'); c.className = 'qr-c'; c.textContent = ch;
+          w.appendChild(c); chars.push(c);
+        });
+        frag.appendChild(w);
+      });
+      fill.replaceChild(frag, node);
+    });
+    mo.observe(quote, { childList: true, subtree: true });
+    last = -1; paint();
+  }
+
+  const smoothstep = t => t * t * (3 - 2 * t);
+
+  function paint(){
+    const vh = innerHeight || 1;
+    const top = quote.getBoundingClientRect().top;
+    const p = Math.min(1, Math.max(0, (vh * START - top) / (vh * (START - END))));
+    if (Math.abs(p - last) < .001) return;
+    last = p;
+    const head = p * (chars.length + SPREAD);
+    for (let i = 0; i < chars.length; i++){
+      const t = smoothstep(Math.min(1, Math.max(0, (head - i) / SPREAD)));
+      chars[i].style.color =
+        `rgb(${Math.round(FROM[0] + (TO[0] - FROM[0]) * t)},` +
+            `${Math.round(FROM[1] + (TO[1] - FROM[1]) * t)},` +
+            `${Math.round(FROM[2] + (TO[2] - FROM[2]) * t)})`;
+    }
+  }
+
+  function loop(){ paint(); if (active) raf = requestAnimationFrame(loop); }
+
+  split();
+  /* only run the loop while the line is anywhere near the viewport */
+  new IntersectionObserver(en => {
+    active = en[0].isIntersecting;
+    cancelAnimationFrame(raf);
+    if (active) raf = requestAnimationFrame(loop); else paint();
+  }, { rootMargin: '200px 0px' }).observe(quote);
 })();
 
 /* ════════════════════════════
