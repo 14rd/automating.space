@@ -10,3 +10,5 @@ exclude:
   - termek
   - build-products.mjs
   - node_modules
+  # the chrome generator is a repo tool, not a page
+  - tools

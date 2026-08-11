@@ -42,6 +42,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/chrome.css">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -55,46 +56,8 @@ body {
   overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; text-decoration: none; }
-
-/* NAV */
-.nav-outer {
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-  z-index: 200; width: calc(100% - 48px); max-width: 960px;
-}
-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 15px; gap: 20px;
-  background: rgba(255,255,255,0.92); border: 1px solid var(--g200);
-  border-radius: 100px; backdrop-filter: blur(12px);
-}
-.nav-logo { display: flex; align-items: center; flex-shrink: 0; margin-left: 8px; }
-.nav-links {
-  display: flex; align-items: center; gap: 30px;
-  list-style: none; flex: 1; justify-content: center;
-}
-.nav-links a { font-size: 18px; font-weight: 500; color: var(--black); transition: opacity .2s; }
-.nav-links a:hover { opacity: .5; }
-.nav-chip {
-  display: inline-flex; align-items: center;
-  padding: 15px 30px; border: 1px solid #CACACA; border-radius: 100px;
-  font-size: 18px; font-weight: 500; transition: opacity .2s;
-}
-.nav-chip:hover { opacity: .5; }
-.btn-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--black); color: var(--white); border: none;
-  padding: 15px 30px; border-radius: 100px;
-  font-family: inherit; font-size: 15px; font-weight: 500;
-  cursor: pointer; white-space: nowrap; transition: opacity .2s; text-decoration: none;
-  margin-right: 4px;
-}
-.btn-pill:hover { opacity: .75; }
-.nav-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; background: none; border: none; margin-right: 8px; }
-.nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--black); }
-
 /* WRAP */
 .wrap { max-width: 1320px; margin: 0 auto; padding: 0 60px; }
-
 /* PAGE */
 .policy-page { padding: 160px 0 120px; }
 .policy-header { margin-bottom: 80px; }
@@ -106,19 +69,6 @@ nav {
 .policy-header .meta {
   font-size: 15px; color: var(--g600); font-weight: 500;
 }
-
-/* LANGUAGE TOGGLE */
-.lang-toggle { display: flex; gap: 8px; margin-bottom: 40px; }
-.lang-toggle button {
-  border: 1px solid var(--g200); background: var(--white); border-radius: 100px;
-  padding: 9px 18px; font-family: inherit; font-size: 13.5px; font-weight: 500;
-  color: var(--g600); cursor: pointer; transition: all .18s;
-}
-.lang-toggle button:hover { border-color: var(--black); color: var(--black); }
-.lang-toggle button.active { background: var(--black); border-color: var(--black); color: var(--white); }
-.lang-block { display: none; }
-.lang-block.active { display: block; }
-
 /* TWO-COLUMN LAYOUT */
 .policy-body {
   display: grid;
@@ -139,7 +89,6 @@ nav {
   transition: color .2s; line-height: 1.4;
 }
 .policy-toc a:hover { color: var(--black); }
-
 /* CONTENT */
 .policy-content { max-width: 720px; }
 .policy-section { margin-bottom: 56px; }
@@ -175,125 +124,12 @@ nav {
 .policy-section .detail-block p { font-size: 14px; margin-bottom: 6px; }
 .policy-section a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
 .policy-divider { border: none; border-top: 1px solid var(--g200); margin-bottom: 56px; }
-
-/* FOOTER */
-footer { border-top: 1px solid var(--g200); padding: 24px 0; }
-.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.footer-copy, .footer-loc { font-size: 13px; color: var(--g600); }
-.footer-links { display: flex; gap: 28px; }
-.footer-links a { font-size: 13px; color: var(--g600); transition: color .2s; }
-.footer-links a:hover { color: var(--black); }
-
-/* RESPONSIVE */
 @media (max-width: 900px) {
-  .wrap { padding: 0 24px; }
-  .nav-outer { width: calc(100% - 32px); top: 14px; }
-  nav {
-    display: grid; grid-template-columns: 1fr auto 1fr;
-    align-items: center; padding: 12px 16px; border-radius: 100px;
-  }
-  .nav-logo   { grid-column: 1; grid-row: 1; justify-self: start; margin-left: 4px; }
-  .nav-links  { display: none; }
-  .nav-links.open {
-    display: flex; flex-direction: column; position: absolute;
-    top: calc(100% + 8px); left: 0; right: 0;
-    background: rgba(255,255,255,.97); border: 1px solid var(--g200);
-    border-radius: 20px; padding: 20px 24px; gap: 20px;
-    backdrop-filter: blur(12px); z-index: 10; grid-column: 1/-1; grid-row: 2;
-  }
-  .btn-pill { grid-column: 2; grid-row: 1; justify-self: center; padding: 10px 20px; font-size: 13px; }
-  .nav-toggle { grid-column: 3; grid-row: 1; justify-self: end; display: flex; margin-right: 4px; }
-  .policy-body { grid-template-columns: 1fr; gap: 40px; }
-  .policy-toc { position: static; }
-  .policy-page { padding: 120px 0 80px; }
-  .footer-inner { flex-direction: column; text-align: center; }
+.wrap { padding: 0 24px; }
+.policy-body { grid-template-columns: 1fr; gap: 40px; }
+.policy-toc { position: static; }
+.policy-page { padding: 120px 0 80px; }
 }
-
-/* ════════════════════════════════
-   MOBILE HEADER GEOMETRY
-   Fixed 69 px pill, 16 px below the viewport top -> bottom edge at 85 px.
-   Height is set on <nav> rather than via padding so the value is exact
-   regardless of the logo/button line-heights inside it; box-sizing is
-   border-box globally, so the 1 px border is included in the 69 px.
-   Desktop (>=810 px) is untouched.
-════════════════════════════════ */
-@media (max-width: 809px) {
-  .nav-outer { top: 16px; }
-  /* content-box + a fixed 67 px row: 67 + 2 px border = the required 69 px,
-     and the content box stays 67 px however far the menu pushes padding-bottom,
-     so row 1 never moves. */
-  nav { box-sizing: content-box; height: 67px; padding-top: 0; padding-bottom: 0; }
-}
-
-/* ════════════════════════════════
-   MOBILE MENU — the header pill itself opens
-   The links are taken out of flow *inside* <nav>, so every page keeps its own
-   row-1 layout untouched (flex here, grid on terms/privacy, absolutely-centred
-   CTA). What animates is <nav>'s own height: the existing pill grows downward
-   and reveals the links already sitting inside it. No second panel is created.
-   --navh is the closed pill height, written by the script, so the links stay
-   pinned directly under row 1 at every breakpoint.
-════════════════════════════════ */
-@media (max-width: 900px) {
-  nav {
-    position: relative; overflow: hidden;
-    /* padding-bottom, not height: padding sits OUTSIDE the content box, so the
-       pill grows downward while row 1 keeps its own box and stays exactly where
-       it is. Animating height instead re-centres the logo/CTA/burger inside the
-       taller pill, which is why the row slid to the middle. */
-    transition: padding-bottom .46s cubic-bezier(.16, 1, .3, 1);
-    /* Radius pinned to half the CLOSED height, and it never animates. The old
-       100px was being clamped down to half the height while the pill was short,
-       so the *effective* radius kept changing as the pill grew and the corners
-       visibly popped on the first frames. A fixed value renders identically to
-       today when closed and stays seamless all the way open. */
-    border-radius: 28px;
-  }
-
-  /* the burger is a plain <button>: kill the platform tap flash so nothing
-     grey ever paints behind it. Keyboard :focus-visible is left intact. */
-  .nav-toggle {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-appearance: none; appearance: none;
-    background: none; border: 0; outline: none;
-    touch-action: manipulation;
-    -webkit-user-select: none; user-select: none;
-  }
-  .nav-toggle:hover, .nav-toggle:active, .nav-toggle:focus {
-    background: none; outline: none; box-shadow: none;
-  }
-
-  .nav-links {
-    display: flex; flex-direction: column; align-items: flex-start; gap: 20px;
-    position: absolute; left: 0; right: 0; top: var(--navrow, 100%); bottom: auto;
-    padding: 4px 22px 24px; margin: 0; z-index: 1;
-    background: none; border: 0; border-radius: 0; box-shadow: none;
-    backdrop-filter: none; -webkit-backdrop-filter: none; animation: none;
-    opacity: 0; visibility: hidden; pointer-events: none;
-    transition: opacity .2s ease, visibility 0s linear .2s;
-  }
-  nav.is-open .nav-links {
-    opacity: 1; visibility: visible; pointer-events: auto;
-    transition: opacity .34s ease .08s, visibility 0s linear 0s;
-  }
-
-  /* three bars -> X. The bars are 1.5 px with a 4 px gap, so the outer two sit
-     exactly 5.5 px from the middle one: that is the exact travel to the centre. */
-  .nav-toggle span {
-    transform-origin: 50% 50%;
-    transition: transform .38s cubic-bezier(.16, 1, .3, 1), opacity .18s ease;
-  }
-  nav.is-open .nav-toggle span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
-  nav.is-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(.35); }
-  nav.is-open .nav-toggle span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
-}
-
-/* Half of the 69 px closed pill. Declared after the menu block so it wins over
-   the 28 px used between 810-900 px, where the closed pill is 56 px tall. */
-@media (max-width: 809px) {
-  nav { border-radius: 34.5px; }
-}
-
 /* ════════════════════════════════
    NO GREY PRESS / HOVER ARTEFACTS  (site-wide, every breakpoint)
    The grey box that flashes on tap is the platform tap highlight, not our own
@@ -305,13 +141,11 @@ footer { border-top: 1px solid var(--g200); padding: 24px 0; }
    what makes the highlight linger long enough to be noticed.
 ════════════════════════════════ */
 * { -webkit-tap-highlight-color: transparent; }
-
 a, button, summary, label, select, input, textarea,
 [role="button"], [tabindex] {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-
 a:focus:not(:focus-visible),
 button:focus:not(:focus-visible),
 summary:focus:not(:focus-visible),
@@ -325,10 +159,10 @@ select:focus:not(:focus-visible),
 </head>
 <body>
 
-<!-- NAV -->
+<!-- CHROME:HEADER — generated by tools/build-chrome.mjs, edit index.html instead -->
 <div class="nav-outer">
   <nav>
-    <a href="/" class="nav-logo" aria-label="Automating">
+    <a href="/" class="nav-logo" id="logoLink" aria-label="Automating">
       <svg width="34" height="34" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
       </svg>
@@ -336,15 +170,36 @@ select:focus:not(:focus-visible),
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html#products" data-i18n="nav.products">Mit Építünk</a></li>
       <li><a href="index.html#approach" data-i18n="nav.approach">Megközelítésünk</a></li>
-      <li><a href="index.html#demo" data-i18n="nav.demo">Demó</a></li>
-      <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.cases">Esettanulmányok</a></li>
+      <li><a href="case-studies.html" class="nav-chip" data-i18n="nav.case-studies">Esettanulmányok</a></li>
+      <li class="nav-lang-mob">
+        <div class="lang-mob-row">
+          <button class="lang-mob-opt" data-lang="en">English</button>
+          <button class="lang-mob-opt is-active" data-lang="hu">Magyar</button>
+        </div>
+      </li>
     </ul>
+    <!-- Language dropdown (desktop) -->
+    <div class="lang-wrap" id="langWrap">
+      <button class="lang-btn" id="langBtn" aria-label="Language">
+        <svg class="lang-globe" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3Z"/>
+        </svg>
+        <span id="langLabel">HU</span>
+        <span class="lang-chevron">▾</span>
+      </button>
+      <div class="lang-dd" id="langDd">
+        <button class="lang-dd-btn" data-lang="en">English</button>
+        <button class="lang-dd-btn is-active" data-lang="hu">Magyar</button>
+      </div>
+    </div>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
-    <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill" data-i18n="nav.book">Árajánlat</a>
+    <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill nav-cta" id="navCta"><span class="nav-cta-label" data-i18n="nav.book-call">Konzultációt kérek</span></a>
   </nav>
 </div>
+<!-- /CHROME:HEADER -->
 
 <div class="policy-page">
   <div class="wrap">
@@ -862,19 +717,78 @@ select:focus:not(:focus-visible),
   </div><!-- /wrap -->
 </div><!-- /policy-page -->
 
+<!-- CHROME:FOOTER — generated by tools/build-chrome.mjs, edit index.html instead -->
 <footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="footer-copy" data-i18n="footer.copy">Automating &copy; Minden jog fenntartva</span>
-      <div class="footer-links">
-        <a href="blog.html">Blog</a>
-        <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi irányelvek</a>
-        <a href="terms.html" data-i18n="footer.terms">Általános Szerződési Feltételek</a>
+  <div class="ft-card">
+
+      <div class="ft-top">
+        <a href="/" class="ft-logo" aria-label="Automating">
+          <svg width="30" height="30" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+          </svg>
+        </a>
+        <div class="ft-rule"></div>
+        <div class="ft-langs">
+          <button class="ft-lang is-active" data-lang="hu">HU</button>
+          <button class="ft-lang" data-lang="en">EN</button>
+        </div>
+        <p class="ft-tagline" data-i18n="footer.tagline">Munkahelyeket váltunk ki AI-jal.</p>
+        <a class="ft-mail" href="mailto:hello@automating.hu?subject=%C3%89rdekl%C5%91d%C3%A9s%20%E2%80%93%20AI%20automatiz%C3%A1l%C3%A1s&amp;body=Sziasztok%21%0A%0AC%C3%A9g%C3%BCnk%3A%0AAmit%20automatiz%C3%A1ln%C3%A1nk%3A%0AEl%C3%A9rhet%C5%91s%C3%A9g%3A%0A%0A%C3%9Cdv%C3%B6zlettel%2C%0A" data-en-href="mailto:hello@automating.hu?subject=Enquiry%20%E2%80%93%20AI%20automation&amp;body=Hi%20Automating%20team%2C%0A%0AOur%20company%3A%0AWhat%20we%20would%20automate%3A%0AContact%3A%0A%0ABest%20regards%2C%0A">hello@automating.hu</a>
       </div>
-      <span class="footer-loc" data-i18n="footer.loc">Magyarország</span>
+
+      <div class="ft-cols">
+        <div class="ft-col">
+          <div class="ft-h" data-i18n="footer.h.links">Linkek</div>
+          <a href="index.html#products" data-i18n="nav.products">Mit Építünk</a>
+          <a href="index.html#approach" data-i18n="nav.approach">Megközelítésünk</a>
+          <a href="index.html#team" data-i18n="footer.team">A csapat</a>
+          <a href="index.html#demo" data-i18n="footer.s.demo">Élő demó</a>
+          <a href="case-studies.html" data-i18n="footer.cases">Esettanulmányok</a>
+          <a href="blog.html" data-en-href="blog-en.html">Blog</a>
+          <a href="index.html#faq" data-i18n="footer.faq">Gyakori kérdések</a>
+        </div>
+
+        <div class="ft-col">
+          <div class="ft-h" data-i18n="footer.h.services">Szolgáltatások</div>
+          <a href="index.html#products" data-i18n="footer.s.voice">AI telefonos asszisztens</a>
+          <a href="index.html#products" data-i18n="footer.s.email">AI e-mail kezelés</a>
+          <a href="index.html#products" data-i18n="footer.s.flow">Munkafolyamat-automatizálás</a>
+        </div>
+
+        <div class="ft-col">
+          <div class="ft-h" data-i18n="footer.h.docs">Dokumentumok</div>
+          <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi irányelvek</a>
+          <a href="terms.html" data-i18n="footer.terms">Általános Szerződési Feltételek</a>
+          <a href="impresszum.html" data-i18n="footer.imprint">Impresszum</a>
+        </div>
+
+        <div class="ft-col">
+          <div class="ft-h" data-i18n="footer.h.proof">Tanúsítványok</div>
+          <div class="ft-badges">
+            <div class="ft-badge ft-badge-dark">
+              <span class="ft-badge-mark">GDPR</span>
+              <span class="ft-badge-sub">Ready</span>
+            </div>
+            <div class="ft-badge ft-badge-light">
+              <span class="ft-badge-mark">AES</span>
+              <span class="ft-badge-sub">Ready</span>
+            </div>
+          </div>
+          <div class="ft-status">
+            <span class="ft-dot"></span>
+            <span data-i18n="footer.status">Minden rendszer elérhető</span>
+          </div>
+        </div>
+      </div>
+
+    <div class="ft-bottom">
+      <span data-i18n="footer.copy">Automating &copy; 2026 - Minden jog fenntartva</span>
+      <span data-i18n="footer.loc">Magyarország</span>
     </div>
+
   </div>
 </footer>
+<!-- /CHROME:FOOTER -->
 
 <script>
 const navToggle = document.getElementById('navToggle');
@@ -925,5 +839,6 @@ function applyLang(l) {
 applyLang(localStorage.getItem('lang') === 'en' ? 'en' : 'hu');
 langBtns.forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
 </script>
+<script src="assets/chrome.js" defer></script>
 </body>
 </html>
