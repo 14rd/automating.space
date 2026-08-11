@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adatvédelmi irányelvek — Automating</title>
+<title>Adatvédelmi nyilatkozat · Automating</title>
 <meta name="description" content="Az Automating (automating.hu) adatvédelmi irányelvei — GDPR-megfelelő tájékoztató az adatkezelésről. / Privacy policy of Automating.">
 <link rel="canonical" href="https://automating.hu/privacy.html">
 <meta name="robots" content="index, follow">
@@ -78,6 +78,27 @@ a { color: inherit; text-decoration: none; }
 }
 .lang-toggle button:hover { border-color: var(--black); color: var(--black); }
 .lang-toggle button.active { background: var(--black); border-color: var(--black); color: var(--white); }
+/* Added with the rewritten notice: the purpose/legal-basis matrix, the
+   processor cards and the inline cautions in the demo section. */
+.policy-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14.5px; }
+.policy-table th, .policy-table td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--g200); }
+.policy-table th { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--g600); }
+.policy-table tr:last-child td { border-bottom: 0; }
+.policy-content .proc { margin: 22px 0; padding: 20px 22px; border: 1px solid var(--g200); border-radius: 14px; }
+.policy-content .proc h3 { margin-top: 0; }
+.policy-content .proc ul { margin-bottom: 0; }
+.policy-content .note {
+  margin: 14px 0; padding: 12px 16px; border-left: 3px solid var(--black);
+  background: #fafafa; font-size: 15px; color: var(--g600);
+}
+@media (max-width: 700px) {
+/* a four-column matrix cannot survive a phone; each row becomes a card */
+  .policy-table thead { display: none; }
+.policy-table, .policy-table tbody, .policy-table tr, .policy-table td { display: block; width: 100%; }
+.policy-table tr { border: 1px solid var(--g200); border-radius: 12px; padding: 6px 4px; margin-bottom: 14px; }
+.policy-table td { border-bottom: 0; padding: 8px 12px; }
+.policy-table td::before { content: attr(data-label); display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--g400); margin-bottom: 3px; }
+}
 .lang-block { display: none; }
 .lang-block.active { display: block; }
 /* TWO-COLUMN LAYOUT */
@@ -221,509 +242,411 @@ select:focus:not(:focus-visible),
     </div>
 
     <div class="lang-block" data-lang="en">
-    <div class="policy-header">
-      <h2 class="policy-title">Privacy Policy.</h2>
-      <p class="meta">Last updated: June 2026 &nbsp;·&nbsp; automating.hu</p>
-    </div>
+      <div class="policy-header">
+        <h2 class="policy-title">Privacy Notice.</h2>
+        <p class="meta">Last updated: August 2026 &nbsp;·&nbsp; automating.hu</p>
+      </div>
 
-    <div class="policy-body">
+      <div class="policy-body">
 
-      <!-- TABLE OF CONTENTS -->
-      <aside class="policy-toc">
-        <h3>Contents</h3>
-        <ul>
+        <aside class="policy-toc">
+          <h3>Contents</h3>
+          <ul>
           <li><a href="#s1">1. Introduction</a></li>
-          <li><a href="#s2">2. Data Controller</a></li>
-          <li><a href="#s3">3. Definitions</a></li>
-          <li><a href="#s4">4. Data Collected</a></li>
-          <li><a href="#s5">5. Legal Bases</a></li>
-          <li><a href="#s6">6. Retention Periods</a></li>
-          <li><a href="#s7">7. Data Security</a></li>
-          <li><a href="#s8">8. Cookies</a></li>
-          <li><a href="#s9">9. Data Sharing</a></li>
-          <li><a href="#s10">10. Third Countries</a></li>
-          <li><a href="#s11">11. Your Rights</a></li>
-          <li><a href="#s12">12. Exercising Rights</a></li>
-          <li><a href="#s13">13. Complaints</a></li>
-          <li><a href="#s14">14. Minors</a></li>
-          <li><a href="#s15">15. External Links</a></li>
-          <li><a href="#s16">16. Amendments</a></li>
-          <li><a href="#s17">17. Contact</a></li>
-        </ul>
-      </aside>
+          <li><a href="#s2">2. Responsibility and contact details of the Data Controller</a></li>
+          <li><a href="#s3">3. The personal data processed</a></li>
+          <li><a href="#s4">4. Purpose, legal basis and duration of processing</a></li>
+          <li><a href="#s5">5. Conditions of data transfer</a></li>
+          <li><a href="#s6">6. Data processors</a></li>
+          <li><a href="#s7">7. Your rights and how to exercise them</a></li>
+          <li><a href="#s8">8. Protection of the data of minors and persons with limited capacity</a></li>
+          <li><a href="#s9">9. Data security</a></li>
+          <li><a href="#s10">10. Cookies</a></li>
+          <li><a href="#s11">11. Definitions</a></li>
+          <li><a href="#s12">12. Amendment of this Notice</a></li>
+          </ul>
+        </aside>
 
-      <!-- CONTENT -->
-      <div class="policy-content">
+        <div class="policy-content">
 
         <div class="policy-section" id="s1">
           <h2>1. Introduction</h2>
-          <p>Automating.hu, hereinafter referred to as the "Data Controller," "We," "Us," or "Our," is committed to protecting your personal data. This Privacy Policy provides information on what personal data we collect when you visit and use our website <a href="https://automating.hu">https://automating.hu</a>, how we use, store and protect such data, and what rights you have in relation to your data.</p>
-          <p>Data processing is carried out in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council (the GDPR), Act CXII of 2011 on the Right of Informational Self-Determination and Freedom of Information (the "Info Act"), and other applicable Hungarian legislation.</p>
+          <p>The personal data you provide is processed by:</p>
+          <div class="detail-block">
+            <p><strong>Hudácsek Bence EV.</strong> (sole trader)</p>
+            <p>9127 Csikvánd, Hunyadi János utca 12., Hungary</p>
+            <p>VAT number: 91949811-1-28</p>
+            <p>Registration number: 62151177</p>
+          </div>
+          <p>hereinafter: the <strong>Data Controller</strong>.</p>
+          <p>Please read this privacy notice (the "Notice") carefully. It describes our practice regarding the processing of your personal data under the General Data Protection Regulation (the GDPR, Regulation (EU) 2016/679). This Notice applies to persons using the Data Controller's services (you). It explains how the Data Controller collects, uses and, in certain cases, shares your personal data with third parties, and informs you of your rights as a data subject.</p>
+          <p>The Data Controller (see the <a href="impresszum.html">Imprint</a>) is committed to protecting the personal data and privacy of individuals visiting this website. This Notice concerns above all the confidential handling and protection of the personal data of clients and enquirers over the internet, but it also covers visitors to the site. Data is not disclosed to unauthorised persons and is used solely in the manner set out in this Notice.</p>
+          <p>In individual cases a contract may alter the purpose of processing, on the terms recorded in that contract.</p>
+          <p>This Notice provides you with important information about the protection of your personal data and your related rights. If you do not accept these terms, you are free to discontinue using the website and to end your visit without providing any personal data.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s2">
-          <h2>2. Details of the Data Controller</h2>
+          <h2>2. Responsibility and contact details of the Data Controller</h2>
+          <p>For the processing described in this Notice, Hudácsek Bence EV. is the data controller.</p>
+          <p>For any comment, question or complaint concerning our data protection practice, you can reach us at:</p>
           <div class="detail-block">
-            <p><strong>Company name:</strong> HUDÁCSEK BENCE EV.</p>
-            <p><strong>Registered seat:</strong> 9127 CSIKVÁND, HUNYADI JÁNOS STREET 12.</p>
-            <p><strong>Registration number:</strong> 62151177</p>
-            <p><strong>Tax number:</strong> 91949811-1-28</p>
-            <p><strong>Represented by:</strong> Bence Hudácsek</p>
-            <p><strong>E-mail:</strong> <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
-            <p><strong>Website:</strong> <a href="https://automating.hu">https://automating.hu</a></p>
+            <p>Hudácsek Bence EV., 9127 Csikvánd, Hunyadi János utca 12., Hungary</p>
+            <p>Email: <a href="mailto:hello@automating.hu">hello@automating.hu</a></p>
+            <p>Phone: <a href="tel:+36501089523">+36 (50) 108 9523</a></p>
           </div>
-          <h3>Data Protection Officer (DPO)</h3>
-          <p>No Data Protection Officer has been appointed.</p>
+          <p><strong>Area of activity:</strong> design, development and operation of AI-based automation systems (voice assistants, email processing, workflow automation).</p>
+          <p>No data protection officer has been appointed, as the Data Controller's activity does not fall within the mandatory cases under Article 37 of the GDPR.</p>
+          <p>You may access our website without providing any personal data. Personal data means any information relating to a natural person who is identifiable directly or indirectly. Where the Data Controller does collect your personal data, it is collected transparently and handled confidentially.</p>
+          <p>Your personal data is information by which you can be identified, for example: surname, first name, phone number, email address, company name. You provide this data voluntarily, and we always indicate which fields are necessary to achieve the given purpose. If you choose not to provide them, certain functions of the site will not be available to you. The Data Controller takes every measure to keep the personal data it processes accurate and up to date.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s3">
-          <h2>3. Interpretation and Definitions</h2>
-          <ul>
-            <li><strong>Personal data:</strong> Any information relating to an identified or identifiable natural person.</li>
-            <li><strong>Data processing:</strong> Any operation performed on personal data, such as collection, storage, modification, transfer, deletion, etc.</li>
-            <li><strong>Data Controller:</strong> The business named in this policy, which determines the purposes and means of data processing.</li>
-            <li><strong>Data Processor:</strong> A natural or legal person that processes personal data on behalf of the Data Controller.</li>
-            <li><strong>Data Subject:</strong> Any identified or identifiable natural person whose personal data we process.</li>
-            <li><strong>Cookies:</strong> Small data files placed and stored on your device by the web browser.</li>
-            <li><strong>Consent:</strong> The voluntary, specific, informed and unambiguous consent of the data subject to the processing of personal data.</li>
-            <li><strong>Data breach:</strong> A breach of security leading to the accidental or unlawful destruction, loss, alteration, unauthorised disclosure of, or access to, personal data.</li>
-          </ul>
+          <h2>3. The personal data processed</h2>
+          <p>The following personal data is processed, depending on which function of the site you use.</p>
+          <h3>Booking a consultation</h3>
+          <ul><li>Surname, first name</li><li>Email address</li><li>Phone number</li><li>Company name</li><li>Position</li><li>Industry</li><li>Description of the task to be automated</li><li>Role in decision-making</li><li>Other comments</li><li>Time of the booking</li></ul>
+          <h3>Chat demo and email demo</h3>
+          <ul><li>The text of the message you type into the chat window</li><li>The content of the text you paste into the email demo</li><li>The technical identifier of the conversation</li></ul>
+          <p class="note">Please do not paste real client data or other sensitive information into the demos: the text you enter is processed by a language model.</p>
+          <h3>Voice demo</h3>
+          <ul><li>Your voice as captured by the microphone for the duration of the call</li><li>The text transcript of the conversation</li><li>Technical data of the call (duration, identifier)</li></ul>
+          <p class="note">The voice demo only starts if you explicitly start it, and your browser asks separately for permission to use the microphone.</p>
+          <h3>Contact by email</h3>
+          <ul><li>Your email address and name</li><li>The content of the correspondence</li></ul>
+          <h3>Automatically collected system information</h3>
+          <ul><li>IP address</li><li>Browser and operating system type and version</li><li>Screen resolution</li><li>The pages viewed and the time of the visit</li></ul>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s4">
-          <h2>4. Personal Data Collected</h2>
-          <h3>4.1. Data Provided Directly by You</h3>
-          <p>We collect the following data when you actively provide it, for example through a contact form or registration:</p>
-          <ul>
-            <li>Identification data: Full name, username</li>
-            <li>Contact details: E-mail address, phone number, postal address</li>
-            <li>Account data: Username, password, stored in encrypted form</li>
-            <li>Communication data: Correspondence with us, the content of requests and complaints</li>
-          </ul>
-          <h3>4.2. Automatically Collected Data</h3>
-          <p>When you visit our website, we automatically record the following technical data:</p>
-          <ul>
-            <li>IP address and approximate location, up to country/city level</li>
-            <li>Browser type and version, operating system</li>
-            <li>Pages visited, clicks, duration of visit</li>
-            <li>Referring URL</li>
-            <li>Cookie identifiers and session identifiers</li>
-          </ul>
+          <h2>4. Purpose, legal basis and duration of processing</h2>
+          <table class="policy-table">
+          <thead><tr><th>Processing</th><th>Purpose</th><th>Legal basis</th><th>Duration</th></tr></thead>
+          <tbody>
+          <tr><td data-label="Processing">Booking a consultation</td><td data-label="Purpose">Contact, quotation, preparing the meeting</td><td data-label="Legal basis">Your consent and pre-contractual steps (GDPR Art. 6(1)(a) and (b))</td><td data-label="Duration">Until consent is withdrawn, at most 2 years from the last contact</td></tr>
+          <tr><td data-label="Processing">Chat and email demo</td><td data-label="Purpose">Operating the demo, producing the reply</td><td data-label="Legal basis">Consent (Art. 6(1)(a))</td><td data-label="Duration">Until the end of the session; debugging logs for at most 30 days</td></tr>
+          <tr><td data-label="Processing">Voice demo</td><td data-label="Purpose">Operating the demo, conducting the conversation</td><td data-label="Legal basis">Consent (Art. 6(1)(a))</td><td data-label="Duration">Until the end of the call; transcript and technical log for at most 30 days</td></tr>
+          <tr><td data-label="Processing">Contact by email</td><td data-label="Purpose">Answering your enquiry</td><td data-label="Legal basis">Consent and legitimate interest (Art. 6(1)(a) and (f))</td><td data-label="Duration">2 years from closing the matter</td></tr>
+          <tr><td data-label="Processing">Client data under contract</td><td data-label="Purpose">Performance of the contract</td><td data-label="Legal basis">Performance of a contract (Art. 6(1)(b))</td><td data-label="Duration">5 years from termination of the contract</td></tr>
+          <tr><td data-label="Processing">Invoicing data</td><td data-label="Purpose">Compliance with a legal obligation</td><td data-label="Legal basis">Legal obligation (Art. 6(1)(c))</td><td data-label="Duration">8 years under Section 169(2) of the Hungarian Accounting Act</td></tr>
+          <tr><td data-label="Processing">System information</td><td data-label="Purpose">Secure operation of the website</td><td data-label="Legal basis">Legitimate interest (Art. 6(1)(f))</td><td data-label="Duration">At most 30 days</td></tr>
+          </tbody></table>
+          <p>Where consent is given for direct marketing, processing continues until that consent is withdrawn. Consent may be withdrawn at any time without giving reasons; withdrawal does not affect the lawfulness of processing carried out beforehand.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s5">
-          <h2>5. Purposes and Legal Bases of Data Processing</h2>
-          <p>Data processing always has a legal basis under the GDPR.</p>
-          <h3>5.1. Performance of a Contract — Article 6(1)(b) GDPR</h3>
-          <ul>
-            <li>Creating and managing an account and providing access</li>
-            <li>Responding to customer service requests</li>
-          </ul>
-          <h3>5.2. Legitimate Interest — Article 6(1)(f) GDPR</h3>
-          <ul>
-            <li>Maintaining website security and preventing abuse</li>
-            <li>Preparing aggregated statistics and analyses for service development</li>
-            <li>Enforcing and defending legal claims</li>
-          </ul>
-          <h3>5.3. Consent — Article 6(1)(a) GDPR</h3>
-          <ul>
-            <li>Placing non-essential cookies, for example marketing and analytics cookies</li>
-          </ul>
-          <h3>5.4. Compliance with a Legal Obligation — Article 6(1)(c) GDPR</h3>
-          <ul>
-            <li>Fulfilling accounting and tax obligations</li>
-            <li>Complying with requests from authorities</li>
-          </ul>
+          <h2>5. Conditions of data transfer</h2>
+          <p>The Data Controller may transfer the data it processes – to the extent necessary – to persons and companies designated by it and active in the following areas:</p>
+          <ul><li>Data processing</li><li>Legal representation</li><li>Bodies entitled by law to handle legal disputes</li><li>Delivery</li><li>Accounting</li><li>Debt management</li><li>Invoicing</li></ul>
+          <p>Data is not passed to unauthorised third parties, and the Data Controller does not sell it.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s6">
-          <h2>6. Data Retention Periods</h2>
-          <p>Personal data is retained only for as long as necessary to achieve the purpose of processing, or as required by law:</p>
-          <ul>
-            <li>Contact messages: For 1 year from the last contact</li>
-            <li>Newsletter subscription data: Until unsubscribing</li>
-            <li>Web server logs: For a maximum of 90 days, unless required for investigating a security incident</li>
-          </ul>
+          <h2>6. Data processors</h2>
+          <p>Data is processed by the Data Controller. Besides the Data Controller, the following companies take part in processing or storing the data:</p>
+          <div class="proc">
+            <h3>Cloudflare, Inc. — hosting and content delivery</h3>
+            <ul><li>Address: 101 Townsend St, San Francisco, CA 94107, USA</li><li>Website: <a href="https://www.cloudflare.com/">https://www.cloudflare.com/</a></li><li>Email: <a href="mailto:support@cloudflare.com">support@cloudflare.com</a></li><li>Data processed: technical data arising while serving the site, IP address</li></ul>
+          </div>
+          <div class="proc">
+            <h3>Cal.com, Inc. — appointment booking</h3>
+            <ul><li>Website: <a href="https://cal.com/">https://cal.com/</a></li><li>Data processed: the details entered in the booking form and the time of the booking</li></ul>
+          </div>
+          <div class="proc">
+            <h3>Vapi Labs, Inc. — voice demo</h3>
+            <ul><li>Website: <a href="https://vapi.ai/">https://vapi.ai/</a></li><li>Data processed: the voice captured during the demo, its transcript and technical call data</li></ul>
+          </div>
+          <div class="proc">
+            <h3>Google Ireland Ltd. — font delivery</h3>
+            <ul><li>Address: Gordon House, Barrow Street, Dublin 4, Ireland</li><li>Data processed: the IP address transmitted when the fonts are downloaded</li><li>Privacy: <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></li></ul>
+          </div>
+          <p>The replies in the chat, email and voice demos are produced by a large language model. The provider operating the model acts as a processor on behalf of the Data Controller; the text you enter into the demos is transmitted to that provider. Please therefore do not enter real personal data or business secrets into the demos.</p>
+          <p>In special cases a contract may name further processors.</p>
+          <p><strong>Transfer to third countries:</strong> some of the providers listed above may also process data outside the European Economic Area, primarily in the United States. Any such transfer takes place with the safeguards required by Chapter V of the GDPR, such as an adequacy decision of the European Commission or standard contractual clauses.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s7">
-          <h2>7. Data Security</h2>
-          <p>In order to protect your data, we apply technical and organisational measures that comply with industry standards, in particular:</p>
-          <ul>
-            <li>Use of SSL/TLS encryption during data transmission (HTTPS protocol)</li>
-            <li>Passwords are stored using one-way encryption (hashing)</li>
-            <li>Access control: only authorised employees have access to personal data</li>
-            <li>Regular backups and software updates</li>
-            <li>In the event of a data breach, compliance with the GDPR's 72-hour notification obligation to the Hungarian National Authority for Data Protection and Freedom of Information (NAIH)</li>
-          </ul>
+          <h2>7. Your rights and how to exercise them</h2>
+          <p>Throughout the processing you have the following rights:</p>
+          <ul><li><strong>Access:</strong> you may ask whether we process your personal data and, if so, request a copy of it.</li><li><strong>Rectification:</strong> you may ask us to correct inaccurate data and complete incomplete data.</li><li><strong>Erasure ("right to be forgotten"):</strong> you may ask us to delete your data if it is no longer needed or if you withdraw your consent.</li><li><strong>Restriction of processing:</strong> you may ask us to store your data but otherwise not process it.</li><li><strong>Data portability:</strong> you may ask us to provide your data in a structured, machine-readable format to you or to another controller.</li><li><strong>Objection:</strong> you may object to processing based on legitimate interest, and at any time, without giving reasons, to processing for direct marketing.</li><li><strong>Withdrawal of consent:</strong> you may stop processing based on consent at any time.</li></ul>
+          <p>If you do not wish your personal data to be used for commercial offers, you have the right to prohibit this without giving reasons. Your request must be sent to the Data Controller in writing, by email to <a href="mailto:hello@automating.hu">hello@automating.hu</a> or by post to the address given in the Imprint.</p>
+          <p>We answer requests without undue delay, and at the latest within one month of receiving them.</p>
+          <h3>Complaints and remedies</h3>
+          <p>If you believe the processing infringes your rights, you may lodge a complaint with the supervisory authority:</p>
+          <div class="detail-block">
+            <p><strong>Hungarian National Authority for Data Protection and Freedom of Information (NAIH)</strong></p>
+            <p>1055 Budapest, Falk Miksa utca 9-11., Hungary</p>
+            <p>Phone: +36 (1) 391-1400</p>
+            <p>Email: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a></p>
+            <p>Website: <a href="https://naih.hu">naih.hu</a></p>
+          </div>
+          <p>You may also go to court. Such proceedings fall within the competence of the regional court and may, at your choice, be brought before the court of your domicile or residence.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s8">
-          <h2>8. Cookies</h2>
-          <p>Our website uses cookies to improve the user experience and ensure the proper functioning of the website.</p>
-          <h3>8.1. Necessary Cookies</h3>
-          <p>Essential for the basic operation of the website. Legal basis: legitimate interest / performance of a contract. These cookies cannot be disabled.</p>
-          <h3>8.2. Analytics Cookies</h3>
-          <p>Collect anonymous statistical data about the use of the website (e.g. Google Analytics). Legal basis: consent. Your prior consent is required.</p>
-          <h3>8.3. Marketing Cookies</h3>
-          <p>Used to display targeted advertisements (e.g. Facebook Pixel, Google Ads). Legal basis: consent. Your prior consent is required.</p>
-          <h3>8.4. Managing Cookie Settings</h3>
-          <p>You may withdraw your consent to cookies at any time through the cookie management banner or in your browser settings. If necessary cookies are disabled, certain functions of the website may not work properly.</p>
+          <h2>8. Protection of the data of minors and persons with limited capacity</h2>
+          <p>The Data Controller's website and its content are not aimed at minors under the age of 16. We do not process or collect personal data about children under 16 without verifiable parental or guardian consent. Parents or guardians may request the disclosure or deletion of data relating to their child. If the age becomes apparent to the Data Controller during processing, the data may be used solely for the purpose of obtaining parental consent.</p>
+          <p>A statement by a minor lacking capacity or with limited capacity requires the consent of their legal representative, except for parts of the service that occur routinely in everyday life and require no particular consideration.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s9">
-          <h2>9. Data Sharing and Third Parties</h2>
-          <p>We transfer your personal data to third parties only in the following cases:</p>
-          <ul>
-            <li><strong>Data Processors:</strong> Trusted partners such as our hosting provider (Google Cloud). A valid data processing agreement has been concluded with them.</li>
-            <li><strong>Authorities:</strong> With competent authorities on the basis of a legal obligation (e.g. court order).</li>
-            <li><strong>Business transfer:</strong> In the event of a merger, acquisition or sale, data may transfer to the successor organisation. You will be informed in advance.</li>
-            <li><strong>With your consent:</strong> In any other case, only with your prior, explicit consent.</li>
-          </ul>
+          <h2>9. Data security</h2>
+          <p>The Data Controller ensures the security of personal data by appropriate technical and organisational measures. These include in particular: access to the website and back-end systems over encrypted (HTTPS) connections, password and two-factor protection of accounts, limiting permissions to what is necessary, and keeping systems up to date.</p>
+          <p>In the event of a personal data breach, the Data Controller notifies the supervisory authority without undue delay and at the latest within 72 hours, unless the breach is unlikely to result in a risk. Where the breach is likely to result in a high risk to your rights, we will also inform you.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s10">
-          <h2>10. Data Transfers to Third Countries</h2>
-          <p>Some of our service providers may operate servers outside the European Economic Area (EEA). In such cases, we transfer data only if appropriate safeguards are in place, for example an adequacy decision of the European Commission, Standard Contractual Clauses (SCCs), or recognition of the given country's GDPR compliance.</p>
+          <h2>10. Cookies</h2>
+          <p>We may use cookies on our website. These are files that store information in your web browser. Placing cookies that are not strictly necessary requires your consent.</p>
+          <p>We use cookies in accordance with Act C of 2003 on electronic communications, Act CVIII of 2001 on electronic commerce services, and the requirements of the European Union. Websites operating within EU countries must ask users for consent to the use and storage of cookies.</p>
+          <h3>1. What are cookies?</h3>
+          <p>Cookies are small files containing letters and numbers. A cookie is a means of exchanging information between the web server and the user's browser. These data files cannot be executed, contain no spyware or viruses, and cannot access the contents of the user's hard drive.</p>
+          <h3>2. What can cookies be used for?</h3>
+          <p>The information sent by cookies makes browsers easier to recognise, so users receive relevant content. Cookies make browsing more convenient. They also allow site operators to compile anonymous statistics about visitor habits.</p>
+          <h3>3. What kinds of cookies are there?</h3>
+          <ul><li><strong>Session cookies</strong>, which remain on your device until you leave the website.</li><li><strong>Persistent cookies</strong>, which — depending on your browser settings — stay on your device for longer, or until you delete them.</li><li><strong>Third-party cookies</strong>, placed in your browser by a third party where the site you visit uses that third party’s services.</li></ul>
+          <h3>4. Types of cookies</h3>
+          <ul><li><strong>Strictly necessary session cookies:</strong> essential for navigating the site and for its functions to work. Without them parts of the site may not display, or may display incorrectly.</li><li><strong>Analytical or performance cookies:</strong> these help distinguish visitors and collect data on how they behave on the site. They collect no identifying information and store data in aggregated, anonymous form.</li><li><strong>Functional cookies:</strong> these improve the user experience. They detect and store, for example, the chosen language or settings you provided earlier.</li><li><strong>Targeting or advertising cookies:</strong> these allow websites to show advertising matching your interests. They require your explicit consent.</li></ul>
+          <h3>5. What this site actually uses</h3>
+          <p>This website <strong>uses no analytical, statistical or advertising cookies</strong>, and runs no third-party tracking script. Only technical storage necessary for operation takes place in your browser: remembering the chosen language and the session identifier of the demos. This data does not leave your device and cannot identify you.</p>
+          <h3>6. Do cookies contain personal data?</h3>
+          <p>Most cookies contain no personal information and cannot identify users. The stored data serves more convenient browsing and is stored so that unauthorised persons cannot access it.</p>
+          <h3>7. Security considerations</h3>
+          <p>Cookies are not viruses or spyware. As simple text files they cannot be executed and are therefore not programs. However, because the browser and the web server communicate continuously, an attacker — for example on an inadequately encrypted network — could extract the information stored in cookies.</p>
+          <h3>8. Managing and deleting cookies</h3>
+          <p>Cookies can be deleted or blocked in the browser you use. Browsers allow cookies by default; this can be disabled in the browser settings and existing cookies deleted. You can also set your browser to notify you when a cookie is sent to your device. Note that blocking or limiting these files may degrade the browsing experience and cause errors in the operation of the website. The settings are usually found under the browser's "Options" or "Settings" menu.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s11">
-          <h2>11. Your Rights</h2>
-          <h3>11.1. Right of Access — Article 15 GDPR</h3>
-          <p>You have the right to request information on whether we process your personal data, and if so, to receive a copy and related information.</p>
-          <h3>11.2. Right to Rectification — Article 16 GDPR</h3>
-          <p>You may request the immediate correction or completion of inaccurate or incomplete data.</p>
-          <h3>11.3. Right to Erasure ("Right to Be Forgotten") — Article 17 GDPR</h3>
-          <p>If certain conditions are met, you may request the deletion of your data. This right does not apply if processing is necessary for compliance with a legal obligation.</p>
-          <h3>11.4. Right to Restriction of Processing — Article 18 GDPR</h3>
-          <p>You may request restriction of processing, for example if you dispute the accuracy of the data.</p>
-          <h3>11.5. Right to Data Portability — Article 20 GDPR</h3>
-          <p>In the case of automated data processing based on consent or a contract, you have the right to receive your data in a structured, machine-readable format (e.g. JSON or CSV).</p>
-          <h3>11.6. Right to Object — Article 21 GDPR</h3>
-          <p>You may object at any time to processing based on legitimate interest. We will cease processing unless we can demonstrate compelling legitimate grounds.</p>
-          <h3>11.7. Automated Decision-Making — Article 22 GDPR</h3>
-          <p>You have the right not to be subject to a decision based solely on automated processing if it has legal or similarly significant effects.</p>
-          <h3>11.8. Withdrawal of Consent</h3>
-          <p>Where processing is based on consent, you may withdraw it at any time. Withdrawal does not affect the lawfulness of prior processing.</p>
+          <h2>11. Definitions</h2>
+          <ul><li><strong>Processor:</strong> a natural or legal person, public authority, agency or any other body which processes personal data on behalf of the controller.</li><li><strong>Processing:</strong> any operation or set of operations performed on personal data or on sets of personal data, whether or not by automated means, such as collection, recording, organisation, structuring, storage, adaptation, alteration, retrieval, consultation, use, disclosure, transmission, dissemination, alignment, combination, restriction, erasure or destruction.</li><li><strong>Data transfer:</strong> making the personal data processed by the Data Controller accessible to third persons.</li><li><strong>Personal data breach:</strong> a breach of security leading to the accidental or unlawful destruction, loss, alteration, unauthorised disclosure of, or access to, personal data transmitted, stored or otherwise processed.</li><li><strong>GTC:</strong> the <a href="terms.html">General Terms and Conditions</a> published on the website, setting out the Data Controller’s rules for selling services.</li><li><strong>Identifiable natural person:</strong> a natural person who can be identified, directly or indirectly, in particular by reference to an identifier such as a name, an identification number, location data, an online identifier, or to one or more factors specific to their physical, physiological, genetic, mental, economic, cultural or social identity.</li><li><strong>Recipient:</strong> a natural or legal person, public authority, agency or another body to which the personal data are disclosed, whether a third party or not.</li><li><strong>Data subject:</strong> a natural person identified or identifiable on the basis of any information.</li><li><strong>Consent of the data subject:</strong> any freely given, specific, informed and unambiguous indication of the data subject’s wishes by which they signify agreement to the processing of personal data relating to them.</li><li><strong>Users:</strong> visitors to the websites operated by the Data Controller at <a href="https://automating.hu">https://automating.hu</a> and at the other addresses specified there.</li><li><strong>Third party:</strong> a natural or legal person, public authority, agency or body other than the data subject, controller, processor and persons who, under the direct authority of the controller or processor, are authorised to process personal data.</li><li><strong>Authority:</strong> Hungarian National Authority for Data Protection and Freedom of Information (seat: 1055 Budapest, Falk Miksa utca 9-11., phone: +36 (1) 391-1400, email: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a>, website: <a href="https://naih.hu">naih.hu</a>).</li><li><strong>Partner/Client:</strong> a natural person who enters into a contract with the Data Controller for the provision of services.</li><li><strong>Personal data:</strong> any information relating to the data subject.</li><li><strong>Service:</strong> the services detailed in the GTC and provided by the Data Controller to its Clients, Partners and Users on the website or otherwise.</li><li><strong>Website:</strong> the websites operated by the Data Controller at <a href="https://automating.hu">https://automating.hu</a> and at the other addresses specified there.</li></ul>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="s12">
-          <h2>12. How to Exercise Your Rights</h2>
-          <p>You may submit your request by e-mail: <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
-          <p>We respond within 1 month pursuant to Article 12 of the GDPR. The deadline may be extended by up to 2 months for complex requests. As a general rule, fulfilling requests is free of charge.</p>
+          <h2>12. Amendment of this Notice</h2>
+          <p>The Data Controller reserves the right to amend this Notice unilaterally, in particular where legislation or the service changes. The amended Notice takes effect upon publication on the website. Please review this page from time to time.</p>
+          <p>This Notice took effect in August 2026.</p>
         </div>
         <hr class="policy-divider">
 
-        <div class="policy-section" id="s13">
-          <h2>13. Complaints and Legal Remedies</h2>
-          <p>If you believe our data processing violates applicable data protection laws, you have the right to lodge a complaint with the supervisory authority:</p>
-          <div class="detail-block">
-            <p><strong>Hungarian National Authority for Data Protection and Freedom of Information (NAIH)</strong></p>
-            <p>Address: 1055 Budapest, Falk Miksa Street 9–11.</p>
-            <p>Postal address: 1363 Budapest, P.O. Box 9.</p>
-            <p>Phone: +36 (1) 391-1400</p>
-            <p>E-mail: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a></p>
-            <p>Website: <a href="https://www.naih.hu" target="_blank">www.naih.hu</a></p>
-          </div>
-          <p style="margin-top:20px;">You also have the right to seek judicial remedy against the Data Controller or Data Processor if you believe that the processing of your personal data violates the provisions of the GDPR.</p>
         </div>
-        <hr class="policy-divider">
-
-        <div class="policy-section" id="s14">
-          <h2>14. Protection of Minors' Data</h2>
-          <p>Our website is not directed at persons under the age of 16, and we do not knowingly collect personal data from such persons. If we become aware that we have collected data from a child under 16 without parental or legal representative consent, we will delete it without delay.</p>
-        </div>
-        <hr class="policy-divider">
-
-        <div class="policy-section" id="s15">
-          <h2>15. Links to Other Websites</h2>
-          <p>Our website may contain links to other websites. By clicking on these links, you leave our website and we do not accept responsibility for the data processing practices of those websites. We recommend that you also review the privacy policies of any linked websites.</p>
-        </div>
-        <hr class="policy-divider">
-
-        <div class="policy-section" id="s16">
-          <h2>16. Amendment of the Policy</h2>
-          <p>We reserve the right to amend this Privacy Policy at any time. We will inform you of changes through the updated policy published on the website and/or by prior e-mail notification. The date on which the amendment enters into force will be indicated at the top of the policy. Please review the policy regularly.</p>
-        </div>
-        <hr class="policy-divider">
-
-        <div class="policy-section" id="s17">
-          <h2>17. Contact</h2>
-          <p>If you have any questions, requests or comments regarding this Privacy Policy, please contact us:</p>
-          <div class="detail-block">
-            <p><strong>E-mail:</strong> <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
-            <p><strong>Postal address:</strong> HUDÁCSEK BENCE EV., 9127 CSIKVÁND, HUNYADI JÁNOS STREET 12.</p>
-            <p><strong>Website:</strong> <a href="https://automating.hu">https://automating.hu</a></p>
-          </div>
-          <p style="margin-top:20px; font-size:14px; color:var(--g400);">This Privacy Policy has been prepared in accordance with the GDPR (EU 2016/679) and the provisions of Act CXII of 2011 (the Info Act).</p>
-        </div>
-
-      </div><!-- /policy-content -->
-    </div><!-- /policy-body -->
-    </div><!-- /lang-block EN -->
+      </div>
+    </div>
+    <!-- /lang-block EN -->
 
     <!-- ════════════ MAGYAR ════════════ -->
     <div class="lang-block active" data-lang="hu">
-    <div class="policy-header">
-      <h1>Adatvédelmi irányelvek.</h1>
-      <p class="meta">Utolsó frissítés: 2026. június &nbsp;·&nbsp; automating.hu</p>
-    </div>
+      <div class="policy-header">
+        <h1 class="policy-title">Adatvédelmi nyilatkozat.</h1>
+        <p class="meta">Utolsó frissítés: 2026. augusztus &nbsp;·&nbsp; automating.hu</p>
+      </div>
 
-    <div class="policy-body">
+      <div class="policy-body">
 
-      <aside class="policy-toc">
-        <h3>Tartalom</h3>
-        <ul>
+        <aside class="policy-toc">
+          <h3>Tartalom</h3>
+          <ul>
           <li><a href="#hu-s1">1. Bevezetés</a></li>
-          <li><a href="#hu-s2">2. Az adatkezelő</a></li>
-          <li><a href="#hu-s3">3. Fogalmak</a></li>
-          <li><a href="#hu-s4">4. Kezelt adatok</a></li>
-          <li><a href="#hu-s5">5. Jogalapok</a></li>
-          <li><a href="#hu-s6">6. Megőrzési idők</a></li>
-          <li><a href="#hu-s7">7. Adatbiztonság</a></li>
-          <li><a href="#hu-s8">8. Sütik</a></li>
-          <li><a href="#hu-s9">9. Adattovábbítás</a></li>
-          <li><a href="#hu-s10">10. Harmadik országok</a></li>
-          <li><a href="#hu-s11">11. Az Ön jogai</a></li>
-          <li><a href="#hu-s12">12. Joggyakorlás</a></li>
-          <li><a href="#hu-s13">13. Panasz</a></li>
-          <li><a href="#hu-s14">14. Kiskorúak</a></li>
-          <li><a href="#hu-s15">15. Külső hivatkozások</a></li>
-          <li><a href="#hu-s16">16. Módosítás</a></li>
-          <li><a href="#hu-s17">17. Kapcsolat</a></li>
-        </ul>
-      </aside>
+          <li><a href="#hu-s2">2. Az Adatkezelő felelőssége és elérhetősége</a></li>
+          <li><a href="#hu-s3">3. A kezelt személyes adatok</a></li>
+          <li><a href="#hu-s4">4. Az adatkezelés célja, jogalapja és időtartama</a></li>
+          <li><a href="#hu-s5">5. Adattovábbítás feltételei</a></li>
+          <li><a href="#hu-s6">6. Adatfeldolgozók</a></li>
+          <li><a href="#hu-s7">7. Az Ön jogai és jogérvényesítés</a></li>
+          <li><a href="#hu-s8">8. Kiskorúak és korlátozottan cselekvőképes személyek adatainak védelme</a></li>
+          <li><a href="#hu-s9">9. Adatbiztonság</a></li>
+          <li><a href="#hu-s10">10. Sütik (cookie-k) kezelése</a></li>
+          <li><a href="#hu-s11">11. Fogalmak</a></li>
+          <li><a href="#hu-s12">12. A Tájékoztató módosítása</a></li>
+          </ul>
+        </aside>
 
-      <div class="policy-content">
+        <div class="policy-content">
 
         <div class="policy-section" id="hu-s1">
           <h2>1. Bevezetés</h2>
-          <p>Az Automating.hu (a továbbiakban: „Adatkezelő", „mi") elkötelezett az Ön személyes adatainak védelme mellett. A jelen Adatvédelmi irányelvek tájékoztatást nyújtanak arról, hogy milyen személyes adatokat gyűjtünk, amikor Ön meglátogatja és használja a <a href="https://automating.hu">https://automating.hu</a> weboldalt, hogyan használjuk, tároljuk és védjük ezeket az adatokat, valamint hogy Önnek milyen jogai vannak az adataival kapcsolatban.</p>
-          <p>Az adatkezelés az Európai Parlament és a Tanács (EU) 2016/679 rendelete (a továbbiakban: „GDPR"), az információs önrendelkezési jogról és az információszabadságról szóló 2011. évi CXII. törvény (a továbbiakban: „Infotv."), valamint az egyéb alkalmazandó magyar jogszabályok rendelkezéseivel összhangban történik.</p>
+          <p>Az Ön által megadott személyes adatokat az alábbi vállalkozás kezeli:</p>
+          <div class="detail-block">
+            <p><strong>Hudácsek Bence EV.</strong></p>
+            <p>9127 Csikvánd, Hunyadi János utca 12.</p>
+            <p>Adószám: 91949811-1-28</p>
+            <p>Nyilvántartási szám: 62151177</p>
+          </div>
+          <p>a továbbiakban: <strong>Adatkezelő</strong>.</p>
+          <p>Kérjük, figyelmesen olvassa el jelen adatkezelési tájékoztatónkat (a továbbiakban: Tájékoztató), melyben személyes adatai kezelését érintő gyakorlatunkat ismertetjük az Általános Adatvédelmi Rendelet (a GDPR, azaz az Európai Parlament és a Tanács 2016/679. rendelete) szerint. Ez a Tájékoztató az Adatkezelő szolgáltatásait igénybe vevő személyekre (Ön) vonatkozik. Bemutatja, hogy az Adatkezelő hogyan gyűjti, használja fel és osztja meg bizonyos esetekben harmadik felekkel az Ön személyes adatait, továbbá információval szolgál az Ön adatkezeléssel összefüggő „érintetti” jogairól.</p>
+          <p>Az Adatkezelő (lásd: <a href="impresszum.html">Impresszum</a>) elkötelezett az e honlapot felkereső egyének személyes adatainak és magánéletének védelme iránt. Jelen Tájékoztató mindenekelőtt az ügyfelek és az érdeklődők személyes adatainak interneten keresztül történő bizalmas kezeléséről és védelméről szól, mindazonáltal ide tartoznak az oldal látogatói is. Az adatok illetéktelen személyek részére nem kerülnek átadásra, és kizárólag az e Tájékoztatóban meghatározott formában kerülnek felhasználásra.</p>
+          <p>A szerződésekben egyedi esetekben az adatkezelés célja módosulhat, mely az adott szerződésben rögzített feltételekkel történik.</p>
+          <p>A Tájékoztató fontos információt nyújt Önnek személyes adatai védelméről és az ehhez fűződő jogairól. Ha Ön nem fogadja el ezeket a feltételeket, jogában áll a honlap használatát felfüggeszteni és személyes adat megadása nélkül a böngészést befejezni.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s2">
-          <h2>2. Az adatkezelő adatai</h2>
+          <h2>2. Az Adatkezelő felelőssége és elérhetősége</h2>
+          <p>A jelen Tájékoztatóban ismertetett adatkezelések tekintetében Hudácsek Bence EV. az adatkezelő.</p>
+          <p>Adatvédelmi eljárásainkat érintő észrevétel, kérdés vagy panasz esetén az alábbi elérhetőségeken vagyunk elérhetőek:</p>
           <div class="detail-block">
-            <p><strong>Név:</strong> HUDÁCSEK BENCE EV.</p>
-            <p><strong>Székhely:</strong> 9127 Csikvánd, Hunyadi János utca 12.</p>
-            <p><strong>Nyilvántartási szám:</strong> 62151177</p>
-            <p><strong>Adószám:</strong> 91949811-1-28</p>
-            <p><strong>Képviseli:</strong> Hudácsek Bence</p>
-            <p><strong>E-mail:</strong> <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
-            <p><strong>Weboldal:</strong> <a href="https://automating.hu">https://automating.hu</a></p>
+            <p>Hudácsek Bence EV., 9127 Csikvánd, Hunyadi János utca 12.</p>
+            <p>E-mail: <a href="mailto:hello@automating.hu">hello@automating.hu</a></p>
+            <p>Telefon: <a href="tel:+36501089523">+36 (50) 108 9523</a></p>
           </div>
-          <h3>Adatvédelmi tisztviselő (DPO)</h3>
-          <p>Adatvédelmi tisztviselő kijelölésére nem került sor.</p>
+          <p><strong>Felelősségi kör:</strong> mesterséges intelligenciára épülő automatizálási rendszerek tervezése, fejlesztése és üzemeltetése (hangalapú asszisztensek, e-mail-feldolgozás, munkafolyamat-automatizálás).</p>
+          <p>Adatvédelmi tisztviselő kijelölésére nem került sor, mivel az Adatkezelő tevékenysége nem esik a GDPR 37. cikke szerinti kötelező esetek körébe.</p>
+          <p>Választásának megfelelően Ön személyes adatai megadása nélkül is jogosult hozzáférni weboldalunkhoz. Személyes adat minden olyan információ, amely közvetett vagy közvetlen módon azonosítható természetes személyre vonatkozik. Amennyiben az Adatkezelő az Ön személyes adatait gyűjti, az adatgyűjtés átlátható és bizalmas adatkezeléssel történik.</p>
+          <p>Az Ön személyes adatai olyan információk, amelyek segítségével az Ön személye beazonosítható, például: vezetéknév, utónév, telefonszám, e-mail-cím, cégnév. Ezeket az adatokat Ön önkéntesen adja meg, és minden esetben megjelöljük a cél eléréséhez szükségszerűen megadandó adatokat. Ha nem kívánja megadni ezeket az adatokat, akkor nem férhet hozzá a honlap egyes funkcióihoz. Az Adatkezelő minden intézkedést megtesz annak érdekében, hogy az általa kezelt személyes adatok pontosak és naprakészek legyenek.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s3">
-          <h2>3. Értelmező rendelkezések</h2>
-          <ul>
-            <li><strong>Személyes adat:</strong> azonosított vagy azonosítható természetes személyre vonatkozó bármely információ.</li>
-            <li><strong>Adatkezelés:</strong> a személyes adatokon végzett bármely művelet, például gyűjtés, tárolás, módosítás, továbbítás, törlés stb.</li>
-            <li><strong>Adatkezelő:</strong> a jelen irányelvekben megnevezett vállalkozás, amely az adatkezelés céljait és eszközeit meghatározza.</li>
-            <li><strong>Adatfeldolgozó:</strong> az a természetes vagy jogi személy, amely az Adatkezelő nevében személyes adatokat kezel.</li>
-            <li><strong>Érintett:</strong> bármely azonosított vagy azonosítható természetes személy, akinek személyes adatait kezeljük.</li>
-            <li><strong>Sütik (cookie-k):</strong> a böngésző által az Ön eszközén elhelyezett és tárolt kis adatfájlok.</li>
-            <li><strong>Hozzájárulás:</strong> az érintett önkéntes, konkrét, tájékoztatáson alapuló és egyértelmű hozzájárulása a személyes adatok kezeléséhez.</li>
-            <li><strong>Adatvédelmi incidens:</strong> a biztonság olyan sérülése, amely a személyes adatok véletlen vagy jogellenes megsemmisítését, elvesztését, megváltoztatását, jogosulatlan közlését vagy az azokhoz való jogosulatlan hozzáférést eredményezi.</li>
-          </ul>
+          <h2>3. A kezelt személyes adatok</h2>
+          <p>Az alábbi személyes adatok kezelése történik, aszerint hogy Ön a honlap melyik funkcióját használja.</p>
+          <h3>Konzultáció foglalása</h3>
+          <ul><li>Vezetéknév, keresztnév</li><li>E-mail-cím</li><li>Telefonszám</li><li>Cégnév</li><li>Pozíció</li><li>Iparág</li><li>Az automatizálni kívánt feladat leírása</li><li>Döntéshozatali szerep</li><li>Egyéb megjegyzés</li><li>A foglalás időpontja</li></ul>
+          <h3>Chat-demó és e-mail-demó</h3>
+          <ul><li>Az Ön által a chat-ablakba írt üzenet szövege</li><li>Az e-mail-demóba beillesztett szöveg tartalma</li><li>A beszélgetés technikai azonosítója</li></ul>
+          <p class="note">Kérjük, ne illesszen a demókba valós ügyfél-adatot vagy más érzékeny információt: a beírt szöveget nyelvi modell dolgozza fel.</p>
+          <h3>Hang-demó</h3>
+          <ul><li>A mikrofonon keresztül rögzített hangja a hívás időtartama alatt</li><li>A beszélgetés szöveges átirata</li><li>A hívás technikai adatai (időtartam, azonosító)</li></ul>
+          <p class="note">A hang-demó csak akkor indul el, ha Ön kifejezetten elindítja, és a böngésző külön engedélyt kér a mikrofon használatához.</p>
+          <h3>Kapcsolatfelvétel e-mailben</h3>
+          <ul><li>Az Ön e-mail-címe és neve</li><li>A levelezés tartalma</li></ul>
+          <h3>Automatikusan gyűjtött rendszerinformációk</h3>
+          <ul><li>IP-cím</li><li>Böngésző és operációs rendszer típusa, verziója</li><li>Képernyőfelbontás</li><li>A megtekintett oldalak és a látogatás időpontja</li></ul>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s4">
-          <h2>4. A kezelt személyes adatok köre</h2>
-          <h3>4.1. Az Ön által közvetlenül megadott adatok</h3>
-          <p>Az alábbi adatokat akkor gyűjtjük, amikor Ön azokat aktívan megadja, például kapcsolatfelvételi űrlapon vagy regisztráció során:</p>
-          <ul>
-            <li>Azonosító adatok: teljes név, felhasználónév</li>
-            <li>Kapcsolattartási adatok: e-mail-cím, telefonszám, postacím</li>
-            <li>Fiókadatok: felhasználónév, jelszó — titkosított formában tárolva</li>
-            <li>Kommunikációs adatok: a velünk folytatott levelezés, a megkeresések és panaszok tartalma</li>
-          </ul>
-          <h3>4.2. Automatikusan gyűjtött adatok</h3>
-          <p>A weboldal látogatásakor automatikusan rögzítjük az alábbi technikai adatokat:</p>
-          <ul>
-            <li>IP-cím és hozzávetőleges földrajzi hely, legfeljebb ország/város szintjén</li>
-            <li>Böngésző típusa és verziója, operációs rendszer</li>
-            <li>Meglátogatott oldalak, kattintások, a látogatás időtartama</li>
-            <li>Hivatkozó URL</li>
-            <li>Süti-azonosítók és munkamenet-azonosítók</li>
-          </ul>
+          <h2>4. Az adatkezelés célja, jogalapja és időtartama</h2>
+          <table class="policy-table">
+          <thead><tr><th>Adatkezelés</th><th>Cél</th><th>Jogalap</th><th>Időtartam</th></tr></thead>
+          <tbody>
+          <tr><td data-label="Adatkezelés">Konzultáció foglalása</td><td data-label="Cél">Kapcsolatfelvétel, ajánlatadás, a megbeszélés előkészítése</td><td data-label="Jogalap">Az Ön hozzájárulása, illetve szerződéskötést megelőző lépések (GDPR 6. cikk (1) a) és b))</td><td data-label="Időtartam">A hozzájárulás visszavonásáig, de legfeljebb az utolsó kapcsolatfelvételtől számított 2 évig</td></tr>
+          <tr><td data-label="Adatkezelés">Chat- és e-mail-demó</td><td data-label="Cél">A demó működtetése, a válasz előállítása</td><td data-label="Jogalap">Hozzájárulás (6. cikk (1) a))</td><td data-label="Időtartam">A munkamenet végéig; a hibakereséshez szükséges naplók legfeljebb 30 napig</td></tr>
+          <tr><td data-label="Adatkezelés">Hang-demó</td><td data-label="Cél">A demó működtetése, a beszélgetés lebonyolítása</td><td data-label="Jogalap">Hozzájárulás (6. cikk (1) a))</td><td data-label="Időtartam">A hívás végéig; az átirat és a technikai napló legfeljebb 30 napig</td></tr>
+          <tr><td data-label="Adatkezelés">Kapcsolatfelvétel e-mailben</td><td data-label="Cél">A megkeresés megválaszolása</td><td data-label="Jogalap">Hozzájárulás, illetve jogos érdek (6. cikk (1) a) és f))</td><td data-label="Időtartam">Az ügy lezárásától számított 2 évig</td></tr>
+          <tr><td data-label="Adatkezelés">Szerződéses ügyfelek adatai</td><td data-label="Cél">A szerződés teljesítése</td><td data-label="Jogalap">Szerződés teljesítése (6. cikk (1) b))</td><td data-label="Időtartam">A szerződés megszűnésétől számított 5 évig (Ptk. 6:22. §)</td></tr>
+          <tr><td data-label="Adatkezelés">Számlázási adatok</td><td data-label="Cél">Jogszabályi kötelezettség teljesítése</td><td data-label="Jogalap">Jogi kötelezettség (6. cikk (1) c))</td><td data-label="Időtartam">8 év, a Számv. tv. 169. § (2) bekezdése alapján</td></tr>
+          <tr><td data-label="Adatkezelés">Rendszerinformációk</td><td data-label="Cél">A honlap biztonságos üzemeltetése</td><td data-label="Jogalap">Jogos érdek (6. cikk (1) f))</td><td data-label="Időtartam">Legfeljebb 30 nap</td></tr>
+          </tbody></table>
+          <p>Direkt marketing célú hozzájárulás esetén az adatkezelés a hozzájárulás visszavonásáig tart. A hozzájárulás bármikor, indokolás nélkül visszavonható; a visszavonás nem érinti a visszavonás előtti adatkezelés jogszerűségét.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s5">
-          <h2>5. Az adatkezelés céljai és jogalapjai</h2>
-          <p>Az adatkezelés minden esetben a GDPR szerinti jogalapon nyugszik.</p>
-          <h3>5.1. Szerződés teljesítése — GDPR 6. cikk (1) bekezdés b) pont</h3>
-          <ul>
-            <li>Fiók létrehozása és kezelése, hozzáférés biztosítása</li>
-            <li>Ügyfélszolgálati megkeresések megválaszolása</li>
-          </ul>
-          <h3>5.2. Jogos érdek — GDPR 6. cikk (1) bekezdés f) pont</h3>
-          <ul>
-            <li>A weboldal biztonságának fenntartása és a visszaélések megelőzése</li>
-            <li>Összesített statisztikák és elemzések készítése a szolgáltatás fejlesztése érdekében</li>
-            <li>Jogi igények érvényesítése és védelme</li>
-          </ul>
-          <h3>5.3. Hozzájárulás — GDPR 6. cikk (1) bekezdés a) pont</h3>
-          <ul>
-            <li>Nem feltétlenül szükséges sütik elhelyezése, például marketing- és analitikai sütik</li>
-          </ul>
-          <h3>5.4. Jogi kötelezettség teljesítése — GDPR 6. cikk (1) bekezdés c) pont</h3>
-          <ul>
-            <li>Számviteli és adózási kötelezettségek teljesítése</li>
-            <li>Hatósági megkeresések teljesítése</li>
-          </ul>
+          <h2>5. Adattovábbítás feltételei</h2>
+          <p>Az Adatkezelő az általa kezelt adatokat – a szükséges mértékben – továbbíthatja a következő területeken tevékenykedő, általa kijelölt személyek, valamint társaságok részére:</p>
+          <ul><li>Adatfeldolgozás</li><li>Jogi képviselet</li><li>Jogviták kezelésére jogszabály alapján jogosult szervek</li><li>Kézbesítés</li><li>Könyvelés</li><li>Követeléskezelés</li><li>Számlázás</li></ul>
+          <p>Az adatok illetéktelen harmadik személyek részére nem kerülnek átadásra, és az Adatkezelő azokat nem értékesíti.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s6">
-          <h2>6. Az adatok megőrzési ideje</h2>
-          <p>A személyes adatokat csak az adatkezelési cél eléréséhez szükséges ideig, illetve a jogszabályban előírt ideig őrizzük meg:</p>
-          <ul>
-            <li>Kapcsolatfelvételi üzenetek: az utolsó kapcsolatfelvételtől számított 1 évig</li>
-            <li>Hírlevél-feliratkozási adatok: a leiratkozásig</li>
-            <li>Webszerver-naplók: legfeljebb 90 napig, kivéve ha biztonsági incidens kivizsgálásához szükségesek</li>
-          </ul>
+          <h2>6. Adatfeldolgozók</h2>
+          <p>Az adatok kezelését az Adatkezelő végzi. Az Adatkezelőn kívül az alábbi cégek vesznek részt az adatok kezelésében, illetve tárolásában:</p>
+          <div class="proc">
+            <h3>Cloudflare, Inc. — tárhely és tartalomkézbesítés</h3>
+            <ul><li>Cím: 101 Townsend St, San Francisco, CA 94107, USA</li><li>Weboldal: <a href="https://www.cloudflare.com/">https://www.cloudflare.com/</a></li><li>E-mail: <a href="mailto:support@cloudflare.com">support@cloudflare.com</a></li><li>Kezelt adatok: a honlap kiszolgálása során keletkező technikai adatok, IP-cím</li></ul>
+          </div>
+          <div class="proc">
+            <h3>Cal.com, Inc. — időpontfoglalás</h3>
+            <ul><li>Weboldal: <a href="https://cal.com/">https://cal.com/</a></li><li>Kezelt adatok: a konzultációfoglaló űrlapon megadott adatok és a foglalás időpontja</li></ul>
+          </div>
+          <div class="proc">
+            <h3>Vapi Labs, Inc. — hang-demó</h3>
+            <ul><li>Weboldal: <a href="https://vapi.ai/">https://vapi.ai/</a></li><li>Kezelt adatok: a hang-demó során rögzített hang, annak átirata és a hívás technikai adatai</li></ul>
+          </div>
+          <div class="proc">
+            <h3>Google Ireland Ltd. — betűtípusok kiszolgálása</h3>
+            <ul><li>Cím: Gordon House, Barrow Street, Dublin 4, Írország</li><li>Kezelt adatok: a betűtípusok letöltésekor továbbított IP-cím</li><li>Adatvédelem: <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></li></ul>
+          </div>
+          <p>A chat-, az e-mail- és a hang-demó válaszait nagy nyelvi modell állítja elő. A modellt üzemeltető szolgáltató az Adatkezelő nevében adatfeldolgozóként jár el; a demókba beírt szöveg ehhez a szolgáltatóhoz továbbításra kerül. Ezért kérjük, hogy a demókba ne írjon be valós személyes vagy üzleti titkot képező adatot.</p>
+          <p>Speciális esetekben a szerződés további adatfeldolgozó személyeket vagy cégeket tartalmazhat.</p>
+          <p><strong>Harmadik országba történő továbbítás:</strong> a fent megjelölt egyes szolgáltatók az Európai Gazdasági Térségen kívül (elsősorban az Amerikai Egyesült Államokban) is kezelhetnek adatokat. Az ilyen továbbítás a GDPR V. fejezete szerinti garanciák – így az Európai Bizottság megfelelőségi határozata vagy általános szerződési feltételek – mellett történik.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s7">
-          <h2>7. Adatbiztonság</h2>
-          <p>Adatai védelme érdekében az iparági szabványoknak megfelelő technikai és szervezési intézkedéseket alkalmazunk, különösen:</p>
-          <ul>
-            <li>SSL/TLS titkosítás használata az adattovábbítás során (HTTPS protokoll)</li>
-            <li>A jelszavakat egyirányú titkosítással (hash) tároljuk</li>
-            <li>Hozzáférés-szabályozás: a személyes adatokhoz csak az arra jogosultak férhetnek hozzá</li>
-            <li>Rendszeres biztonsági mentések és szoftverfrissítések</li>
-            <li>Adatvédelmi incidens esetén a GDPR szerinti 72 órás bejelentési kötelezettség teljesítése a Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH) felé</li>
-          </ul>
+          <h2>7. Az Ön jogai és jogérvényesítés</h2>
+          <p>Az adatkezelés teljes időtartama alatt Önt megilletik az alábbi jogok:</p>
+          <ul><li><strong>Hozzáférés:</strong> tájékoztatást kérhet arról, hogy kezeljük-e a személyes adatait, és ha igen, másolatot kérhet azokról.</li><li><strong>Helyesbítés:</strong> kérheti a pontatlan adatok javítását, a hiányos adatok kiegészítését.</li><li><strong>Törlés („elfeledtetéshez való jog”):</strong> kérheti adatai törlését, ha azok kezelésére már nincs szükség, vagy ha visszavonja a hozzájárulását.</li><li><strong>Az adatkezelés korlátozása:</strong> kérheti, hogy adatait csak tároljuk, de egyéb módon ne kezeljük.</li><li><strong>Adathordozhatóság:</strong> kérheti, hogy adatait tagolt, géppel olvasható formátumban adjuk ki Önnek vagy egy másik adatkezelőnek.</li><li><strong>Tiltakozás:</strong> tiltakozhat a jogos érdeken alapuló adatkezelés ellen, valamint bármikor, indokolás nélkül a közvetlen üzletszerzés célú adatkezelés ellen.</li><li><strong>A hozzájárulás visszavonása:</strong> a hozzájáruláson alapuló adatkezelést bármikor leállíthatja.</li></ul>
+          <p>Amennyiben nem szeretné személyes adatai kereskedelmi ajánlatok közlésére történő felhasználását, joga van mindezt indoklás nélkül megtiltani. Kérelmét írásban szükséges megküldenie az Adatkezelő részére, e-mailben a <a href="mailto:hello@automating.hu">hello@automating.hu</a> címre, vagy postai levélben az Impresszumban megjelölt címre.</p>
+          <p>Kérelmére indokolatlan késedelem nélkül, de legkésőbb a kérelem beérkezésétől számított egy hónapon belül válaszolunk.</p>
+          <h3>Panasz és jogorvoslat</h3>
+          <p>Ha úgy véli, hogy az adatkezelés sérti a jogait, panasszal fordulhat a felügyeleti hatósághoz:</p>
+          <div class="detail-block">
+            <p><strong>Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</strong></p>
+            <p>1055 Budapest, Falk Miksa utca 9-11.</p>
+            <p>Telefon: +36 (1) 391-1400</p>
+            <p>E-mail: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a></p>
+            <p>Weboldal: <a href="https://naih.hu">naih.hu</a></p>
+          </div>
+          <p>Jogainak megsértése esetén bírósághoz is fordulhat. A per elbírálása a törvényszék hatáskörébe tartozik, és az Ön választása szerint a lakóhelye vagy tartózkodási helye szerinti törvényszék előtt is megindítható.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s8">
-          <h2>8. Sütik (cookie-k)</h2>
-          <p>Weboldalunk sütiket használ a felhasználói élmény javítása és a weboldal megfelelő működésének biztosítása érdekében.</p>
-          <h3>8.1. Szükséges sütik</h3>
-          <p>A weboldal alapvető működéséhez elengedhetetlenek. Jogalap: jogos érdek / szerződés teljesítése. Ezek a sütik nem kapcsolhatók ki.</p>
-          <h3>8.2. Analitikai sütik</h3>
-          <p>Névtelen statisztikai adatokat gyűjtenek a weboldal használatáról (pl. Google Analytics). Jogalap: hozzájárulás. Előzetes hozzájárulása szükséges.</p>
-          <h3>8.3. Marketingsütik</h3>
-          <p>Célzott hirdetések megjelenítésére szolgálnak (pl. Facebook Pixel, Google Ads). Jogalap: hozzájárulás. Előzetes hozzájárulása szükséges.</p>
-          <h3>8.4. A sütibeállítások kezelése</h3>
-          <p>A sütikhez adott hozzájárulását bármikor visszavonhatja a sütikezelő sávon keresztül vagy a böngészője beállításaiban. A szükséges sütik letiltása esetén a weboldal egyes funkciói nem működnek megfelelően.</p>
+          <h2>8. Kiskorúak és korlátozottan cselekvőképes személyek adatainak védelme</h2>
+          <p>Az Adatkezelő weboldala és megjelenéseinek tartalma nem 16 év alatti kiskorúak részére szól. Nem kezelünk és nem gyűjtünk 16 év alatti gyermekekről személyes adatokat igazolható szülői vagy gondviselői hozzájárulás nélkül. A szülők vagy gondviselők kérhetik a gyermekre vonatkozó adatok kiadását vagy törlését. Ha az Adatkezelő számára az adatkezelés folyamán válik nyilvánvalóvá az életkor, abban az esetben az adatok kizárólag a szülői hozzájárulás beszerzése céljából használhatók fel.</p>
+          <p>Cselekvőképtelen és korlátozottan cselekvőképes kiskorú személy nyilatkozatához a törvényes képviselő hozzájárulása szükséges, kivéve a mindennapi életben tömegesen előforduló, különösebb megfontolást nem igénylő szolgáltatásrészeket.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s9">
-          <h2>9. Adattovábbítás és harmadik felek</h2>
-          <p>Személyes adatait kizárólag az alábbi esetekben továbbítjuk harmadik fél részére:</p>
-          <ul>
-            <li><strong>Adatfeldolgozók:</strong> megbízható partnereink, például tárhelyszolgáltatónk (Google Cloud). Velük érvényes adatfeldolgozási megállapodást kötöttünk.</li>
-            <li><strong>Hatóságok:</strong> az illetékes hatóságok részére, jogi kötelezettség alapján (pl. bírósági végzés).</li>
-            <li><strong>Üzletátruházás:</strong> egyesülés, felvásárlás vagy értékesítés esetén az adatok a jogutód szervezethez kerülhetnek. Erről előzetesen tájékoztatjuk.</li>
-            <li><strong>Az Ön hozzájárulásával:</strong> minden egyéb esetben kizárólag az Ön előzetes, kifejezett hozzájárulásával.</li>
-          </ul>
+          <h2>9. Adatbiztonság</h2>
+          <p>Az Adatkezelő megfelelő technikai és szervezési intézkedésekkel gondoskodik a személyes adatok biztonságáról. Ezek különösen: a honlap és a háttérrendszerek titkosított (HTTPS) kapcsolaton keresztüli elérése, a hozzáférések jelszavas és kétlépcsős védelme, a jogosultságok szükséges mértékre korlátozása, valamint a rendszerek rendszeres frissítése.</p>
+          <p>Adatvédelmi incidens esetén az Adatkezelő azt indokolatlan késedelem nélkül, de legkésőbb 72 órán belül bejelenti a felügyeleti hatóságnak, kivéve, ha az incidens valószínűsíthetően nem jár kockázattal. Ha az incidens valószínűsíthetően magas kockázattal jár az Ön jogaira nézve, Önt is tájékoztatjuk.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s10">
-          <h2>10. Adattovábbítás harmadik országokba</h2>
-          <p>Egyes szolgáltatóink az Európai Gazdasági Térségen (EGT) kívül is üzemeltethetnek szervereket. Ilyen esetben az adattovábbításra kizárólag megfelelő garanciák megléte esetén kerül sor, például az Európai Bizottság megfelelőségi határozata, általános szerződési feltételek (SCC-k), vagy az adott ország GDPR-megfelelőségének elismerése alapján.</p>
+          <h2>10. Sütik (cookie-k) kezelése</h2>
+          <p>Weboldalunkon „cookie”-kat (továbbiakban „süti”) alkalmazhatunk. Ezek olyan fájlok, melyek információt tárolnak az Ön webes böngészőjében. A nem feltétlenül szükséges sütik elhelyezéséhez az Ön hozzájárulása szükséges.</p>
+          <p>A sütiket az elektronikus hírközlésről szóló 2003. évi C. törvény, az elektronikus kereskedelmi szolgáltatásokról szóló 2001. évi CVIII. törvény, valamint az Európai Unió előírásainak megfelelően használjuk. Az Európai Unió országain belül működő weblapoknak a sütik használatához és tárolásához a felhasználók hozzájárulását kell kérniük.</p>
+          <h3>1. Mik azok a sütik?</h3>
+          <p>A sütik olyan kisméretű fájlok, melyek betűket és számokat tartalmaznak. A süti a webszerver és a felhasználó böngészője közötti információcsere eszköze. Ezek az adatfájlok nem futtathatók, nem tartalmaznak kémprogramokat és vírusokat, továbbá nem férhetnek hozzá a felhasználók merevlemezének tartalmához.</p>
+          <h3>2. Mire használhatók a sütik?</h3>
+          <p>A sütik által küldött információk segítségével az internetböngészők könnyebben felismerhetők, így a felhasználók releváns tartalmat kapnak. A sütik kényelmesebbé teszik a böngészést. Segítségükkel a weboldalak üzemeltetői névtelen statisztikákat is készíthetnek az oldallátogatók szokásairól.</p>
+          <h3>3. Milyen sütikkel találkozhat?</h3>
+          <ul><li><strong>Ideiglenes sütik</strong>, melyek addig maradnak az eszközén, amíg el nem hagyja a weboldalt.</li><li><strong>Állandó sütik</strong>, melyek a böngésző beállításától függően hosszabb ideig vagy egészen addig az eszközén maradnak, amíg azokat Ön nem törli.</li><li><strong>Harmadik féltől származó sütik</strong>, melyeket harmadik fél helyez el az Ön böngészőjében, ha a meglátogatott weboldal használja az adott szolgáltatásait.</li></ul>
+          <h3>4. A sütik típusai</h3>
+          <ul><li><strong>Elengedhetetlen munkamenet-sütik:</strong> használatuk elengedhetetlen a weboldalon történő navigáláshoz és a funkciók működéséhez. Ezek nélkül a honlap egyes részei nem, vagy hibásan jelenhetnek meg.</li><li><strong>Analitikai vagy teljesítményfigyelő sütik:</strong> segítenek megkülönböztetni a látogatókat, és adatokat gyűjtenek arról, hogyan viselkednek a weboldalon. Ezek nem gyűjtenek azonosításra alkalmas információt, az adatokat összesítve és névtelenül tárolják.</li><li><strong>Funkcionális sütik:</strong> feladatuk a felhasználói élmény javítása. Észlelik és tárolják például a választott nyelvet vagy a korábban megadott beállításokat.</li><li><strong>Célzott vagy reklámsütik:</strong> ezek segítségével a weboldalak az érdeklődési körnek megfelelő hirdetést tudnak megjeleníteni. Ehhez az Ön kifejezett beleegyezése szükséges.</li></ul>
+          <h3>5. Amit ez a honlap ténylegesen használ</h3>
+          <p>Jelen honlap <strong>nem használ analitikai, statisztikai vagy reklámcélú sütit</strong>, és nem futtat harmadik féltől származó nyomkövető szkriptet. Az Ön böngészőjében kizárólag a működéshez szükséges technikai tárolás történik: a választott nyelv megjegyzése, valamint a demók munkamenetének azonosítója. Ezek az adatok az Ön eszközét nem hagyják el, és nem alkalmasak az Ön azonosítására.</p>
+          <h3>6. Tartalmaznak a sütik személyes adatot?</h3>
+          <p>A legtöbb süti nem tartalmaz személyes információt, segítségével a felhasználók nem azonosíthatók. A tárolt adatok a kényelmesebb böngészésért szükségesek, tárolásuk olyan módon történik, hogy jogosulatlan személy ne férhessen hozzájuk.</p>
+          <h3>7. Biztonsággal kapcsolatos tényezők</h3>
+          <p>A sütik nem vírusok és nem kémprogramok. Mivel egyszerű szöveg típusú fájlok, nem futtathatók, tehát nem tekinthetők programoknak. Mivel azonban a böngésző és a webszerver folyamatosan kommunikál, egy támadó – például nem megfelelően titkosított hálózaton – kinyerheti a sütik által tárolt információkat.</p>
+          <h3>8. A sütik kezelése, törlése</h3>
+          <p>A sütiket a használt böngészőprogramban lehet törölni vagy letiltani. A böngészők alapértelmezett módon engedélyezik a sütik elhelyezését; ez a böngésző beállításainál letiltható, a meglévők pedig törölhetők. Beállítható az is, hogy a böngésző értesítést küldjön, amikor sütit küld az eszközre. Fontos hangsúlyozni, hogy ezen fájlok letiltása vagy korlátozása ronthatja a böngészési élményt, és hibát okozhat a weboldal működésében. A beállítási lehetőségek általában a böngésző „Opciók” vagy „Beállítások” menüpontjában találhatók.</p>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s11">
-          <h2>11. Az Ön jogai</h2>
-          <h3>11.1. Hozzáférési jog — GDPR 15. cikk</h3>
-          <p>Ön jogosult tájékoztatást kérni arról, hogy kezeljük-e személyes adatait, és ha igen, másolatot és kapcsolódó tájékoztatást kapni.</p>
-          <h3>11.2. Helyesbítéshez való jog — GDPR 16. cikk</h3>
-          <p>Kérheti a pontatlan vagy hiányos adatok haladéktalan helyesbítését, illetve kiegészítését.</p>
-          <h3>11.3. Törléshez való jog („az elfeledtetéshez való jog") — GDPR 17. cikk</h3>
-          <p>Meghatározott feltételek fennállása esetén kérheti adatai törlését. E jog nem alkalmazandó, ha az adatkezelés jogi kötelezettség teljesítéséhez szükséges.</p>
-          <h3>11.4. Az adatkezelés korlátozásához való jog — GDPR 18. cikk</h3>
-          <p>Kérheti az adatkezelés korlátozását, például ha vitatja az adatok pontosságát.</p>
-          <h3>11.5. Adathordozhatósághoz való jog — GDPR 20. cikk</h3>
-          <p>Hozzájáruláson vagy szerződésen alapuló, automatizált adatkezelés esetén jogosult adatait tagolt, géppel olvasható formátumban (pl. JSON vagy CSV) megkapni.</p>
-          <h3>11.6. Tiltakozáshoz való jog — GDPR 21. cikk</h3>
-          <p>A jogos érdeken alapuló adatkezelés ellen bármikor tiltakozhat. Ilyen esetben az adatkezelést megszüntetjük, kivéve ha azt kényszerítő erejű jogos okok indokolják.</p>
-          <h3>11.7. Automatizált döntéshozatal — GDPR 22. cikk</h3>
-          <p>Ön jogosult arra, hogy ne terjedjen ki Önre a kizárólag automatizált adatkezelésen alapuló döntés hatálya, ha az Önre nézve joghatással járna vagy Önt hasonlóképpen jelentős mértékben érintené.</p>
-          <h3>11.8. A hozzájárulás visszavonása</h3>
-          <p>Ha az adatkezelés hozzájáruláson alapul, azt bármikor visszavonhatja. A visszavonás nem érinti a korábbi adatkezelés jogszerűségét.</p>
+          <h2>11. Fogalmak</h2>
+          <ul><li><strong>Adatfeldolgozó:</strong> természetes vagy jogi személy, közhatalmi szerv, ügynökség vagy bármely egyéb szerv, amely az adatkezelő nevében személyes adatokat kezel.</li><li><strong>Adatkezelés:</strong> a személyes adatokon vagy adatállományokon automatizált vagy nem automatizált módon végzett bármely művelet vagy műveletek összessége, például: gyűjtés, rögzítés, rendszerezés, tagolás, tárolás, átalakítás, megváltoztatás, lekérdezés, betekintés, felhasználás, közlés, továbbítás, terjesztés, összehangolás, összekapcsolás, korlátozás, törlés, megsemmisítés.</li><li><strong>Adattovábbítás:</strong> az Adatkezelő által kezelt személyes adatok harmadik személyek számára történő hozzáférhetővé tétele.</li><li><strong>Adatvédelmi incidens:</strong> a biztonság sérülése, amely a továbbított, tárolt vagy más módon kezelt személyes adatok véletlen vagy jogellenes megsemmisítését, elvesztését, megváltoztatását, jogosulatlan közlését vagy az azokhoz való jogosulatlan hozzáférést eredményezi.</li><li><strong>ÁSZF:</strong> a weboldalon közzétett, az Adatkezelő szolgáltatás-értékesítési szabályait rögzítő <a href="terms.html">Általános Szerződési Feltételek</a>.</li><li><strong>Azonosítható természetes személy:</strong> az a természetes személy, aki közvetlen vagy közvetett módon, valamely azonosító – például név, azonosító szám, helymeghatározó adat, online azonosító – vagy a fizikai, fiziológiai, genetikai, szellemi, gazdasági, kulturális vagy szociális azonosságára vonatkozó egy vagy több tényező alapján azonosítható.</li><li><strong>Címzett:</strong> természetes vagy jogi személy, közhatalmi szerv, ügynökség vagy bármely egyéb szerv, amellyel a személyes adatot közlik, függetlenül attól, hogy harmadik fél-e.</li><li><strong>Érintett:</strong> bármely információ alapján azonosított vagy azonosítható természetes személy.</li><li><strong>Érintett hozzájárulása:</strong> az érintett akaratának önkéntes, konkrét, megfelelő tájékoztatáson alapuló, egyértelmű kinyilvánítása, amellyel jelzi, hogy beleegyezését adja az őt érintő személyes adatok kezeléséhez.</li><li><strong>Felhasználók:</strong> az Adatkezelő által üzemeltetett, a <a href="https://automating.hu">https://automating.hu</a> címen és az ott meghatározott egyéb címeken elérhető weboldalak látogatói.</li><li><strong>Harmadik fél:</strong> természetes vagy jogi személy, közhatalmi szerv, ügynökség vagy bármely egyéb szerv, amely nem azonos az érintettel, az adatkezelővel, az adatfeldolgozóval vagy azokkal a személyekkel, akik az adatkezelő vagy adatfeldolgozó közvetlen irányítása alatt a személyes adatok kezelésére felhatalmazást kaptak.</li><li><strong>Hatóság:</strong> Nemzeti Adatvédelmi és Információszabadság Hatóság (székhely: 1055 Budapest, Falk Miksa utca 9-11., telefon: +36 (1) 391-1400, e-mail: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a>, weboldal: <a href="https://naih.hu">naih.hu</a>).</li><li><strong>Partner/Ügyfél:</strong> az a természetes személy, aki az Adatkezelővel szerződést köt szolgáltatás nyújtására.</li><li><strong>Személyes adat:</strong> az érintettre vonatkozó bármely információ.</li><li><strong>Szolgáltatás:</strong> az Adatkezelő által Ügyfelei, Partnerei és Felhasználói részére a weboldalon vagy egyéb módon nyújtott, az ÁSZF-ben részletezett szolgáltatások.</li><li><strong>Weboldal:</strong> az Adatkezelő által üzemeltetett, a <a href="https://automating.hu">https://automating.hu</a> címen és az ott meghatározott egyéb címeken elérhető weboldalai.</li></ul>
         </div>
         <hr class="policy-divider">
 
         <div class="policy-section" id="hu-s12">
-          <h2>12. A jogok gyakorlásának módja</h2>
-          <p>Kérelmét e-mailben nyújthatja be: <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
-          <p>A GDPR 12. cikke alapján 1 hónapon belül válaszolunk. Összetett kérelmek esetén a határidő legfeljebb 2 hónappal meghosszabbítható. A kérelmek teljesítése főszabály szerint díjmentes.</p>
+          <h2>12. A Tájékoztató módosítása</h2>
+          <p>Az Adatkezelő fenntartja a jogot, hogy a jelen Tájékoztatót egyoldalúan módosítsa, különösen jogszabályváltozás vagy a szolgáltatás változása esetén. A módosított Tájékoztató a honlapon való közzététellel lép hatályba. Kérjük, hogy időről időre tekintse át a jelen oldalt.</p>
+          <p>Jelen Tájékoztató hatálybalépésének napja: 2026. augusztus.</p>
         </div>
         <hr class="policy-divider">
 
-        <div class="policy-section" id="hu-s13">
-          <h2>13. Panasz és jogorvoslat</h2>
-          <p>Ha úgy véli, hogy adatkezelésünk sérti az alkalmazandó adatvédelmi jogszabályokat, jogosult panaszt tenni a felügyeleti hatóságnál:</p>
-          <div class="detail-block">
-            <p><strong>Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</strong></p>
-            <p>Cím: 1055 Budapest, Falk Miksa utca 9–11.</p>
-            <p>Levelezési cím: 1363 Budapest, Pf. 9.</p>
-            <p>Telefon: +36 (1) 391-1400</p>
-            <p>E-mail: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a></p>
-            <p>Weboldal: <a href="https://www.naih.hu" target="_blank">www.naih.hu</a></p>
-          </div>
-          <p style="margin-top:20px;">Ön emellett bírósághoz is fordulhat az Adatkezelővel vagy az Adatfeldolgozóval szemben, ha megítélése szerint személyes adatainak kezelése sérti a GDPR rendelkezéseit.</p>
         </div>
-        <hr class="policy-divider">
-
-        <div class="policy-section" id="hu-s14">
-          <h2>14. Kiskorúak adatainak védelme</h2>
-          <p>Weboldalunk nem irányul 16 év alatti személyekre, és tudatosan nem gyűjtünk tőlük személyes adatot. Ha tudomásunkra jut, hogy 16 év alatti gyermektől szülői vagy törvényes képviselői hozzájárulás nélkül gyűjtöttünk adatot, azt haladéktalanul töröljük.</p>
-        </div>
-        <hr class="policy-divider">
-
-        <div class="policy-section" id="hu-s15">
-          <h2>15. Más weboldalakra mutató hivatkozások</h2>
-          <p>Weboldalunk más weboldalakra mutató hivatkozásokat tartalmazhat. A hivatkozásokra kattintva elhagyja weboldalunkat; az érintett weboldalak adatkezelési gyakorlatáért felelősséget nem vállalunk. Javasoljuk, hogy ismerje meg a hivatkozott weboldalak adatvédelmi tájékoztatóit is.</p>
-        </div>
-        <hr class="policy-divider">
-
-        <div class="policy-section" id="hu-s16">
-          <h2>16. Az irányelvek módosítása</h2>
-          <p>Fenntartjuk a jogot a jelen Adatvédelmi irányelvek bármikori módosítására. A változásokról a weboldalon közzétett frissített irányelvek útján és/vagy előzetes e-mail-értesítéssel tájékoztatjuk. A módosítás hatálybalépésének napját az irányelvek tetején tüntetjük fel. Kérjük, rendszeresen tekintse át az irányelveket.</p>
-        </div>
-        <hr class="policy-divider">
-
-        <div class="policy-section" id="hu-s17">
-          <h2>17. Kapcsolat</h2>
-          <p>Ha a jelen Adatvédelmi irányelvekkel kapcsolatban kérdése, kérése vagy észrevétele van, kérjük, vegye fel velünk a kapcsolatot:</p>
-          <div class="detail-block">
-            <p><strong>E-mail:</strong> <a href="mailto:hudacsekbence@automating.hu">hudacsekbence@automating.hu</a></p>
-            <p><strong>Postacím:</strong> HUDÁCSEK BENCE EV., 9127 Csikvánd, Hunyadi János utca 12.</p>
-            <p><strong>Weboldal:</strong> <a href="https://automating.hu">https://automating.hu</a></p>
-          </div>
-          <p style="margin-top:20px; font-size:14px; color:var(--g400);">A jelen Adatvédelmi irányelvek a GDPR (EU 2016/679) és a 2011. évi CXII. törvény (Infotv.) rendelkezéseivel összhangban készültek.</p>
-        </div>
-
-      </div><!-- /policy-content -->
-    </div><!-- /policy-body -->
-    </div><!-- /lang-block HU -->
+      </div>
+    </div>
+    <!-- /lang-block HU -->
 
   </div><!-- /wrap -->
 </div><!-- /policy-page -->
@@ -768,7 +691,7 @@ select:focus:not(:focus-visible),
 
         <div class="ft-col">
           <div class="ft-h" data-i18n="footer.h.docs">Dokumentumok</div>
-          <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi irányelvek</a>
+          <a href="privacy.html" data-i18n="footer.privacy">Adatvédelmi nyilatkozat</a>
           <a href="terms.html" data-i18n="footer.terms">Általános Szerződési Feltételek</a>
           <a href="impresszum.html" data-i18n="footer.imprint">Impresszum</a>
         </div>
