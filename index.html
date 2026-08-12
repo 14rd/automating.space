@@ -428,7 +428,20 @@ nav {
 /* ════════════════════════════════
    AI DEMO PRIMITIVES - shared by the three live demos
 ════════════════════════════════ */
-:root { --ease-ai: cubic-bezier(0.23,1,0.32,1); }
+:root {
+  --ease-ai: cubic-bezier(0.23,1,0.32,1);
+  /* radius ladder - every demo control picks a rung, never an ad-hoc value.
+     orb = circle/pill for anything small enough to be a dot or a chip */
+  --r-orb: 999px;
+  --r-lg:  24px;
+  --r-md:  18px;
+  --r-sm:  12px;
+  /* shadow ladder - one step per elevation, used by all three demo cards */
+  --sh-hair:  0 0 0 1px rgba(10,10,10,0.05);
+  --sh-btn:   0 1px 2px rgba(10,10,10,0.05), 0 0 0 1px rgba(10,10,10,0.04);
+  --sh-card:  0 1px 3px rgba(10,10,10,0.04), 0 8px 24px rgba(10,10,10,0.04);
+  --sh-raise: 0 4px 12px rgba(10,10,10,0.06), 0 16px 40px rgba(10,10,10,0.08);
+}
 
 @keyframes aiPixelOn  { 0%,100% { opacity: .13; } 50% { opacity: .55; } }
 @keyframes aiShimmer  { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -454,6 +467,8 @@ nav {
   width: 4px; height: 4px; background: var(--black); border-radius: 1px;
   opacity: .13; animation: aiPixelOn 650ms ease-in-out infinite;
 }
+/* "Dots" variant - same chevron wavefront, circular cells */
+.ai-loader.dots .ai-loader-grid i { border-radius: 50%; }
 /* chevron wavefront: (col + |row-1|) * 90ms */
 .ai-loader-grid i:nth-child(4) { animation-delay: 0ms; }
 .ai-loader-grid i:nth-child(1), .ai-loader-grid i:nth-child(5), .ai-loader-grid i:nth-child(7) { animation-delay: 90ms; }
@@ -469,13 +484,15 @@ nav {
 .ai-trace { display: flex; flex-direction: column; align-items: flex-start; }
 .ai-trace-head {
   display: flex; align-items: center; gap: 7px; width: fit-content;
-  margin-left: -6px; padding: 3px 6px; border: 0; border-radius: 7px;
+  margin-left: -10px; padding: 2px 10px; border: 0; border-radius: var(--r-orb);
   background: none; font-family: inherit; font-size: 13px; font-weight: 500;
   color: var(--g600); cursor: pointer; -webkit-appearance: none;
-  transition: background-color .14s ease;
+  transition: background-color 130ms var(--ease-ai), transform 150ms var(--ease-ai);
 }
 .ai-trace-head[hidden] { display: none; }
 .ai-trace-head:hover { background: #f4f4f4; }
+.ai-trace-head:active { transform: scale(.96); }
+.ai-trace-head:focus-visible { outline: none; background: #f4f4f4; box-shadow: 0 0 0 1.5px var(--g400); }
 .ai-trace-chev { flex-shrink: 0; transition: transform 300ms var(--ease-ai); }
 .ai-trace.open .ai-trace-chev { transform: rotate(180deg); }
 .ai-trace-body {
@@ -485,22 +502,28 @@ nav {
 .ai-trace.open .ai-trace-body { grid-template-rows: 1fr; opacity: 1; }
 .ai-trace-inner { overflow: hidden; }
 .ai-trace-steps {
-  display: flex; flex-direction: column;
-  border-left: 1px solid var(--g200); margin-left: 6.5px; padding: 3px 0 3px 14px;
+  position: relative; display: flex; flex-direction: column;
+  margin-left: 7px; padding: 3px 0 3px 14px;
+}
+/* the connector grows with the steps instead of snapping in at full length */
+.ai-trace-line {
+  position: absolute; left: 0; top: 0; width: 1px; height: 0;
+  background: var(--g200); transition: height 500ms var(--ease-ai);
 }
 .ai-step {
   display: flex; align-items: center; gap: 10px; min-height: 28px; font-size: 13px;
   animation: aiFadeUp 320ms var(--ease-ai) both;
 }
 .ai-step-ico {
-  width: 14px; height: 14px; flex-shrink: 0; box-sizing: border-box;
+  width: 16px; height: 16px; flex-shrink: 0; box-sizing: border-box; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
 }
 .ai-step-ico > svg { display: none; }
-.ai-step.pending { opacity: .35; }
+.ai-step.pending { opacity: .45; }
 .ai-step.pending .ai-step-ico,
-.ai-step.active .ai-step-ico { border: 1.5px solid var(--g200); border-radius: 50%; }
+.ai-step.active .ai-step-ico { border: 1.5px solid var(--g200); }
 .ai-step.active .ai-step-ico { border-top-color: var(--black); animation: aiSpin 700ms linear infinite; }
+.ai-step.done .ai-step-ico { background: #f4f4f4; }
 .ai-step.done .ai-i-ok { display: block; }
 .ai-step.fail .ai-i-err { display: block; }
 .ai-step.done .ai-step-lb { color: var(--g600); }
@@ -517,7 +540,7 @@ nav {
   animation: aiFadeUp 300ms var(--ease-ai) both;
 }
 .ai-empty-ico {
-  width: 32px; height: 32px; margin-bottom: 6px; border-radius: 8px;
+  width: 32px; height: 32px; margin-bottom: 6px; border-radius: var(--r-orb);
   background: #f4f4f4; border: 1px solid var(--g200); color: var(--g400);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
@@ -527,8 +550,8 @@ nav {
 /* E) .ai-actions - small icon text buttons under generated content */
 .ai-actions { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; animation: aiFadeUp 300ms var(--ease-ai) both; }
 .ai-act {
-  display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 8px;
-  border: 0; border-radius: 6px; background: none; font-family: inherit;
+  display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px;
+  border: 0; border-radius: var(--r-orb); background: none; font-family: inherit;
   font-size: 11.5px; font-weight: 500; color: var(--g400); cursor: pointer;
   -webkit-appearance: none;
   transition: background-color .14s ease, color .14s ease, transform .1s ease;
@@ -541,7 +564,100 @@ nav {
 /* shared error line */
 .ai-error { font-size: 13.5px; color: var(--g600); line-height: 1.55; animation: aiFadeUp 300ms var(--ease-ai) both; }
 
+/* F) .ai-sec - an agent turn is a SECTION, not a bubble: quiet meta line + plain prose */
+.ai-sec {
+  display: flex; flex-direction: column; gap: 6px; width: 100%;
+  transform-origin: top left;
+  transition: opacity 400ms var(--ease-ai), filter 400ms var(--ease-ai), transform 400ms var(--ease-ai);
+  /* `backwards`, not `both`: a filled-forwards animation would pin opacity and
+     transform for good and .resolving could never take hold */
+  animation: aiFadeUp 400ms var(--ease-ai) backwards;
+}
+/* an older section sits back while a fresh answer is being produced */
+.ai-sec.resolving { opacity: .55; filter: blur(.5px); transform: scale(.985); }
+/* scrolling back to re-read an older turn brings it fully forward again */
+.ai-sec.resolving:hover, .ai-sec.resolving:focus-within { opacity: 1; filter: blur(0); transform: scale(1); }
+.ai-sec-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  font-size: 12px; line-height: 1.3;
+  /* the loader and the collapsed trace pill are the same height, so swapping
+     one for the other when the answer lands never nudges the prose below */
+  min-height: 21px;
+}
+/* the waiting loader lives inline in the meta line - scale it down to match */
+.ai-sec-meta .ai-loader { gap: 8px; }
+.ai-sec-meta .ai-loader-label { font-size: 12px; }
+.ai-sec-meta .ai-loader-time { font-size: 12px; }
+.ai-sec-meta .ai-loader.out { opacity: 0; transition: opacity 200ms ease; }
+.ai-sec-name { font-weight: 500; color: var(--black); }
+.ai-sec-sub  { color: var(--g600); }
+/* while the pipeline runs the trace takes its own full-width line; once it
+   collapses into "3 lépés · 1.9s" it folds back into the meta line */
+.ai-sec-meta > .ai-trace.open { flex: 1 0 100%; margin-top: 2px; }
+.ai-sec-meta .ai-trace-head { font-size: 12px; padding: 2px 6px; margin-left: -6px; }
+.ai-sec-body { font-size: 13.5px; line-height: 1.6; color: var(--black); }
+.ai-sec-body:empty { display: none; } /* no phantom gap while the pipeline runs */
+
+/* idle: a quiet, static line about what the assistant actually knows */
+.ai-kb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 2px 0 4px; }
+.ai-kb-lb { font-size: 12px; color: var(--g400); margin-right: 2px; }
+.ai-kb-chip {
+  display: inline-flex; align-items: center; height: 22px; padding: 0 10px;
+  border: 1px solid var(--g200); border-radius: 100px; background: var(--white);
+  font-size: 12px; color: var(--g600); white-space: nowrap;
+  animation: aiPopIn 250ms var(--ease-ai) both;
+}
+
+/* G) .ai-composer - bordered box with a round send orb */
+/* one row: the field and the send orb sit on the same line, so the box is only
+   as tall as the control itself. flex-end keeps the orb pinned to the last line
+   once the field grows past one row. */
+.ai-composer {
+  display: flex; flex-direction: row; align-items: flex-end; gap: 8px; cursor: text;
+  border: 1px solid var(--g200); border-radius: var(--r-lg); background: var(--white);
+  padding: 5px 5px 5px 14px; box-shadow: 0 1px 2px rgba(10,10,10,0.035);
+  transition: border-color 150ms var(--ease-ai), box-shadow 150ms var(--ease-ai);
+}
+.ai-composer:focus-within { border-color: var(--g400); }
+.ai-composer textarea {
+  flex: 1 1 auto; min-width: 0; resize: none; border: 0; background: none; margin: 0;
+  padding: 6px 0; min-height: 32px; max-height: 108px;
+  font-family: inherit; font-size: 13.5px; line-height: 20px; color: var(--black);
+  outline: none;
+}
+.ai-composer textarea::placeholder { color: var(--g400); }
+.ai-send {
+  width: 32px; height: 32px; flex-shrink: 0; padding: 0; border: 0; border-radius: var(--r-orb);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  background: var(--g200); color: var(--g400); -webkit-appearance: none;
+  transition: background-color 200ms var(--ease-ai), color 200ms var(--ease-ai), transform 150ms var(--ease-ai);
+}
+/* the arrow slides in as the button arms itself (PromptBar pattern) */
+.ai-send svg {
+  opacity: .32; transform: scale(.88);
+  transition: opacity 400ms var(--ease-ai), transform 400ms var(--ease-ai);
+}
+.ai-send.on svg { opacity: 1; transform: scale(1); }
+.ai-send.on { background: var(--black); color: var(--white); box-shadow: var(--sh-btn); }
+.ai-send:disabled { cursor: default; background: var(--g200); color: var(--g400); }
+.ai-send:not(:disabled):active { transform: scale(.96); }
+.ai-send:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--white), 0 0 0 3.5px var(--g400); }
+
+/* H) .ai-iconbtn - quiet round icon button (header actions) */
+.ai-iconbtn {
+  width: 28px; height: 28px; flex-shrink: 0; padding: 0; border: 0; border-radius: var(--r-orb);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  background: none; color: var(--g400); -webkit-appearance: none;
+  transition: background-color 130ms var(--ease-ai), color 130ms var(--ease-ai), transform 150ms var(--ease-ai);
+}
+.ai-iconbtn:hover { background: #f4f4f4; color: var(--black); }
+.ai-iconbtn:active { transform: scale(.96); }
+.ai-iconbtn:focus-visible { outline: none; box-shadow: 0 0 0 1.5px var(--g400); }
+
 @media (prefers-reduced-motion: reduce) {
+  .ai-sec { animation: none; transition: none; }
+  .ai-sec.resolving { opacity: 1; filter: none; transform: none; }
+  .ai-send, .ai-iconbtn { transition: none; }
   .ai-loader-grid i { animation: none; opacity: .4; }
   .ai-shimmer {
     animation: none; background: none;
@@ -552,6 +668,9 @@ nav {
   .ai-stream > span { animation: none; opacity: 1; filter: none; }
   .ai-trace-body { transition: none; }
   .ai-trace-chev { transition: none; }
+  .ai-trace-line { transition: none; }
+  .ai-send svg { transition: none; opacity: 1; transform: none; }
+  .ai-sec-meta .ai-loader.out { transition: none; }
 }
 
 /* ════════════════════════════════
@@ -571,94 +690,105 @@ nav {
 .chat-card, .voice-card, .ed-card {
   height: 560px; display: flex; flex-direction: column;
   background: var(--white); border: 1px solid var(--g200); border-radius: 26px;
+  box-shadow: var(--sh-card);
 }
 .chat-card { overflow: hidden; }
 .chat-head {
   display: flex; align-items: center; gap: 10px;
-  padding: 16px 24px; border-bottom: 1px solid var(--g200);
+  padding: 12px 16px; border-bottom: 1px solid var(--g200);
 }
 .chat-head svg { flex-shrink: 0; }
+/* the mark sits in its own orb so the header has no square edge either */
+.chat-logo {
+  width: 28px; height: 28px; flex-shrink: 0; border-radius: var(--r-orb);
+  background: #f4f4f4; display: flex; align-items: center; justify-content: center;
+}
 .chat-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
-.chat-status { margin-left: auto; display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--g600); }
+.chat-head-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.chat-status { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--g600); }
 .chat-dot { width: 8px; height: 8px; border-radius: 50%; background: #1fbf64; animation: chatPulse 2s ease infinite; }
 @keyframes chatPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(31,191,100,.35); } 50% { box-shadow: 0 0 0 6px rgba(31,191,100,0); } }
 .chat-log {
-  flex: 1; overflow-y: auto; padding: 24px 24px 10px;
-  display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth;
+  flex: 1; overflow-y: auto; padding: 20px 16px 14px;
+  display: flex; flex-direction: column; gap: 18px; scroll-behavior: smooth;
 }
 .chat-log::-webkit-scrollbar { width: 5px; }
-.chat-log::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 5px; }
+.chat-log::-webkit-scrollbar-thumb { background: var(--g200); border-radius: var(--r-orb); }
+/* only the USER still speaks in a bubble - it is the brand mark of the demo */
 .chat-msg {
-  max-width: 78%; padding: 12px 17px; border-radius: 18px;
-  font-size: 14.5px; font-weight: 400; line-height: 1.55;
+  align-self: flex-end; max-width: 78%; padding: 8px 15px; border-radius: var(--r-md);
+  background: var(--black); color: var(--white);
+  font-size: 13.5px; font-weight: 400; line-height: 1.5;
   animation: chatMsgIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
   word-wrap: break-word; overflow-wrap: break-word;
 }
 @keyframes chatMsgIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-.chat-msg.bot  { align-self: flex-start; background: #f4f4f4; border: 1px solid var(--g200); border-bottom-left-radius: 6px; }
-.chat-msg.user { align-self: flex-end; background: var(--black); color: var(--white); border-bottom-right-radius: 6px; }
 .chat-msg a { text-decoration: underline; text-underline-offset: 2px; }
-.chat-msg.bot a:hover { opacity: .6; }
-.chat-msg p + p, .chat-msg ul, .chat-msg ol { margin-top: 8px; }
-.chat-msg ul, .chat-msg ol { padding-left: 20px; }
-.chat-msg li + li { margin-top: 4px; }
-.chat-msg strong { font-weight: 600; }
-.chat-typing { display: inline-flex; gap: 5px; align-items: center; padding: 16px 17px; }
-.chat-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--g400); animation: chatTb 1.2s infinite; }
-.chat-typing i:nth-child(2) { animation-delay: .15s; }
-.chat-typing i:nth-child(3) { animation-delay: .3s; }
-@keyframes chatTb { 0%,60%,100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-5px); opacity: 1; } }
-.chat-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 24px 14px; }
+.chat-msg p + p, .ai-sec-body p + p, .ai-sec-body ul, .ai-sec-body ol { margin-top: 8px; }
+.ai-sec-body ul, .ai-sec-body ol { padding-left: 20px; }
+.ai-sec-body li + li { margin-top: 4px; }
+.chat-msg strong, .ai-sec-body strong { font-weight: 600; }
+.ai-sec-body a { text-decoration: underline; text-underline-offset: 2px; }
+.ai-sec-body a:hover { opacity: .6; }
+.chat-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 16px 14px; }
+/* the opening chips live inside the log, right under the greeting, so the idle
+   card fills from the top instead of leaving a dead band above the composer */
+.chat-log > .chat-chips { padding: 0; margin-top: -8px; }
 .chat-chip {
-  border: 1px solid var(--g200); background: var(--white); border-radius: 100px;
-  padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 500;
-  color: var(--g600); cursor: pointer; transition: all .2s;
+  border: 1px solid var(--g200); background: var(--white); border-radius: var(--r-orb);
+  padding: 7px 14px; font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--g600); cursor: pointer;
+  transition: background-color 120ms var(--ease-ai), border-color 120ms var(--ease-ai),
+              color 120ms var(--ease-ai), transform 150ms var(--ease-ai);
 }
-.chat-chip:hover { border-color: var(--black); color: var(--black); transform: scale(1.03); }
-/* idle: a quiet, static line about what the assistant actually knows */
-.ai-kb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 2px 0 4px; }
-.ai-kb-lb { font-size: 12px; color: var(--g400); margin-right: 2px; }
-.ai-kb-chip {
-  display: inline-flex; align-items: center; height: 22px; padding: 0 10px;
-  border: 1px solid var(--g200); border-radius: 100px; background: var(--white);
-  font-size: 12px; color: var(--g600); white-space: nowrap;
-  animation: aiPopIn 250ms var(--ease-ai) both;
-}
-/* the step trace lives inside the bot bubble, so it needs a darker hover than #f4f4f4 */
-.chat-msg .ai-trace { margin: 1px 0; }
-.chat-msg .ai-trace-head:hover { background: var(--g200); }
-.chat-msg .ai-answer { margin-top: 10px; }
-.chat-msg .ai-answer:first-child { margin-top: 0; }
+.chat-chip:hover { background: #f4f4f4; border-color: var(--g400); color: var(--black); }
+.chat-chip:active { transform: scale(.96); }
+.chat-chip:focus-visible { outline: none; border-color: var(--black); }
 /* markdown-safe word stream: spans sit inside <p>/<li>/<a>, not at the root */
 .ai-stream-md span { display: inline; animation: aiStreamIn 420ms cubic-bezier(0.22,0.61,0.25,1) both; }
 .ai-stream-md.instant span { animation: none; opacity: 1; filter: none; }
-.chat-acts { align-self: flex-start; margin: -8px 0 -2px 8px; }
-.chat-fups { align-self: flex-start; display: flex; flex-wrap: wrap; gap: 8px; max-width: 92%; }
-.chat-inputrow {
-  display: flex; gap: 10px; align-items: flex-end;
-  padding: 14px 16px; border-top: 1px solid var(--g200); background: var(--white);
-}
-.chat-inputrow textarea {
-  flex: 1; resize: none; border: 1px solid var(--g200); border-radius: 22px;
-  padding: 12px 18px; font-family: inherit; font-size: 14.5px; line-height: 1.4;
-  outline: none; max-height: 120px; background: var(--white); color: var(--black);
-  transition: border-color .2s;
-}
-.chat-inputrow textarea:focus { border-color: var(--g400); }
-.chat-inputrow .btn-pill { padding: 12px 24px; font-size: 14.5px; }
-.chat-inputrow .btn-pill:disabled { opacity: .35; cursor: default; transform: none; }
+/* actions hang off the left text edge - the -10px cancels the button's own padding */
+.chat-acts { align-self: flex-start; margin: -2px 0 0 -10px; }
+/* held back until the last word has streamed in, then faded up */
+.ai-actions.hold { animation: none; opacity: 0; pointer-events: none; }
+.ai-actions.reveal { animation: none; opacity: 1; transition: opacity 400ms ease; }
+.chat-fups { align-self: flex-start; display: flex; flex-wrap: wrap; gap: 8px; max-width: 100%; }
+.chat-inputrow { padding: 12px 16px 14px; border-top: 1px solid var(--g200); background: var(--white); }
+/* ── MOBILE ──────────────────────────────────────────────
+   The cards must not be scroll containers on a phone: a box that scrolls
+   inside a page that scrolls is what clipped the greeting. Height goes to
+   content, the inner log stops scrolling, and the page does the scrolling. */
 @media (max-width: 900px) {
-  .chat-frame, .voice-frame, .ed-frame { border-radius: 24px; padding: 8px; }
-  .chat-card, .voice-card, .ed-card { border-radius: 18px; height: auto; }
-  .chat-card { height: 62vh; min-height: 420px; }
-  .chat-msg { max-width: 88%; }
-  .chat-log, .chat-chips { padding-left: 16px; padding-right: 16px; }
-  .chat-inputrow textarea { font-size: 16px; } /* prevents iOS focus zoom */
+  .chat-frame, .voice-frame, .ed-frame { border-radius: 24px; padding: 6px; }
+  .chat-card, .voice-card, .ed-card { border-radius: 18px; height: auto; min-height: 0; }
+  .chat-head { padding: 10px 14px; }
+  .chat-title { font-size: 14px; }
+  .chat-log {
+    flex: none; overflow: visible; max-height: none;
+    padding: 14px 14px 12px; gap: 14px;
+  }
+  .chat-msg { max-width: 88%; font-size: 13px; padding: 7px 12px; }
+  .ai-sec-body { font-size: 13px; line-height: 1.55; }
+  .ai-sec-meta { font-size: 11.5px; }
+  .chat-chip { font-size: 12px; padding: 6px 12px; }
+  .chat-chips { gap: 6px; }
+  .chat-inputrow { padding: 10px 12px 12px; }
+  .chat-inputrow .ai-composer { padding: 5px 5px 5px 12px; border-radius: 20px; }
+  /* SPEC4: the knowledge strip and the fourth opening chip cost two rows of
+     vertical space on a phone - hidden here rather than dropped from the DOM,
+     so the desktop keeps both and nothing is lost to a narrower viewport */
+  .ai-kb { display: none; }
+  .chat-chips .chat-chip:nth-child(4) { display: none; }
+  .chat-inputrow .ai-composer textarea { font-size: 16px; line-height: 20px; max-height: 72px; } /* 16px prevents iOS focus zoom */
   .chat-fups { max-width: 100%; }
-  .chat-acts { margin-left: 2px; }
+}
+@media (max-width: 420px) {
+  .chat-head { padding: 9px 12px; }
+  .chat-log { padding: 12px 12px 10px; gap: 12px; }
+  .chat-chip { font-size: 11.5px; padding: 5px 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ai-kb-chip, .chat-fups .chat-chip { animation: none; }
+  .chat-fups .chat-chip { animation: none; }
   .ai-stream-md span { animation: none; opacity: 1; filter: none; }
 }
 
@@ -698,6 +828,8 @@ nav {
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
   overflow: hidden; min-height: 3em;
 }
+/* idle has no status text - collapse the slot so it costs no height */
+.voice-status:empty { min-height: 0; display: none; }
 /* the status line doubles as the connect loader slot - line-clamp would swallow it */
 .voice-status.has-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; }
 .vc-hint { font-size: 12px; color: var(--g400); animation: aiFadeUp 300ms var(--ease-ai) both; }
@@ -749,10 +881,26 @@ nav {
 .voice-cta.live { background: #d92d2d; animation: vcPulse 1.6s ease infinite; }
 @keyframes vcPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(217,45,45,.32); } 50% { box-shadow: 0 0 0 9px rgba(217,45,45,0); } }
 @media (max-width: 900px) {
-  .voice-center { padding: 24px 4px; }
+  .voice-card { padding: 14px 14px 14px; }
+  .voice-head { padding-bottom: 10px; }
+  .voice-title { font-size: 14px; }
+  .voice-center { padding: 14px 4px; gap: 12px; }
+  .voice-orb { width: 64px; height: 64px; }
+  .voice-orb svg { width: 22px; height: 22px; }
   .vc-caps { max-width: 100%; }
-  .vc-cap { font-size: 12px; }
+  .vc-cap { font-size: 12px; height: 28px; gap: 9px; }
+  .vc-cap-ico { width: 18px; height: 18px; }
   .ai-transcript { max-width: 100%; height: 76px; }
+  .voice-types { padding-top: 10px; margin-bottom: 10px; gap: 5px; }
+  .voice-type { font-size: 11.5px; padding: 5px 11px; }
+  .voice-cta { height: 40px; padding: 0; font-size: 13.5px; }
+}
+@media (max-width: 420px) {
+  .voice-card { padding: 12px; }
+  .voice-orb { width: 58px; height: 58px; }
+  .voice-orb svg { width: 20px; height: 20px; }
+  .vc-cap { font-size: 11.5px; height: 26px; }
+  .voice-type { font-size: 11px; padding: 5px 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .vc-caps { transition: none; }
@@ -784,6 +932,7 @@ nav {
   background: var(--white); outline: none; transition: border-color .2s;
 }
 .ed-card textarea:focus { border-color: var(--g400); }
+.ed-card textarea { overflow-y: hidden; }
 .ed-run { margin: 10px 0 12px; justify-content: center; padding: 12px; font-size: 14.5px; }
 .ed-run:disabled { opacity: .4; cursor: default; transform: none; }
 .ed-right {
@@ -825,12 +974,36 @@ nav {
 .ed-results .ai-actions { margin-top: 8px; }
 .ed-right .ai-error { margin-top: 10px; }
 @media (max-width: 900px) {
-  .ed-right { min-height: 220px; }
-  .ed-card textarea { font-size: 16px; min-height: 120px; } /* prevents iOS focus zoom */
-  .ed-proc { gap: 8px; margin-top: 18px; }
+  .ed-card { padding: 14px; }
+  .ed-icon { width: 32px; height: 32px; }
+  .ed-icon svg { width: 16px; height: 16px; }
+  .ed-title { font-size: 14px; }
+  .ed-sub { font-size: 12px; line-height: 1.4; }
+  .ed-headrow { gap: 10px; margin-bottom: 10px; }
+  .ed-chips { gap: 6px; margin-bottom: 8px; }
+  .ed-chip { font-size: 12px; padding: 6px 12px; }
+  /* the result panel is not a scroll container on a phone - it grows with its content */
+  .ed-right {
+    flex: none; overflow: visible; min-height: 0; max-height: none;
+    padding: 12px 14px;
+  }
+  .ed-card textarea { font-size: 16px; min-height: 88px; } /* 16px prevents iOS focus zoom */
+  .ed-run { height: 42px; padding: 0; margin: 8px 0 10px; font-size: 13.5px; }
+  .ed-proc { gap: 8px; margin-top: 0; }
+  .ed-summary { font-size: 13px; }
+  .ed-reply { font-size: 13px; padding: 11px 13px; }
   .ai-loader-label { white-space: normal; }
   .ai-step { font-size: 12.5px; }
   .ai-trace-head { font-size: 12.5px; }
+  /* idle: a slim bar, not a tall empty box */
+  .ed-right .ai-empty { flex-direction: row; align-items: center; gap: 10px; padding: 4px 0; }
+  .ed-right .ai-empty-ico { width: 28px; height: 28px; }
+  .ed-right .ai-empty-t { font-size: 12.5px; }
+}
+@media (max-width: 420px) {
+  .ed-card { padding: 12px; }
+  .ed-chip { font-size: 11.5px; padding: 5px 11px; }
+  .ed-card textarea { min-height: 80px; }
 }
 /* these rules live after the shared primitives, so they need their own reduced-motion pass */
 @media (prefers-reduced-motion: reduce) {
@@ -1231,6 +1404,9 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
   gap: 22px; align-items: start;
 }
 .team-track:focus-visible { outline: 2px solid rgba(21,128,61,.5); outline-offset: 8px; border-radius: 14px; }
+/* boxless by default: the members stay direct children of the grid/row above,
+   so nothing about the existing layout or the nth-child stagger changes */
+.team-row { display: contents; }
 .team-member { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 0; }
 
 /* ── portrait base (shared circle system for humans + orbs) ── */
@@ -1331,10 +1507,6 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
   0%, 100% { transform: translateX(0); opacity: .55; }
   50%      { transform: translateX(4px); opacity: 1; }
 }
-
-/* boxless by default: the members stay direct children of the grid/row above,
-   so nothing about the existing layout or the nth-child stagger changes */
-.team-row { display: contents; }
 
 /* ── reveal: neutralise the generic slide on the container, stagger the members L→R ── */
 .team-track[data-reveal] { opacity: 1; transform: none; transition: none; }
@@ -1452,56 +1624,6 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
   .team.is-rail .team-track .team-member { transform: none; }
 }
 
-/* ── the travel itself, run off the main thread ──
-   Scrubbing a transform from a rAF loop means the row is repositioned by the
-   main thread while the page itself is scrolled by the compositor. The two are
-   not in step, so every frame the main thread is late the row visibly lags the
-   pinned box and snaps back - that is the stutter, and it shows up in both
-   directions because momentum scrolling starves the main thread either way.
-
-   A view-timeline hands the whole thing to the compositor: the row's position
-   becomes a function of the section's progress through the scrollport, sampled
-   at the same time and on the same thread as the scroll. There is no frame to
-   be late for. The rAF path stays in TEAM RAIL for engines without it.
-
-   The range is the pin window (`contain` = the section entirely covers the
-   scrollport), inset at both ends so the row is genuinely at rest for a beat
-   as the section pins and again once it has parked, instead of jumping to full
-   speed the instant sticky engages and stopping dead when it releases.
-
-   The curve is the part worth explaining. Any easing that starts and ends at
-   zero speed has to make up the distance somewhere in between, so the only
-   real question is how big that peak is allowed to get. A symmetric in-out
-   cubic - the obvious choice, and what this used to be - peaks at 3x its own
-   average, which on a 749 px travel is a visible lurch through the middle of
-   the section. Pulling both control points in towards the diagonal flattens
-   that: at .22/.78 the peak is ~1.28x average, i.e. the row ramps up, crosses
-   at a near-constant speed, and ramps down. Soft ends, no burst.
-
-   Pace is the other half, and it is set in JS (see PACE): the pin is made 1.5x
-   longer than the travel, so the row moves well under one pixel per pixel of
-   finger. Fast easing over a short pin is what reads as "sudden"; the same
-   distance spread over more scroll reads as deliberate. */
-@supports (animation-timeline: view()) {
-  @media (max-width: 560px) {
-    .team.is-rail { view-timeline: --rail block; }
-    .team.is-rail .team-row {
-      /* the animation owns the transform now - drop the fallback var so the
-         two can never both be applied */
-      transform: none;
-      animation: rail-travel 1s cubic-bezier(.22, 0, .78, 1) both;
-      animation-timeline: --rail;
-      animation-range: contain 3% contain 92%;
-    }
-  }
-}
-/* --rail-shift is the measured travel, written by TEAM RAIL. Keyframes resolve
-   custom properties at the element, so re-measuring (font swap, HU/EN switch)
-   updates the end state without touching the animation. */
-@keyframes rail-travel {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(calc(0px - var(--rail-shift, 0px)), 0, 0); }
-}
 /* ── the travel itself, run off the main thread ──
    Scrubbing a transform from a rAF loop means the row is repositioned by the
    main thread while the page itself is scrolled by the compositor. The two are
@@ -1963,11 +2085,18 @@ select:focus:not(:focus-visible),
       <div class="chat-frame" data-reveal data-delay="200">
         <div class="chat-card">
           <div class="chat-head">
-            <svg width="22" height="22" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
-            </svg>
+            <span class="chat-logo" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
+              </svg>
+            </span>
             <span class="chat-title" data-i18n="chat.title">AI asszisztens</span>
-            <span class="chat-status"><span class="chat-dot"></span><span data-i18n="chat.online">Online</span></span>
+            <span class="chat-head-actions">
+              <button class="ai-iconbtn" id="chatNew" type="button" aria-label="Új beszélgetés">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <span class="chat-status"><span class="chat-dot"></span><span data-i18n="chat.online">Online</span></span>
+            </span>
           </div>
           <div class="chat-log" id="chatLog"></div>
           <div class="chat-chips" id="chatChips">
@@ -1977,8 +2106,12 @@ select:focus:not(:focus-visible),
             <button class="chat-chip" data-i18n="chat.chip4">Konzultációt szeretnék foglalni</button>
           </div>
           <div class="chat-inputrow">
-            <textarea id="chatInput" rows="1" placeholder="Írd ide a kérdésed..." aria-label="Message" data-clarity-mask="true"></textarea>
-            <button class="btn-pill" id="chatSend" data-i18n="chat.send">Küldés &rarr;</button>
+            <div class="ai-composer" id="chatComposer">
+              <textarea id="chatInput" rows="1" placeholder="Írd ide a kérdésed..." aria-label="Message" data-clarity-mask="true"></textarea>
+              <button class="ai-send" id="chatSend" type="button" aria-label="Küldés">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -2003,7 +2136,7 @@ select:focus:not(:focus-visible),
             <div class="ai-transcript" id="voiceTranscript"></div>
           </div>
           <div class="voice-types" id="voiceTypes">
-            <button class="voice-type sel" data-type="about" data-i18n="vc.t.about">Automating bemutató</button>
+            <button class="voice-type sel" data-type="about" data-i18n="vc.t.about">Automating</button>
             <button class="voice-type" data-type="recep" data-i18n="vc.t.recep">Recepciós</button>
             <button class="voice-type" data-type="resto" data-i18n="vc.t.resto">Pizzéria</button>
             <button class="voice-type" data-type="supp" data-i18n="vc.t.supp">Ügyfélszolgálat</button>
@@ -2024,7 +2157,7 @@ select:focus:not(:focus-visible),
             </div>
             <div>
               <div class="ed-title" data-i18n="ed.title">E-mail demó</div>
-              <div class="ed-sub" data-i18n="ed.sub">Illessz be egy beérkező ügyfél-e-mailt - az AI kategorizálja, és megírja a válasz-piszkozatot.</div>
+              <div class="ed-sub" data-i18n="ed.sub">Az AI kategorizálja és megírja a válasz-piszkozatot.</div>
             </div>
           </div>
           <div class="ed-chips">
@@ -2051,7 +2184,9 @@ select:focus:not(:focus-visible),
       </div>
 
       <div class="team-track" data-reveal tabindex="0" role="list" aria-label="Automating csapat">
-          <div class="team-row">
+       <!-- display:contents everywhere except the phone rail, where it becomes the
+            single row that the scroll translates inside .team-track's clip box -->
+       <div class="team-row" role="presentation">
 
         <!-- Human · Homoki Gábor -->
         <div class="team-member" role="listitem">
@@ -2111,8 +2246,9 @@ select:focus:not(:focus-visible),
           <div class="tm-name">Rudolf</div>
           <div class="tm-role" data-i18n="team.or.role">AI,<br>Kommunikációs igazgató</div>
         </div>
-          </div>
-        </div>
+
+       </div>
+      </div>
 
       <div class="team-hint" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12h15m0 0-5.5-5.5M19 12l-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2490,15 +2626,14 @@ const T = {
     'chat.chip2':       'What case studies do you have?',
     'chat.chip3':       'How does working together look?',
     'chat.chip4':       'I\'d like to book a consultation',
-    'chat.send':        'Send &rarr;',
     'vc.title':         'Voice demo',
     'vc.cta':           'Try it live',
-    'vc.t.about':       'About Automating',
+    'vc.t.about':       'Automating',
     'vc.t.recep':       'Receptionist',
     'vc.t.resto':       'Pizzeria',
     'vc.t.supp':        'Customer support',
     'ed.title':         'Email demo',
-    'ed.sub':           'Paste an incoming customer email - the AI categorises it and drafts the reply.',
+    'ed.sub':           'The AI categorises it and drafts the reply.',
     'ed.s1':            'Complaint',
     'ed.s2':            'Quote request',
     'ed.s3':            'Billing issue',
@@ -2657,15 +2792,14 @@ const T = {
     'chat.chip2':       'Milyen esettanulmányaitok vannak?',
     'chat.chip3':       'Hogyan zajlik a közös munka?',
     'chat.chip4':       'Konzultációt szeretnék foglalni',
-    'chat.send':        'Küldés &rarr;',
     'vc.title':         'Hang-demó',
     'vc.cta':           'Kipróbálom élőben',
-    'vc.t.about':       'Automating bemutató',
+    'vc.t.about':       'Automating',
     'vc.t.recep':       'Recepciós',
     'vc.t.resto':       'Pizzéria',
     'vc.t.supp':        'Ügyfélszolgálat',
     'ed.title':         'E-mail demó',
-    'ed.sub':           'Illessz be egy beérkező ügyfél-e-mailt - az AI kategorizálja, és megírja a válasz-piszkozatot.',
+    'ed.sub':           'Az AI kategorizálja és megírja a válasz-piszkozatot.',
     'ed.s1':            'Panasz',
     'ed.s2':            'Ajánlatkérés',
     'ed.s3':            'Számla-kérdés',
@@ -3721,38 +3855,48 @@ let prodVisible = false;
   const input = document.getElementById('chatInput');
   const sendBtn = document.getElementById('chatSend');
   const chips = document.getElementById('chatChips');
+  const composer = document.getElementById('chatComposer');
+  const newBtn = document.getElementById('chatNew');
   if(!log || !input || !sendBtn) return;
 
   const WEBHOOK    = 'https://n8n.automating.hu/webhook/automating-chatbot/chat';
   const WEBHOOK_EN = 'https://n8n.automating.hu/webhook/automating-chatbot-en/chat';
   const CHAT_T = {
     en: {
-      greeting: 'Hi! 👋 I\'m the **Automating** AI assistant.\nAsk me about our services, case studies, or AI automation!',
+      greeting: 'Hi! 👋 I\'m the **Automating** AI assistant — ask me about our services, case studies or pricing.',
+      kbLabel: 'Knows:',
+      kb: ['services', 'case studies', 'pricing', 'booking'],
       error: 'Sorry, I couldn\'t answer just now. 🙇 Please try again in a moment, or email us: **hello@automating.hu**',
       empty: 'Oops, I received an empty reply. Please try again!',
       placeholder: 'Type your question...',
-      kbLabel: 'Knows:',
-      kb: ['services', 'case studies', 'pricing', 'booking'],
       steps: ['Understanding the question', 'Searching the knowledge base', 'Composing the answer'],
       stepsDone: (n, t) => n + ' steps · ' + t,
       copy: 'Copy',
       copied: 'Copied',
       again: 'Retry',
       fups: ['How much does it cost?', 'How long does it take to set up?', 'Book a consultation'],
+      agent: 'Automating AI',
+      thinking: 'Thinking',
+      sendAria: 'Send',
+      newAria: 'New conversation',
     },
     hu: {
-      greeting: 'Szia! 👋 Az **Automating** AI asszisztense vagyok.\nKérdezz bátran a szolgáltatásainkról, esettanulmányainkról vagy az AI-automatizálásról!',
+      greeting: 'Szia! 👋 Az **Automating** AI asszisztense vagyok — kérdezz a szolgáltatásainkról, esettanulmányainkról vagy az árazásról.',
+      kbLabel: 'Ismeri:',
+      kb: ['szolgáltatások', 'esettanulmányok', 'árazás', 'foglalás'],
       error: 'Elnézést, most nem sikerült válaszolnom. 🙇 Próbáld újra egy pillanat múlva, vagy írj nekünk: **hello@automating.hu**',
       empty: 'Hoppá, üres válasz érkezett. Próbáld újra!',
       placeholder: 'Írd ide a kérdésed...',
-      kbLabel: 'Ismeri:',
-      kb: ['szolgáltatások', 'esettanulmányok', 'árazás', 'foglalás'],
       steps: ['Kérdés értelmezése', 'Tudásbázis keresése', 'Válasz összeállítása'],
       stepsDone: (n, t) => n + ' lépés · ' + t,
       copy: 'Másolás',
       copied: 'Másolva',
       again: 'Újra',
       fups: ['Mennyibe kerül?', 'Mennyi idő alatt vezethető be?', 'Kérek egy konzultációt'],
+      agent: 'Automating AI',
+      thinking: 'Gondolkodik',
+      sendAria: 'Küldés',
+      newAria: 'Új beszélgetés',
     }
   };
   const ctr = () => CHAT_T[currentLang] || CHAT_T.hu;
@@ -3791,32 +3935,43 @@ let prodVisible = false;
     return html;
   }
 
-  function bubble(cls, html) {
+  /* the user still gets a bubble - it is the only one left */
+  function bubble(html) {
     const el = document.createElement('div');
-    el.className = 'chat-msg ' + cls;
+    el.className = 'chat-msg';
     el.innerHTML = html;
     log.appendChild(el);
     log.scrollTop = log.scrollHeight;
     return el;
   }
 
-  /* idle: static, true summary of what the assistant is trained on */
-  function kbStrip() {
+  /* the assistant answers in a SECTION: quiet meta line, then plain prose.
+     `sub` is the source label; omitted for the greeting, which retrieves nothing */
+  function section(sub) {
     const t = ctr();
     const el = document.createElement('div');
-    el.className = 'ai-kb';
-    const lb = document.createElement('span');
-    lb.className = 'ai-kb-lb';
-    lb.textContent = t.kbLabel;
-    el.appendChild(lb);
-    t.kb.forEach((k, i) => {
-      const c = document.createElement('span');
-      c.className = 'ai-kb-chip';
-      c.textContent = k;
-      c.style.animationDelay = (i * 80) + 'ms';
-      el.appendChild(c);
-    });
-    return el;
+    el.className = 'ai-sec';
+    const meta = document.createElement('div');
+    meta.className = 'ai-sec-meta';
+    const name = document.createElement('span');
+    name.className = 'ai-sec-name';
+    name.textContent = t.agent;
+    meta.appendChild(name);
+    const body = document.createElement('div');
+    body.className = 'ai-sec-body';
+    el.append(meta, body);
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+    return {
+      el: el, meta: meta, body: body,
+      /* the language switch relabels the meta line in place */
+      relabel(tr) { name.textContent = tr.agent; }
+    };
+  }
+
+  /* every finished section sits back while a new answer is being produced */
+  function resolvePrevious() {
+    log.querySelectorAll('.ai-sec').forEach(s => s.classList.add('resolving'));
   }
 
   /* word-by-word reveal that keeps the rendered markdown tree intact:
@@ -3824,7 +3979,7 @@ let prodVisible = false;
   function streamMd(el, html) {
     el.innerHTML = html;
     el.classList.add('ai-stream-md');
-    if (AIUI.reduced()) { el.classList.add('instant'); return; }
+    if (AIUI.reduced()) { el.classList.add('instant'); return 0; }
     const nodes = [];
     const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
     let n;
@@ -3845,6 +4000,30 @@ let prodVisible = false;
       });
       t.parentNode.replaceChild(frag, t);
     });
+    /* how long the whole reveal takes, so the caller can time what comes after */
+    return Math.round(Math.max(0, i - 1) * step) + 420;
+  }
+
+  /* keep the log pinned to the bottom while words appear - but the moment the
+     reader scrolls up to re-read something, stop yanking them back down */
+  function followStream(ms) {
+    if (AIUI.reduced() || ms <= 0) { log.scrollTop = log.scrollHeight; return; }
+    let stick = true;
+    /* wheel/touch is unambiguous user intent; a scroll event is not, because our
+       own rAF writes fire scroll events too */
+    const release = e => { if (!e || e.type !== 'wheel' || e.deltaY < 0) stick = false; };
+    log.addEventListener('wheel', release, { passive: true });
+    log.addEventListener('touchmove', release, { passive: true });
+    const stop = () => {
+      log.removeEventListener('wheel', release);
+      log.removeEventListener('touchmove', release);
+    };
+    const t0 = performance.now();
+    (function tick() {
+      if (stick) log.scrollTop = log.scrollHeight;
+      if (performance.now() - t0 < ms + 250) requestAnimationFrame(tick);
+      else stop();
+    })();
   }
 
   /* generic next-step chips - a static list, never presented as model output */
@@ -3859,35 +4038,63 @@ let prodVisible = false;
       b.className = 'chat-chip';
       b.textContent = q;
       if (!reducedMo()) {
-        b.style.animation = 'aiFadeUp 320ms var(--ease-ai) both';
+        b.style.animation = 'aiFadeUp 350ms var(--ease-ai) both';
         b.style.animationDelay = (i * 90) + 'ms';
       }
       b.addEventListener('click', () => send(q));
       fupsEl.appendChild(b);
     });
+    /* measure before the append, so a reader who scrolled up stays put */
+    const near = log.scrollHeight - log.clientHeight - log.scrollTop < 60;
     log.appendChild(fupsEl);
-    log.scrollTop = log.scrollHeight;
+    if (near) log.scrollTop = log.scrollHeight;
   }
 
-  let interacted = false, kbEl = null;
+  let interacted = false;
+  let kbEl = null;
+  /* idle: static, true summary of what the assistant is trained on */
+  function kbStrip() {
+    const t = ctr();
+    const el = document.createElement('div');
+    el.className = 'ai-kb';
+    const lb = document.createElement('span');
+    lb.className = 'ai-kb-lb';
+    lb.textContent = t.kbLabel;
+    el.appendChild(lb);
+    t.kb.forEach((k, i) => {
+      const c = document.createElement('span');
+      c.className = 'ai-kb-chip';
+      c.textContent = k;
+      c.style.animationDelay = (i * 80) + 'ms';
+      el.appendChild(c);
+    });
+    return el;
+  }
+
   const turns = []; /* finished turns, kept so the language switch can relabel them */
   async function send(text, opts) {
     opts = opts || {};
     text = (text || input.value).trim();
     if (!text || sendBtn.disabled) return;
     interacted = true;
-    input.value = ''; autosize();
     if (kbEl && kbEl.parentNode) { kbEl.remove(); kbEl = null; }
+    input.value = ''; autosize(); updateSend();
     if (fupsEl && fupsEl.parentNode) { fupsEl.remove(); fupsEl = null; }
     if (chips && chips.parentNode) chips.remove();
-    if (opts.echo !== false) bubble('user', render(text));
-    sendBtn.disabled = true;
+    /* everything already on screen settles back while the new turn is produced */
+    resolvePrevious();
+    if (opts.echo !== false) bubble(render(text));
+    sendBtn.disabled = true; updateSend();
     const tr = ctr();
 
-    /* the three-dot typing bubble is replaced by the real RAG pipeline steps */
-    const wrap = bubble('bot', '');
+    /* the three-dot typing bubble is replaced by the real RAG pipeline steps,
+       fronted by the LoadingState: dot grid + shimmer label + real elapsed time */
+    const sec = section(true);
+    const ld = AIUI.loader(tr.thinking);
+    ld.el.classList.add('dots');
+    sec.meta.appendChild(ld.el);
     const tc = AIUI.trace(tr.steps);
-    wrap.appendChild(tc.el);
+    sec.meta.appendChild(tc.el);
     tc.advance(0);
     log.scrollTop = log.scrollHeight;
     const t0 = performance.now();
@@ -3908,27 +4115,46 @@ let prodVisible = false;
     timers.forEach(clearTimeout);
     const ms = performance.now() - t0;
 
-    const ans = document.createElement('div');
-    ans.className = 'ai-answer';
-    wrap.appendChild(ans);
+    /* the loader hands the meta slot over to the collapsed trace pill; both are
+       the same height, so the prose underneath does not shift */
+    ld.stop();
+    ld.el.classList.add('out');
+    setTimeout(() => { if (ld.el.parentNode) ld.el.remove(); }, reducedMo() ? 0 : 200);
+
+    const ans = sec.body;
     if (failed) {
       tc.set(tc.currentIndex(), 'fail');
       ans.innerHTML = render(tr.error);
     } else {
       tc.allDone();
       tc.collapse(tr.stepsDone(tr.steps.length, AIUI.fmt(ms)));
-      streamMd(ans, render(out));
+      const streamMs = streamMd(ans, render(out));
+      followStream(streamMs);
       const row = AIUI.actions([
         { icon: 'copy',  label: tr.copy,  onClick: b => AIUI.copyAction(b, out, tr.copied, tr.copy) },
         { icon: 'retry', label: tr.again, onClick: () => send(text, { echo: false }) }
       ]);
       row.classList.add('chat-acts');
-      log.appendChild(row);
-      turns.push({ tc: tc, ms: ms, row: row });
-      showFollowups();
+      /* copy/retry and the follow-ups are only useful once there is a whole
+         answer to act on - they wait for the last word to land */
+      if (streamMs > 0) {
+        row.classList.add('hold');
+        sec.el.appendChild(row);
+        setTimeout(() => { row.classList.remove('hold'); row.classList.add('reveal'); }, streamMs);
+        setTimeout(showFollowups, streamMs + 200);
+      } else {
+        sec.el.appendChild(row);
+        showFollowups();
+      }
+      turns.push({ tc: tc, ms: ms, row: row, sec: sec });
     }
-    sendBtn.disabled = false;
-    log.scrollTop = log.scrollHeight;
+    sendBtn.disabled = false; updateSend();
+    if (failed) log.scrollTop = log.scrollHeight;
+  }
+
+  /* the square button is only "armed" while there is something to send */
+  function updateSend() {
+    sendBtn.classList.toggle('on', !sendBtn.disabled && input.value.trim().length > 0);
   }
 
   sendBtn.addEventListener('click', () => send());
@@ -3937,15 +4163,43 @@ let prodVisible = false;
   });
   function autosize() {
     input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+    input.style.height = Math.max(32, Math.min(input.scrollHeight, 108)) + 'px';
   }
-  input.addEventListener('input', autosize);
-  document.querySelectorAll('.chat-chip').forEach((c, i) => {
-    c.addEventListener('click', () => send(c.textContent));
-    if (!reducedMo()) {
-      c.style.animation = 'aiFadeUp 320ms var(--ease-ai) both';
-      c.style.animationDelay = (i * 60) + 'ms';
-    }
+  input.addEventListener('input', () => { autosize(); updateSend(); });
+  /* the whole bordered box is the click target, like a real composer */
+  if (composer) composer.addEventListener('mousedown', e => {
+    if (e.target.closest('button') || e.target === input) return;
+    e.preventDefault(); input.focus();
+  });
+
+  function wireChips() {
+    chips.querySelectorAll('.chat-chip').forEach((c, i) => {
+      if (!c.dataset.wired) { c.dataset.wired = '1'; c.addEventListener('click', () => send(c.textContent)); }
+      if (!reducedMo()) {
+        c.style.animation = 'none';
+        void c.offsetWidth; /* restart the stagger when the chips come back */
+        c.style.animation = 'aiFadeUp 320ms var(--ease-ai) both';
+        c.style.animationDelay = (i * 60) + 'ms';
+      }
+    });
+  }
+  if (chips) wireChips();
+
+  /* header action: a genuinely new conversation - fresh sessionId, empty log */
+  if (newBtn) newBtn.addEventListener('click', () => {
+    sessionId = 'web-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+    sessionStorage.setItem('chatSession', sessionId);
+    log.innerHTML = '';
+    turns.length = 0;
+    fupsEl = null;
+    interacted = false;
+    if (!kbEl || !kbEl.parentNode) { kbEl = kbStrip(); log.appendChild(kbEl); }
+    greetSec = section(false);
+    greetSec.body.innerHTML = render(ctr().greeting);
+    if (chips && !chips.parentNode) { log.appendChild(chips); wireChips(); }
+    input.value = ''; autosize();
+    sendBtn.disabled = false; updateSend();
+    log.scrollTop = 0;
   });
 
   // The site-wide smooth-scroll hijacks wheel events on window. Let the log scroll
@@ -3960,20 +4214,36 @@ let prodVisible = false;
     }
   });
 
-  const greetEl = bubble('bot', render(ctr().greeting));
+  let greetSec = section(false);
+  greetSec.body.innerHTML = render(ctr().greeting);
+  /* the knowledge strip sits between the greeting and the opening chips: a
+     static, true summary of what the assistant is trained on. It belongs to the
+     idle state, so it is dropped the moment the conversation starts. */
   kbEl = kbStrip();
   log.appendChild(kbEl);
+  /* the opening chips belong to the greeting, not to the composer edge */
+  if (chips) log.appendChild(chips);
   input.placeholder = ctr().placeholder;
+  updateSend();
+  applyAria(ctr());
+
+  function applyAria(tr) {
+    sendBtn.setAttribute('aria-label', tr.sendAria);
+    if (newBtn) { newBtn.setAttribute('aria-label', tr.newAria); newBtn.title = tr.newAria; }
+  }
 
   langCallbacks.push(lang => {
     const tr = CHAT_T[lang] || CHAT_T.hu;
     input.placeholder = tr.placeholder;
+    applyAria(tr);
+    greetSec.relabel(tr);
     if (!interacted) {
-      greetEl.innerHTML = render(tr.greeting);
+      greetSec.body.innerHTML = render(tr.greeting);
       if (kbEl && kbEl.parentNode) { const fresh = kbStrip(); kbEl.replaceWith(fresh); kbEl = fresh; }
     }
     if (fupsEl && fupsEl.parentNode) showFollowups();
     turns.forEach(t => {
+      t.sec.relabel(tr);
       t.tc.setLabels(tr.steps);
       t.tc.setHead(tr.stepsDone(tr.steps.length, AIUI.fmt(t.ms)));
       const lbs = t.row.querySelectorAll('.ai-act-lb');
@@ -4241,7 +4511,7 @@ let prodVisible = false;
     btn.disabled = false;
     btn.classList.remove('live');
     btn.innerHTML = (T[currentLang] || T.hu)['vc.cta'];
-    setStatus(tr().desc[selType]);
+    setStatus('');
     paintCaps(true);
   }
 
@@ -4368,7 +4638,7 @@ let prodVisible = false;
     if (b.classList.contains('sel')) return;
     selType = b.dataset.type;
     typeBtns.forEach(x => x.classList.toggle('sel', x === b));
-    setStatus(tr().desc[selType]);
+    setStatus('');
     swapCaps();
   }));
 
@@ -4402,7 +4672,7 @@ const AIUI = (function(){
   const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const ICO = {
-    ok:    '<svg class="ai-i-ok" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--black)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+    ok:    '<svg class="ai-i-ok" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--black)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
     err:   '<svg class="ai-i-err" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d92d2d" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>',
     chev:  '<svg class="ai-trace-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
     copy:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
@@ -4451,8 +4721,21 @@ const AIUI = (function(){
     const body = document.createElement('div'); body.className = 'ai-trace-body';
     const inner = document.createElement('div'); inner.className = 'ai-trace-inner';
     const list = document.createElement('div'); list.className = 'ai-trace-steps';
+    const line = document.createElement('span');
+    line.className = 'ai-trace-line'; line.setAttribute('aria-hidden', 'true');
+    list.appendChild(line);
     inner.appendChild(list); body.appendChild(inner);
     el.append(head, body);
+
+    /* the connector is only as tall as the steps that have actually shown up,
+       so it draws itself downward instead of appearing at full length */
+    function growLine() {
+      requestAnimationFrame(() => {
+        const last = rows.filter(r => !r.classList.contains('pending')).pop() || rows[0];
+        if (!last) return;
+        line.style.height = Math.max(0, last.offsetTop + last.offsetHeight - 4) + 'px';
+      });
+    }
 
     const rows = labels.map((lbl, i) => {
       const r = document.createElement('div');
@@ -4467,6 +4750,7 @@ const AIUI = (function(){
     head.addEventListener('click', () => {
       const open = el.classList.toggle('open');
       head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) growLine();
     });
 
     function set(i, st) {
@@ -4474,6 +4758,7 @@ const AIUI = (function(){
       if (!r) return;
       r.className = 'ai-step ' + st;
       r.querySelector('.ai-step-lb').classList.toggle('ai-shimmer', st === 'active');
+      growLine();
     }
     return {
       el: el,
@@ -4523,13 +4808,14 @@ const AIUI = (function(){
     return instant ? 0 : Math.round(startAt + n * step);
   }
 
-  function empty(icon, title, sub) {
+  /* title only - the card header already says what this panel will hold,
+     so a second sentence here was the same message twice */
+  function empty(icon, title) {
     const el = document.createElement('div');
     el.className = 'ai-empty';
     el.innerHTML = '<span class="ai-empty-ico">' + (ICO[icon] || icon) + '</span>'
-      + '<span class="ai-empty-t"></span><span class="ai-empty-s"></span>';
+      + '<span class="ai-empty-t"></span>';
     el.querySelector('.ai-empty-t').textContent = title;
-    el.querySelector('.ai-empty-s').textContent = sub;
     return el;
   }
 
@@ -4812,12 +5098,26 @@ const AIUI = (function(){
   }
 
   runBtn.addEventListener('click', () => run());
+  /* grow to fit instead of scrolling: a box that scrolls inside the card is
+     exactly what we removed everywhere else */
+  const edNarrow = () => window.matchMedia('(max-width: 900px)').matches;
+  function edAutosize() {
+    input.style.height = 'auto';
+    const cap = edNarrow() ? Infinity : 260;
+    input.style.height = Math.min(input.scrollHeight, cap) + 'px';
+    input.style.overflowY = input.scrollHeight > cap ? 'auto' : 'hidden';
+  }
+  input.addEventListener('input', edAutosize);
+  window.addEventListener('resize', edAutosize);
+
   document.querySelectorAll('.ed-chip').forEach(c => c.addEventListener('click', () => {
     input.value = (SAMPLES[currentLang] || SAMPLES.hu)[c.dataset.key];
+    edAutosize();
     input.focus();
   }));
 
   input.placeholder = tr().ph;
+  edAutosize();
   setIdle();
   langCallbacks.push(() => {
     input.placeholder = tr().ph;
