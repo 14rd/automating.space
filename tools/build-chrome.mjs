@@ -113,13 +113,19 @@ function dictOf(lang) {
 }
 const I18N = { hu: dictOf('hu'), en: dictOf('en') };
 
+/* The extensionless URL a page file is served at, since internal links dropped
+   their .html suffixes. Keying the pair table by this rather than by filename
+   is what lets it line up with the hrefs in index.html, which are already
+   clean - key it by filename and every article silently loses its pair. */
+const urlOf = page => '/' + page.replace(/\.html$/, '');
+
 /* Which HU page corresponds to which EN page. Taken from the article links in
-   index.html, which already carry both. */
+   index.html, which already carry both, so both sides are clean URLs. */
 const PAIRS = {};
 for (const m of index.matchAll(/href="([^"]+)"\s+data-en-href="([^"]+)"/g)) {
   PAIRS[m[1]] = m[2]; PAIRS[m[2]] = m[1];
 }
-PAIRS['blog.html'] = 'blog-en.html'; PAIRS['blog-en.html'] = 'blog.html';
+PAIRS['/blog'] = '/blog-en'; PAIRS['/blog-en'] = '/blog';
 
 const jsOut = read('tools/chrome.template.js').replace('/*__I18N__*/', JSON.stringify(I18N, null, 2));
 const jsPath = path.join(ROOT, 'assets/chrome.js');
@@ -138,13 +144,19 @@ const PAGES = [
    Bare anchors like #products point at sections that only exist on the home
    page, so on every other page they have to address it explicitly - otherwise
    the header links quietly scroll the current page to nowhere.
-   And the blog articles live one level down, so their chrome needs ../. */
+   And the blog articles live one level down, so their chrome needs ../.
+
+   Anchors resolve to "/#products", not "index.html#products": the site serves
+   extensionless URLs (the .html suffixes were dropped from every internal link
+   for SEO), and writing the filename back in here would undo that on all
+   sixteen pages every time this runs. Root-relative also means depth stops
+   mattering for anchors - one form works from blog/ and from the root alike. */
 function rebase(html, depth) {
   const up = '../'.repeat(depth);
   /* one pass, so a value is never prefixed twice */
   return html.replace(/(href|src|data-en-href)="([^"]*)"/g, (m, attr, val) => {
     if (/^(https?:|mailto:|tel:|\/|data:)/.test(val)) return m;   // absolute, leave alone
-    if (val.startsWith('#')) return `${attr}="${up}index.html${val}"`;
+    if (val.startsWith('#')) return `${attr}="/${val}"`;
     return `${attr}="${up}${val}"`;
   });
 }
@@ -167,12 +179,13 @@ for (const page of PAGES) {
   const notes = [];
 
   /* ── 0. declare the counterpart document, so the language control knows
-        whether it can navigate to a translation ── */
-  const alt = PAIRS[page];
+        whether it can navigate to a translation. Root-relative, so it is the
+        same string whatever depth the page sits at ── */
+  const alt = PAIRS[urlOf(page)];
   html = alt
     ? (html.includes('data-alt-lang-href')
-        ? html.replace(/ data-alt-lang-href="[^"]*"/, ` data-alt-lang-href="${'../'.repeat(depth)}${alt}"`)
-        : html.replace(/<html([^>]*)>/, `<html$1 data-alt-lang-href="${'../'.repeat(depth)}${alt.replace(/^blog\//, depth ? '' : 'blog/')}">`))
+        ? html.replace(/ data-alt-lang-href="[^"]*"/, ` data-alt-lang-href="${alt}"`)
+        : html.replace(/<html([^>]*)>/, `<html$1 data-alt-lang-href="${alt}">`))
     : html;
 
   /* ── 1. markup ── */
