@@ -104,41 +104,62 @@
   "isPartOf": { "@id": "https://automating.hu/#website" },
   "inLanguage": "hu",
   "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Biztos, hogy az AI nem ront el semmit?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Igen, mert nem dobozos botot kapsz. A rendszert a legapróbb részletekig a te folyamataidra tanítjuk." }
-    },
-    {
-      "@type": "Question",
-      "name": "Lecseréli az embereimet?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Az ismétlődő, monoton munkát váltjuk ki, nem az embert. A csapatod arra jut ideje, amihez ember kell." }
-    },
-    {
-      "@type": "Question",
-      "name": "Fel kell forgatnom az egész működésem?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Nem. A legfájóbb ponttal kezdünk, a meglévő rendszereidbe (CRM, naptár, ERP) integrálva. Minimummal indulunk, utána bővítünk." }
-    },
-    {
-      "@type": "Question",
-      "name": "Megéri egy ekkora cégnek, mint az enyém?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A konzultáción megmondjuk, hol és mennyit spórolhatsz. Ha nem éri meg, azt is megmondjuk." }
-    },
-    {
-      "@type": "Question",
-      "name": "Magyarul is jól megy?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Igen. A hang- és e-mail-rendszereink magyar nyelvre vannak hangolva, természetes párbeszéddel. A demóban kipróbálhatod." }
-    },
-    {
-      "@type": "Question",
-      "name": "Mi van az adatainkkal?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A rendszerek a meglévő folyamataidba épülnek, GDPR és EU AI Act szerint. A megfelelőség nálunk nem utógondolat." }
-    },
-    {
-      "@type": "Question",
-      "name": "Mi van, ha mégsem passzol?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Az első konzultáció kötelezettségmentes." }
-    }
+      {
+          "@type": "Question",
+          "name": "Mennyibe kerül egy ilyen AI-rendszer?",
+          "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A pontos ár mindig a projekt méretétől függ, de a lényeg: nem egy nagy, kockázatos beruházásról beszélünk. Moduláris felépítésben dolgozunk - egy jól körülhatárolt, gyorsan megtérülő ponton indulunk, és csak akkor bővítünk, ha az már bizonyított. Az árajánlat mindig tételes, hogy pontosan lásd, mire mennyi megy - nincs rejtett költség."
+          }
+      },
+      {
+          "@type": "Question",
+          "name": "Miért van havi költség, ha a rendszer egyszer elkészül?",
+          "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Az üzemeltetés költsége: API-hívások, telefonpercek, szerverkapacitás, folyamatos karbantartás - ezt mindig tételesen levezetjük. A rendszer felépítése a munka 40%-a, a karbantartás és finomhangolás a fennmaradó 60%, és pontosan ez garantálja, hogy fél év múlva is ugyanolyan pontosan fog működni, mint az első napon."
+          }
+      },
+      {
+          "@type": "Question",
+          "name": "Mennyi idő alatt áll fel egy ilyen rendszer?",
+          "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Egy fókuszált, egy folyamatra épülő megoldás jellemzően 1-2 hét alatt működésbe áll."
+          }
+      },
+      {
+          "@type": "Question",
+          "name": "Nem fog az AI hülyeséget csinálni?",
+          "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pontosan ezért nem „kiengedjük és reméljük” alapon dolgozunk. Minden folyamatot a te konkrét szabályaid szerint tanítunk be (nyitvatartás, kivételek, szélsőséges esetek), és élesítés előtt alapos teszten megy át. Ahol hibázik, abból tanul, és a te javításaidból is fejlődik, tehát idővel maximálisan pontos lesz."
+          }
+      },
+      {
+          "@type": "Question",
+          "name": "Hol tárolódnak az adataink, és megfelel a GDPR-nak, EU AI Actnek?",
+          "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. Az adatfeldolgozás EU-s infrastruktúrán történik, a rendszereket kifejezetten a GDPR és az EU AI Act előírásaihoz igazítva építjük."
+          }
+      },
+      {
+          "@type": "Question",
+          "name": "A miénk lesz a rendszer? Ki tudunk lépni, ha úgy döntünk?",
+          "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen, egyértelműen. A rendszer és a felépített tudásbázis a tiétek, minden ügyféladat és kommunikációs előzmény bármikor exportálható. Nem zárunk be egyetlen platformba sem."
+          }
+      },
+      {
+          "@type": "Question",
+          "name": "Be tudjuk kötni a már meglévő rendszerünkbe (foglalási, műhelyirányítási, könyvelő stb.)?",
+          "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A legtöbb esetben igen. Nem egy általános sablont adunk mindenkinek, hanem a te meglévő folyamataidhoz és rendszereidhez illesztjük az AI-t API-n keresztül - a meglévő rendszereddel dolgozunk együtt, nem helyette építünk egy párhuzamos világot."
+          }
+      }
   ]
 }
 </script>
@@ -1381,9 +1402,46 @@ nav {
 .res-list a {
   display: block; padding: 22px 4px;
   font-size: clamp(17px, 2vw, 22px); font-weight: 500; letter-spacing: -0.02em;
-  transition: opacity .2s;
 }
-.res-list a:hover { opacity: .5; }
+.res-t { display: block; transition: transform .38s var(--ease-ai); }
+
+/* ── the row opens a line about itself on hover ──────────────────────────
+   0fr -> 1fr on a grid row, the same trick the chat's trace panel uses: it is
+   the one way to transition to a height nobody has measured, and the inner
+   element carries the overflow:hidden that does the clipping.
+
+   The row no longer dims on hover. Fading the title was the old affordance,
+   but it fights an opening panel - the thing you just asked to read would
+   arrive already half transparent - so the title holds its ink and slides a
+   hair instead, and the summary is what answers the cursor. */
+.res-more {
+  display: grid; grid-template-rows: 0fr; opacity: 0;
+  transition: grid-template-rows .38s var(--ease-ai), opacity .28s ease;
+}
+.res-d {
+  overflow: hidden; display: block;
+  font-size: clamp(14px, 1.15vw, 15.5px); font-weight: 400; line-height: 1.55;
+  letter-spacing: 0; color: var(--g600);
+}
+/* the top padding lives on the inner box so it is clipped away when closed */
+.res-d > span { display: block; padding-top: 10px; max-width: 62ch; }
+
+.res-list a:hover .res-more,
+.res-list a:focus-visible .res-more { grid-template-rows: 1fr; opacity: 1; }
+.res-list a:hover .res-t,
+.res-list a:focus-visible .res-t { transform: translateX(3px); }
+
+/* No hover on a touch screen, and tapping the row navigates, so there is no
+   gesture left to open it with - the list stays exactly as it was there. */
+@media (hover: none) {
+  .res-more { display: none; }
+  .res-list a:hover { opacity: .5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .res-more { transition: opacity .2s ease; }
+  .res-t { transition: none; }
+  .res-list a:hover .res-t { transform: none; }
+}
 
 /* ════════════════════════════════
    CTA
@@ -1466,17 +1524,44 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
   color: rgba(255,255,255,.75); vertical-align: 2px;
 }
 
-/* ── proof cards ── */
-.ft-badges { display: flex; gap: 12px; }
+/* ── compliance plaques ─────────────────────────────────────────────────────
+   These were two filled squares, one flat green and one flat white, sitting
+   side by side in a narrow column - which read as app-store buttons rather than
+   as a compliance statement, and at that width neither had room for more than
+   an acronym.
+
+   Stacked and set as plaques instead: full column width, a hairline border and
+   a barely-there surface, a mark on the left and the statement set in small
+   letterspaced caps to the right. Two details do most of the work - the rule
+   between the glyph and the text, which is what makes a label read as issued
+   rather than decorative, and lining the two plaques up so the marks and the
+   sub-lines share a baseline down the column.
+
+   Deliberately NOT dressed as a third-party seal: no wreath, no ribbon, no
+   invented certificate number or issuing body. There is no such thing as a GDPR
+   certificate, and a badge that implies one is worth less to a buyer who knows
+   that than a precise claim is. */
+.ft-badges { display: flex; flex-direction: column; gap: 8px; }
 .ft-badge {
-  flex: 1; aspect-ratio: 1 / 1; border-radius: 16px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-  text-align: center; padding: 10px;
+  display: flex; align-items: center; gap: 11px;
+  padding: 11px 13px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.045);
+  color: #fff;
 }
-.ft-badge-dark  { background: #15803d; color: #fff; }
-.ft-badge-light { background: #fff; color: var(--black); }
-.ft-badge-mark { font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
-.ft-badge-sub  { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; opacity: .72; }
+.ft-badge-ico {
+  display: flex; flex-shrink: 0; color: #4ade80;
+  /* the rule is the "issued" cue - it separates the mark from the statement the
+     way a stamp is separated from the text it certifies */
+  padding-right: 11px; border-right: 1px solid rgba(255,255,255,.15);
+}
+.ft-badge-ico svg { display: block; }
+.ft-badge-txt { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.ft-badge-mark { font-size: 14px; font-weight: 650; letter-spacing: -.01em; line-height: 1.1; }
+.ft-badge-sub {
+  font-size: 9.5px; font-weight: 600; letter-spacing: .13em;
+  text-transform: uppercase; color: rgba(255,255,255,.55); line-height: 1.2;
+}
 .ft-status { display: flex; align-items: center; gap: 9px; margin-top: 18px; font-size: 13px; color: rgba(255,255,255,.72); }
 .ft-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.2); flex-shrink: 0; }
 
@@ -2012,6 +2097,13 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
 /* ════════════════════════════════
    CTA GUARANTEE
    ════════════════════════════════ */
+/* "munka kiváltására?" is one idea and was breaking across two lines, turning a
+   two-line heading into three. Held together with nowrap rather than an &nbsp;
+   so the phone can still break it: at the 40 px clamp floor the phrase measures
+   wider than a 390 px viewport's text column, and an unbreakable run would push
+   the page sideways instead of wrapping. */
+.cta .h1 .nowrap { white-space: nowrap; }
+@media (max-width: 900px) { .cta .h1 .nowrap { white-space: normal; } }
 .cta-guarantee { font-size: 14px; color: var(--g400); margin-top: 22px; }
 .hero-guarantee { font-size: 14px; color: var(--g400); margin-top: 18px; }
 
@@ -2636,12 +2728,12 @@ select:focus:not(:focus-visible),
       <h2 class="h1" data-reveal data-i18n="res.h2">Tudástár.</h2>
       <p class="b1" data-reveal data-delay="100" data-i18n="res.p">Cikkek és esettanulmányok arról, mit érdemes automatizálni - és mennyibe kerül.</p>
       <ul class="res-list" data-reveal data-delay="150">
-        <li><a href="/blog/ai-telefonos-asszisztens-ara" data-en-href="/blog/ai-phone-assistant-cost-en" data-i18n="res.l1">Mennyibe kerül egy AI telefonos asszisztens?</a></li>
-        <li><a href="/blog/ai-telefonos-asszisztens-magyarul" data-en-href="/blog/ai-phone-assistant-en" data-i18n="res.l2">AI telefonos asszisztens magyarul: hogyan működik és mire képes?</a></li>
-        <li><a href="/blog/email-automatizalas-ai" data-en-href="/blog/email-automation-ai-en" data-i18n="res.l3">E-mail-automatizálás AI-val: így válaszol a postafiókod magától</a></li>
-        <li><a href="/blog/mit-lehet-automatizalni-kisvallalkozasban" data-en-href="/blog/what-to-automate-en" data-i18n="res.l4">Mit lehet automatizálni egy kisvállalkozásban?</a></li>
-        <li><a href="/case-studies" data-i18n="res.l5">Esettanulmányok: valós eredmények AI-automatizálással</a></li>
-        <li><a href="/blog" data-en-href="/blog-en" data-i18n="res.l6">Összes cikk a blogon &rarr;</a></li>
+        <li><a href="/blog/ai-telefonos-asszisztens-ara" data-en-href="/blog/ai-phone-assistant-cost-en"><span class="res-t" data-i18n="res.l1">Mennyibe kerül egy AI telefonos asszisztens?</span><span class="res-more"><span class="res-d"><span data-i18n="res.d1">Miből áll össze az ár, mitől függ, és hogyan számolj megtérülést.</span></span></span></a></li>
+        <li><a href="/blog/ai-telefonos-asszisztens-magyarul" data-en-href="/blog/ai-phone-assistant-en"><span class="res-t" data-i18n="res.l2">AI telefonos asszisztens magyarul: hogyan működik és mire képes?</span><span class="res-more"><span class="res-d"><span data-i18n="res.d2">Rendelésfelvétel, időpontfoglalás, ügyfélszolgálat - és a magyar nyelv kihívásai.</span></span></span></a></li>
+        <li><a href="/blog/email-automatizalas-ai" data-en-href="/blog/email-automation-ai-en"><span class="res-t" data-i18n="res.l3">E-mail-automatizálás AI-val: így válaszol a postafiókod magától</span><span class="res-more"><span class="res-d"><span data-i18n="res.d3">Kategorizálás, prioritás, válasz-piszkozatok: mit bízz az AI-ra, és mit ne.</span></span></span></a></li>
+        <li><a href="/blog/mit-lehet-automatizalni-kisvallalkozasban" data-en-href="/blog/what-to-automate-en"><span class="res-t" data-i18n="res.l4">Mit lehet automatizálni egy kisvállalkozásban?</span><span class="res-more"><span class="res-d"><span data-i18n="res.d4">10 konkrét folyamat a telefontól a számlázásig - és melyikkel érdemes kezdeni.</span></span></span></a></li>
+        <li><a href="/case-studies"><span class="res-t" data-i18n="res.l5">Esettanulmányok: valós eredmények AI-automatizálással</span><span class="res-more"><span class="res-d"><span data-i18n="res.d5">Valós eredmények valós vállalkozásoktól: telefonos rendelésfelvétel és munkafolyamatok.</span></span></span></a></li>
+        <li><a href="/blog" data-en-href="/blog-en"><span class="res-t" data-i18n="res.l6">Összes cikk a blogon &rarr;</span><span class="res-more"><span class="res-d"><span data-i18n="res.d6">Minden cikk egy helyen.</span></span></span></a></li>
       </ul>
     </div>
   </section>
@@ -2652,32 +2744,32 @@ select:focus:not(:focus-visible),
       <h2 class="h1" data-reveal data-i18n="faq.h2">Gyakori kérdések</h2>
       <div class="faq-list" data-reveal data-delay="100">
         <details class="faq-item">
-          <summary data-i18n="faq.q1">Biztos, hogy az AI nem ront el semmit?</summary>
-          <div class="faq-answer" data-i18n="faq.a1">Igen, mert nem dobozos botot kapsz. A rendszert a legapróbb részletekig a te folyamataidra tanítjuk.</div>
+          <summary data-i18n="faq.q1">Mennyibe kerül egy ilyen AI-rendszer?</summary>
+          <div class="faq-answer" data-i18n="faq.a1">A pontos ár mindig a projekt méretétől függ, de a lényeg: nem egy nagy, kockázatos beruházásról beszélünk. Moduláris felépítésben dolgozunk - egy jól körülhatárolt, gyorsan megtérülő ponton indulunk, és csak akkor bővítünk, ha az már bizonyított. Az árajánlat mindig tételes, hogy pontosan lásd, mire mennyi megy - nincs rejtett költség.</div>
         </details>
         <details class="faq-item">
-          <summary data-i18n="faq.q2">Lecseréli az embereimet?</summary>
-          <div class="faq-answer" data-i18n="faq.a2">Az ismétlődő, monoton munkát váltjuk ki, nem az embert. A csapatod arra jut ideje, amihez ember kell.</div>
+          <summary data-i18n="faq.q2">Miért van havi költség, ha a rendszer egyszer elkészül?</summary>
+          <div class="faq-answer" data-i18n="faq.a2">Az üzemeltetés költsége: API-hívások, telefonpercek, szerverkapacitás, folyamatos karbantartás - ezt mindig tételesen levezetjük. A rendszer felépítése a munka 40%-a, a karbantartás és finomhangolás a fennmaradó 60%, és pontosan ez garantálja, hogy fél év múlva is ugyanolyan pontosan fog működni, mint az első napon.</div>
         </details>
         <details class="faq-item">
-          <summary data-i18n="faq.q3">Fel kell forgatnom az egész működésem?</summary>
-          <div class="faq-answer" data-i18n="faq.a3">Nem. A legfájóbb ponttal kezdünk, a meglévő rendszereidbe (CRM, naptár, ERP) integrálva. Minimummal indulunk, utána bővítünk.</div>
+          <summary data-i18n="faq.q3">Mennyi idő alatt áll fel egy ilyen rendszer?</summary>
+          <div class="faq-answer" data-i18n="faq.a3">Egy fókuszált, egy folyamatra épülő megoldás jellemzően 1-2 hét alatt működésbe áll.</div>
         </details>
         <details class="faq-item">
-          <summary data-i18n="faq.q4">Megéri egy ekkora cégnek, mint az enyém?</summary>
-          <div class="faq-answer" data-i18n="faq.a4">A konzultáción megmondjuk, hol és mennyit spórolhatsz. Ha nem éri meg, azt is megmondjuk.</div>
-        </details>
-        <details class="faq-item" id="faqHungarianOnly">
-          <summary data-i18n="faq.q5">Magyarul is jól megy?</summary>
-          <div class="faq-answer" data-i18n="faq.a5">Igen. A hang- és e-mail-rendszereink magyar nyelvre vannak hangolva, természetes párbeszéddel. A demóban kipróbálhatod.</div>
+          <summary data-i18n="faq.q4">Nem fog az AI hülyeséget csinálni?</summary>
+          <div class="faq-answer" data-i18n="faq.a4">Pontosan ezért nem „kiengedjük és reméljük” alapon dolgozunk. Minden folyamatot a te konkrét szabályaid szerint tanítunk be (nyitvatartás, kivételek, szélsőséges esetek), és élesítés előtt alapos teszten megy át. Ahol hibázik, abból tanul, és a te javításaidból is fejlődik, tehát idővel maximálisan pontos lesz.</div>
         </details>
         <details class="faq-item">
-          <summary data-i18n="faq.q6">Mi van az adatainkkal?</summary>
-          <div class="faq-answer" data-i18n="faq.a6">A rendszerek a meglévő folyamataidba épülnek, GDPR és EU AI Act szerint. A megfelelőség nálunk nem utógondolat.</div>
+          <summary data-i18n="faq.q5">Hol tárolódnak az adataink, és megfelel a GDPR-nak, EU AI Actnek?</summary>
+          <div class="faq-answer" data-i18n="faq.a5">Igen. Az adatfeldolgozás EU-s infrastruktúrán történik, a rendszereket kifejezetten a GDPR és az EU AI Act előírásaihoz igazítva építjük.</div>
         </details>
         <details class="faq-item">
-          <summary data-i18n="faq.q7">Mi van, ha mégsem passzol?</summary>
-          <div class="faq-answer" data-i18n="faq.a7">Az első konzultáció kötelezettségmentes.</div>
+          <summary data-i18n="faq.q6">A miénk lesz a rendszer? Ki tudunk lépni, ha úgy döntünk?</summary>
+          <div class="faq-answer" data-i18n="faq.a6">Igen, egyértelműen. A rendszer és a felépített tudásbázis a tiétek, minden ügyféladat és kommunikációs előzmény bármikor exportálható. Nem zárunk be egyetlen platformba sem.</div>
+        </details>
+        <details class="faq-item">
+          <summary data-i18n="faq.q7">Be tudjuk kötni a már meglévő rendszerünkbe (foglalási, műhelyirányítási, könyvelő stb.)?</summary>
+          <div class="faq-answer" data-i18n="faq.a7">A legtöbb esetben igen. Nem egy általános sablont adunk mindenkinek, hanem a te meglévő folyamataidhoz és rendszereidhez illesztjük az AI-t API-n keresztül - a meglévő rendszereddel dolgozunk együtt, nem helyette építünk egy párhuzamos világot.</div>
         </details>
       </div>
     </div>
@@ -2686,9 +2778,9 @@ select:focus:not(:focus-visible),
   <!-- CTA -->
   <section class="cta" id="cta">
     <div class="wrap">
-      <h2 class="h1" data-reveal data-i18n="cta.h2">Készen állsz a<br>munka kiváltására?</h2>
-      <p class="b1 desk-only" data-reveal data-delay="100" data-i18n="cta.p.desk">30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmondjuk hol illik be az AI. Ha nem illik, azt is megmondjuk. Ha igen, megépítjük.</p>
-      <p class="b1 mob-only" data-reveal data-delay="100" data-i18n="cta.p.mob">30 perces hívás. Nincs értékesítési nyomás.<br>Megértjük a működésedet és megmondjuk,<br>hol illik be az AI. Ha igen, megépítjük.</p>
+      <h2 class="h1" data-reveal data-i18n="cta.h2">Készen állsz a<br><span class="nowrap">munka kiváltására?</span></h2>
+      <p class="b1 desk-only" data-reveal data-delay="100" data-i18n="cta.p.desk">30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmutatjuk hol illik be az AI. Megmondjuk pontosan mennyi időt és pénzt adna vissza.</p>
+      <p class="b1 mob-only" data-reveal data-delay="100" data-i18n="cta.p.mob">30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmutatjuk hol illik be az AI. Megmondjuk pontosan mennyi időt és pénzt adna vissza.</p>
       <div class="cta-row" data-reveal data-delay="200">
         <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill btn-large" data-i18n="cta.book">Konzultációt kérek &rarr;</a>
         <a href="mailto:hello@automating.hu" class="email-chip">hello@automating.hu</a>
@@ -2746,13 +2838,30 @@ select:focus:not(:focus-visible),
           <div class="ft-col">
             <div class="ft-h" data-i18n="footer.h.proof">Tanúsítványok</div>
             <div class="ft-badges">
-              <div class="ft-badge ft-badge-dark">
-                <span class="ft-badge-mark">GDPR</span>
-                <span class="ft-badge-sub">Ready</span>
+              <div class="ft-badge">
+                <span class="ft-badge-ico" aria-hidden="true">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3Z"/>
+                    <path d="m9 12 2.2 2.2L15.5 10"/>
+                  </svg>
+                </span>
+                <span class="ft-badge-txt">
+                  <span class="ft-badge-mark">GDPR</span>
+                  <span class="ft-badge-sub">Ready</span>
+                </span>
               </div>
-              <div class="ft-badge ft-badge-light">
-                <span class="ft-badge-mark">AES</span>
-                <span class="ft-badge-sub">Ready</span>
+              <div class="ft-badge">
+                <span class="ft-badge-ico" aria-hidden="true">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4.5" y="10.5" width="15" height="10" rx="2.2"/>
+                    <path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7"/>
+                    <path d="M12 14.6v2"/>
+                  </svg>
+                </span>
+                <span class="ft-badge-txt">
+                  <span class="ft-badge-mark">AES</span>
+                  <span class="ft-badge-sub">Ready</span>
+                </span>
               </div>
             </div>
             <div class="ft-status">
@@ -2983,9 +3092,15 @@ const T = {
     'res.l4':           'Which processes to automate first in your operation',
     'res.l5':           'Case studies: real results with AI automation',
     'res.l6':           'All articles on the blog &rarr;',
-    'cta.h2':           'Ready to replace<br>the work?',
-    'cta.p.desk':       '30 minute call. No sales pitch. We understand your operations, tell you where AI fits. If it doesn\'t fit, we\'ll say so. If it does, we build it.',
-    'cta.p.mob':        '30 minute call. No sales pitch. We understand<br>your operations, tell you where AI fits. If it<br>doesn\'t fit, we\'ll say so. If it does, we build it.',
+    'res.d1':           'What makes up the price, what drives it, and how to work out the payback.',
+    'res.d2':           'Telephony and CRM integration, 24/7 coverage, human hand-off and guardrails.',
+    'res.d3':           'Triage by category and priority, auto-drafted replies - and what to keep human.',
+    'res.d4':           'How to prioritise by volume, pain and risk - and which process to start with.',
+    'res.d5':           'Real results from real businesses: phone order-taking and workflow automation.',
+    'res.d6':           'Every article in one place.',
+    'cta.h2':           'Ready to replace<br><span class="nowrap">the work?</span>',
+    'cta.p.desk':       '30 minute call. No sales pitch. We understand your operations and show you where AI fits. We tell you exactly how much time and money it would give back.',
+    'cta.p.mob':        '30 minute call. No sales pitch. We understand your operations and show you where AI fits. We tell you exactly how much time and money it would give back.',
     'cta.book':         'Book a consultation &rarr;',
     'footer.copy':      'Automating &copy; 2026 - All rights reserved',
     'footer.cases':     'Case Studies',
@@ -3037,20 +3152,20 @@ const T = {
     'rev3.m1':          'Calc errors ~0',
     'rev.note':         'Reviews are from real, consenting clients.',
     'faq.h2':           'Frequently asked questions',
-    'faq.q1':           'Will this integrate with our existing tech stack?',
-    'faq.a1':           'Yes. We build into your current systems - CRM, ERP, telephony, helpdesk and ticketing (Salesforce, HubSpot, ServiceNow, Zendesk and others) - through their APIs. It\'s an integration layer, not a rip-and-replace.',
-    'faq.q2':           'How do you handle data security and compliance?',
-    'faq.a2':           'Systems are built to your security and data-handling policies, aligned with GDPR/CCPA and the EU AI Act, with role-based access and audit logging. Compliance is designed in, not bolted on.',
-    'faq.q3':           'Will it replace our team?',
-    'faq.a3':           'It replaces the repetitive, high-volume work - not your people. Your team is freed for higher-value work, and humans stay in the loop on the edge cases that need judgment.',
-    'faq.q4':           'How do you prove ROI before we commit at scale?',
-    'faq.a4':           'We start with a scoped pilot on one of your highest-volume processes, agree the success metrics up front, and measure against them. If the numbers don\'t land, we tell you.',
-    'faq.q5':           'Does it work well in Hungarian?',
-    'faq.a5':           'Yes. Our voice and email systems are tuned for Hungarian, with natural conversation. You can try it in the demo.',
-    'faq.q6':           'How long does implementation take, and how disruptive is it?',
-    'faq.a6':           'We roll out in phases - one workflow first, with minimal disruption to live operations - then expand once it\'s proven in production. Most teams see a first process live in weeks, not quarters.',
-    'faq.q7':           'What if it doesn\'t fit our organization?',
-    'faq.a7':           'The first consultation is no-obligation, and a pilot is scoped to measurable goals. If it doesn\'t hit them, we say so - no lock-in.',
+    'faq.q1':           'What does a system like this cost?',
+    'faq.a1':           'The exact price always depends on the size of the project, but the point is this: it is not one big, risky investment. We work in modules - we start at a well-defined point that pays back quickly, and only expand once that has proven itself. The quote is always itemised, so you see exactly what goes where. No hidden costs.',
+    'faq.q2':           'Why is there a monthly cost if the system is built once?',
+    'faq.a2':           'It is the cost of running it: API calls, phone minutes, server capacity, continuous maintenance - always itemised for you. Building the system is 40% of the work; maintenance and tuning are the other 60%, and that is exactly what guarantees it will work as accurately in six months as it did on day one.',
+    'faq.q3':           'How long does it take to get a system like this running?',
+    'faq.a3':           'A focused solution built around a single process is typically live within one to two weeks.',
+    'faq.q4':           'Isn\'t the AI going to do something stupid?',
+    'faq.a4':           'That is precisely why we don\'t work on a „release it and hope” basis. Every process is trained on your own rules (opening hours, exceptions, edge cases) and goes through thorough testing before it goes live. Where it gets something wrong it learns from it, and it improves from your corrections too, so it only gets more accurate over time.',
+    'faq.q5':           'Where is our data stored, and does it comply with GDPR and the EU AI Act?',
+    'faq.a5':           'Yes. Processing happens on EU infrastructure, and the systems are built specifically to the requirements of GDPR and the EU AI Act.',
+    'faq.q6':           'Will the system be ours? Can we walk away if we decide to?',
+    'faq.a6':           'Yes, unambiguously. The system and the knowledge base built into it are yours, and every customer record and conversation history can be exported at any time. We don\'t lock you into any platform.',
+    'faq.q7':           'Can you connect it to the systems we already use (booking, workshop management, accounting and so on)?',
+    'faq.a7':           'In most cases, yes. We don\'t hand everyone the same generic template - we fit the AI to your existing processes and systems through their APIs. We work with the system you already have instead of building a parallel one next to it.',
   },
   hu: {
     'nav.products':     'Mit Építünk',
@@ -3142,9 +3257,15 @@ const T = {
     'res.l4':           'Mit lehet automatizálni egy kisvállalkozásban?',
     'res.l5':           'Esettanulmányok: valós eredmények AI-automatizálással',
     'res.l6':           'Összes cikk a blogon &rarr;',
-    'cta.h2':           'Készen állsz a<br>munka kiváltására?',
-    'cta.p.desk':       '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmondjuk hol illik be az AI. Ha nem illik, azt is megmondjuk. Ha igen, megépítjük.',
-    'cta.p.mob':        '30 perces hívás. Nincs értékesítési nyomás.<br>Megértjük a működésedet és megmondjuk,<br>hol illik be az AI. Ha igen, megépítjük.',
+    'res.d1':           'Miből áll össze az ár, mitől függ, és hogyan számolj megtérülést.',
+    'res.d2':           'Rendelésfelvétel, időpontfoglalás, ügyfélszolgálat - és a magyar nyelv kihívásai.',
+    'res.d3':           'Kategorizálás, prioritás, válasz-piszkozatok: mit bízz az AI-ra, és mit ne.',
+    'res.d4':           '10 konkrét folyamat a telefontól a számlázásig - és melyikkel érdemes kezdeni.',
+    'res.d5':           'Valós eredmények valós vállalkozásoktól: telefonos rendelésfelvétel és munkafolyamatok.',
+    'res.d6':           'Minden cikk egy helyen.',
+    'cta.h2':           'Készen állsz a<br><span class="nowrap">munka kiváltására?</span>',
+    'cta.p.desk':       '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmutatjuk hol illik be az AI. Megmondjuk pontosan mennyi időt és pénzt adna vissza.',
+    'cta.p.mob':        '30 perces hívás. Nincs értékesítési nyomás. Megértjük a működésedet, megmutatjuk hol illik be az AI. Megmondjuk pontosan mennyi időt és pénzt adna vissza.',
     'cta.book':         'Konzultációt kérek &rarr;',
     'footer.copy':      'Automating &copy; 2026 - Minden jog fenntartva',
     'footer.cases':     'Esettanulmányok',
@@ -3196,20 +3317,20 @@ const T = {
     'rev3.m1':          'Számítási hiba ~0',
     'rev.note':         'Az értékelések valós, hozzájárult ügyfelektől származnak.',
     'faq.h2':           'Gyakori kérdések',
-    'faq.q1':           'Biztos, hogy az AI nem ront el semmit?',
-    'faq.a1':           'Igen, mert nem dobozos botot kapsz. A rendszert a legapróbb részletekig a te folyamataidra tanítjuk.',
-    'faq.q2':           'Lecseréli az embereimet?',
-    'faq.a2':           'Az ismétlődő, monoton munkát váltjuk ki, nem az embert. A csapatod arra jut ideje, amihez ember kell.',
-    'faq.q3':           'Fel kell forgatnom az egész működésem?',
-    'faq.a3':           'Nem. A legfájóbb ponttal kezdünk, a meglévő rendszereidbe (CRM, naptár, ERP) integrálva. Minimummal indulunk, utána bővítünk.',
-    'faq.q4':           'Megéri egy ekkora cégnek, mint az enyém?',
-    'faq.a4':           'A konzultáción megmondjuk, hol és mennyit spórolhatsz. Ha nem éri meg, azt is megmondjuk.',
-    'faq.q5':           'Magyarul is jól megy?',
-    'faq.a5':           'Igen. A hang- és e-mail-rendszereink magyar nyelvre vannak hangolva, természetes párbeszéddel. A demóban kipróbálhatod.',
-    'faq.q6':           'Mi van az adatainkkal?',
-    'faq.a6':           'A rendszerek a meglévő folyamataidba épülnek, GDPR és EU AI Act szerint. A megfelelőség nálunk nem utógondolat.',
-    'faq.q7':           'Mi van, ha mégsem passzol?',
-    'faq.a7':           'Az első konzultáció kötelezettségmentes.',
+    'faq.q1':           'Mennyibe kerül egy ilyen AI-rendszer?',
+    'faq.a1':           'A pontos ár mindig a projekt méretétől függ, de a lényeg: nem egy nagy, kockázatos beruházásról beszélünk. Moduláris felépítésben dolgozunk - egy jól körülhatárolt, gyorsan megtérülő ponton indulunk, és csak akkor bővítünk, ha az már bizonyított. Az árajánlat mindig tételes, hogy pontosan lásd, mire mennyi megy - nincs rejtett költség.',
+    'faq.q2':           'Miért van havi költség, ha a rendszer egyszer elkészül?',
+    'faq.a2':           'Az üzemeltetés költsége: API-hívások, telefonpercek, szerverkapacitás, folyamatos karbantartás - ezt mindig tételesen levezetjük. A rendszer felépítése a munka 40%-a, a karbantartás és finomhangolás a fennmaradó 60%, és pontosan ez garantálja, hogy fél év múlva is ugyanolyan pontosan fog működni, mint az első napon.',
+    'faq.q3':           'Mennyi idő alatt áll fel egy ilyen rendszer?',
+    'faq.a3':           'Egy fókuszált, egy folyamatra épülő megoldás jellemzően 1-2 hét alatt működésbe áll.',
+    'faq.q4':           'Nem fog az AI hülyeséget csinálni?',
+    'faq.a4':           'Pontosan ezért nem „kiengedjük és reméljük” alapon dolgozunk. Minden folyamatot a te konkrét szabályaid szerint tanítunk be (nyitvatartás, kivételek, szélsőséges esetek), és élesítés előtt alapos teszten megy át. Ahol hibázik, abból tanul, és a te javításaidból is fejlődik, tehát idővel maximálisan pontos lesz.',
+    'faq.q5':           'Hol tárolódnak az adataink, és megfelel a GDPR-nak, EU AI Actnek?',
+    'faq.a5':           'Igen. Az adatfeldolgozás EU-s infrastruktúrán történik, a rendszereket kifejezetten a GDPR és az EU AI Act előírásaihoz igazítva építjük.',
+    'faq.q6':           'A miénk lesz a rendszer? Ki tudunk lépni, ha úgy döntünk?',
+    'faq.a6':           'Igen, egyértelműen. A rendszer és a felépített tudásbázis a tiétek, minden ügyféladat és kommunikációs előzmény bármikor exportálható. Nem zárunk be egyetlen platformba sem.',
+    'faq.q7':           'Be tudjuk kötni a már meglévő rendszerünkbe (foglalási, műhelyirányítási, könyvelő stb.)?',
+    'faq.a7':           'A legtöbb esetben igen. Nem egy általános sablont adunk mindenkinek, hanem a te meglévő folyamataidhoz és rendszereidhez illesztjük az AI-t API-n keresztül - a meglévő rendszereddel dolgozunk együtt, nem helyette építünk egy párhuzamos világot.',
   }
 };
 
@@ -3266,10 +3387,6 @@ function setLang(lang) {
     const key = el.dataset.i18n;
     if(tr[key] !== undefined) el.innerHTML = tr[key];
   });
-
-  // The "Does it work well in Hungarian?" FAQ only makes sense on the HU site
-  const faqHuOnly = document.getElementById('faqHungarianOnly');
-  if(faqHuOnly) faqHuOnly.style.display = lang === 'hu' ? '' : 'none';
 
   // Blog / resource links point to the English blog when the site is in English
   document.querySelectorAll('[data-en-href]').forEach(a => {
