@@ -340,7 +340,8 @@ nav {
   padding: 56px 40px 52px; text-align: center; box-shadow: var(--card-shadow);
   will-change: transform; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
 }
-.stat-num  { font-size: clamp(48px,5vw,72px); font-weight: 600; letter-spacing: -.03em; line-height: 1; margin-bottom: 14px; }
+/* tabular figures so the count-up does not wobble as the digits change */
+.stat-num  { font-size: clamp(48px,5vw,72px); font-weight: 600; letter-spacing: -.03em; line-height: 1; margin-bottom: 14px; font-variant-numeric: tabular-nums; }
 .stat-desc { font-size: 15px; color: var(--g600); line-height: 1.5; }
 
 /* ════════════════════════════════
@@ -1997,7 +1998,7 @@ select:focus:not(:focus-visible),
 
         <!-- Voice -->
         <div class="prod-card card-left tilt">
-          <div class="prod-tag" data-i18n="voice.tag">Hang Infrastruktúra</div>
+          <div class="prod-tag" data-i18n="voice.tag">Hang AI</div>
           <h3 class="prod-title" data-i18n="voice.title">AI, amely minden hívást megválaszol.</h3>
           <div class="prod-price" data-i18n="voice.price">250 000 Ft-tól</div>
           <p class="prod-desc" data-i18n="voice.desc">Hívásokat fogad, rendeléseket vesz fel, találkozókat foglal és érdeklődőket minősít, 24/7. Természetes kommunikáció. Integrálva a CRM-mel és naptárral.</p>
@@ -2014,7 +2015,7 @@ select:focus:not(:focus-visible),
 
         <!-- Email -->
         <div class="prod-card card-mid tilt">
-          <div class="prod-tag" data-i18n="email.tag">E-mail Automatizálás</div>
+          <div class="prod-tag" data-i18n="email.tag">Email AI</div>
           <h3 class="prod-title" data-i18n="email.title">Postafiók, amely olvas, rendez és válaszol.</h3>
           <div class="prod-price" data-i18n="email.price">150 000 Ft-tól</div>
           <p class="prod-desc" data-i18n="email.desc">E-maileket olvas, kategorizál és megválaszol. Automatikus válaszok GYIK-re. Sürgős jelölés. Nyomon követési szekvenciák, amelyek nem maradnak el.</p>
@@ -2025,7 +2026,7 @@ select:focus:not(:focus-visible),
 
         <!-- Workflow -->
         <div class="prod-card card-right tilt">
-          <div class="prod-tag" data-i18n="workflow.tag">Munkafolyamat Rendszerek</div>
+          <div class="prod-tag" data-i18n="workflow.tag">Iroda AI</div>
           <h3 class="prod-title" data-i18n="workflow.title">Háttérirodai folyamatok autopilóton.</h3>
           <div class="prod-price" data-i18n="workflow.price">220 000 Ft-tól</div>
           <p class="prod-desc" data-i18n="workflow.desc">Infrastruktúra ismétlődő feladatokhoz, számlázáshoz, adatbevitelhez, CRM szinkronhoz, riportoláshoz, csendesen fut a háttérben.</p>
@@ -2414,9 +2415,9 @@ select:focus:not(:focus-visible),
 
           <div class="ft-col">
             <div class="ft-h" data-i18n="footer.h.services">Szolgáltatások</div>
-            <a href="#products" data-i18n="footer.s.voice">AI telefonos asszisztens</a>
-            <a href="#products" data-i18n="footer.s.email">AI e-mail kezelés</a>
-            <a href="#products" data-i18n="footer.s.flow">Munkafolyamat-automatizálás</a>
+            <a href="#products" data-i18n="footer.s.voice">Hang AI</a>
+            <a href="#products" data-i18n="footer.s.email">Email AI</a>
+            <a href="#products" data-i18n="footer.s.flow">Iroda AI</a>
           </div>
 
           <div class="ft-col">
@@ -2599,15 +2600,15 @@ const T = {
     'products.h2':      'AI employees.<br class="mob-br"> Not tools.',
     'products.p.desk':  'Our stack delivers AI systems for businesses to handle calls, emails, and workflows. Integrated into existing operations.',
     'products.p.mob':   'Our stack delivers AI systems for businesses to<br>handle calls, emails, and workflows. Integrated<br>into existing operations.',
-    'voice.tag':        'Voice Infrastructure',
+    'voice.tag':        'Voice AI',
     'voice.title':      'AI that answers every call.',
     'voice.price':      'From $800',
     'voice.desc':       'Answer calls, take orders, book appointments, and qualify leads, 24/7. Natural conversation. Integrated with your CRM and calendar.',
-    'email.tag':        'Email Automation',
+    'email.tag':        'Email AI',
     'email.title':      'Inbox that reads, sorts, and replies.',
     'email.price':      'From $500',
     'email.desc':       'Read, categorise, and reply to emails. Auto-responses for FAQs. Urgent flagging. Follow-up sequences that don\'t miss.',
-    'workflow.tag':     'Workflow Systems',
+    'workflow.tag':     'Office AI',
     'workflow.title':   'Back-office on autopilot.',
     'workflow.price':   'From $700',
     'workflow.desc':    'Infrastructure for repetitive tasks, invoicing, data entry, CRM sync, reporting, quietly running in the background.',
@@ -2690,9 +2691,9 @@ const T = {
     'footer.h.proof':   'Certificates',
     'footer.team':      'The team',
     'footer.faq':       'FAQ',
-    'footer.s.voice':   'AI phone assistant',
-    'footer.s.email':   'AI inbox handling',
-    'footer.s.flow':    'Workflow automation',
+    'footer.s.voice':   'Voice AI',
+    'footer.s.email':   'Email AI',
+    'footer.s.flow':    'Office AI',
     'footer.s.demo':    'Live demo',
     'footer.imprint':   'Imprint',
     'footer.cookies':   'Cookie settings',
@@ -2765,15 +2766,15 @@ const T = {
     'products.h2':      'AI alkalmazottak.<br class="mob-br"> Nem eszközök.',
     'products.p.desk':  'Rendszereink AI megoldásokat biztosítanak vállalkozásoknak hívások, e-mailek és munkafolyamatok kezelésére. Integrálva a meglévő tevékenységekbe.',
     'products.p.mob':   'Rendszereink AI megoldásokat biztosítanak<br>vállalkozásoknak hívások és e-mailek<br>kezelésére. Integrálva a meglévő folyamatokba.',
-    'voice.tag':        'Hang Infrastruktúra',
+    'voice.tag':        'Hang AI',
     'voice.title':      'AI, amely minden hívást megválaszol.',
     'voice.price':      '250 000 Ft-tól',
     'voice.desc':       'Hívásokat fogad, rendeléseket vesz fel, találkozókat foglal és érdeklődőket minősít, 24/7. Természetes kommunikáció. Integrálva a CRM-mel és naptárral.',
-    'email.tag':        'E-mail Automatizálás',
+    'email.tag':        'Email AI',
     'email.title':      'Postafiók, amely olvas, rendez és válaszol.',
     'email.price':      '150 000 Ft-tól',
     'email.desc':       'E-maileket olvas, kategorizál és megválaszol. Automatikus válaszok GYIK-re. Sürgős jelölés. Nyomon követési szekvenciák, amelyek nem maradnak el.',
-    'workflow.tag':     'Munkafolyamat Rendszerek',
+    'workflow.tag':     'Iroda AI',
     'workflow.title':   'Háttérirodai folyamatok autopilóton.',
     'workflow.price':   '220 000 Ft-tól',
     'workflow.desc':    'Infrastruktúra ismétlődő feladatokhoz, számlázáshoz, adatbevitelhez, CRM szinkronhoz, riportoláshoz, csendesen fut a háttérben.',
@@ -2856,9 +2857,9 @@ const T = {
     'footer.h.proof':   'Tanúsítványok',
     'footer.team':      'A csapat',
     'footer.faq':       'Gyakori kérdések',
-    'footer.s.voice':   'AI telefonos asszisztens',
-    'footer.s.email':   'AI e-mail kezelés',
-    'footer.s.flow':    'Munkafolyamat-automatizálás',
+    'footer.s.voice':   'Hang AI',
+    'footer.s.email':   'Email AI',
+    'footer.s.flow':    'Iroda AI',
     'footer.s.demo':    'Élő demó',
     'footer.imprint':   'Impresszum',
     'footer.cookies':   'Sütibeállítások',
@@ -3189,6 +3190,134 @@ document.querySelectorAll('a[href]').forEach(a => {
 })();
 
 /* ════════════════════════════
+   STATS COUNT-UP  (+ a haptic ratchet on phones)
+   The three numbers roll up from zero once the row is on screen, and on a
+   phone the roll is felt as well as seen: short buzzes spaced by equal steps
+   of the NUMBER rather than equal steps of time, so as the easing decelerates
+   the taps thin out and the figure feels like it is settling into place.
+
+   Two things are worth knowing before editing this.
+
+   The numbers are authored as display strings, not data - '59,4M Ft', '30+',
+   '2 710+', '$188K' - because that is what the i18n dictionary holds and what
+   a reader sees with JS off. So they are parsed apart and reassembled every
+   frame instead of being replaced with markup, which also means the language
+   switch just works: setLang writes the new string and hands us control while
+   it is still the target, never a half-counted value.
+
+   And the whole pattern goes to navigator.vibrate() in ONE call. Buzzing per
+   frame would drift from the digits and each call would cut off the last, so
+   the OS is handed the schedule and left to keep time.
+════════════════════════════ */
+(function(){
+  const nums = [...document.querySelectorAll('.stat-num')];
+  if (!nums.length) return;
+  /* reduced motion keeps the numbers exactly as authored - no roll, no buzz */
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const DUR     = 1500;   /* ms for one number to arrive */
+  const STAGGER = 130;    /* ms between the three cards */
+
+  /* Split a display string into its number and its dressing. Which character
+     is the decimal mark is decided by what trails it: a separator with exactly
+     three digits behind it is grouping thousands (EN '2,710'), one or two
+     digits make it a decimal (HU '59,4'). A space only ever groups. */
+  function parse(text){
+    const m = text.match(/\d[\d ,.]*\d|\d/);
+    if (!m) return null;
+    const raw = m[0];
+    const d   = raw.match(/[.,](\d{1,2})$/);
+    const dec = d ? d[1].length : 0;
+    let digits = dec ? raw.slice(0, -dec - 1) : raw;
+    const g = digits.match(/[ ,.]/);
+    const group = g ? g[0] : '';
+    if (group) digits = digits.split(group).join('');
+    const val = parseFloat(dec ? digits + '.' + d[1] : digits);
+    if (!isFinite(val)) return null;
+    return { val, dec, group, decSep: d ? d[0][0] : ',',
+             pre:  text.slice(0, m.index),
+             post: text.slice(m.index + raw.length) };
+  }
+
+  function fmt(n, s){
+    let out = s.dec ? n.toFixed(s.dec).replace('.', s.decSep) : String(Math.round(n));
+    if (s.group) {
+      const parts = out.split(s.decSep);
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, s.group);
+      out = parts.join(s.decSep);
+    }
+    return s.pre + out + s.post;
+  }
+
+  const ease  = u => 1 - Math.pow(1 - u, 3);
+  const specs = new Map();          /* element -> target, re-read on language switch */
+  let started = false;
+
+  const readSpecs = () => {
+    specs.clear();
+    nums.forEach(el => { const s = parse(el.textContent.trim()); if (s) specs.set(el, s); });
+  };
+  const zero = () => specs.forEach((s, el) => { el.textContent = fmt(0, s); });
+
+  /* Chrome drops vibrate() until the page has seen a real gesture, so latch
+     one. iOS Safari has no Vibration API at all - those phones simply get the
+     silent roll, which is why nothing here is load-bearing for the visuals. */
+  let touched = false;
+  const latch = () => { touched = true; };
+  addEventListener('pointerdown', latch, { once: true, passive: true });
+  addEventListener('touchstart',  latch, { once: true, passive: true });
+
+  function ratchet(span){
+    if (!touched || typeof navigator.vibrate !== 'function') return;
+    if (!matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+    const STEPS = 14, BUZZ = 9;
+    const pat = [0];                /* a 0 ms buzz, so the array reads pause-first */
+    let at = 0;
+    for (let i = 1; i <= STEPS; i++){
+      /* invert the easing: equal steps of value -> widening steps of time */
+      const t = span * (1 - Math.pow(1 - i / STEPS, 1 / 3));
+      pat.push(Math.max(0, Math.round(t - at)), BUZZ);
+      at = t + BUZZ;
+    }
+    try { navigator.vibrate(pat); } catch (e) {}
+  }
+
+  function roll(el, delay){
+    const t0 = performance.now() + delay;
+    requestAnimationFrame(function frame(now){
+      const s = specs.get(el);
+      if (!s) return;               /* element lost its number - nothing to draw */
+      const u = Math.min(1, Math.max(0, (now - t0) / DUR));
+      el.textContent = fmt(s.val * ease(u), s);
+      if (u < 1) requestAnimationFrame(frame);
+    });
+  }
+
+  function start(){
+    if (started) return;
+    started = true;
+    let i = 0, span = 0;
+    specs.forEach((s, el) => {       /* Map keeps DOM order, so the stagger reads left to right */
+      const d = i++ * STAGGER;
+      span = Math.max(span, d + DUR);
+      roll(el, d);
+    });
+    ratchet(span);
+  }
+
+  readSpecs();
+  zero();
+  langCallbacks.push(() => { readSpecs(); if (!started) zero(); });
+
+  const row = document.querySelector('.stats .frame-outer') || nums[0];
+  new IntersectionObserver((en, obs) => {
+    if (!en[0].isIntersecting) return;
+    obs.disconnect();
+    start();
+  }, { rootMargin: '0px 0px -12% 0px' }).observe(row);
+})();
+
+/* ════════════════════════════
    TEAM RAIL (phone only)
    The section is pinned and the team row travels right-to-left with the page
    scroll. This block only ever measures and publishes three numbers; the motion
@@ -3419,8 +3548,8 @@ document.querySelectorAll('a[href]').forEach(a => {
   if (!quote || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const SPREAD = 14;              /* characters covered by the leading edge */
-  const START  = .88;             /* line top enters here -> first character */
-  const END    = .34;             /* line top reaches here -> last character */
+  const START      = 1.00;        /* block top at the viewport bottom -> first character */
+  const END_BOTTOM =  .34;        /* block BOTTOM this high up      -> last character */
 
   /* read the two ends of the ramp off the page rather than hardcoding them,
      so the effect follows the palette if it ever changes */
@@ -3461,8 +3590,17 @@ document.querySelectorAll('a[href]').forEach(a => {
 
   function paint(){
     const vh = innerHeight || 1;
-    const top = quote.getBoundingClientRect().top;
-    const p = Math.min(1, Math.max(0, (vh * START - top) / (vh * (START - END))));
+    const r  = quote.getBoundingClientRect();
+    /* The ramp spans (START - END_BOTTOM) of the viewport PLUS the block's own
+       height, which buys the effect a good deal more scroll than pinning both
+       ends to the top edge did - and it is what puts the finish where it
+       belongs: p hits 1 only once the block's bottom edge is at END_BOTTOM, so
+       "igen." takes its black when the whole line already sits well above the
+       middle of the screen. Measuring the height every frame instead of
+       assuming one is what keeps that true on phones, where the same two
+       sentences wrap to twice as many rows. */
+    const span = vh * (START - END_BOTTOM) + r.height;
+    const p = Math.min(1, Math.max(0, (vh * START - r.top) / span));
     if (Math.abs(p - last) < .001) return;
     last = p;
     const head = p * (chars.length + SPREAD);

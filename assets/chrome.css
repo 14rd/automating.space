@@ -100,8 +100,6 @@ nav {
   from { opacity: 0; transform: translateY(-10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.chat-inputrow .btn-pill { padding: 12px 24px; font-size: 14.5px; }
-.chat-inputrow .btn-pill:disabled { opacity: .35; cursor: default; transform: none; }
 .bk-submit-row .btn-pill:disabled { opacity: .4; cursor: default; transform: none; }
 /* ════════════════════════════════
    FOOTER
