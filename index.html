@@ -1332,6 +1332,10 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
   50%      { transform: translateX(4px); opacity: 1; }
 }
 
+/* boxless by default: the members stay direct children of the grid/row above,
+   so nothing about the existing layout or the nth-child stagger changes */
+.team-row { display: contents; }
+
 /* ── reveal: neutralise the generic slide on the container, stagger the members L→R ── */
 .team-track[data-reveal] { opacity: 1; transform: none; transition: none; }
 .team-track .team-member {
@@ -1373,6 +1377,180 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
   .team { padding: 90px 0 90px; }
   .team-track { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 14px; margin-top: 44px; }
   .tm-portrait { max-width: 116px; }
+}
+
+/* ── phone: the section pins and the row rolls out to the left ──
+   The grid solves the clipping problem by wrapping, but it also throws away
+   the one thing the desktop layout says out loud: humans and agents standing
+   in a single line. On a phone the row comes back - and instead of asking for
+   a sideways swipe that nobody discovers, it is driven by the page scroll.
+   The .wrap sticks to the top of the viewport, the vertical scroll that would
+   have moved the page is spent translating the row right-to-left, and once the
+   last member has arrived the section releases and the page carries on down.
+
+   .is-rail is added by JS (see TEAM RAIL) only when the phone query matches,
+   motion is allowed AND the head plus the row genuinely fit one small viewport,
+   so a no-JS phone, a reduced-motion phone and a short phone all keep the plain
+   grid above and nothing here applies. */
+@media (max-width: 560px) {
+  /* Leave scroll anchoring alone. Turning it off here looks right on paper -
+     the browser shifting scrollTop under a pinned section seems like exactly
+     what you do not want - but measured it is the opposite: with anchoring on,
+     a height change is absorbed by moving the scroll and the row follows it
+     coherently (0 backward steps under a forward finger). With it off the
+     scroll stays put and the section's geometry moves instead, which the view
+     timeline turns into the row jumping back up to 60 px. */
+  .team.is-rail { padding: 0; }
+  .team.is-rail > .wrap {
+    position: sticky; top: 0;
+    /* svh, not vh: the pinned box must not resize when the browser chrome
+       collapses, otherwise the pin length changes mid-scroll */
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: center;
+    /* The nav is fixed and floats over the pinned box, so a head that is only
+       centred in the viewport drifts under the pill as the viewport shortens:
+       the gap measured 120 px at 430x932 but just 30 px at 360x780, and lower
+       than that the eyebrow ends up behind it. Laying the head out below the
+       measured nav edge rather than centring through it makes the clearance
+       identical at every height. --rail-head is written by TEAM RAIL. */
+    padding-top: calc(var(--rail-head, 85px) + min(20px, 2.4svh));
+    padding-bottom: min(44px, 5.2svh);
+  }
+  /* Everything inside the pinned box is sized against the small viewport, not
+     only against the width. The box has to fit 100svh or the rail refuses to
+     engage at all - and svh on a real phone is ~100 px shorter than the screen,
+     because the browser's own chrome comes off it. A head sized purely in px
+     therefore fits in devtools and silently drops back to the grid on the
+     actual device; that is exactly how the nav clearance above cost 41 px and
+     took the rail with it. min() keeps every original value wherever there is
+     room and only scales it down when there is not, so a tall phone renders
+     identically to before and a short one still gets the row. */
+  .team.is-rail .team-eyebrow { margin-bottom: min(18px, 2.2svh); }
+  .team.is-rail .team-head .h1 { font-size: min(40px, 4.8svh); margin-bottom: min(22px, 2.7svh); }
+  .team.is-rail .team-lead { font-size: min(18px, 2.2svh); line-height: 1.5; }
+  /* the track stops being the row and becomes its clip box. It has to be
+     full-bleed and it has to clip: a row left to hang over the page edge widens
+     the layout viewport on a phone, and the browser answers by zooming the whole
+     document out to fit it. The 4 px block padding keeps the 1 px portrait ring
+     out of the cut. */
+  .team.is-rail .team-track {
+    display: block; overflow: hidden;
+    margin: min(30px, 3.6svh) -24px 0; padding: 4px 24px;
+  }
+  .team.is-rail .team-row {
+    display: flex; flex-wrap: nowrap; align-items: flex-start;
+    width: max-content; gap: 26px;
+    /* the one thing the scroll touches - the JS fallback writes it directly,
+       the composited path below overrides it with a real animation */
+    transform: translate3d(var(--rail-x, 0px), 0, 0);
+    will-change: transform;
+  }
+  .team.is-rail .team-member { flex: 0 0 132px; width: 132px; }
+  .team.is-rail .tm-portrait { max-width: min(116px, 14.5svh); }
+  /* the stagger still fades the members in, but its vertical slide would fight
+     the horizontal travel, so the rail keeps opacity only */
+  .team.is-rail .team-track .team-member { transform: none; }
+}
+
+/* ── the travel itself, run off the main thread ──
+   Scrubbing a transform from a rAF loop means the row is repositioned by the
+   main thread while the page itself is scrolled by the compositor. The two are
+   not in step, so every frame the main thread is late the row visibly lags the
+   pinned box and snaps back - that is the stutter, and it shows up in both
+   directions because momentum scrolling starves the main thread either way.
+
+   A view-timeline hands the whole thing to the compositor: the row's position
+   becomes a function of the section's progress through the scrollport, sampled
+   at the same time and on the same thread as the scroll. There is no frame to
+   be late for. The rAF path stays in TEAM RAIL for engines without it.
+
+   The range is the pin window (`contain` = the section entirely covers the
+   scrollport), inset at both ends so the row is genuinely at rest for a beat
+   as the section pins and again once it has parked, instead of jumping to full
+   speed the instant sticky engages and stopping dead when it releases.
+
+   The curve is the part worth explaining. Any easing that starts and ends at
+   zero speed has to make up the distance somewhere in between, so the only
+   real question is how big that peak is allowed to get. A symmetric in-out
+   cubic - the obvious choice, and what this used to be - peaks at 3x its own
+   average, which on a 749 px travel is a visible lurch through the middle of
+   the section. Pulling both control points in towards the diagonal flattens
+   that: at .22/.78 the peak is ~1.28x average, i.e. the row ramps up, crosses
+   at a near-constant speed, and ramps down. Soft ends, no burst.
+
+   Pace is the other half, and it is set in JS (see PACE): the pin is made 1.5x
+   longer than the travel, so the row moves well under one pixel per pixel of
+   finger. Fast easing over a short pin is what reads as "sudden"; the same
+   distance spread over more scroll reads as deliberate. */
+@supports (animation-timeline: view()) {
+  @media (max-width: 560px) {
+    .team.is-rail { view-timeline: --rail block; }
+    .team.is-rail .team-row {
+      /* the animation owns the transform now - drop the fallback var so the
+         two can never both be applied */
+      transform: none;
+      animation: rail-travel 1s cubic-bezier(.22, 0, .78, 1) both;
+      animation-timeline: --rail;
+      animation-range: contain 3% contain 92%;
+    }
+  }
+}
+/* --rail-shift is the measured travel, written by TEAM RAIL. Keyframes resolve
+   custom properties at the element, so re-measuring (font swap, HU/EN switch)
+   updates the end state without touching the animation. */
+@keyframes rail-travel {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(0px - var(--rail-shift, 0px)), 0, 0); }
+}
+/* ── the travel itself, run off the main thread ──
+   Scrubbing a transform from a rAF loop means the row is repositioned by the
+   main thread while the page itself is scrolled by the compositor. The two are
+   not in step, so every frame the main thread is late the row visibly lags the
+   pinned box and snaps back - that is the stutter, and it shows up in both
+   directions because momentum scrolling starves the main thread either way.
+
+   A view-timeline hands the whole thing to the compositor: the row's position
+   becomes a function of the section's progress through the scrollport, sampled
+   at the same time and on the same thread as the scroll. There is no frame to
+   be late for. The rAF path stays in TEAM RAIL for engines without it.
+
+   The range is the pin window (`contain` = the section entirely covers the
+   scrollport), inset at both ends so the row is genuinely at rest for a beat
+   as the section pins and again once it has parked, instead of jumping to full
+   speed the instant sticky engages and stopping dead when it releases.
+
+   The curve is the part worth explaining. Any easing that starts and ends at
+   zero speed has to make up the distance somewhere in between, so the only
+   real question is how big that peak is allowed to get. A symmetric in-out
+   cubic - the obvious choice, and what this used to be - peaks at 3x its own
+   average, which on a 749 px travel is a visible lurch through the middle of
+   the section. Pulling both control points in towards the diagonal flattens
+   that: at .22/.78 the peak is ~1.28x average, i.e. the row ramps up, crosses
+   at a near-constant speed, and ramps down. Soft ends, no burst.
+
+   Pace is the other half, and it is set in JS (see PACE): the pin is made 1.5x
+   longer than the travel, so the row moves well under one pixel per pixel of
+   finger. Fast easing over a short pin is what reads as "sudden"; the same
+   distance spread over more scroll reads as deliberate. */
+@supports (animation-timeline: view()) {
+  @media (max-width: 560px) {
+    .team.is-rail { view-timeline: --rail block; }
+    .team.is-rail .team-row {
+      /* the animation owns the transform now - drop the fallback var so the
+         two can never both be applied */
+      transform: none;
+      animation: rail-travel 1s cubic-bezier(.22, 0, .78, 1) both;
+      animation-timeline: --rail;
+      animation-range: contain 3% contain 92%;
+    }
+  }
+}
+/* --rail-shift is the measured travel, written by TEAM RAIL. Keyframes resolve
+   custom properties at the element, so re-measuring (font swap, HU/EN switch)
+   updates the end state without touching the animation. */
+@keyframes rail-travel {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(0px - var(--rail-shift, 0px)), 0, 0); }
 }
 
 /* ── respect reduced motion: everything static, no breathing, no slide-in ── */
@@ -1873,6 +2051,7 @@ select:focus:not(:focus-visible),
       </div>
 
       <div class="team-track" data-reveal tabindex="0" role="list" aria-label="Automating csapat">
+          <div class="team-row">
 
         <!-- Human · Homoki Gábor -->
         <div class="team-member" role="listitem">
@@ -1883,7 +2062,7 @@ select:focus:not(:focus-visible),
                  data-alt-hu="Homoki Gábor portréja" data-alt-en="Portrait of Gábor Homoki">
           </div>
           <div class="tm-name">Homoki Gábor</div>
-          <div class="tm-role" data-i18n="team.gabor.role">Alapító,<br>Vezérigazgató</div>
+          <div class="tm-role" data-i18n="team.gabor.role">Alapító,<br>CEO</div>
         </div>
 
         <!-- Human · Hudácsek Bence -->
@@ -1895,7 +2074,7 @@ select:focus:not(:focus-visible),
                  data-alt-hu="Hudácsek Bence portréja" data-alt-en="Portrait of Bence Hudácsek">
           </div>
           <div class="tm-name">Hudácsek Bence</div>
-          <div class="tm-role" data-i18n="team.bence.role">Alapító,<br>Technológiai igazgató</div>
+          <div class="tm-role" data-i18n="team.bence.role">Alapító,<br>CTO</div>
         </div>
 
         <!-- AI · Alfréd -->
@@ -1932,8 +2111,8 @@ select:focus:not(:focus-visible),
           <div class="tm-name">Rudolf</div>
           <div class="tm-role" data-i18n="team.or.role">AI,<br>Kommunikációs igazgató</div>
         </div>
-
-      </div>
+          </div>
+        </div>
 
       <div class="team-hint" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12h15m0 0-5.5-5.5M19 12l-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2554,8 +2733,8 @@ const T = {
     'team.h2':          'Nem csak AI alkalmazottakat építünk. Velük dolgozunk.',
     'team.lead':        'Az emberek adják az irányt. AI agentjeink kutatnak, írnak, építenek, ellenőriznek és koordinálnak - minden nap.',
     'team.hint':        'Húzd oldalra',
-    'team.gabor.role':  'Alapító,<br>Vezérigazgató',
-    'team.bence.role':  'Alapító,<br>Technológiai igazgató',
+    'team.gabor.role':  'Alapító,<br>CEO',
+    'team.bence.role':  'Alapító,<br>CTO',
     'team.alfred.role': 'AI,<br>Operatív igazgató',
     'team.kutato.role': 'AI,<br>Pénzügyi igazgató',
     'team.epito.role':  'AI,<br>Fejlesztési igazgató',
@@ -2873,6 +3052,220 @@ document.querySelectorAll('a[href]').forEach(a => {
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-visible'); obs.unobserve(e.target); }});
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
   els.forEach(el => obs.observe(el));
+})();
+
+/* ════════════════════════════
+   TEAM RAIL (phone only)
+   The section is pinned and the team row travels right-to-left with the page
+   scroll. This block only ever measures and publishes three numbers; the motion
+   itself belongs to CSS (see `rail-travel`):
+
+     --rail-head   the nav's bottom edge, so the head clears the fixed pill
+     --rail-shift  how far the row must travel for its last member to arrive
+     section height  100svh + the pin, i.e. exactly that much scroll to spend
+
+   Where view-timelines exist the compositor drives the travel and this file
+   does no per-frame work at all. Older engines fall back to rAF - but even
+   there nothing is read from layout inside the loop: the section's offset is
+   cached at measure time and each frame is pure arithmetic on scrollY. The old
+   version called getBoundingClientRect() every frame, which forced a layout on
+   the main thread mid-scroll and was the stutter.
+
+   Everything is measured, never hardcoded: the row width changes with the
+   language switch (the roles are longer in English) and with font loading, so a
+   ResizeObserver re-measures instead of trusting a first-paint number.
+════════════════════════════ */
+(function(){
+  const section = document.getElementById('team');
+  if (!section) return;
+  const wrap  = section.querySelector('.wrap');
+  const track = section.querySelector('.team-track');   /* clip box */
+  const row   = section.querySelector('.team-row');     /* what actually travels */
+  if (!wrap || !track || !row) return;
+
+  const phone  = matchMedia('(max-width: 560px)');
+  const still  = matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* 100svh in pixels, measured rather than guessed - a pinned box taller than
+     the viewport would hide its own bottom for the whole pin, so a phone too
+     short for the head plus the row is left on the grid */
+  function svh(){
+    const probe = document.createElement('div');
+    probe.style.cssText = 'position:absolute;top:0;left:0;width:0;height:100svh;visibility:hidden;pointer-events:none';
+    document.body.appendChild(probe);
+    const h = probe.offsetHeight || innerHeight;
+    probe.remove();
+    return h;
+  }
+
+  /* the compositor path: CSS owns the travel end to end, this file never
+     touches the transform and no rAF is ever started */
+  const composited = window.CSS && CSS.supports && CSS.supports('animation-timeline', 'view()');
+
+  /* Rest at both ends of the pin. These mirror the inset animation-range in the
+     stylesheet, so the fallback lands on the same motion as the composited one:
+     nothing moves for the first IN of the pin, the row parks with OUT to spare. */
+  const IN = .03, OUT = .08;
+
+  /* Scroll spent per pixel of travel. Above 1 the row moves slower than the
+     finger, which is the whole point: the same distance over more scroll is
+     what stops it feeling like a lurch. Raise it to calm the motion further,
+     at the cost of a taller section. */
+  const PACE = 1.5;
+
+  /* The stylesheet's cubic-bezier, kept here as its control points so the two
+     paths cannot drift apart. Flat through the middle by design - see the
+     rail-travel comment for why the peak matters more than the shape. */
+  const X1 = .22, Y1 = 0, X2 = .78, Y2 = 1;
+
+  /* solved by bisection - cheap enough at one call per frame */
+  function ease(x){
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    const cx = 3 * X1, bx = 3 * (X2 - X1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * Y1, by = 3 * (Y2 - Y1) - cy, ay = 1 - cy - by;
+    let lo = 0, hi = 1, t = x;
+    for (let i = 0; i < 18; i++){
+      const fx = ((ax * t + bx) * t + cx) * t - x;
+      if (fx > 0) hi = t; else lo = t;
+      t = (lo + hi) / 2;
+    }
+    return ((ay * t + by) * t + cy) * t;
+  }
+
+  let on = false, shift = 0, pin = 0, top0 = 0, raf = 0, live = false, last = -1, w = innerWidth;
+  /* last published values - measure() writes nothing unless one of these moves */
+  let lastBox = -1, lastShift = -1, lastHead = -1, pending = 0;
+
+  function off(){
+    on = false; shift = pin = 0; last = -1;
+    lastBox = lastShift = lastHead = -1;
+    cancelAnimationFrame(raf);
+    section.classList.remove('is-rail');
+    section.style.removeProperty('height');
+    section.style.removeProperty('--rail-shift');
+    section.style.removeProperty('--rail-head');
+    row.style.removeProperty('transform');
+    track.style.removeProperty('--rail-x');
+  }
+
+  /* Re-measuring must be invisible. The first version of this parked the row
+     (animation off, transform none) and cleared the section height before
+     reading, then put both back - so every re-measure was a one-frame snap of
+     the row to zero plus a document-height change the browser answered with a
+     scroll correction. Harmless once on load; but the portraits are lazy, so
+     the ResizeObserver below fires again and again as they resolve during a
+     slow scroll, and the section twitched back and forth each time.
+
+     Two rules now. Read without mutating: the row carries a live transform, so
+     the rects are un-translated arithmetically instead of resetting it. And
+     write nothing that has not actually changed - a height rewritten to its own
+     value still perturbs the scroll on some engines, and on the composited path
+     it also redefines the timeline's range mid-travel. */
+  function measure(){
+    if (!on) return;
+
+    /* the fixed nav floats over the pin - publish its bottom edge so the head
+       is laid out below it instead of centring through it */
+    const nav = document.querySelector('.nav-outer');
+    const head = Math.round(nav ? nav.getBoundingClientRect().bottom : 85);
+    if (head !== lastHead){ lastHead = head; section.style.setProperty('--rail-head', head + 'px'); }
+
+    const box = wrap.offsetHeight;
+    /* taller than one small viewport: the pin would hide its own bottom edge */
+    if (box > svh() + 2) { off(); return; }
+
+    /* Measure the ink rather than the boxes: the names and the roles are nowrap
+       and spill out of their 132 px column on purpose (more so in English), so
+       row.scrollWidth would stop the travel a word short and leave the last
+       title touching the screen edge. Every member shares the row's transform,
+       so subtracting it once puts the rects back in layout coordinates. */
+    const dx = new DOMMatrixReadOnly(getComputedStyle(row).transform).m41;
+    const cs = getComputedStyle(track);
+    const edge = track.getBoundingClientRect().right - parseFloat(cs.paddingRight);
+    let far = 0;
+    row.querySelectorAll('.team-member').forEach(m => {
+      far = Math.max(far, m.getBoundingClientRect().right - dx);
+      for (const c of m.children) far = Math.max(far, c.getBoundingClientRect().right - dx);
+    });
+    const next = Math.max(0, Math.round(far - edge));
+    if (!next) { off(); return; }             /* nothing to travel, nothing to pin */
+
+    if (next !== lastShift || box !== lastBox){
+      lastShift = next; lastBox = box;
+      shift = next;
+      /* the travel is spent over the middle of the pin at PACE scroll per pixel,
+         so the pin has to carry that plus the two rest bands */
+      pin = Math.round(shift * PACE / (1 - IN - OUT));
+      /* the sticky box is one viewport tall; the rest of the section is the pin */
+      section.style.height = (box + pin) + 'px';
+      section.style.setProperty('--rail-shift', shift + 'px');
+    }
+    /* cached once, here, so the loop never has to touch layout again */
+    top0 = Math.round(section.getBoundingClientRect().top + scrollY);
+    last = -1;
+    if (!composited) paint();
+  }
+
+  /* fallback only - pure arithmetic on scrollY, no layout read */
+  function paint(){
+    if (!on || !pin || composited) return;
+    const p = (scrollY - top0) / pin;
+    const t = ease(Math.min(1, Math.max(0, (p - IN) / (1 - IN - OUT))));
+    if (Math.abs(t - last) < .0005) return;
+    last = t;
+    row.style.transform = 'translate3d(' + (-t * shift).toFixed(1) + 'px,0,0)';
+  }
+
+  function loop(){ paint(); if (live) raf = requestAnimationFrame(loop); }
+
+  function sync(){
+    if (phone.matches && !still.matches){
+      if (!on){ on = true; section.classList.add('is-rail'); }
+      measure();                              /* may hand it straight back to off() */
+    } else if (on) off();
+  }
+
+  /* fallback only: spin the rAF while the section is near the viewport. On the
+     composited path there is nothing to spin. */
+  if (!composited) new IntersectionObserver(en => {
+    live = en[0].isIntersecting;
+    cancelAnimationFrame(raf);
+    /* one layout read on the way in, so anything that changed height above the
+       section (a lazy image landing) cannot leave the cached offset stale */
+    if (live && on){ top0 = section.getBoundingClientRect().top + scrollY; raf = requestAnimationFrame(loop); }
+    else paint();
+  }, { rootMargin: '150px 0px' }).observe(section);
+
+  /* width-only: a phone fires resize every time the URL bar slides, and
+     re-measuring there would fight the pin for no reason */
+  let t = 0;
+  addEventListener('resize', () => {
+    if (innerWidth === w) return;
+    w = innerWidth; clearTimeout(t); t = setTimeout(sync, 150);
+  });
+  addEventListener('orientationchange', () => { clearTimeout(t); t = setTimeout(sync, 250); });
+  phone.addEventListener('change', sync);
+  still.addEventListener('change', sync);
+  /* Observers fire in bursts - a lazy portrait resolving trips the
+     ResizeObserver, which trips it again as the next one lands. Coalescing them
+     into one measure per frame keeps that from turning into a queue of layout
+     reads while the finger is still moving. */
+  function scheduleMeasure(){
+    if (pending || !on) return;
+    pending = requestAnimationFrame(() => { pending = 0; if (on) measure(); });
+  }
+  if (window.ResizeObserver) new ResizeObserver(scheduleMeasure).observe(row);
+  /* the language switch rewrites the roles and the English ones run longer, but
+     the member boxes are fixed-width so nothing resizes - watch the text itself */
+  new MutationObserver(scheduleMeasure)
+    .observe(track, { childList: true, subtree: true, characterData: true });
+  /* the names are measured as ink, so the fallback-to-webfont swap moves the end
+     of the row by a few px - re-measure once the real face is in */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleMeasure);
+  addEventListener('load', () => { if (on) measure(); });
+
+  sync();
 })();
 
 /* ════════════════════════════
