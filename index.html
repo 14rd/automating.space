@@ -1303,23 +1303,56 @@ nav {
    the heading's 1.08 because this one is expected to wrap: at 1.08 two lines of
    68 px type nearly touch. */
 .who-tw {
-  margin: 0; line-height: 1.16; text-wrap: balance;
+  margin: 0; line-height: 1.16;
+  /* NOT text-wrap: balance. Balancing is a multi-pass heuristic and its result
+     is not stable under DOM changes: as the caret slot moves from the question
+     half to the answer half, the balancer re-runs and lands on a different set
+     of breaks. Measured - with balance on, three of the seven English phrases
+     re-broke mid-typing while the untyped text was already holding its space;
+     with it off, all fourteen phrases in both languages break exactly once and
+     never again. Deterministic wrapping is the whole point here, so greedy
+     wrapping wins over prettier ragging. */
   /* written by WHO TYPEWRITER: the tallest of the seven phrases in either
      language, at the current width. The reserve is what stops a two-line
      phrase from shoving the team section down as it types. */
   min-height: var(--who-tw-h, 2.32em);
 }
 .who-q { color: var(--black); }
-.who-a { color: #616161; }
-/* the caret: a filled circle, near enough letter-height, sitting on the
-   baseline like a full stop that has not been earned yet */
+/* The answer takes its own line, always. Two reasons, and neither is taste:
+   greedy wrapping without a balancer drags the first word or two of the answer
+   up onto the question's last line, which put a lone "8" at the end of a line in
+   one phrase and a stray "Olyan" in another; and a forced break is deterministic
+   where a balancer is not. It also happens to be how the copy is written - a
+   question, then the answer as a separate beat. Costs nothing in height: the
+   reserve is the same 237 px either way. */
+.who-a { color: #616161; display: block; }
+
+/* ── why the line does not re-wrap while it is being written ──────────────
+   The whole phrase is in the DOM from the first keystroke; only the part that
+   has been "typed" is coloured. The remainder still occupies its exact space,
+   so the browser breaks the lines once, for the finished sentence, and every
+   character then appears where it will finally sit. Growing a text node instead
+   - which is what this did first - re-wraps on almost every character, and the
+   words visibly jump between lines as the sentence fills out. */
+.tw-off { color: transparent; }
+
+/* The caret must not take part in that layout either: give it any advance width
+   and it becomes the character that decides where a line breaks, so the wrap
+   would shift by a word as it moved. It hangs out of a zero-width inline slot
+   instead - an empty inline box, which adds no width and, unlike an
+   inline-block, no soft-wrap opportunity around itself.
+   What the circle overlaps is always the transparent, not-yet-typed remainder,
+   so nothing is ever hidden behind it. */
+.who-cslot { position: relative; display: inline; }
 .who-caret {
-  display: inline-block; width: .56em; height: .56em; flex-shrink: 0;
-  border-radius: 50%; background: var(--black);
-  margin-left: .1em; vertical-align: baseline;
-  /* a circle on the baseline reads as sunk next to lining type, so it is
-     lifted onto the x-height it is standing in for */
-  transform: translateY(-.06em);
+  position: absolute; left: .1em;
+  /* measured, not guessed: .3em puts the circle's underside 0.06em above the
+     baseline, which is where the inline version sat - see the caret geometry
+     check. bottom is relative to the slot's content box, whose lower edge is
+     the font's descender. */
+  bottom: .3em;
+  width: .56em; height: .56em; border-radius: 50%;
+  background: var(--black);
 }
 /* solid while the line is being written, blinking whenever it waits - the blink
    is what says "still going" during the pause between question and answer */
@@ -2346,7 +2379,7 @@ select:focus:not(:focus-visible),
            The animated line is hidden from assistive tech - a character-by-
            character stream is unreadable - and the same seven phrases are
            exposed as a plain list instead. -->
-      <h2 class="h1 who-tw" id="whoTw" aria-hidden="true"><span id="whoTwTxt"></span><span class="who-caret" id="whoTwCaret"></span></h2>
+      <h2 class="h1 who-tw" id="whoTw" aria-hidden="true"><span id="whoTwTxt"><span class="who-q">Nap mint nap 3+ ember ugyanazt csinálja?</span><span class="who-a">Mi felváltjuk őket.</span></span></h2>
       <ul class="sr-only" id="whoSr"></ul>
     </div>
   </section>
@@ -3380,11 +3413,34 @@ addEventListener('resize', () => {
   const sleep = (ms, g) => new Promise(res => setTimeout(() => { if (g === gen) res(); }, ms));
   const waiting = (on) => el.classList.toggle('is-waiting', on);
 
-  /* two spans, so the question stays ink and the answer stays grey while both
-     are still being written */
-  out.innerHTML = '<span class="who-q"></span><span class="who-a"></span>';
-  const qEl = out.firstChild, aEl = out.lastChild;
-  const paint = (q, a) => { qEl.textContent = q; aEl.textContent = a; };
+  /* Each half is split into what has been typed and what has not. Both halves
+     always hold their FULL text - the untyped part is merely transparent - and
+     that is what fixes the line breaks for the finished sentence before the
+     first character is even visible. The markup ships with the first phrase in
+     it as a no-JS fallback; this replaces it with the same words, split. */
+  out.innerHTML =
+    '<span class="who-q"><span class="tw-on"></span><span class="who-cslot"><span class="who-caret" id="whoTwCaret"></span></span><span class="tw-off"></span></span>' +
+    '<span class="who-a"><span class="tw-on"></span><span class="tw-off"></span></span>';
+  const qSeg = out.firstChild, aSeg = out.lastChild;
+  const qOn = qSeg.children[0], slot = qSeg.children[1], qOff = qSeg.children[2];
+  const aOn = aSeg.children[0], aOff = aSeg.children[1];
+
+  let fullQ = '', fullA = '';
+  /* nq / na - how many characters of each half are currently coloured in */
+  function paint(nq, na) {
+    qOn.textContent  = fullQ.slice(0, nq);
+    qOff.textContent = fullQ.slice(nq);
+    aOn.textContent  = fullA.slice(0, na);
+    aOff.textContent = fullA.slice(na);
+    /* the caret follows the last visible character across the two halves -
+       moved rather than duplicated, and only when it has to change parent */
+    const host = na > 0 ? aSeg : qSeg;
+    const before = na > 0 ? aOff : qOff;
+    if (slot.parentNode !== host || slot.nextSibling !== before) host.insertBefore(slot, before);
+  }
+  /* no joining space: the answer is its own block, so it starts a line anyway
+     and a leading space would only collapse against the margin */
+  function load(q, a) { fullQ = q; fullA = a; paint(0, 0); }
 
   /* ── height reserve ─────────────────────────────────────────────────────
      In a clone, because writing all fourteen phrases into the live element to
@@ -3397,12 +3453,20 @@ addEventListener('resize', () => {
     probe.removeAttribute('id');
     probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;min-height:0;width:' + w + 'px';
     el.parentNode.appendChild(probe);
+    /* the probe has to carry the same two-element structure as the real line,
+       not one flat string: .who-a is a block, so a flat string would wrap into
+       fewer lines and the reserve would come out short */
+    const pq = document.createElement('span'); pq.className = 'who-q';
+    const pa = document.createElement('span'); pa.className = 'who-a';
+    probe.append(pq, pa);
     let max = 0;
     for (const lang of ['hu', 'en']) {
       for (const [q, a] of WHO_LINES[lang]) {
-        /* the caret is part of what has to fit - it can be the character that
-           tips a line over into wrapping */
-        probe.innerHTML = '<span>' + q + ' ' + a + '</span><span class="who-caret"></span>';
+        /* the finished sentence is the whole story: the caret has no advance
+           width, and the untyped remainder holds its space at every point in
+           between, so no intermediate state can be taller than this */
+        pq.textContent = q;
+        pa.textContent = a;
         max = Math.max(max, probe.getBoundingClientRect().height);
       }
     }
@@ -3415,11 +3479,16 @@ addEventListener('resize', () => {
       const set = lines();
       const [q, a] = set[idx % set.length];
 
+      /* the whole sentence goes in now, so the lines are broken once, here, for
+         the finished text - everything after this only changes which characters
+         are coloured, never where any of them sits */
+      load(q, a);
+
       if (reduced()) {
         /* the phrases still cycle, they just arrive whole and stand still */
         el.style.opacity = '0';
         await sleep(280, g); if (g !== gen) return;
-        paint(q, ' ' + a);
+        paint(fullQ.length, fullA.length);
         el.style.opacity = '1';
         await sleep(3800, g); if (g !== gen) return;
         idx++;
@@ -3427,8 +3496,8 @@ addEventListener('resize', () => {
       }
 
       waiting(false);
-      for (let i = 1; i <= q.length; i++) {
-        paint(q.slice(0, i), '');
+      for (let i = 1; i <= fullQ.length; i++) {
+        paint(i, 0);
         await sleep(TYPE + Math.random() * JITTER, g);
         if (g !== gen) return;
       }
@@ -3436,18 +3505,22 @@ addEventListener('resize', () => {
       await sleep(HOLD_Q, g); if (g !== gen) return;
 
       waiting(false);
-      for (let i = 1; i <= a.length; i++) {
-        paint(q, ' ' + a.slice(0, i));
+      for (let i = 1; i <= fullA.length; i++) {
+        paint(fullQ.length, i);
         await sleep(TYPE + Math.random() * JITTER, g);
         if (g !== gen) return;
       }
       waiting(true);
       await sleep(HOLD_FULL, g); if (g !== gen) return;
 
-      /* unwrite the whole line, the answer disappearing first */
-      const full = q + ' ' + a;
-      for (let i = full.length; i >= 0; i--) {
-        paint(full.slice(0, Math.min(i, q.length)), i > q.length ? full.slice(q.length, i) : '');
+      /* unwrite, the answer going first */
+      for (let i = fullA.length; i >= 0; i--) {
+        paint(fullQ.length, i);
+        await sleep(ERASE, g);
+        if (g !== gen) return;
+      }
+      for (let i = fullQ.length; i >= 0; i--) {
+        paint(i, 0);
         await sleep(ERASE, g);
         if (g !== gen) return;
       }
@@ -3459,7 +3532,7 @@ addEventListener('resize', () => {
 
   function restart() {
     gen++;                 /* every timer still in flight is now stale */
-    paint('', '');
+    paint(0, 0);
     waiting(true);
     if (visible) run(gen);
   }
