@@ -1298,12 +1298,43 @@ nav {
    WHO
 ════════════════════════════════ */
 .who { padding: 120px 0 140px; }
-.who .h1 { margin-bottom: 40px; }
-.who-list { list-style: none; display: flex; flex-direction: column; gap: 15px; }
-.who-item { display: flex; align-items: baseline; gap: 32px; font-size: clamp(18px,2.5vw,32px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.25; }
-.who-num { font-size: clamp(18px,2.5vw,32px); font-weight: 500; letter-spacing: -0.04em; color: var(--black); min-width: 52px; flex-shrink: 0; }
+/* The typed line keeps .h1 for its face and size - it stands exactly where the
+   heading stood - and only adds what typing needs. line-height is loosened from
+   the heading's 1.08 because this one is expected to wrap: at 1.08 two lines of
+   68 px type nearly touch. */
+.who-tw {
+  margin: 0; line-height: 1.16; text-wrap: balance;
+  /* written by WHO TYPEWRITER: the tallest of the seven phrases in either
+     language, at the current width. The reserve is what stops a two-line
+     phrase from shoving the team section down as it types. */
+  min-height: var(--who-tw-h, 2.32em);
+}
 .who-q { color: var(--black); }
 .who-a { color: #616161; }
+/* the caret: a filled circle, near enough letter-height, sitting on the
+   baseline like a full stop that has not been earned yet */
+.who-caret {
+  display: inline-block; width: .56em; height: .56em; flex-shrink: 0;
+  border-radius: 50%; background: var(--black);
+  margin-left: .1em; vertical-align: baseline;
+  /* a circle on the baseline reads as sunk next to lining type, so it is
+     lifted onto the x-height it is standing in for */
+  transform: translateY(-.06em);
+}
+/* solid while the line is being written, blinking whenever it waits - the blink
+   is what says "still going" during the pause between question and answer */
+.who-tw.is-waiting .who-caret { animation: whoCaret 1.05s steps(1,end) infinite; }
+@keyframes whoCaret { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .who-caret { display: none; }
+  .who-tw { transition: opacity .3s ease; }
+}
+
+/* off-screen but readable by assistive tech */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
 
 /* ════════════════════════════════
    RESOURCES
@@ -1501,8 +1532,9 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
   .hero { padding: 120px 0 70px; }
   .hero .b1 { max-width: 100%; }
   .cta-row { flex-direction: column; }
-  .who-item { gap: 16px; }
-  .who-num  { min-width: 36px; }
+  /* the typed line is the whole section on a phone too, so it gets the room the
+     numbered list used to take up in padding rather than in items */
+  .who { padding: 90px 0 100px; }
 }
 
 /* ════════════════════════════════
@@ -2305,21 +2337,17 @@ select:focus:not(:focus-visible),
   <!-- WHO -->
   <section class="who" id="who">
     <div class="wrap">
-      <h2 class="h1" data-reveal data-i18n="who.h2">Kiknek építünk:</h2>
-      <ul class="who-list">
-        <li class="who-item" data-reveal data-delay="100">
-          <span class="who-num">01.</span>
-          <span data-i18n="who.1"><span class="who-q">Nap mint nap 3+ ember ugyanazt csinálja? </span><span class="who-a">Mi felváltjuk őket.</span></span>
-        </li>
-        <li class="who-item" data-reveal data-delay="200">
-          <span class="who-num">02.</span>
-          <span data-i18n="who.2"><span class="who-q">Növekedni szeretnél felvétel nélkül? </span><span class="who-a">Olyan AI csapatot építünk,<br>amely nem mond fel.</span></span>
-        </li>
-        <li class="who-item" data-reveal data-delay="300">
-          <span class="who-num">03.</span>
-          <span data-i18n="who.3"><span class="who-q">Megfulladsz az adminisztrációban? </span><span class="who-a">8 órányi manuális munkát 8<br>percre csökkentünk.</span></span>
-        </li>
-      </ul>
+      <!-- The line writes itself. The seven phrases live in WHO_LINES in the
+           script rather than in T[]: data-i18n sets innerHTML in one shot,
+           which is the one thing a typewriter cannot be handed. The section
+           reserves the height of the longest phrase in either language (set as
+           --who-tw-h by the script) so a line that wraps never moves the
+           sections underneath it.
+           The animated line is hidden from assistive tech - a character-by-
+           character stream is unreadable - and the same seven phrases are
+           exposed as a plain list instead. -->
+      <h2 class="h1 who-tw" id="whoTw" aria-hidden="true"><span id="whoTwTxt"></span><span class="who-caret" id="whoTwCaret"></span></h2>
+      <ul class="sr-only" id="whoSr"></ul>
     </div>
   </section>
 
@@ -2867,10 +2895,6 @@ const T = {
     'products.bridge':  'You get the exact price in the proposal, tailored to the task. For larger companies we build a custom package.',
     'approach.h2':      'Our Approach.',
     'approach.body':    'We don\'t sell <strong>\'AI tools\'</strong>.<br>We sell <strong>time saved</strong>, <strong>cost reduced</strong>,<br>and <strong>capacity added</strong>.',
-    'who.h2':           'Who we build for:',
-    'who.1':            '<span class="who-q">Got 3+ people doing the same thing every day? </span><span class="who-a">We replace them.</span>',
-    'who.2':            '<span class="who-q">Want to grow without hiring? </span><span class="who-a">We build a team that doesn\'t quit.</span>',
-    'who.3':            '<span class="who-q">Drowning in admin? </span><span class="who-a">We turn 8 hours of manual work into 8 minutes.</span>',
     'see.h2':           'See it in action.',
     'see.p':            'Try our AI live: chat with it, talk to it, or let it handle a customer email.',
     'chat.title':       'Automating AI',
@@ -3030,10 +3054,6 @@ const T = {
     'products.bridge':  'A pontos árat az ajánlatban kapod, a feladatra szabva. Nagyobb cégeknek egyedi csomagot építünk.',
     'approach.h2':      'Megközelítésünk.',
     'approach.body':    'Nem <strong>\'AI eszközöket\'</strong> értékesítünk.<br>Hanem <strong>időmegtakarítást</strong>, <strong>költségcsökkentést</strong>,<br>és <strong>kapacitásnövelést</strong>.',
-    'who.h2':           'Kiknek építünk:',
-    'who.1':            '<span class="who-q">Nap mint nap 3+ ember ugyanazt csinálja? </span><span class="who-a">Mi felváltjuk őket.</span>',
-    'who.2':            '<span class="who-q">Növekedni szeretnél felvétel nélkül? </span><span class="who-a">Olyan AI csapatot építünk,<br>amely nem mond fel.</span>',
-    'who.3':            '<span class="who-q">Megfulladsz az adminisztrációban? </span><span class="who-a">8 órányi manuális munkát 8<br>percre csökkentünk.</span>',
     'see.h2':           'Lásd működés közben.',
     'see.p':            'Próbáld ki élőben: chatelj az AI-unkkal, beszélgess vele, vagy bízz rá egy ügyfél-e-mailt.',
     'chat.title':       'Automating AI',
@@ -3292,6 +3312,183 @@ addEventListener('resize', () => {
     navToggle.setAttribute('aria-expanded', 'false');
   }
 });
+
+/* ════════════════════════════
+   WHO TYPEWRITER
+   The section is one line that writes itself: the question types out, waits,
+   the answer follows in grey, the whole thing holds, then unwrites and the next
+   phrase takes over. Seven of them, in a loop.
+
+   Three things here are not decoration:
+
+   - The height is reserved, not discovered. Every phrase is measured in a clone
+     at the real width, in both languages, and the tallest sets --who-tw-h. A
+     phrase that wraps to two lines therefore changes nothing below it. The
+     measurement is redone on resize and after the webfont lands, because both
+     move where the text breaks.
+   - Every timer is stamped with a generation. The language switch and the
+     scroll-away both invalidate the run in flight; without the stamp the old
+     chain keeps firing into the new one and two phrases type into the same
+     line, a character each.
+   - It only runs while it is on screen, and leaving parks it at the start of a
+     phrase rather than mid-word, so it is never first seen halfway through a
+     sentence with the question already gone.
+════════════════════════════ */
+(function(){
+  const el = document.getElementById('whoTw');
+  const out = document.getElementById('whoTwTxt');
+  const srList = document.getElementById('whoSr');
+  if (!el || !out) return;
+
+  /* These live here rather than in T[] because data-i18n assigns innerHTML in
+     one go, which is the one thing a typewriter cannot be handed. Keep the two
+     languages the same length and in the same order. */
+  const WHO_LINES = {
+    hu: [
+      ['Nap mint nap 3+ ember ugyanazt csinálja?',      'Mi felváltjuk őket.'],
+      ['Növekedni szeretnél felvétel nélkül?',          'Olyan AI csapatot építünk, amely nem mond fel.'],
+      ['Megfulladsz az adminisztrációban?',             '8 órányi manuális munkát 8 percre csökkentünk.'],
+      ['Mire visszahívod, már máshol vásárolt?',        'Az AI azonnal felveszi, 0/24.'],
+      ['Két nap alatt válaszolsz egy ajánlatkérésre?',  'Két percre visszük le.'],
+      ['Ugyanazt az adatot három helyre viszed be?',    'Többé egyszer sem.'],
+      ['Egy ember kiesik, és megáll a folyamat?',       'Ami automatizált, az nem esik ki.'],
+    ],
+    en: [
+      ['Got 3+ people doing the same thing every day?', 'We replace them.'],
+      ['Want to grow without hiring?',                  'We build a team that doesn\'t quit.'],
+      ['Drowning in admin?',                            'We turn 8 hours of manual work into 8 minutes.'],
+      /* 0/24 is the Hungarian idiom; English says it the other way round */
+      ['By the time you call back, they have bought elsewhere?', 'The AI picks up instantly, 24/7.'],
+      ['Two days to answer a quote request?',           'We take it down to two minutes.'],
+      ['Keying the same data into three systems?',      'Not once more.'],
+      ['One person out and everything stops?',          'What\'s automated never calls in sick.'],
+    ],
+  };
+
+  /* ms per character. Typing is deliberately uneven - a fixed interval reads
+     like a progress bar rather than a hand - but unwriting is steady and quick,
+     because nobody needs to read a line backwards. */
+  const TYPE = 34, JITTER = 26, ERASE = 15;
+  const HOLD_Q = 620;      /* the beat where the question lands */
+  const HOLD_FULL = 2100;
+  const HOLD_EMPTY = 320;
+
+  const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lines = () => WHO_LINES[document.documentElement.lang === 'en' ? 'en' : 'hu'] || WHO_LINES.hu;
+
+  let gen = 0, visible = false, idx = 0;
+  const sleep = (ms, g) => new Promise(res => setTimeout(() => { if (g === gen) res(); }, ms));
+  const waiting = (on) => el.classList.toggle('is-waiting', on);
+
+  /* two spans, so the question stays ink and the answer stays grey while both
+     are still being written */
+  out.innerHTML = '<span class="who-q"></span><span class="who-a"></span>';
+  const qEl = out.firstChild, aEl = out.lastChild;
+  const paint = (q, a) => { qEl.textContent = q; aEl.textContent = a; };
+
+  /* ── height reserve ─────────────────────────────────────────────────────
+     In a clone, because writing all fourteen phrases into the live element to
+     measure them would flash every one of them on screen. Absolutely placed at
+     the element's own width so it breaks exactly where the real one breaks. */
+  function reserve() {
+    const w = el.getBoundingClientRect().width;
+    if (!w) return;
+    const probe = el.cloneNode(false);
+    probe.removeAttribute('id');
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;min-height:0;width:' + w + 'px';
+    el.parentNode.appendChild(probe);
+    let max = 0;
+    for (const lang of ['hu', 'en']) {
+      for (const [q, a] of WHO_LINES[lang]) {
+        /* the caret is part of what has to fit - it can be the character that
+           tips a line over into wrapping */
+        probe.innerHTML = '<span>' + q + ' ' + a + '</span><span class="who-caret"></span>';
+        max = Math.max(max, probe.getBoundingClientRect().height);
+      }
+    }
+    probe.remove();
+    el.style.setProperty('--who-tw-h', Math.ceil(max) + 'px');
+  }
+
+  async function run(g) {
+    while (g === gen) {
+      const set = lines();
+      const [q, a] = set[idx % set.length];
+
+      if (reduced()) {
+        /* the phrases still cycle, they just arrive whole and stand still */
+        el.style.opacity = '0';
+        await sleep(280, g); if (g !== gen) return;
+        paint(q, ' ' + a);
+        el.style.opacity = '1';
+        await sleep(3800, g); if (g !== gen) return;
+        idx++;
+        continue;
+      }
+
+      waiting(false);
+      for (let i = 1; i <= q.length; i++) {
+        paint(q.slice(0, i), '');
+        await sleep(TYPE + Math.random() * JITTER, g);
+        if (g !== gen) return;
+      }
+      waiting(true);
+      await sleep(HOLD_Q, g); if (g !== gen) return;
+
+      waiting(false);
+      for (let i = 1; i <= a.length; i++) {
+        paint(q, ' ' + a.slice(0, i));
+        await sleep(TYPE + Math.random() * JITTER, g);
+        if (g !== gen) return;
+      }
+      waiting(true);
+      await sleep(HOLD_FULL, g); if (g !== gen) return;
+
+      /* unwrite the whole line, the answer disappearing first */
+      const full = q + ' ' + a;
+      for (let i = full.length; i >= 0; i--) {
+        paint(full.slice(0, Math.min(i, q.length)), i > q.length ? full.slice(q.length, i) : '');
+        await sleep(ERASE, g);
+        if (g !== gen) return;
+      }
+      waiting(true);
+      await sleep(HOLD_EMPTY, g); if (g !== gen) return;
+      idx++;
+    }
+  }
+
+  function restart() {
+    gen++;                 /* every timer still in flight is now stale */
+    paint('', '');
+    waiting(true);
+    if (visible) run(gen);
+  }
+
+  /* the assistive-tech copy: the same seven phrases as plain text */
+  function syncSr() {
+    if (!srList) return;
+    srList.innerHTML = '';
+    for (const [q, a] of lines()) {
+      const li = document.createElement('li');
+      li.textContent = q + ' ' + a;
+      srList.appendChild(li);
+    }
+  }
+
+  reserve();
+  syncSr();
+  /* the webfont lands after first paint and changes the text metrics */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserve);
+  let rt;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(reserve, 150); });
+  langCallbacks.push(() => { idx = 0; reserve(); syncSr(); restart(); });
+
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting === visible) return;
+    visible = e.isIntersecting;
+    restart();
+  }, { threshold: 0.2 }).observe(el);
+})();
 
 /* ════════════════════════════
    NAV CTA REVEAL
