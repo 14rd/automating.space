@@ -1449,7 +1449,16 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
    REVIEWS
    ════════════════════════════════ */
 .reviews { padding: 120px 0 140px; }
-.reviews-head { text-align: center; max-width: 760px; margin: 0 auto 64px; }
+/* The heading pins as well: the reviews only mean something under the claim
+   they are evidence for, so the claim stays on screen for the whole stack. It
+   deliberately has no background and no z-index - the cards are later in the
+   DOM, so on the way out they travel up over it, and the matrix behind the
+   section keeps showing through the way it always did. */
+.reviews-head {
+  position: sticky; top: var(--rev-nav, 100px); z-index: 1;
+  text-align: center; max-width: 760px; margin: 0 auto 64px;
+}
+.reviews-head[data-reveal] { opacity: 1; transform: none; transition: none; }
 .reviews-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--g600); margin-bottom: 18px; }
 /* The three reviews stack rather than sit in a row: each sticks under the nav
    while the next slides up and covers it, and the whole pile releases once the
@@ -1471,7 +1480,7 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
    very room it was adding for itself. */
 .review-tail { flex: 0 0 auto; height: clamp(60px, 12vh, 120px); }
 .review-card {
-  position: sticky; top: calc(var(--rev-top, 100px) + var(--rev-i, 0) * 14px);
+  position: sticky; top: calc(var(--rev-top, 420px) + var(--rev-i, 0) * 14px);
   /* stacked, a card is read on its own, so it is sized like one piece of copy
      rather than stretched across the grid the way the old row was */
   width: 100%; max-width: 760px; margin: 0 auto;
@@ -1487,6 +1496,13 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
 @media (prefers-reduced-motion: reduce) {
   .review-card { position: static; min-height: 0; }
   .review-grid { gap: 20px; }
+}
+/* Below about 620 px of viewport a five-line heading and a whole card cannot
+   both be on screen at once - the arithmetic simply does not close. Rather than
+   pin the heading and let a card cover half of it, the heading scrolls away on
+   those screens and the cards get the room. The stack itself is unaffected. */
+@media (max-height: 620px) {
+  .reviews-head { position: static; }
 }
 .review-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .review-industry { font-size: 13px; font-weight: 600; color: var(--black); }
@@ -1827,7 +1843,16 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
 .hero-guarantee { font-size: 14px; color: var(--g400); margin-top: 18px; }
 
 @media (max-width: 900px) {
-  .review-grid { flex-direction: column; }
+  /* Pinned under a heading that is five lines tall on a phone, the card has
+     roughly 300 px to live in - Safari's own bars take a chunk of the viewport
+     too. Every value here is trimmed for that, measured rather than guessed. */
+  .review-card { padding: 22px 22px 20px; }
+  .review-top { margin-bottom: 8px; }
+  .review-stars { font-size: 14px; margin-bottom: 10px; }
+  .review-quote { font-size: 13.5px; line-height: 1.55; margin-bottom: 14px; }
+  .review-result { font-size: 14px; margin-bottom: 10px; }
+  .review-metric { font-size: 11.5px; padding: 5px 10px; }
+  .reviews-head { margin-bottom: 40px; }
   .store-teasers { flex-direction: column; }
   .store-inner { padding: 44px 28px; border-radius: 28px; }
   .reviews { padding: 90px 0 90px; }
@@ -3429,18 +3454,22 @@ document.querySelectorAll('a[href]').forEach(a => {
 /* ════════════════════════════
    REVIEW STACK
    The stacking is CSS (see .review-card). This block only measures and
-   publishes the two numbers the stylesheet cannot work out for itself:
+   publishes the three numbers the stylesheet cannot work out for itself:
 
-     --rev-top   the nav's bottom edge, so the pile clears the fixed pill
+     --rev-nav   the nav's bottom edge, where the heading pins
+     --rev-top   below the pinned heading, where the cards pin
      --rev-h     the tallest card, so a short one stacked on top of a taller
                  one never lets it show below
 
-   Recomputed on resize, after a language switch and once webfonts land, since
-   all three change where the quotes wrap and so which card is tallest.
+   Recomputed on resize, after a language switch and once webfonts land: all
+   three move where the copy wraps, and the heading's wrap is what decides how
+   far down the cards can start.
 ════════════════════════════ */
 (function(){
-  const grid = document.querySelector('.review-grid');
-  if (!grid) return;
+  const sec  = document.querySelector('.reviews');
+  const grid = sec && sec.querySelector('.review-grid');
+  const head = sec && sec.querySelector('.reviews-head');
+  if (!grid || !head) return;
   const cards = [...grid.querySelectorAll('.review-card')];
   if (!cards.length) return;
   const nav = document.querySelector('.nav-outer');
@@ -3448,12 +3477,19 @@ document.querySelectorAll('a[href]').forEach(a => {
   let raf = 0;
   function measure(){
     raf = 0;
-    grid.style.setProperty('--rev-h', 'auto');          /* read natural heights */
+    sec.style.setProperty('--rev-h', 'auto');           /* read natural heights */
     const tallest = Math.max(...cards.map(c => c.offsetHeight));
-    grid.style.setProperty('--rev-h', tallest + 'px');
     /* the nav is fixed, so its bottom edge does not move with scroll */
-    grid.style.setProperty('--rev-top',
-      (nav ? Math.round(nav.getBoundingClientRect().bottom) + 16 : 100) + 'px');
+    const navB = (nav ? Math.round(nav.getBoundingClientRect().bottom) : 84) + 16;
+    sec.style.setProperty('--rev-nav', navB + 'px');
+    sec.style.setProperty('--rev-h', tallest + 'px');
+    /* Cards pin below the pinned heading - but if the two together would not
+       fit the viewport, it is the card's own bottom that would be cut off, and
+       that is the part worth protecting. So on a short screen the cards ride up
+       over the heading's last lines instead of hanging off the bottom. */
+    const fits = navB + head.offsetHeight + 12;
+    const room = innerHeight - tallest - 28 - 12;       /* 28 = the two 14 px steps */
+    sec.style.setProperty('--rev-top', Math.max(navB, Math.min(fits, room)) + 'px');
   }
   const schedule = () => { if (!raf) raf = requestAnimationFrame(measure); };
 
