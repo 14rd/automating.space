@@ -374,8 +374,9 @@ nav {
 }
 .prod-tag   { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--g600); margin-bottom: 14px; }
 .prod-title { font-size: clamp(22px,2vw,28px); font-weight: 600; letter-spacing: -.025em; line-height: 1.2; margin-bottom: 14px; }
-.prod-desc  { font-size: 13px; color: var(--g600); line-height: 1.65; margin-bottom: 24px; flex: 1; }
-.mockup { background: var(--white); border: 1px solid var(--g200); border-radius: 12px; padding: 14px 16px; overflow: hidden; }
+/* margin-top:auto - the description used to absorb the card's slack with
+   flex:1; with it gone the mockup claims it, so all three stay bottom-aligned */
+.mockup { background: var(--white); border: 1px solid var(--g200); border-radius: 12px; padding: 14px 16px; overflow: hidden; margin-top: auto; }
 
 /* ── VOICE MOCKUP ── */
 .vm-header {
@@ -1999,9 +2000,8 @@ select:focus:not(:focus-visible),
         <!-- Voice -->
         <div class="prod-card card-left tilt">
           <div class="prod-tag" data-i18n="voice.tag">Hang AI</div>
-          <h3 class="prod-title" data-i18n="voice.title">AI, amely minden hívást megválaszol.</h3>
+          <h3 class="prod-title" data-i18n="voice.title">Minden hívást megválaszol, időpontot foglal, érdeklődőket szűr.</h3>
           <div class="prod-price" data-i18n="voice.price">250 000 Ft-tól</div>
-          <p class="prod-desc" data-i18n="voice.desc">Hívásokat fogad, rendeléseket vesz fel, találkozókat foglal és érdeklődőket minősít, 24/7. Természetes kommunikáció. Integrálva a CRM-mel és naptárral.</p>
           <div class="mockup">
             <div class="vm-header">
               <div class="vm-dot"></div>
@@ -2016,9 +2016,8 @@ select:focus:not(:focus-visible),
         <!-- Email -->
         <div class="prod-card card-mid tilt">
           <div class="prod-tag" data-i18n="email.tag">Email AI</div>
-          <h3 class="prod-title" data-i18n="email.title">Postafiók, amely olvas, rendez és válaszol.</h3>
+          <h3 class="prod-title" data-i18n="email.title">Beérkező leveleket olvas, kategorizál és válaszol.</h3>
           <div class="prod-price" data-i18n="email.price">150 000 Ft-tól</div>
-          <p class="prod-desc" data-i18n="email.desc">E-maileket olvas, kategorizál és megválaszol. Automatikus válaszok GYIK-re. Sürgős jelölés. Nyomon követési szekvenciák, amelyek nem maradnak el.</p>
           <div class="mockup">
             <div class="em-list-wrap" id="emailListWrap"></div>
           </div>
@@ -2027,9 +2026,8 @@ select:focus:not(:focus-visible),
         <!-- Workflow -->
         <div class="prod-card card-right tilt">
           <div class="prod-tag" data-i18n="workflow.tag">Iroda AI</div>
-          <h3 class="prod-title" data-i18n="workflow.title">Háttérirodai folyamatok autopilóton.</h3>
+          <h3 class="prod-title" data-i18n="workflow.title">Számláz, könyvel, adatot rögzít és CRM-et kezel.</h3>
           <div class="prod-price" data-i18n="workflow.price">220 000 Ft-tól</div>
-          <p class="prod-desc" data-i18n="workflow.desc">Infrastruktúra ismétlődő feladatokhoz, számlázáshoz, adatbevitelhez, CRM szinkronhoz, riportoláshoz, csendesen fut a háttérben.</p>
           <div class="mockup wf-mockup">
             <div class="wf-header">
               <span id="wfJobName">RUN &nbsp;•&nbsp; workflow_invoice_sync</span>
@@ -2050,7 +2048,7 @@ select:focus:not(:focus-visible),
       <div class="approach-inner">
         <h2 class="h1" data-reveal data-i18n="approach.h2">Megközelítésünk.</h2>
         <p class="approach-body" data-reveal data-delay="150" data-i18n="approach.body">
-          Nem <strong>'AI implementációt'</strong> értékesítünk.<br>
+          Nem <strong>'AI eszközöket'</strong> értékesítünk.<br>
           Hanem <strong>időmegtakarítást</strong>, <strong>költségcsökkentést</strong>,<br>és <strong>kapacitásnövelést</strong>.
         </p>
       </div>
@@ -2601,20 +2599,17 @@ const T = {
     'products.p.desk':  'Our stack delivers AI systems for businesses to handle calls, emails, and workflows. Integrated into existing operations.',
     'products.p.mob':   'Our stack delivers AI systems for businesses to<br>handle calls, emails, and workflows. Integrated<br>into existing operations.',
     'voice.tag':        'Voice AI',
-    'voice.title':      'AI that answers every call.',
+    'voice.title':      'Answers every call, books appointments, screens leads.',
     'voice.price':      'From $800',
-    'voice.desc':       'Answer calls, take orders, book appointments, and qualify leads, 24/7. Natural conversation. Integrated with your CRM and calendar.',
     'email.tag':        'Email AI',
-    'email.title':      'Inbox that reads, sorts, and replies.',
+    'email.title':      'Reads, categorises and answers incoming mail.',
     'email.price':      'From $500',
-    'email.desc':       'Read, categorise, and reply to emails. Auto-responses for FAQs. Urgent flagging. Follow-up sequences that don\'t miss.',
     'workflow.tag':     'Office AI',
-    'workflow.title':   'Back-office on autopilot.',
+    'workflow.title':   'Invoices, books, records data and runs your CRM.',
     'workflow.price':   'From $700',
-    'workflow.desc':    'Infrastructure for repetitive tasks, invoicing, data entry, CRM sync, reporting, quietly running in the background.',
     'products.bridge':  'You get the exact price in the proposal, tailored to the task. For larger companies we build a custom package.',
     'approach.h2':      'Our Approach.',
-    'approach.body':    'We don\'t sell <strong>\'AI implementation\'</strong>.<br>We sell <strong>time saved</strong>, <strong>cost reduced</strong>,<br>and <strong>capacity added</strong>.',
+    'approach.body':    'We don\'t sell <strong>\'AI tools\'</strong>.<br>We sell <strong>time saved</strong>, <strong>cost reduced</strong>,<br>and <strong>capacity added</strong>.',
     'who.h2':           'Who we build for:',
     'who.1':            '<span class="who-q">Got 3+ people doing the same thing every day? </span><span class="who-a">We replace them.</span>',
     'who.2':            '<span class="who-q">Want to grow without hiring? </span><span class="who-a">We build a team that doesn\'t quit.</span>',
@@ -2767,20 +2762,17 @@ const T = {
     'products.p.desk':  'Rendszereink AI megoldásokat biztosítanak vállalkozásoknak hívások, e-mailek és munkafolyamatok kezelésére. Integrálva a meglévő tevékenységekbe.',
     'products.p.mob':   'Rendszereink AI megoldásokat biztosítanak<br>vállalkozásoknak hívások és e-mailek<br>kezelésére. Integrálva a meglévő folyamatokba.',
     'voice.tag':        'Hang AI',
-    'voice.title':      'AI, amely minden hívást megválaszol.',
+    'voice.title':      'Minden hívást megválaszol, időpontot foglal, érdeklődőket szűr.',
     'voice.price':      '250 000 Ft-tól',
-    'voice.desc':       'Hívásokat fogad, rendeléseket vesz fel, találkozókat foglal és érdeklődőket minősít, 24/7. Természetes kommunikáció. Integrálva a CRM-mel és naptárral.',
     'email.tag':        'Email AI',
-    'email.title':      'Postafiók, amely olvas, rendez és válaszol.',
+    'email.title':      'Beérkező leveleket olvas, kategorizál és válaszol.',
     'email.price':      '150 000 Ft-tól',
-    'email.desc':       'E-maileket olvas, kategorizál és megválaszol. Automatikus válaszok GYIK-re. Sürgős jelölés. Nyomon követési szekvenciák, amelyek nem maradnak el.',
     'workflow.tag':     'Iroda AI',
-    'workflow.title':   'Háttérirodai folyamatok autopilóton.',
+    'workflow.title':   'Számláz, könyvel, adatot rögzít és CRM-et kezel.',
     'workflow.price':   '220 000 Ft-tól',
-    'workflow.desc':    'Infrastruktúra ismétlődő feladatokhoz, számlázáshoz, adatbevitelhez, CRM szinkronhoz, riportoláshoz, csendesen fut a háttérben.',
     'products.bridge':  'A pontos árat az ajánlatban kapod, a feladatra szabva. Nagyobb cégeknek egyedi csomagot építünk.',
     'approach.h2':      'Megközelítésünk.',
-    'approach.body':    'Nem <strong>\'AI implementációt\'</strong> értékesítünk.<br>Hanem <strong>időmegtakarítást</strong>, <strong>költségcsökkentést</strong>,<br>és <strong>kapacitásnövelést</strong>.',
+    'approach.body':    'Nem <strong>\'AI eszközöket\'</strong> értékesítünk.<br>Hanem <strong>időmegtakarítást</strong>, <strong>költségcsökkentést</strong>,<br>és <strong>kapacitásnövelést</strong>.',
     'who.h2':           'Kiknek építünk:',
     'who.1':            '<span class="who-q">Nap mint nap 3+ ember ugyanazt csinálja? </span><span class="who-a">Mi felváltjuk őket.</span>',
     'who.2':            '<span class="who-q">Növekedni szeretnél felvétel nélkül? </span><span class="who-a">Olyan AI csapatot építünk,<br>amely nem mond fel.</span>',
@@ -3543,86 +3535,111 @@ document.querySelectorAll('a[href]').forEach(a => {
    scroll back up - it reads as something you are doing, not something playing
    at you.
 ════════════════════════════ */
-(function(){
-  const quote = document.querySelector('.quote .h1');
-  if (!quote || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  const SPREAD = 14;              /* characters covered by the leading edge */
-  const START      = 1.00;        /* block top at the viewport bottom -> first character */
-  const END_BOTTOM =  .34;        /* block BOTTOM this high up      -> last character */
-
-  /* read the two ends of the ramp off the page rather than hardcoding them,
-     so the effect follows the palette if it ever changes */
+const inkOnScroll = (function(){
+  /* read the ramp's start off the page rather than hardcoding it, so the
+     effect follows the palette if it ever changes */
   const css  = getComputedStyle(document.documentElement);
   const hex  = v => { const h = css.getPropertyValue(v).trim().slice(1);
                       return [0,2,4].map(i => parseInt(h.substr(i,2),16)); };
-  const FROM = hex('--g400'), TO = hex('--black');
-
-  let chars = [], active = false, raf = 0, last = -1;
-  const mo = new MutationObserver(() => split());   /* the language switch rewrites the line */
-
-  function split(){
-    mo.disconnect();
-    chars = [];
-    const fill = quote.querySelector('.quote-fill');
-    if (fill) [...fill.childNodes].forEach(node => {
-      if (node.nodeType !== 3) return;              /* leave <br> alone */
-      const frag = document.createDocumentFragment();
-      node.data.split(/(\s+)/).forEach(chunk => {
-        if (!chunk) return;
-        if (/^\s+$/.test(chunk)) { frag.appendChild(document.createTextNode(chunk)); return; }
-        /* one wrapper per word, so lines still break at spaces and never
-           inside a word */
-        const w = document.createElement('span'); w.className = 'qr-w';
-        [...chunk].forEach(ch => {
-          const c = document.createElement('span'); c.className = 'qr-c'; c.textContent = ch;
-          w.appendChild(c); chars.push(c);
-        });
-        frag.appendChild(w);
-      });
-      fill.replaceChild(frag, node);
-    });
-    mo.observe(quote, { childList: true, subtree: true });
-    last = -1; paint();
-  }
-
+  const FROM = hex('--g400');
+  const INK = { black: hex('--black'), body: hex('--g600') };
   const smoothstep = t => t * t * (3 - 2 * t);
 
-  function paint(){
-    const vh = innerHeight || 1;
-    const r  = quote.getBoundingClientRect();
-    /* The ramp spans (START - END_BOTTOM) of the viewport PLUS the block's own
-       height, which buys the effect a good deal more scroll than pinning both
-       ends to the top edge did - and it is what puts the finish where it
-       belongs: p hits 1 only once the block's bottom edge is at END_BOTTOM, so
-       "igen." takes its black when the whole line already sits well above the
-       middle of the screen. Measuring the height every frame instead of
-       assuming one is what keeps that true on phones, where the same two
-       sentences wrap to twice as many rows. */
-    const span = vh * (START - END_BOTTOM) + r.height;
-    const p = Math.min(1, Math.max(0, (vh * START - r.top) / span));
-    if (Math.abs(p - last) < .001) return;
-    last = p;
-    const head = p * (chars.length + SPREAD);
-    for (let i = 0; i < chars.length; i++){
-      const t = smoothstep(Math.min(1, Math.max(0, (head - i) / SPREAD)));
-      chars[i].style.color =
-        `rgb(${Math.round(FROM[0] + (TO[0] - FROM[0]) * t)},` +
-            `${Math.round(FROM[1] + (TO[1] - FROM[1]) * t)},` +
-            `${Math.round(FROM[2] + (TO[2] - FROM[2]) * t)})`;
+  /* `ink` names each character's destination shade from the element it came out
+     of. It is a function rather than one colour because a line can rest in more
+     than one shade: the approach copy keeps its highlighted words black and
+     the words between them grey, and both have to arrive at their OWN resting
+     colour or the animation would flatten the emphasis it is meant to carry. */
+  return function inkOnScroll(el, { fill = null, ink = () => 'black',
+                                    spread = 14, start = 1.00, endBottom = .34 } = {}){
+    if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let chars = [], active = false, raf = 0, last = -1;
+    const mo = new MutationObserver(() => split());  /* the language switch rewrites the line */
+
+    function split(){
+      mo.disconnect();
+      chars = [];
+      const root = fill ? el.querySelector(fill) : el;
+      if (root) {
+        /* collect the text nodes before touching any of them - replacing as we
+           walk would drop the rest of the list */
+        const texts = [];
+        (function walk(n){
+          [...n.childNodes].forEach(c => {
+            if (c.nodeType === 3) texts.push(c);
+            else if (c.nodeType === 1 && c.tagName !== 'BR') walk(c);   /* into <strong> too */
+          });
+        })(root);
+        texts.forEach(node => {
+          const to = INK[ink(node.parentElement)] || INK.black;
+          const frag = document.createDocumentFragment();
+          node.data.split(/(\s+)/).forEach(chunk => {
+            if (!chunk) return;
+            if (/^\s+$/.test(chunk)) { frag.appendChild(document.createTextNode(chunk)); return; }
+            /* one wrapper per word, so lines still break at spaces and never
+               inside a word */
+            const w = document.createElement('span'); w.className = 'qr-w';
+            [...chunk].forEach(ch => {
+              const c = document.createElement('span'); c.className = 'qr-c'; c.textContent = ch;
+              w.appendChild(c); chars.push({ el: c, to });
+            });
+            frag.appendChild(w);
+          });
+          node.parentNode.replaceChild(frag, node);
+        });
+      }
+      mo.observe(el, { childList: true, subtree: true });
+      last = -1; paint();
     }
-  }
 
-  function loop(){ paint(); if (active) raf = requestAnimationFrame(loop); }
+    function paint(){
+      const vh = innerHeight || 1;
+      const r  = el.getBoundingClientRect();
+      /* The ramp spans (start - endBottom) of the viewport PLUS the block's own
+         height, which buys the effect a good deal more scroll than pinning both
+         ends to the top edge did - and it is what puts the finish where it
+         belongs: p hits 1 only once the block's bottom edge is at endBottom, so
+         the last word takes its ink when the whole line already sits well above
+         the middle of the screen. Measuring the height every frame instead of
+         assuming one is what keeps that true on phones, where the same
+         sentences wrap to twice as many rows. */
+      const span = vh * (start - endBottom) + r.height;
+      const p = Math.min(1, Math.max(0, (vh * start - r.top) / span));
+      if (Math.abs(p - last) < .001) return;
+      last = p;
+      const head = p * (chars.length + spread);
+      for (let i = 0; i < chars.length; i++){
+        const t = smoothstep(Math.min(1, Math.max(0, (head - i) / spread)));
+        const to = chars[i].to;
+        chars[i].el.style.color =
+          `rgb(${Math.round(FROM[0] + (to[0] - FROM[0]) * t)},` +
+              `${Math.round(FROM[1] + (to[1] - FROM[1]) * t)},` +
+              `${Math.round(FROM[2] + (to[2] - FROM[2]) * t)})`;
+      }
+    }
 
-  split();
-  /* only run the loop while the line is anywhere near the viewport */
-  new IntersectionObserver(en => {
-    active = en[0].isIntersecting;
-    cancelAnimationFrame(raf);
-    if (active) raf = requestAnimationFrame(loop); else paint();
-  }, { rootMargin: '200px 0px' }).observe(quote);
+    function loop(){ paint(); if (active) raf = requestAnimationFrame(loop); }
+
+    split();
+    /* only run the loop while the line is anywhere near the viewport */
+    new IntersectionObserver(en => {
+      active = en[0].isIntersecting;
+      cancelAnimationFrame(raf);
+      if (active) raf = requestAnimationFrame(loop); else paint();
+    }, { rootMargin: '200px 0px' }).observe(el);
+  };
 })();
+
+/* The payoff line: only the second sentence inks in, and it goes fully black. */
+inkOnScroll(document.querySelector('.quote .h1'), { fill: '.quote-fill' });
+
+/* The approach copy: the whole line inks in, but each word to its own resting
+   shade - highlighted words black, the words between them grey - so the
+   emphasis the copy already carries survives the animation. */
+inkOnScroll(document.querySelector('.approach-body'), {
+  ink: p => p.closest('strong') ? 'black' : 'body',
+});
 
 /* ════════════════════════════
    3D TILT
