@@ -41,7 +41,9 @@
   font-family: inherit; font-size: 13.5px; font-weight: 500; line-height: 1;
   padding: 12px 20px; border-radius: 100px; border: 1px solid transparent;
   cursor: pointer; white-space: nowrap; text-decoration: none;
-  transition: transform .4s cubic-bezier(0.22,1,0.36,1), opacity .4s ease, background .2s ease, border-color .2s ease;
+  /* .5s, not .4s: the same press curve and the same duration as .btn-pill, so
+     the consent bar's black button answers exactly like the nav one */
+  transition: transform .5s cubic-bezier(0.22,1,0.36,1), opacity .5s cubic-bezier(0.22,1,0.36,1), background .2s ease, border-color .2s ease;
 }
 .ac-btn:hover { transform: scale(1.03); }
 .ac-btn:active { transform: scale(.965); transition-duration: .12s; }

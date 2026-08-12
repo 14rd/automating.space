@@ -309,10 +309,19 @@ nav {
 }
 .hero .h1 { margin: 0 auto 24px; white-space: nowrap; }
 .hero .b1 { max-width: 820px; margin: 0 auto 48px; color: var(--g600); }
-.hero-anim-1 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
-.hero-anim-2 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
-.hero-anim-3 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
-.hero-anim-4 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.52s both; }
+/* backwards, not both. `both` keeps a finished animation filling forever, and a
+   filling animation outranks every :hover declaration - which is why the hero's
+   own call to action, the largest black button on the page, sat there while the
+   nav pill answered the cursor: heroUp was still pinning transform and opacity
+   at its end keyframe. That end keyframe is opacity 1 / translateY(0), which is
+   already each element's natural state, so dropping the forward fill changes
+   nothing on screen and hands the two properties back. `backwards` is the half
+   that was doing real work - it holds the from-state through the delay so
+   nothing flashes in before its turn. */
+.hero-anim-1 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.1s backwards; }
+.hero-anim-2 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.25s backwards; }
+.hero-anim-3 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.4s backwards; }
+.hero-anim-4 { animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.52s backwards; }
 .hero-cta2 { margin-top: 16px; }
 @keyframes heroUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -501,6 +510,8 @@ nav {
 ════════════════════════════════ */
 :root {
   --ease-ai: cubic-bezier(0.23,1,0.32,1);
+  /* the press/hover curve every black button shares - see BLACK BUTTON MOTION */
+  --ease-press: cubic-bezier(0.22,1,0.36,1);
   /* radius ladder - every demo control picks a rung, never an ad-hoc value.
      orb = circle/pill for anything small enough to be a dot or a chip */
   --r-orb: 999px;
@@ -701,7 +712,10 @@ nav {
   width: 32px; height: 32px; flex-shrink: 0; padding: 0; border: 0; border-radius: var(--r-orb);
   display: flex; align-items: center; justify-content: center; cursor: pointer;
   background: var(--g200); color: var(--g400); -webkit-appearance: none;
-  transition: background-color 200ms var(--ease-ai), color 200ms var(--ease-ai), transform 150ms var(--ease-ai);
+  /* colour keeps its own quick ramp; the transform is the shared black-button
+     press curve, so an armed send answers the hand like the nav pill does */
+  transition: background-color 200ms var(--ease-ai), color 200ms var(--ease-ai),
+              transform .5s var(--ease-press), opacity .5s var(--ease-press);
 }
 /* the arrow slides in as the button arms itself (PromptBar pattern) */
 .ai-send svg {
@@ -711,7 +725,10 @@ nav {
 .ai-send.on svg { opacity: 1; transform: scale(1); }
 .ai-send.on { background: var(--black); color: var(--white); box-shadow: var(--sh-btn); }
 .ai-send:disabled { cursor: default; background: var(--g200); color: var(--g400); }
-.ai-send:not(:disabled):active { transform: scale(.96); }
+/* only the armed (black) state lifts - the grey stub is not offering anything */
+.ai-send.on:not(:disabled):hover { opacity: .9; transform: scale(1.03); }
+.ai-send:not(:disabled):active { transform: scale(.965); transition: transform .12s var(--ease-press), opacity .12s ease; }
+@media (hover: none) { .ai-send.on:not(:disabled):hover { opacity: 1; transform: none; } }
 .ai-send:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--white), 0 0 0 3.5px var(--g400); }
 
 /* H) .ai-iconbtn - quiet round icon button (header actions) */
@@ -758,6 +775,42 @@ nav {
   text-align: left;
 }
 .voice-frame, .ed-frame { margin-top: 16px; }
+
+/* ── three across, on a desktop ───────────────────────────────────────────
+   The three frames are already siblings of the heading inside .wrap, so the
+   row needs no wrapper element: .wrap becomes the grid and the heading and the
+   lead span all three columns. That keeps the markup and its indentation
+   untouched, and it means the columns line up with nothing to keep in sync.
+
+   row-gap stays 0 on purpose: the vertical rhythm above the row is set by the
+   heading's and the lead's own margins, and a grid gap would silently add to
+   both. Only the columns want the 16 px, which is the gap the stack used.
+
+   The section also widens past the page's 1320 px column - at 1320 the cards
+   would come out near phone width while standing 560 px tall, which is the one
+   proportion the demos were never designed for.
+
+   1200 px, not the 900 px mobile breakpoint: three columns need real width, and
+   between 900 and 1200 the cards measured 262-300 px, narrower than the phone
+   layout they would be standing in for. Below 1200 the stack it already was is
+   the better layout, and the phone is never reached by these rules at all. */
+@media (min-width: 1200px) {
+  .see-action > .wrap {
+    max-width: 1760px;
+    /* minmax(0,...), not a bare 1fr: 1fr floors at min-content, and the chat
+       card's longest opening chip is a wider word than the other two hold, so
+       bare 1fr handed it 301 px against their 286 and the columns came out
+       visibly uneven. A 0 floor lets all three divide the width equally and
+       makes the chips wrap instead. */
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 16px; row-gap: 0;
+  }
+  .see-action > .wrap > .h1,
+  .see-action > .wrap > .b1 { grid-column: 1 / -1; }
+  .chat-frame, .voice-frame, .ed-frame { max-width: none; margin: 0; }
+  /* the column gap replaces the stack's spacer */
+  .voice-frame, .ed-frame { margin-top: 0; }
+}
 .chat-card, .voice-card, .ed-card {
   height: 560px; display: flex; flex-direction: column;
   background: var(--white); border: 1px solid var(--g200); border-radius: 26px;
@@ -942,10 +995,20 @@ nav {
 .voice-type {
   border: 1px solid var(--g200); background: var(--white); border-radius: 100px;
   padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 500;
-  color: var(--g600); cursor: pointer; transition: all .18s;
+  color: var(--g600); cursor: pointer;
+  /* was `all .18s`, which made the black selected pill answer on a different
+     curve to every other black button on the page. Colour keeps the quick ramp
+     it needs to feel like a selection; the motion is the shared press curve. */
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease,
+              transform .5s var(--ease-press), opacity .5s var(--ease-press);
 }
 .voice-type:hover { border-color: var(--black); color: var(--black); transform: scale(1.03); }
 .voice-type.sel { background: var(--black); border-color: var(--black); color: var(--white); }
+/* the dim only reads on the black state, and it is what carries the hover at
+   this size - 3% of a 34 px pill is a pixel */
+.voice-type.sel:hover { color: var(--white); opacity: .9; }
+.voice-type:active { transform: scale(.965); transition: transform .12s var(--ease-press), opacity .12s ease; }
+@media (hover: none) { .voice-type:hover { transform: none; } .voice-type.sel:hover { opacity: 1; } }
 .voice-card.busy .voice-types { opacity: .45; pointer-events: none; }
 .voice-cta { justify-content: center; padding: 13px; font-size: 14.5px; }
 .voice-cta:disabled { opacity: .45; cursor: default; transform: none; }
@@ -1133,11 +1196,15 @@ nav {
 .bk-day {
   aspect-ratio: 1; border: 1px solid transparent; border-radius: 12px;
   background: none; font-family: inherit; font-size: 14px; font-weight: 500;
-  color: var(--g400); cursor: default; transition: all .18s;
+  color: var(--g400); cursor: default;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease,
+              transform .5s var(--ease-press), opacity .5s var(--ease-press);
 }
 .bk-day.avail { color: var(--black); border-color: var(--g200); background: var(--white); cursor: pointer; }
 .bk-day.avail:hover { border-color: var(--black); transform: scale(1.05); }
 .bk-day.sel { background: var(--black); color: var(--white); border-color: var(--black); }
+.bk-day.sel:hover { opacity: .9; }
+.bk-day.avail:active { transform: scale(.965); transition: transform .12s var(--ease-press), opacity .12s ease; }
 .bk-day.today:not(.sel) { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .bk-loading { grid-column: 1 / -1; text-align: center; font-size: 13px; color: var(--g400); padding: 32px 0; }
 .bk-slots-head { font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--g600); margin-bottom: 12px; min-height: 18px; }
@@ -1842,12 +1909,40 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
 .faq { padding: 0 0 140px; }
 .faq .h1 { text-align: center; margin-bottom: 56px; }
 .faq-list { max-width: 760px; margin: 0 auto; }
-.faq-item { border-bottom: 1px solid var(--g200); }
+/* interpolate-size is inherited and read on the box being animated, so it is
+   declared here rather than on :root: the only thing on this page that animates
+   to a height keyword is the answer panel below, and nothing else needs to
+   inherit the ability to. */
+.faq-item { border-bottom: 1px solid var(--g200); interpolate-size: allow-keywords; }
 .faq-item summary { list-style: none; cursor: pointer; padding: 24px 0; font-size: 18px; font-weight: 600; color: var(--black); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .faq-item summary::-webkit-details-marker { display: none; }
-.faq-item summary::after { content: '+'; font-size: 24px; font-weight: 400; color: var(--g400); flex-shrink: 0; transition: transform .25s; }
+.faq-item summary::after { content: '+'; font-size: 24px; font-weight: 400; color: var(--g400); flex-shrink: 0; transition: transform .42s var(--ease-ai), color .2s ease; }
+.faq-item summary:hover::after { color: var(--black); }
 .faq-item[open] summary::after { transform: rotate(45deg); }
 .faq-answer { font-size: 16px; color: var(--g600); line-height: 1.7; padding: 0 40px 26px 0; }
+
+/* ── the answer used to snap ──────────────────────────────────────────────
+   <details> hides its panel with display:none, which is not a value anything
+   can transition from, so the open/close was a jump cut. ::details-content is
+   the panel itself as a box we can style: it grows from nothing to its own
+   height (auto interpolates thanks to interpolate-size on :root), and the
+   content-visibility that <details> flips has to travel as a discrete step -
+   without allow-discrete the text would stay painted for the whole close and
+   then vanish. Browsers without ::details-content simply keep today's instant
+   behaviour, so this can only add motion, never take any away. */
+.faq-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: block-size .42s var(--ease-ai),
+              opacity .3s ease,
+              content-visibility .42s allow-discrete;
+}
+.faq-item[open]::details-content { block-size: auto; opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .faq-item::details-content { transition: none; opacity: 1; }
+  .faq-item summary::after { transition: color .2s ease; }
+}
 
 /* ════════════════════════════════
    CTA GUARANTEE
