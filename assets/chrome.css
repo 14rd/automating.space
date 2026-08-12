@@ -92,7 +92,7 @@ nav {
 }
 .nav-cta { padding: 15px 30px; font-size: 15px; margin-right: 4px; }
 .nav-toggle {
-  display: none; flex-direction: column; gap: 4px;
+  display: none; flex-direction: column; gap: 6px;
   cursor: pointer; padding: 4px; background: none; border: none; margin-right: 8px;
 }
 .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--black); }
@@ -281,15 +281,15 @@ nav.is-open .nav-links {
     opacity: 1; visibility: visible; pointer-events: auto;
     transition: opacity .34s ease .08s, visibility 0s linear 0s;
   }
-/* three bars -> X. The bars are 1.5 px with a 4 px gap, so the outer two sit
-     exactly 5.5 px from the middle one: that is the exact travel to the centre. */
+/* two bars -> X. The bars are 1.5 px with a 6 px gap, so each sits exactly
+     3.75 px from the midpoint between them: that is the travel to the centre,
+     where they cross. Same easing and duration the three-bar version had. */
   .nav-toggle span {
     transform-origin: 50% 50%;
     transition: transform .38s cubic-bezier(.16, 1, .3, 1), opacity .18s ease;
   }
-nav.is-open .nav-toggle span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
-nav.is-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(.35); }
-nav.is-open .nav-toggle span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+nav.is-open .nav-toggle span:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
+nav.is-open .nav-toggle span:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
 }
 @media (max-width: 809px) {
 nav { border-radius: 34.5px; }

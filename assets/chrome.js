@@ -20,6 +20,7 @@
   "hu": {
     "nav.products": "Mit Építünk",
     "nav.approach": "Megközelítésünk",
+    "nav.demo": "Élő demó",
     "nav.case-studies": "Esettanulmányok",
     "nav.book-call": "Konzultációt kérek",
     "cta.book-hero": "Konzultációt kérek",
@@ -52,6 +53,7 @@
   "en": {
     "nav.products": "What We Build",
     "nav.approach": "Approach",
+    "nav.demo": "Live demo",
     "nav.case-studies": "Case Studies",
     "nav.book-call": "Book a consultation",
     "cta.book-hero": "Book a consultation",

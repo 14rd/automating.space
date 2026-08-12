@@ -290,7 +290,7 @@ nav {
 .btn-large { padding: 15px 32px; font-size: 16px; }
 .nav-cta { padding: 15px 30px; font-size: 15px; margin-right: 4px; }
 .nav-toggle {
-  display: none; flex-direction: column; gap: 4px;
+  display: none; flex-direction: column; gap: 6px;
   cursor: pointer; padding: 4px; background: none; border: none; margin-right: 8px;
 }
 .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--black); }
@@ -1451,8 +1451,43 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
 .reviews { padding: 120px 0 140px; }
 .reviews-head { text-align: center; max-width: 760px; margin: 0 auto 64px; }
 .reviews-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--g600); margin-bottom: 18px; }
-.review-grid { display: flex; gap: 20px; align-items: stretch; }
-.review-card { flex: 1; background: var(--white); border: 1px solid var(--g200); border-radius: 20px; padding: 32px 30px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; text-align: left; }
+/* The three reviews stack rather than sit in a row: each sticks under the nav
+   while the next slides up and covers it, and the whole pile releases once the
+   last one is in place - the grid is their containing block, so sticky ends
+   exactly where the grid does. No scroll listener is involved.
+
+   Each card sticks 14 px lower than the one before it, which leaves a sliver of
+   the one underneath showing and makes it read as a pile rather than a
+   replacement. Equal heights matter here in a way they did not in a row: a short
+   card resting on a taller one would let the taller one poke out below, so
+   REVIEW STACK measures the tallest and publishes --rev-h. */
+.review-grid { display: flex; flex-direction: column; gap: clamp(80px, 20vh, 190px); }
+/* Room after the last card is what lets the finished pile hold: without it the
+   third card arrives and all three let go within ~30 px of scroll, so you never
+   see them together. It has to be its own element. Padding on the grid does not
+   work, because sticky is bounded by the containing block's CONTENT box - and
+   neither does a margin on the last card, because the constraint rect is that
+   content box inset by the element's own margins, so the card cancels out the
+   very room it was adding for itself. */
+.review-tail { flex: 0 0 auto; height: clamp(60px, 12vh, 120px); }
+.review-card {
+  position: sticky; top: calc(var(--rev-top, 100px) + var(--rev-i, 0) * 14px);
+  /* stacked, a card is read on its own, so it is sized like one piece of copy
+     rather than stretched across the grid the way the old row was */
+  width: 100%; max-width: 760px; margin: 0 auto;
+  min-height: var(--rev-h, auto);
+  background: var(--white); border: 1px solid var(--g200); border-radius: 20px;
+  padding: 32px 30px; box-shadow: var(--sh-raise); display: flex; flex-direction: column; text-align: left;
+}
+.review-card:nth-child(2) { --rev-i: 1; }
+.review-card:nth-child(3) { --rev-i: 2; }
+/* the reveal's transform would fight the sticky offsets; the team rail settles
+   its own scroll mechanic against data-reveal the same way */
+.review-grid[data-reveal] { opacity: 1; transform: none; transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .review-card { position: static; min-height: 0; }
+  .review-grid { gap: 20px; }
+}
 .review-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .review-industry { font-size: 13px; font-weight: 600; color: var(--black); }
 .review-when { font-size: 12px; color: var(--g400); }
@@ -1867,15 +1902,15 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
     transition: opacity .34s ease .08s, visibility 0s linear 0s;
   }
 
-  /* three bars -> X. The bars are 1.5 px with a 4 px gap, so the outer two sit
-     exactly 5.5 px from the middle one: that is the exact travel to the centre. */
+  /* two bars -> X. The bars are 1.5 px with a 6 px gap, so each sits exactly
+     3.75 px from the midpoint between them: that is the travel to the centre,
+     where they cross. Same easing and duration the three-bar version had. */
   .nav-toggle span {
     transform-origin: 50% 50%;
     transition: transform .38s cubic-bezier(.16, 1, .3, 1), opacity .18s ease;
   }
-  nav.is-open .nav-toggle span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
-  nav.is-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(.35); }
-  nav.is-open .nav-toggle span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+  nav.is-open .nav-toggle span:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
+  nav.is-open .nav-toggle span:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
 }
 
 /* Half of the 69 px closed pill. Declared after the menu block so it wins over
@@ -1989,7 +2024,7 @@ select:focus:not(:focus-visible),
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#products" data-i18n="nav.products">Mit Építünk</a></li>
-        <li><a href="#approach" data-i18n="nav.approach">Megközelítésünk</a></li>
+        <li><a href="#demo" data-i18n="nav.demo">Élő demó</a></li>
         <li><a href="/case-studies" class="nav-chip" data-i18n="nav.case-studies">Esettanulmányok</a></li>
         <li class="nav-lang-mob">
           <div class="lang-mob-row">
@@ -2014,7 +2049,7 @@ select:focus:not(:focus-visible),
         </div>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
-        <span></span><span></span><span></span>
+        <span></span><span></span>
       </button>
       <a href="https://www.cal.com/automating.hu/30-perces-hivas" target="_blank" class="btn-pill nav-cta" id="navCta"><span class="nav-cta-label" data-i18n="nav.book-call">Konzultációt kérek</span></a>
     </nav>
@@ -2169,7 +2204,7 @@ select:focus:not(:focus-visible),
                 <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
               </svg>
             </span>
-            <span class="chat-title" data-i18n="chat.title">AI asszisztens</span>
+            <span class="chat-title" data-i18n="chat.title">Automating AI</span>
             <span class="chat-head-actions">
               <button class="ai-iconbtn" id="chatNew" type="button" aria-label="Új beszélgetés">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
@@ -2199,7 +2234,7 @@ select:focus:not(:focus-visible),
       <div class="voice-frame" data-reveal data-delay="300">
         <div class="voice-card">
           <div class="voice-head">
-            <span class="voice-title" data-i18n="vc.title">Hang-demó</span>
+            <span class="voice-title" data-i18n="vc.title">Hang AI</span>
             <span class="voice-timer" id="voiceTimer" hidden>00:00</span>
           </div>
           <div class="voice-center">
@@ -2217,7 +2252,6 @@ select:focus:not(:focus-visible),
           <div class="voice-types" id="voiceTypes">
             <button class="voice-type sel" data-type="about" data-i18n="vc.t.about">Automating</button>
             <button class="voice-type" data-type="recep" data-i18n="vc.t.recep">Recepciós</button>
-            <button class="voice-type" data-type="resto" data-i18n="vc.t.resto">Pizzéria</button>
             <button class="voice-type" data-type="supp" data-i18n="vc.t.supp">Ügyfélszolgálat</button>
           </div>
           <button class="btn-pill voice-cta" id="voiceBtn" data-i18n="vc.cta">Kipróbálom élőben</button>
@@ -2235,7 +2269,7 @@ select:focus:not(:focus-visible),
               </svg>
             </div>
             <div>
-              <div class="ed-title" data-i18n="ed.title">E-mail demó</div>
+              <div class="ed-title" data-i18n="ed.title">Email AI</div>
               <div class="ed-sub" data-i18n="ed.sub">Az AI kategorizálja és megírja a válasz-piszkozatot.</div>
             </div>
           </div>
@@ -2388,6 +2422,9 @@ select:focus:not(:focus-visible),
           </div>
         </div>
 
+
+        <!-- holds the finished pile on screen; see .review-tail -->
+        <div class="review-tail" aria-hidden="true"></div>
       </div>
       <p class="reviews-note" data-reveal data-i18n="rev.note">Az értékelések valós, hozzájárult ügyfelektől származnak.</p>
     </div>
@@ -2659,6 +2696,7 @@ const T = {
   en: {
     'nav.products':     'What We Build',
     'nav.approach':     'Approach',
+    'nav.demo':         'Live demo',
     'nav.case-studies': 'Case Studies',
     'nav.book-call':    'Book a consultation',
     'hero.h1':          'Replacing jobs<br class="mob-br"> with AI.',
@@ -2696,19 +2734,18 @@ const T = {
     'who.3':            '<span class="who-q">Drowning in admin? </span><span class="who-a">We turn 8 hours of manual work into 8 minutes.</span>',
     'see.h2':           'See it in action.',
     'see.p':            'Try our AI live: chat with it, talk to it, or let it handle a customer email.',
-    'chat.title':       'AI assistant',
+    'chat.title':       'Automating AI',
     'chat.online':      'Online',
     'chat.chip1':       'What do you do?',
     'chat.chip2':       'What case studies do you have?',
     'chat.chip3':       'How does working together look?',
     'chat.chip4':       'I\'d like to book a consultation',
-    'vc.title':         'Voice demo',
+    'vc.title':         'Voice AI',
     'vc.cta':           'Try it live',
     'vc.t.about':       'Automating',
     'vc.t.recep':       'Receptionist',
-    'vc.t.resto':       'Pizzeria',
     'vc.t.supp':        'Customer support',
-    'ed.title':         'Email demo',
+    'ed.title':         'Email AI',
     'ed.sub':           'The AI categorises it and drafts the reply.',
     'ed.s1':            'Complaint',
     'ed.s2':            'Quote request',
@@ -2822,6 +2859,7 @@ const T = {
   hu: {
     'nav.products':     'Mit Építünk',
     'nav.approach':     'Megközelítésünk',
+    'nav.demo':         'Élő demó',
     'nav.case-studies': 'Esettanulmányok',
     'nav.book-call':    'Konzultációt kérek',
     'hero.h1':          'Munkahelyeket váltunk ki AI-jal.',
@@ -2859,19 +2897,18 @@ const T = {
     'who.3':            '<span class="who-q">Megfulladsz az adminisztrációban? </span><span class="who-a">8 órányi manuális munkát 8<br>percre csökkentünk.</span>',
     'see.h2':           'Lásd működés közben.',
     'see.p':            'Próbáld ki élőben: chatelj az AI-unkkal, beszélgess vele, vagy bízz rá egy ügyfél-e-mailt.',
-    'chat.title':       'AI asszisztens',
+    'chat.title':       'Automating AI',
     'chat.online':      'Online',
     'chat.chip1':       'Mivel foglalkoztok?',
     'chat.chip2':       'Milyen esettanulmányaitok vannak?',
     'chat.chip3':       'Hogyan zajlik a közös munka?',
     'chat.chip4':       'Konzultációt szeretnék foglalni',
-    'vc.title':         'Hang-demó',
+    'vc.title':         'Hang AI',
     'vc.cta':           'Kipróbálom élőben',
     'vc.t.about':       'Automating',
     'vc.t.recep':       'Recepciós',
-    'vc.t.resto':       'Pizzéria',
     'vc.t.supp':        'Ügyfélszolgálat',
-    'ed.title':         'E-mail demó',
+    'ed.title':         'Email AI',
     'ed.sub':           'Az AI kategorizálja és megírja a válasz-piszkozatot.',
     'ed.s1':            'Panasz',
     'ed.s2':            'Ajánlatkérés',
@@ -3387,6 +3424,43 @@ document.querySelectorAll('a[href]').forEach(a => {
     obs.disconnect();
     start();
   }, { rootMargin: '0px 0px -12% 0px' }).observe(row);
+})();
+
+/* ════════════════════════════
+   REVIEW STACK
+   The stacking is CSS (see .review-card). This block only measures and
+   publishes the two numbers the stylesheet cannot work out for itself:
+
+     --rev-top   the nav's bottom edge, so the pile clears the fixed pill
+     --rev-h     the tallest card, so a short one stacked on top of a taller
+                 one never lets it show below
+
+   Recomputed on resize, after a language switch and once webfonts land, since
+   all three change where the quotes wrap and so which card is tallest.
+════════════════════════════ */
+(function(){
+  const grid = document.querySelector('.review-grid');
+  if (!grid) return;
+  const cards = [...grid.querySelectorAll('.review-card')];
+  if (!cards.length) return;
+  const nav = document.querySelector('.nav-outer');
+
+  let raf = 0;
+  function measure(){
+    raf = 0;
+    grid.style.setProperty('--rev-h', 'auto');          /* read natural heights */
+    const tallest = Math.max(...cards.map(c => c.offsetHeight));
+    grid.style.setProperty('--rev-h', tallest + 'px');
+    /* the nav is fixed, so its bottom edge does not move with scroll */
+    grid.style.setProperty('--rev-top',
+      (nav ? Math.round(nav.getBoundingClientRect().bottom) + 16 : 100) + 'px');
+  }
+  const schedule = () => { if (!raf) raf = requestAnimationFrame(measure); };
+
+  measure();
+  addEventListener('resize', schedule);
+  langCallbacks.push(schedule);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
 })();
 
 /* ════════════════════════════
@@ -4635,14 +4709,12 @@ let prodVisible = false;
   const VAPI_ASSISTANTS = {
     about: '971548af-a5b3-4139-bcc5-3a9664338f51', // Automating Web Demo
     recep: '09d45384-a77b-4916-8a21-922a5b4b1c9c', // Recepciós (Bella Szalon)
-    resto: '58e1e6c1-d737-4f56-9460-e7d6fe043cc4', // Pizzéria (Napoli)
     supp:  '02cc0a77-f67e-4521-b3b1-76c45511a3ee', // Ügyfélszolgálat (TechShop)
   };
   // English voice assistants (used when the site language is EN)
   const VAPI_ASSISTANTS_EN = {
     about: 'b6d6c817-123e-4cbe-a777-82b2cd9f459d', // Automating Web Demo (EN)
     recep: 'c58af664-bbe4-4be2-8aa5-309d5f7065a0', // Receptionist (Bella Salon, EN)
-    resto: 'd1800084-26db-47b4-bd99-2ede0cd97d96', // Pizzeria (Napoli, EN)
     supp:  '6c426c08-62d5-4b16-80e8-2e782cdb7ef6', // Support (TechShop, EN)
   };
   const assistantId = () => (currentLang === 'en' ? VAPI_ASSISTANTS_EN : VAPI_ASSISTANTS)[selType];
@@ -4661,13 +4733,11 @@ let prodVisible = false;
       desc: {
         about: 'Ask anything about Automating and AI automation - all you need is a microphone.',
         recep: 'Receptionist of a fictional beauty salon - try booking an appointment with her.',
-        resto: 'Order line of a fictional pizzeria - try placing an order.',
         supp:  'Support agent of a fictional webshop - ask about an order, return or warranty.',
       },
       caps: {
         about: ['Walks you through our services', 'Answers questions about pricing', 'Offers a consultation'],
         recep: ['Books an appointment', 'Looks for a free slot', 'Confirms the booking'],
-        resto: ['Takes the order', 'Knows the menu and the prices', 'Sums up the order'],
         supp:  ['Checks the status of an order', 'Handles a return', 'Explains the warranty'],
       },
       connectingLoad: 'Connecting',
@@ -4690,13 +4760,11 @@ let prodVisible = false;
       desc: {
         about: 'Kérdezz bármit az Automatingról és az AI-automatizálásról - csak egy mikrofon kell hozzá.',
         recep: 'Egy fiktív szépségszalon recepciósa - próbálj időpontot foglalni nála.',
-        resto: 'Egy fiktív pizzéria rendelésfelvevője - próbálj leadni egy rendelést.',
         supp:  'Egy fiktív webshop ügyfélszolgálata - kérdezz rendelésről, visszaküldésről, garanciáról.',
       },
       caps: {
         about: ['Bemutatja a szolgáltatásainkat', 'Válaszol az árazásról', 'Konzultációt ajánl'],
         recep: ['Időpontot foglal', 'Szabad időpontot keres', 'Visszaigazolást ad'],
-        resto: ['Felveszi a rendelést', 'Ismeri az étlapot és az árakat', 'Összegzi a rendelést'],
         supp:  ['Rendelés állapotát ellenőrzi', 'Visszaküldést intéz', 'Garanciáról tájékoztat'],
       },
       connectingLoad: 'Csatlakozás',
