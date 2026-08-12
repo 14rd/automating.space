@@ -1450,13 +1450,23 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
    ════════════════════════════════ */
 .reviews { padding: 120px 0 140px; }
 /* The heading pins as well: the reviews only mean something under the claim
-   they are evidence for, so the claim stays on screen for the whole stack. It
-   deliberately has no background and no z-index - the cards are later in the
-   DOM, so on the way out they travel up over it, and the matrix behind the
-   section keeps showing through the way it always did. */
+   they are evidence for, so the claim stays on screen for the whole stack.
+
+   No background and - importantly - no z-index. Both are load-bearing. A
+   background would cut off the matrix that shows through the section, and any
+   z-index at all beats the cards' z-index:auto and paints the heading OVER
+   them; with both left alone, DOM order decides and the cards win. */
 .reviews-head {
-  position: sticky; top: var(--rev-nav, 100px); z-index: 1;
-  text-align: center; max-width: 760px; margin: 0 auto 64px;
+  position: sticky; top: var(--rev-nav, 100px);
+  text-align: center; max-width: 760px;
+  /* The bottom margin is doing two jobs, and the second is the load-bearing one.
+     A sticky box's constraint rect is its containing block inset by its OWN
+     margins, so this margin is subtracted from how far the heading can travel -
+     and card height + the 12 px gap is exactly the amount that makes it let go
+     at the same scroll position the cards do. Without it the heading outlived
+     the pile by ~220 px and sat there on its own. It also opens the space the
+     first card slides up into, which is why the gap is no longer a flat 64. */
+  margin: 0 auto calc(var(--rev-h, 260px) + 12px);
 }
 .reviews-head[data-reveal] { opacity: 1; transform: none; transition: none; }
 .reviews-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--g600); margin-bottom: 18px; }
@@ -1493,16 +1503,19 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
 /* the reveal's transform would fight the sticky offsets; the team rail settles
    its own scroll mechanic against data-reveal the same way */
 .review-grid[data-reveal] { opacity: 1; transform: none; transition: none; }
+/* Nothing pins, so the heading's margin has no sticky range to shorten and is
+   just a hole in the layout - back to a normal gap. */
 @media (prefers-reduced-motion: reduce) {
   .review-card { position: static; min-height: 0; }
   .review-grid { gap: 20px; }
+  .reviews-head { position: static; margin-bottom: 64px; }
 }
 /* Below about 620 px of viewport a five-line heading and a whole card cannot
    both be on screen at once - the arithmetic simply does not close. Rather than
    pin the heading and let a card cover half of it, the heading scrolls away on
    those screens and the cards get the room. The stack itself is unaffected. */
 @media (max-height: 620px) {
-  .reviews-head { position: static; }
+  .reviews-head { position: static; margin-bottom: 40px; }
 }
 .review-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .review-industry { font-size: 13px; font-weight: 600; color: var(--black); }
@@ -1852,7 +1865,6 @@ footer { --ft-gap: 28px; padding: 0 var(--ft-gap) var(--ft-gap); }
   .review-quote { font-size: 13.5px; line-height: 1.55; margin-bottom: 14px; }
   .review-result { font-size: 14px; margin-bottom: 10px; }
   .review-metric { font-size: 11.5px; padding: 5px 10px; }
-  .reviews-head { margin-bottom: 40px; }
   .store-teasers { flex-direction: column; }
   .store-inner { padding: 44px 28px; border-radius: 28px; }
   .reviews { padding: 90px 0 90px; }
@@ -2451,6 +2463,13 @@ select:focus:not(:focus-visible),
         <!-- holds the finished pile on screen; see .review-tail -->
         <div class="review-tail" aria-hidden="true"></div>
       </div>
+    </div>
+    <!-- Its own wrap on purpose. The heading above is sticky and bounded by its
+         containing block, so leaving the note in there kept the heading pinned
+         long after the cards had gone. Out here the wrap ends with the grid,
+         the heading lets go with the pile, and the note is plain flow that
+         fades in where it sits. -->
+    <div class="wrap">
       <p class="reviews-note" data-reveal data-i18n="rev.note">Az értékelések valós, hozzájárult ügyfelektől származnak.</p>
     </div>
   </section>
