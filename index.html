@@ -1359,22 +1359,30 @@ nav {
 
 /* The caret must not take part in that layout either: give it any advance width
    and it becomes the character that decides where a line breaks, so the wrap
-   would shift by a word as it moved. It hangs out of a zero-width inline slot
-   instead - an empty inline box, which adds no width and, unlike an
-   inline-block, no soft-wrap opportunity around itself.
-   What the circle overlaps is always the transparent, not-yet-typed remainder,
-   so nothing is ever hidden behind it. */
-.who-cslot { position: relative; display: inline; }
+   would shift by a word as it moved.
+
+   It is therefore not in the text at all. It used to hang out of an empty
+   zero-width inline slot sitting between the typed and untyped halves, which is
+   correct per spec and works in Chromium - but WebKit does not re-resolve an
+   absolutely positioned box against a relatively positioned INLINE parent once
+   that parent moves to another line, so on iOS the circle stayed on the first
+   line while the text carried on to the second. It only ever showed on the first
+   phrase because that is the only one whose slot starts life on line one.
+
+   So the circle is positioned against the block instead, in pixels measured from
+   a Range over the last typed character - see WHO TYPEWRITER. No box in the
+   inline flow means nothing to mis-resolve, and nothing that could nudge a wrap.
+   What it overlaps is always the transparent remainder, so it hides nothing. */
+.who-tw { position: relative; }
 .who-caret {
-  position: absolute; left: .1em;
-  /* measured, not guessed: .3em puts the circle's underside 0.06em above the
-     baseline, which is where the inline version sat - see the caret geometry
-     check. bottom is relative to the slot's content box, whose lower edge is
-     the font's descender. */
-  bottom: .3em;
+  position: absolute; left: 0; top: 0;
   width: .56em; height: .56em; border-radius: 50%;
   background: var(--black);
+  /* until the script has measured a position, it must not sit at the block's
+     top-left corner where nothing is being typed */
+  visibility: hidden;
 }
+.who-caret.is-placed { visibility: visible; }
 /* solid while the line is being written, blinking whenever it waits - the blink
    is what says "still going" during the pause between question and answer */
 .who-tw.is-waiting .who-caret { animation: whoCaret 1.05s steps(1,end) infinite; }
@@ -3536,24 +3544,62 @@ addEventListener('resize', () => {
      first character is even visible. The markup ships with the first phrase in
      it as a no-JS fallback; this replaces it with the same words, split. */
   out.innerHTML =
-    '<span class="who-q"><span class="tw-on"></span><span class="who-cslot"><span class="who-caret" id="whoTwCaret"></span></span><span class="tw-off"></span></span>' +
+    '<span class="who-q"><span class="tw-on"></span><span class="tw-off"></span></span>' +
     '<span class="who-a"><span class="tw-on"></span><span class="tw-off"></span></span>';
   const qSeg = out.firstChild, aSeg = out.lastChild;
-  const qOn = qSeg.children[0], slot = qSeg.children[1], qOff = qSeg.children[2];
+  const qOn = qSeg.children[0], qOff = qSeg.children[1];
   const aOn = aSeg.children[0], aOff = aSeg.children[1];
 
+  /* the caret lives outside the text, as a child of the block */
+  const caret = document.createElement('span');
+  caret.className = 'who-caret';
+  caret.id = 'whoTwCaret';
+  el.appendChild(caret);
+
+  /* Distance from a character box's bottom edge down to where the circle's own
+     bottom belongs - the font's descent, plus the 0.06em the circle is lifted so
+     it sits on the x-height rather than sinking next to lining figures.
+     Measured against the real font in reserve(), never assumed, because the
+     descent is a property of the typeface and the fallback font differs. */
+  let dropPx = 0, sizePx = 0;
+
+  /* A collapsed Range gives an empty rect in some engines, so the position is
+     taken from a range over the last typed CHARACTER: its right edge is where
+     the caret goes. With nothing typed yet, the left edge of the first
+     untyped character is the answer instead. */
+  function caretAnchor(nq, na) {
+    if (na > 0)  return [aOn.firstChild, na - 1, na, 'right'];
+    if (nq > 0)  return [qOn.firstChild, nq - 1, nq, 'right'];
+    if (qOff.firstChild) return [qOff.firstChild, 0, 1, 'left'];
+    return null;
+  }
+
+  function placeCaret(nq, na) {
+    const anchor = caretAnchor(nq, na);
+    if (!anchor || !anchor[0]) { caret.classList.remove('is-placed'); return; }
+    const [node, from, to, edge] = anchor;
+    const r = document.createRange();
+    r.setStart(node, from); r.setEnd(node, to);
+    const cr = r.getBoundingClientRect();
+    if (!cr.height) { caret.classList.remove('is-placed'); return; }
+    const base = el.getBoundingClientRect();
+    caret.style.left = ((edge === 'right' ? cr.right : cr.left) - base.left + sizePx * 0.18) + 'px';
+    caret.style.top  = (cr.bottom - dropPx - sizePx - base.top) + 'px';
+    caret.classList.add('is-placed');
+  }
+
   let fullQ = '', fullA = '';
+  /* remembered so a resize or a late webfont can put the caret back without
+     waiting for the next keystroke */
+  let curNq = 0, curNa = 0;
   /* nq / na - how many characters of each half are currently coloured in */
   function paint(nq, na) {
+    curNq = nq; curNa = na;
     qOn.textContent  = fullQ.slice(0, nq);
     qOff.textContent = fullQ.slice(nq);
     aOn.textContent  = fullA.slice(0, na);
     aOff.textContent = fullA.slice(na);
-    /* the caret follows the last visible character across the two halves -
-       moved rather than duplicated, and only when it has to change parent */
-    const host = na > 0 ? aSeg : qSeg;
-    const before = na > 0 ? aOff : qOff;
-    if (slot.parentNode !== host || slot.nextSibling !== before) host.insertBefore(slot, before);
+    placeCaret(nq, na);
   }
   /* no joining space: the answer is its own block, so it starts a line anyway
      and a leading space would only collapse against the margin */
@@ -3587,6 +3633,25 @@ addEventListener('resize', () => {
         max = Math.max(max, probe.getBoundingClientRect().height);
       }
     }
+    /* ── caret geometry, off the same probe ──────────────────────────────
+       A zero-size inline-block aligned to the baseline reports the baseline's
+       own y, which is not otherwise readable from the DOM. Comparing it to a
+       character's bottom edge gives the font's descent in pixels. Done here, in
+       the offscreen clone, because an inline-block dropped into the live text
+       would be an extra soft-wrap opportunity. */
+    pq.textContent = 'Hxy';
+    const bl = document.createElement('span');
+    bl.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+    pq.appendChild(bl);
+    const chRange = document.createRange();
+    chRange.setStart(pq.firstChild, 0); chRange.setEnd(pq.firstChild, 1);
+    const chBottom = chRange.getBoundingClientRect().bottom;
+    const baseline = bl.getBoundingClientRect().top;
+    const fs = parseFloat(getComputedStyle(el).fontSize) || 16;
+    sizePx = fs * 0.56;                       /* matches .who-caret's width/height */
+    const descent = Math.max(0, chBottom - baseline);
+    dropPx = descent + fs * 0.06;             /* the 0.06em lift onto the x-height */
+
     probe.remove();
     el.style.setProperty('--who-tw-h', Math.ceil(max) + 'px');
   }
@@ -3665,13 +3730,17 @@ addEventListener('resize', () => {
     }
   }
 
-  reserve();
+  /* re-measure and put the caret back where the text now is: the same two events
+     that move the line breaks also move the character the caret is sitting after */
+  function remeasure() { reserve(); placeCaret(curNq, curNa); }
+
+  remeasure();
   syncSr();
   /* the webfont lands after first paint and changes the text metrics */
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserve);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
   let rt;
-  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(reserve, 150); });
-  langCallbacks.push(() => { idx = 0; reserve(); syncSr(); restart(); });
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(remeasure, 150); });
+  langCallbacks.push(() => { idx = 0; remeasure(); syncSr(); restart(); });
 
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting === visible) return;
