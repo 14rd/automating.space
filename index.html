@@ -642,11 +642,6 @@ nav {
   text-align: center; gap: 4px; padding: 10px;
   animation: aiFadeUp 300ms var(--ease-ai) both;
 }
-.ai-empty-ico {
-  width: 32px; height: 32px; margin-bottom: 6px; border-radius: var(--r-orb);
-  background: #f4f4f4; border: 1px solid var(--g200); color: var(--g400);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
 .ai-empty-t { font-size: 13px; font-weight: 500; color: var(--black); }
 .ai-empty-s { font-size: 12px; color: var(--g400); max-width: 240px; line-height: 1.5; }
 
@@ -843,14 +838,11 @@ nav {
   padding: 12px 16px; border-bottom: 1px solid var(--g200);
 }
 .chat-head svg { flex-shrink: 0; }
-/* the mark sits in its own orb so the header has no square edge either */
-.chat-logo {
-  width: 28px; height: 28px; flex-shrink: 0; border-radius: var(--r-orb);
-  background: #f4f4f4; display: flex; align-items: center; justify-content: center;
-}
 .chat-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
 .chat-head-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-.chat-status { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--g600); }
+/* the dot alone - no gap left to close, since the label it used to sit beside is
+   now off-screen and takes no space */
+.chat-status { display: flex; align-items: center; }
 .chat-dot { width: 8px; height: 8px; border-radius: 50%; background: #1fbf64; animation: chatPulse 2s ease infinite; }
 @keyframes chatPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(31,191,100,.35); } 50% { box-shadow: 0 0 0 6px rgba(31,191,100,0); } }
 .chat-log {
@@ -990,9 +982,6 @@ nav {
   width: 18px; height: 18px; border-radius: 50%; background: #f4f4f4; color: var(--g600);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-/* live waveform - replaces the status line during a call */
-.voice-wave { display: none; width: 100%; height: 64px; animation: chatMsgIn 0.45s cubic-bezier(0.16,1,0.3,1) both; }
-.voice-card.live-call .voice-wave { display: block; }
 .voice-card.live-call .voice-status,
 .voice-card.live-call .vc-caps { display: none; }
 /* live transcript - only shown once a final transcript line actually arrived */
@@ -1066,11 +1055,7 @@ nav {
    EMAIL DEMO (right card)
 ════════════════════════════════ */
 .ed-card { padding: 20px 20px 18px; }
-.ed-headrow { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-.ed-icon {
-  width: 40px; height: 40px; border-radius: 50%; background: var(--black);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
+.ed-headrow { display: flex; align-items: center; margin-bottom: 14px; }
 .ed-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
 .ed-sub { font-size: 12.5px; color: var(--g600); margin-top: 2px; line-height: 1.45; }
 .ed-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
@@ -1130,8 +1115,6 @@ nav {
 .ed-right .ai-error { margin-top: 10px; }
 @media (max-width: 900px) {
   .ed-card { padding: 14px; }
-  .ed-icon { width: 32px; height: 32px; }
-  .ed-icon svg { width: 16px; height: 16px; }
   .ed-title { font-size: 14px; }
   .ed-sub { font-size: 12px; line-height: 1.4; }
   .ed-headrow { gap: 10px; margin-bottom: 10px; }
@@ -1151,8 +1134,7 @@ nav {
   .ai-step { font-size: 12.5px; }
   .ai-trace-head { font-size: 12.5px; }
   /* idle: a slim bar, not a tall empty box */
-  .ed-right .ai-empty { flex-direction: row; align-items: center; gap: 10px; padding: 4px 0; }
-  .ed-right .ai-empty-ico { width: 28px; height: 28px; }
+  .ed-right .ai-empty { flex-direction: row; align-items: center; padding: 4px 0; }
   .ed-right .ai-empty-t { font-size: 12.5px; }
 }
 @media (max-width: 420px) {
@@ -2492,17 +2474,15 @@ select:focus:not(:focus-visible),
       <div class="chat-frame" data-reveal data-delay="200">
         <div class="chat-card">
           <div class="chat-head">
-            <span class="chat-logo" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#0a0a0a" d="M300,0H100c-27.62,0-52.62,11.19-70.71,29.29C11.19,47.38,0,72.38,0,100h158.58L29.29,229.29C11.19,247.38,0,272.38,0,300s11.19,52.62,29.29,70.71c18.15,18.16,43.25,29.36,70.98,29.29h49.73c55.23,0,100-44.77,100-100,0-27.75,0-69.42,0-100l-50.54,50h.54c0,27.61-22.39,50-50,50h0v-.54l-.54.54h-49.46l37.09-37.09,7.88-7.88,15.61-15.61,139.42-139.42v300c55.23,0,100-44.77,100-100V100c0-55.23-44.77-100-100-100Z"/>
-              </svg>
-            </span>
             <span class="chat-title" data-i18n="chat.title">Automating AI</span>
             <span class="chat-head-actions">
               <button class="ai-iconbtn" id="chatNew" type="button" aria-label="Új beszélgetés">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
               </button>
-              <span class="chat-status"><span class="chat-dot"></span><span data-i18n="chat.online">Online</span></span>
+              <!-- the dot is the whole status now. The word stays for assistive
+                   tech, off-screen: a bare green dot carries no meaning at all
+                   to a screen reader, and "Online" is the meaning. -->
+              <span class="chat-status"><span class="chat-dot"></span><span class="sr-only" data-i18n="chat.online">Online</span></span>
             </span>
           </div>
           <div class="chat-log" id="chatLog"></div>
@@ -2539,7 +2519,6 @@ select:focus:not(:focus-visible),
             </div>
             <div class="voice-status" id="voiceStatus"></div>
             <div class="vc-caps" id="voiceCaps"></div>
-            <canvas class="voice-wave" id="voiceWave" height="64"></canvas>
             <div class="ai-transcript" id="voiceTranscript"></div>
           </div>
           <div class="voice-types" id="voiceTypes">
@@ -2555,12 +2534,6 @@ select:focus:not(:focus-visible),
       <div class="ed-frame" data-reveal data-delay="400">
         <div class="ed-card">
           <div class="ed-headrow">
-            <div class="ed-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="5.5" width="18" height="13" rx="2.5" stroke="#fff" stroke-width="1.8"/>
-                <path d="m4.5 7.5 7.5 5.5 7.5-5.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
             <div>
               <div class="ed-title" data-i18n="ed.title">Email AI</div>
               <div class="ed-sub" data-i18n="ed.sub">Az AI kategorizálja és megírja a válasz-piszkozatot.</div>
@@ -5328,7 +5301,6 @@ let prodVisible = false;
   const card = document.querySelector('.voice-card');
   const orb = document.getElementById('voiceOrb');
   const statusEl = document.getElementById('voiceStatus');
-  const waveCv = document.getElementById('voiceWave');
   const timerEl = document.getElementById('voiceTimer');
   const typeBtns = document.querySelectorAll('.voice-type');
   const capsEl = document.getElementById('voiceCaps');
@@ -5358,7 +5330,7 @@ let prodVisible = false;
       errBusy: 'The microphone is in use by another app. Close it (e.g. Teams, Discord) and try again.',
       errInsecure: 'The microphone only works over HTTPS or localhost - don\'t open the page as a file.',
       errTimeout: 'Could not connect. Check your internet connection (a firewall or VPN may block calls) and try again.',
-      stop: '⏹ End call',
+      stop: 'End call',
       connectingBtn: 'Connecting…',
       missingKey: 'The Vapi PUBLIC key is missing!\n\nPaste it into index.html as VAPI_PUBLIC_KEY:\ndashboard.vapi.ai → Vapi API Keys → Public Key',
     },
@@ -5385,7 +5357,7 @@ let prodVisible = false;
       errBusy: 'A mikrofont másik program használja. Zárd be (pl. Teams, Discord), és próbáld újra.',
       errInsecure: 'A mikrofon csak HTTPS-en vagy localhoston működik - ne fájlként nyisd meg az oldalt.',
       errTimeout: 'Nem sikerült kapcsolódni. Ellenőrizd a netkapcsolatot (tűzfal/VPN blokkolhatja a hívást), és próbáld újra.',
-      stop: '⏹ Befejezés',
+      stop: 'Befejezés',
       connectingBtn: 'Csatlakozás…',
       missingKey: 'Hiányzik a Vapi PUBLIC kulcs!\n\nMásold be az index.html-be a VAPI_PUBLIC_KEY értékét:\ndashboard.vapi.ai → Vapi API Keys → Public Key',
     }
@@ -5393,6 +5365,11 @@ let prodVisible = false;
   const tr = () => VC_T[currentLang] || VC_T.hu;
 
   let vapi = null, VapiCtor = null, state = 'idle', secs = 0, timerInt = null, selType = 'about', connectWatch = null;
+  /* live mic level, 0..1. It used to be declared alongside the waveform's own
+     state; the waveform is gone but this is not its variable - it drives the
+     orb's ring through --vol, which is a separate thing and stays. Under
+     'use strict' an undeclared assignment would throw mid-call. */
+  let vol = 0;
 
   function clearWatch() { if (connectWatch) { clearTimeout(connectWatch); connectWatch = null; } }
 
@@ -5551,65 +5528,12 @@ let prodVisible = false;
     orb.classList.remove('live', 'connecting');
     orb.style.removeProperty('--vol');
     card.classList.remove('busy', 'live-call');
-    vol = 0; volS = 0;
+    vol = 0;
     btn.disabled = false;
     btn.classList.remove('live');
     btn.innerHTML = (T[currentLang] || T.hu)['vc.cta'];
     setStatus('');
     paintCaps(true);
-  }
-
-  // live waveform - layered sine waves (echo layers in the site greys),
-  // amplitude and tempo driven by the live call volume
-  let vol = 0, volS = 0, waveRun = false, wt = 0, waveW = 0, waveCtx = null;
-  const WAVE_H = 64;
-  const WAVE_LAYERS = [
-    { color: 'rgba(160,160,160,0.40)', lw: 1.2, amp: 0.42, sp: 0.7, ph: 4.2 },
-    { color: 'rgba(102,102,102,0.50)', lw: 1.4, amp: 0.65, sp: 1.4, ph: 2.1 },
-    { color: '#0a0a0a',                lw: 1.8, amp: 1.0,  sp: 1.0, ph: 0   },
-  ];
-  const wNoise = Array.from({ length: 256 }, () => Math.random() * 2 - 1);
-  function wsn(x) {
-    const i = Math.floor(x) % 256, f = x - Math.floor(x), t = f * f * (3 - 2 * f);
-    const a = wNoise[(i + 256) % 256], b = wNoise[(i + 1 + 256) % 256];
-    return a + (b - a) * t;
-  }
-  function waveDraw() {
-    if (state !== 'live') { waveRun = false; return; }
-    requestAnimationFrame(waveDraw);
-    const w = waveCv.offsetWidth;
-    if (!w) return;
-    const dpr = window.devicePixelRatio || 1;
-    if (w !== waveW || !waveCtx) {
-      waveW = w;
-      waveCv.width = w * dpr; waveCv.height = WAVE_H * dpr;
-      waveCtx = waveCv.getContext('2d');
-      waveCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      waveCtx.lineCap = 'round'; waveCtx.lineJoin = 'round';
-    }
-    const cx = waveCtx, mid = WAVE_H / 2;
-    volS += (vol - volS) * 0.18;
-    const A = 4 + volS * 22;
-    cx.clearRect(0, 0, waveW, WAVE_H);
-    // hairline baseline - matches the site's border grey
-    cx.strokeStyle = '#e8e8e8'; cx.lineWidth = 1;
-    cx.beginPath(); cx.moveTo(0, mid); cx.lineTo(waveW, mid); cx.stroke();
-    for (const L of WAVE_LAYERS) {
-      cx.strokeStyle = L.color; cx.lineWidth = L.lw;
-      cx.beginPath();
-      for (let x = 0; x <= waveW; x += 2) {
-        const n = x / waveW;
-        const env = Math.pow(Math.sin(n * Math.PI), 1.15);
-        const ph = wt * L.sp + L.ph;
-        const yv = Math.sin(n * 8.8 + ph) * 0.55
-                 + Math.sin(n * 17 - ph * 1.3) * 0.3
-                 + wsn(n * 5 + ph) * 0.25;
-        const y = mid + env * A * L.amp * yv;
-        x === 0 ? cx.moveTo(x, y) : cx.lineTo(x, y);
-      }
-      cx.stroke();
-    }
-    wt += 0.045 + volS * 0.06;
   }
 
   function setLive() {
@@ -5626,7 +5550,6 @@ let prodVisible = false;
     orb.classList.remove('connecting');
     orb.classList.add('live');
     card.classList.add('live-call');
-    if (!waveRun) { waveRun = true; requestAnimationFrame(waveDraw); }
     btn.disabled = false;
     btn.classList.add('live');
     btn.textContent = tr().stop;
@@ -5722,7 +5645,6 @@ const AIUI = (function(){
     copy:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
     check: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
     retry: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>',
-    mail:  '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4.5 8.5 7.5 5 7.5-5"/></svg>'
   };
 
   /* real elapsed time, never faked */
@@ -5852,13 +5774,13 @@ const AIUI = (function(){
     return instant ? 0 : Math.round(startAt + n * step);
   }
 
-  /* title only - the card header already says what this panel will hold,
-     so a second sentence here was the same message twice */
-  function empty(icon, title) {
+  /* Title only, and no glyph either: the card header already says what this
+     panel will hold, so an envelope sitting above the word was the same message
+     for the third time in one card. */
+  function empty(title) {
     const el = document.createElement('div');
     el.className = 'ai-empty';
-    el.innerHTML = '<span class="ai-empty-ico">' + (ICO[icon] || icon) + '</span>'
-      + '<span class="ai-empty-t"></span>';
+    el.innerHTML = '<span class="ai-empty-t"></span>';
     el.querySelector('.ai-empty-t').textContent = title;
     return el;
   }
@@ -5997,7 +5919,7 @@ const AIUI = (function(){
     liveTrace = null;
     const t = tr();
     result.innerHTML = '';
-    result.appendChild(AIUI.empty('mail', t.emptyTitle, msg || t.empty));
+    result.appendChild(AIUI.empty(t.emptyTitle));
   }
 
   /* the loader + step trace that stays on screen from the request to the result */
